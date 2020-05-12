@@ -1,0 +1,145 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+      <%= render 'messages/sidebar' %>
+			<div class="col-md-9">
+			  <%= render 'layouts/flash' %>
+        <%= form_for resource, url: profile_notifications_path,  method: :put, remote: false  do |f| %>
+				<h3 class="mt0 text-primary">Notification Types</h3>
+				<ul class="media-list toggle-list">
+					<li class="media">
+						<div class="media-body">
+							<h3 class="mt0 mb0">Site Notices</h3>
+              Receive blog posts, updates, and notices when new game titles are added to the database.
+						</div>
+						<div class="media-right media-middle">
+							<div>
+								<label class="switch">
+									<%= f.check_box :notif_site, class: 'switch-input' %>
+							      <span class="switch-label" data-on="Yes" data-off="No"></span>
+							      <span class="switch-handle"></span>
+							    </label>
+							</div>
+						</div>
+					</li>
+						<li class="media">
+						<div class="media-body">
+							<h3 class="mt0 mb0">System Messages</h3>
+              Receive notices for game invites, changes in your events, roster additions, and roster updates. 
+						</div>
+						<div class="media-right media-middle">
+							<div>
+								<label class="switch">
+									<%= f.check_box :notif_system, class: 'switch-input' %>
+							      <span class="switch-label" data-on="Yes" data-off="No"></span>
+							      <span class="switch-handle"></span>
+							    </label>
+							</div>
+						</div>
+					</li>
+					 <% if false %>
+					 <!--<li class="media">
+					 	<div class="media&#45;body">
+					 		<h3 class="mt0 mb0">SMS Text Notifications</h3>
+					 		Receive system messages through SMS text messaging to your phone <small><sup>*</sup>standard texting rates apply</small>
+					 	</div>
+					 	<div class="media&#45;right media&#45;middle">
+					 		<div>
+					 			<label class="switch">
+					 				<%= f.check_box :notif_sms, class: 'switch&#45;input' %>
+					 		      <span class="switch&#45;label" data&#45;on="Yes" data&#45;off="No"></span>
+					 		      <span class="switch&#45;handle"></span>
+					 		    </label>
+					 		</div>
+					 	</div>
+					</li> -->
+					 <% end %>
+					<li class="media">
+						<div class="media-body">
+							<h3 class="mt0 mb0">Public Game Alerts</h3>
+							Receive notifications when public games are posted that you may be interested in joining
+						</div>
+						<div class="media-right media-middle">
+							<div>
+								<label class="switch">
+									<%= f.check_box :notif_games, class: 'switch-input' %>
+							      <span class="switch-label" data-on="Yes" data-off="No"></span>
+							      <span class="switch-handle"></span>
+							    </label>
+							</div>
+						</div>
+					</li>
+					<li class="media">
+						<div class="media-body">
+							<h3 class="mt0 mb0">Game Reminders</h3>
+							Receive reminder notifications for your scheduled events
+						</div>
+						<div class="media-right media-middle">
+							<div>
+								<label class="switch">
+									<%= f.check_box :notif_reminder, class: 'switch-input' %>
+							      <span class="switch-label" data-on="Yes" data-off="No"></span>
+							      <span class="switch-handle"></span>
+							    </label>
+							</div>
+						</div>
+					</li>
+					<li class="media">
+						<div class="media-body">
+							<h3 class="mt0 mb0">Player Recruitment</h3>
+							Display profile on the public players list and receive invites to clans and games.
+						</div>
+						<div class="media-right media-middle">
+							<div>
+								<label class="switch">
+									<%= f.check_box :show_on_playerlist, class: 'switch-input' %>
+							      <span class="switch-label" data-on="Yes" data-off="No"></span>
+							      <span class="switch-handle"></span>
+							    </label>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<br/>
+				<h3 class="mt0 text-primary">Notification Delivery</h3>
+				<ul class="media-list toggle-list">
+					<li class="media">
+						<div class="media-body">
+							<h3 class="mt0 mb0">Email Notifications</h3>
+							Receive notifications via email
+						</div>
+						<div class="media-right media-middle">
+							<div>
+								<label class="switch">
+									<%= f.check_box :notif_email, class: 'switch-input' %>
+							      <span class="switch-label" data-on="Yes" data-off="No"></span>
+							      <span class="switch-handle"></span>
+							    </label>
+							</div>
+						</div>
+					</li>
+					<li class="media">
+						<div class="media-body">
+							<h3 class="mt0 mb0">Push Notifications</h3>
+							Receive push notifications via the <a href="#">Game Roster App</a>
+						</div>
+						<div class="media-right media-middle">
+							<div>
+								<label class="switch">
+									<%= f.check_box :notif_push, class: 'switch-input' %>
+							      <span class="switch-label" data-on="Yes" data-off="No"></span>
+							      <span class="switch-handle"></span>
+							    </label>
+							</div>
+						</div>
+					</li>
+				</ul>
+        <hr />
+        <div class="form-group clearfix">
+          <%= f.submit "Update", class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+        </div>
+      <% end %>
+			</div>
+		</div>
+	</div>
+</div>

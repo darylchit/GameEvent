@@ -1,0 +1,148 @@
+<%= search_form_for @q, url: public_games_path do |f| %>
+  <div class="row">
+    <div class="col-md-9 text-center">
+      <div class="form-group">
+         <%= f.search_field :title_or_details_cont, class: 'form-control', placeholder: "Search Event Description"%>
+      </div>
+    </div>
+    <div class="col-md-3 text-right-md text-right-sm">
+      <span class="btn btn-lightgrey game_btn_size btn-full" data-toggle="collapse"
+        data-target="#public-games-collapse-filters" aria-expanded="false" aria-controls="collapseExample">Filter Options</span>
+        <%= link_to("Post", current_user.present? ? new_game_roster_path : new_user_session_path, remote: current_user.present? ? true : false, class: "btn btn-lightgrey game_btn_size btn-full" ) %>
+      </div>
+    <div class="gold-row col-md-12"></div>
+  </div>
+
+  <div class="filter-panel collapse" id="public-games-collapse-filters">
+
+      <div class="row topmrg_20">
+        <div class="col-md-4">
+            <div class="form-group">
+              <%= f.label :game_game_system_join_game_id_eq, "Game Title" %>
+              <%= f.select :game_game_system_join_game_id_eq, options_from_collection_for_select(sorted_games, "id", "title", @q.game_game_system_join_game_id_eq),{ prompt: 'Select a Game'}, html_options = { class: 'form-control chosen-select' }%>
+            </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <div class="chosen99">
+              <%= f.label :game_game_system_join_game_system_id_eq, 'System' %>
+              <%= f.select :game_game_system_join_game_system_id_eq, options_from_collection_for_select(sorted_systems, "id", "title", @q.game_game_system_join_game_system_id_eq),{ prompt: 'Select a System' }, html_options = { class: 'form-control chosen-select' }%>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+              <%= f.label :remaining_players_gteq, "Spots Remaining" %>
+              <div class="chosen99">
+                <%= f.select :remaining_players_gteq, options_for_select(Event::SPOTS_REMAINING_RANGES, :selected => @q.remaining_players_gteq), {prompt: 'Select Spots Remaning'}, html_options = { class: 'form-control chosen-select' } %>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :game_type_in, 'Game Type' %>
+            <%= f.select :game_type_in, options_for_select(User::GAME_TYPE_FILTER, :selected => @q.game_type_in.present? ? @q.game_type_in.join(',') : @q.game_type_in ),{ }, html_options = { class: 'form-control chosen-select' }%>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :play_type_in, 'Play Style' %>
+            <%= f.select :play_type_in, options_for_select(User::GAME_STYLE_FILTER, :selected => @q.play_type_in.present? ? @q.play_type_in.join(',') : @q.play_type_in),{ }, html_options = { class: 'form-control chosen-select' }%>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :start_at_lteq, 'Starts' %>
+            <%= f.select :start_at_lteq, options_for_select(Event::STARTS_RANGES, :selected => @q.start_at_lteq),{ prompt: 'Select Start Date or Time'}, html_options = { class: 'form-control chosen-select' } %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :user_country_cont, 'Host Country'%>
+            <%= f.select :user_country_cont, options_for_select(countries_list, :selected => @q.user_country_cont),{ prompt: 'Select Country'}, html_options = { class: 'form-control chosen-select' } %>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :user_timezone_cont, 'Host Time Zone'%>
+            <%= f.select :user_timezone_cont, options_for_select(ActiveSupport::TimeZone.all.sort.map{|a|a.name}), { prompt: 'Select Time Zone'}, html_options = { class: 'form-control chosen-select' }%>
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :user_language_cont, 'Language' %>
+            <%= f.select :user_language_cont, options_for_select(User.available_languages.sort, @q.user_language_cont),{ prompt: 'Select Language'}, html_options = { class: 'form-control chosen-select' } %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-4 col-xs-6">
+          <div class="form-group">
+            <%= f.label :user_psa_rating_in, 'Host PSR' %>
+            <%= f.select :user_psa_rating_in, options_for_select(User::HOST_RATING_RANGES,  @q.user_psa_rating_in.present? && @q.user_psa_rating_in.is_a?(Array) ? "1 - #{@q.user_psa_rating_in.last}" : @q.user_psa_rating_in), { }, html_options = { class: 'form-control chosen-select' } %>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+          <div class="form-group">
+            <%= f.label :user_experience_in, 'Host Experience' %>
+            <%= f.select :user_event_percentile_in, options_for_select(User::HOST_EXPERIENCE_RANGES, @q.user_event_percentile_in.present? && @q.user_event_percentile_in.is_a?(Array) ? "1 - #{@q.user_event_percentile_in.last}" : @q.user_event_percentile_in), {prompt: 'Select Host Experience'}, html_options = {class: 'form-control chosen-select'}  %>
+
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+          <div class="form-group">
+            <%= f.label :user_cancellation_rate_iteq, 'Host Cancelation Rate (Maximum)', data: {toggle: 'tooltip', title: 'Enter The Highest Cancelation Rate You Will Tolerate' } %>
+            <%= f.select :user_cancellation_percentile_lteq, options_for_select((0..100).map{|i|["#{i}%",i]}, @q.user_cancellation_percentile_lteq), { prompt: 'Select Host Cancelation Rate'}, html_options = { class: 'form-control chosen-select' } %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-4 col-xs-6">
+          <div class="form-group">
+            <%= f.label :user_newbie_patience_level_cont, 'Host Patience' %>
+            <%= f.select :user_newbie_patience_level_cont, options_for_select(["High", "Low"], @q.user_newbie_patience_level_cont), { prompt: 'Select Host Patience'}, html_options = { class: 'form-control chosen-select' } %>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+          <div class="form-group">
+            <%= f.label :user_date_of_birth_lteq,'Host Age' %>
+            <%= f.select :user_date_of_birth_lteq, options_for_select((13..99).step(1).to_a.map{|s| ["#{s} or Older", (Time.now-s.year).strftime('%Y-%m-%d')]}, @q.user_date_of_birth_lteq ), {prompt: "Select Host Age"}, html_options = {class: 'form-control chosen-select' }%>
+
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+          <div class="form-group">
+            <%= label_tag 'age_group', 'Age Limits' %>
+            <%= select_tag 'age_group', options_for_select(Event::AGE_RANGES, params[:age_group]), {prompt: 'Select Age Limits', class: 'form-control chosen-select'} %>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= link_to "Reset", public_games_path, class: "btn btn-primary btn-block" %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.submit "Submit", class: "btn btn-primary btn-block wg-external-submit-button" %>
+          </div>
+        </div>
+      </div>
+    <div class="gold-row row"></div>
+  </div>
+<% end %>

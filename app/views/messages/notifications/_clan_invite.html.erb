@@ -1,0 +1,30 @@
+<li class="list-group-item <%= !notification.is_read?(current_user) ? "unread" : '' %>">
+  <div class="row">
+    <div class="col-md-2 col-sm-3 col-xs-4">
+      <%= image_tag invite.inviter.avatar_url, :class=> 'avatar-sm' %>
+    </div>
+    <div class="row">
+      <div class="col-md-7">
+        <div class="col-md-12">
+          <p><%= notification.subject %></p>
+        </div>
+        <div class="col-md-4">
+          <%= form_for invite, method: :put do |f| %>
+            <%= f.hidden_field(:status, value: "confirmed") %>
+            <%= f.submit "Accept Request", class: 'btn btn-primary' %>
+          <% end %>
+        </div>
+        <div class="col-md-4">
+          <%= form_for invite, method: :put do |f| %>
+            <%= f.hidden_field(:status, value: "declined") %>
+            <%= f.submit "Deny Request", class: 'btn btn-primary' %>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-2 col-xs-3 text-right-md">
+        <span class="badge message-time"><%= time_ago_in_words(notification.created_at) %></span><br>
+        <%= !notification.is_read?(current_user) ? "unread" : '' %>
+      </div>
+    </div>
+  </div>
+</li>

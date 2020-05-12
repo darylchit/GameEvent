@@ -1,0 +1,29 @@
+<div class="background-block content-area">
+	<div class="container p-x-0-xs">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+			<div class="col-md-9">
+
+				<div class="devise-block">
+					<h2 class="mt0">My Titles</h2>
+					<p>List the titles you own that you would like to play online</p>
+					<%= bootstrap_form_for(resource, {url: '/profile/games'}) do |f| %>
+						<%= f.error_summary %>
+						<% GameSystem.all.each do | g | %>
+
+							<div data-game-id="<%= g.id %>">
+								<%= f.select :game_game_system_join_ids, g.game_game_system_joins.all.collect { | ggs | [ggs.game.title, ggs.id] }.sort, {include_blank: true, label: g.title}, {:class => "form-control chosen-select", :multiple => true} %>
+							</div>
+						<% end %>
+						<hr>
+						<div class="form-group clearfix">
+								<%= f.submit "Update", class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

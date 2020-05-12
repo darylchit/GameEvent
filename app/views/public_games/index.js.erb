@@ -1,0 +1,3 @@
+$('#public-games-list').append("<%= escape_javascript(render :partial => 'public_game', collection: public_events, as: :public_event)%>");
+$('#public-games-list-mobile').append("<%= escape_javascript(render :partial => 'public_games_mobile', collection: public_events, as: :public_event)%>");
+$('.pagination').replaceWith('<%= escape_javascript(paginate(public_events) )%>');

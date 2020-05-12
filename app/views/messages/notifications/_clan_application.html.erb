@@ -1,0 +1,18 @@
+<li class="list-group-item <%= !notification.is_read?(current_user) ? "unread" : '' %>">
+  <div class="row">
+    <div class="col-md-2 col-sm-3 col-xs-4">
+      <%= image_tag clan_application.user.avatar_url, :class=> 'avatar-sm' %>
+    </div>
+    <div class="row">
+      <div class="col-md-7">
+        <div class="col-md-12">
+          <p><%= link_to notification.subject, clan_clan_application_path(clan_application.clan_id, clan_application.id), remote: true  %></p>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-2 col-xs-3 text-right-md">
+        <span class="badge message-time"><%= time_ago_in_words(notification.created_at) %></span><br>
+        <%= !notification.is_read?(current_user) ? "unread" : '' %>
+      </div>
+    </div>
+  </div>
+</li>

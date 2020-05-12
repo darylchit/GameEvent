@@ -1,0 +1,23 @@
+<% unless @clan_message.errors.any? %>
+
+var content = "<%= escape_javascript(@clan_message.message) %>";
+(function(){
+    
+    $(document).on('ajax:success', "#edit_clan_message_<%=@clan_message.id%>", function(e){
+        $(e.target).parents('.message-body').find('p').html(content);
+        
+    });
+    
+})();
+
+<% else %>
+      var errors = [];
+   
+     <% @clan_message.errors.full_messages.each do |m|%>
+         errors.push("<li><%=m%></li>");
+     <% end %>
+     $(document).on('ajax:error', "#edit_clan_message_<%=@clan_message.id%>", function(e){
+        
+        $(e.target).parents('.message-container').find('.errors').show().html('<ul>'+errors.join(' ')+'</ul>').delay(1000).fadeOut(500);
+     });
+<% end %>

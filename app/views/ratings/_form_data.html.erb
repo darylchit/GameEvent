@@ -1,0 +1,91 @@
+<div class="col-md-3 text-center rating_user<%= u.id %>">
+  <%= link_to profiles_path() + '/' + u.username do %>
+    <%= image_tag(u.avatar_url, class: 'rating_img avatar-sm') %>
+    <%= u.username %>
+  <% end %>
+</div>
+
+<div class="col-md-9 custom_checkbox">
+  <div class="row text-center">
+      <span class="col-md-4 col-xs-4">Personality</span>
+      <span class="col-md-4 col-xs-4">Skill</span>
+      <span class="col-md-4 col-xs-4">Respect</span>
+    <div class="col-md-4 col-xs-4">
+
+      <div class="checkbox">
+        <%= f.check_box :personality, id: "personality_id_#{u.id}" %>
+        <label for="personality_id_<%=u.id%>">
+          <i class="fa fa-circle-thin circle_main" aria-hidden="true"></i>
+          <!--<i class="fa fa-thumbs-o-up thump_up" aria-hidden="true"></i>-->
+          <i class="fa fa-thumbs-up thump_up" aria-hidden="true"></i>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-4 col-xs-4">
+
+      <div class="checkbox">
+        <%= f.check_box :skill, id: "skill_id_#{u.id}" %>
+        <label for="skill_id_<%=u.id%>">
+          <i class="fa fa-circle-thin circle_main" aria-hidden="true"></i>
+          <!--<i class="fa fa-thumbs-o-up thump_up" aria-hidden="true"></i>-->
+          <i class="fa fa-thumbs-up thump_up" aria-hidden="true"></i>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-4 col-xs-4">
+
+      <div class="checkbox">
+        <%= f.check_box :respect, id: "respect_id_#{u.id}" %>
+        <label for="respect_id_<%=u.id%>">
+          <i class="fa fa-circle-thin circle_main" aria-hidden="true"></i>
+          <!--<i class="fa fa-thumbs-o-up thump_up" aria-hidden="true"></i>-->
+          <i class="fa fa-thumbs-up thump_up" aria-hidden="true"></i>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row hidden-xs">
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= f.text_field :comment, :class=>'form-control', placeholder: :Comment  %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <% if current_user.is_blocking_user?(u) %>
+        <%= link_to 'Unblock User', profile_block_path(current_user.blocks.where(:blocked_user => u)[0]), :method => 'delete', :class => 'btn btn-lightgrey action_btn' %>
+
+
+      <% else %>
+        <%= link_to 'Block User', profile_blocks_path(block: {blocked_user_id: u.id}), :class => 'btn btn-lightgrey action_btn', method: :post, remote: true %>
+
+
+      <% end %>
+      <div class="btn btn-lightgrey action_btn rating_skip" role="button" data-id="<%= u.id %>">Skip</div>
+      <!-- <a href="#" class="btn btn-lightgrey action_btn" role="button">Favorite</a> -->
+
+      <% if current_user.is_favoriting_user?(u) %>
+        <%= link_to profile_favorite_path(current_user.favorite_by_user(u)), :method => 'delete', class: 'btn btn-lightgrey action_btn ', id: "player-#{u.id}" do %>
+          Favorited
+        <% end %>
+      <% else %>
+        <%= link_to profile_favorites_path(favorite:  {favorited_user_id:  u.id}), method: :post, remote: true, class: 'btn btn-lightgrey action_btn add_favorites', id: "player-#{u.id}" do %>
+          Favorite
+        <% end %>
+      <% end %>
+
+      <%= f.submit 'Submit', class: 'btn btn-primary action_btn hidden-xs' %>
+    </div>
+    <div class="col-md-12 visible-xs">
+      <div class="form-group">
+        <%= f.text_field :comment, :class=>'form-control', placeholder: :Comment  %>
+      </div>
+    </div>
+    <div class="col-md-12 visible-xs">
+      <div class="form-group">
+        <%= f.submit 'Submit', class: 'btn btn-primary submit_action_btn' %>
+      </div>
+    </div>
+  </div>
+</div>

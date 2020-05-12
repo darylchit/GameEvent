@@ -1,0 +1,63 @@
+<div class="background-block content-area public_game_page">
+	<div class="container">
+		<div class="row text-center hidden-xs">
+			<%= image_tag "game_roster_1.png", :class=> 'logo avatar-md2 wow flip'%>
+			<h1 class="">PUBLIC GAMES</h1>
+		</div>
+		<div class="hidden-xs">
+			<!-- SEARCH CODE START -->
+			<%= render :partial => "public_games_search_desktop"%>
+			<!-- SEARCH CODE END -->
+			<% if public_events.present? %>
+				<div class="contract-details public_events_md">
+					<div class="" id="public-games-list">
+					 <%= render :partial => 'public_game', collection: public_events, as: :public_event %>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<div class="hidden">
+							<%= paginate public_events %>
+						</div>
+					</div>
+				</div>
+      <% else %>
+        <div class="row text-center topmrg_20">
+          <%= image_tag "game_roster_1.png", :class=> 'logo avatar-md2 wow flip'%>
+          <h1 class="">No Games Found</h1>
+        </div>
+			<% end %>
+		</div>
+    <div class="row visible-xs">
+      <div class="text-center">
+        <%= image_tag "game_roster_1.png", :class=> 'avatar-md2 wow flip'%>
+      </div>
+      <div class="col-sm-12 set_padding_top">
+        <h2 class="mt0 text-center">Public Games</h2>
+      </div>
+      <%= render :partial => "public_games_search_mobile"%>
+      <% if public_events.present? %>
+          <div class="col-xs-12">
+            <div class="row-fluid public_games_mobile_class" id="public-games-list-mobile">
+              <%= render :partial => 'public_games_mobile', collection: public_events, as: :public_event %>
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <div class="text-center">
+              <div class="hidden">
+                <%= paginate public_events %>
+              </div>
+            </div>
+          </div>
+      <% else %>
+          <div class="text-center topmrg_20">
+            <%= image_tag "game_roster_1.png", :class=> 'avatar-md2 wow flip'%>
+            <h2 class="mt0 text-center">No Games Found</h2>
+          </div>
+      <% end %>
+    </div>
+	</div>
+
+
+</div>
+<%= render 'game_rosters/cancelled_event_popup' %>

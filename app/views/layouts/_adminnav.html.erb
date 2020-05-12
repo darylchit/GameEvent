@@ -1,0 +1,20 @@
+<div class="account-nav">
+	<h3 class="mt0">Admin</h3>
+	<div class="side-nav-container">
+	  <ul class="nav side-nav">
+      <li class="hide"><%= link_to 'Manage Notices', system_notices_path %></li>
+			<li><%= link_to 'Manage Cancellations', admin_cancellations_path %></li>
+			<li><%= link_to 'Manage Rosters', admin_rosters_path %></li>
+			<li><%= link_to 'View Events', admin_events_path %></li>
+			<li><%= link_to "Manage Systems", admin_game_systems_path %></li>
+			<li><%= link_to "Manage Titles", admin_games_path %></li>
+			<li><%= link_to 'Manage Users', admin_users_path %></li>
+			<li><%= link_to 'Manage Reported Content', admin_reports_path %></li>
+			<li><%= link_to 'Manage FAQ', admin_faq_headers_path %></li>
+			<li><%= link_to 'Email Settings', admin_admin_configs_path %></li>
+			<li><%= link_to 'System Notices', admin_blogs_path %></li>
+			<% #<li><%= link_to "Manage Charities", admin_charities_path </li>%>
+			<li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+		</ul>
+	</div>
+</div>

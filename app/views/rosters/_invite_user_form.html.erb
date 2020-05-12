@@ -1,0 +1,12 @@
+<%= form_tag  '/roster_invites', multipart: true, remote: true  do |f| %>
+	<div class="contract-padding">
+		<%= hidden_field_tag :user_id, params[:user_id] %>
+		<div class="form-group">
+			<h3>Which Roster Would You Like To Invite This User To?</h3>
+			<%= select_tag(:roster_id, options_for_select(@open_rosters.map{|c| [c.title, c.id]}), {:class => "form-control", :multiple => false} ) %>
+		</div>
+	</div>
+	<div class="modal-footer modal-contract-footer contract-padding">
+		  <%= submit_tag "Submit", class: "btn btn-lg btn-outline pull-right-md" %>
+	</div>
+<% end %>

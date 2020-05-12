@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="well">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="profile-title">Clan Profile</h2>
+        <div class="profile-actions">
+          <ul>
+            <li><a class="profile-action-btn" href="">
+                <i class="fa fa-gamepad" aria-hidden="true"></i>
+                <span>Titles</span>
+              </a>
+            </li>
+            <li><a class="profile-action-btn" href="">
+                <i class="fa fa-users" aria-hidden="true"></i>
+                <span>Members</span>
+              </a>
+            </li>
+            <li><a class="profile-action-btn" href="">
+                <i class="fa fa-trophy" aria-hidden="true"></i>
+                <span>Ranks</span>
+              </a>                  
+            </li>
+            <li class="active"><a class="profile-action-btn" href="">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                <span>Donations</span>
+              </a>
+            </li>
+          </ul>
+        </div><!-- Action Buttons -->
+      </div>
+    </div><!-- Row -->
+    
+    <div class="row">
+      <div class="col-md-6">
+        <div class="media">
+          <span class="media-left">
+            <%= image_tag(@clan.cover, class: "thumbnail-small media-object") %>
+          </span>
+          <div class="media-body">
+            <h2 class="mt0"><%= @clan.name %></h2>
+            <p><%= @clan.motto %></p>
+            <a href="#" class="btn btn-primary post-contract">Join Clan</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+			<h3>Donations</h3>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<p>A link to donate to your mercenary has been posted on your <%= link_to 'My Events', posted_contracts(resource.seller.id) %> page.</p>
+
+<p>Please consider a donation as they encourage good behavior and help create a stronger community. Your generosity will be tracked and will either help or hurt your ability to attract other players. Use the link below to donate now.</p>
+
+<% #Not sure what this link path will actually ending up being, if possible would like the suggested donation set from resource.price_in_cents %>
+<p><strong><%= link_to "Donate Now", donate_path(resource.buyer.id) %></strong></p>

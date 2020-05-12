@@ -1,0 +1,74 @@
+<% if current_user.present? && @clan.member(current_user) %>
+  <% if @clan.discord.present? || @clan.curse.present? %>
+    <div class = "text-left-md hidden-xs col-md-4 col-sm-4 chat_btn_width">
+      <%= link_to "Discord", add_http_to_link(@clan.discord), target: "_blank", class: "btn btn-xl btn-discord action_btn" if @clan.discord.present? %>
+
+      <%= link_to "Curse", add_http_to_link(@clan.curse), target: "_blank", class: "btn btn-xl btn-curse action_btn" if @clan.curse.present? %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if current_user.present? && @clan.member(current_user) %>
+  <% if @clan.is_host?(current_user) || @clan.member(current_user) %>
+    <% @clan_message = ClanMessage.new %>
+    <div class="<%= @clan.discord.present? ? 'col-md-8 col-sm-8' : 'col-md-12 col-sm-12'%> col-xs-12 row padding-left_0">
+      <%= form_for [@clan, @clan_message], remote: true  do |f| %>
+      <!--   <ul class="roster-messages messages-list list-unstyled">
+          <li class="message message-secol-md-8lf"> -->
+            <!-- <span class="message-avatar">
+              <a href="<%#= profiles_path() + '/' + current_user.username %>"><%#= image_tag current_user.avatar_url, :class=>'avatar-sm'%></a>
+            </span> -->
+              <div class="message-content row mrg_left_post_message">
+                <div class="form-group col-md-10 col-xs-9 filed_width_100 mrg_left_post_message <%= @clan.discord.present? ? 'set_mrg_left' : 'set_mrg_left_no_btn'%> ">
+                  <%= f.text_area :message, class:'form-control resize_none ', rows: 1 %>
+                </div>
+              <% if @clan.is_host?(current_user) || (@clan_member.clan_rank.present? && @clan_member.clan_rank.post_chat?) %>
+                <div class="text-right-md col-md-2 col-xs-3 set_post_btn filed_width_100">
+                  <%= button_tag 'Post Message', type: :submit,  class: "btn btn-lightgrey custom-link-buttons filed_width_100 #{ @clan.discord.present? ? '' : 'set_post_btn_no_btn'}", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Posting..."} %>
+                </div>
+              <% else %>
+                <div class="text-right-md col-md-2 col-xs-3 set_post_btn filed_width_100">
+                 <button type="button" class="btn btn-primary custom-link-buttons filed_width_100 #{ @clan.discord.present? ? '' : 'set_post_btn_no_btn'}" data-toggle="modal" data-target="#chat_restrict_popup">Post message</button>
+                  </div>
+              <% end %>
+
+
+
+              </div>
+     <!--      </li>
+        </ul> -->
+      <% end %>
+    </div>
+ <!--  <%# else %>
+    <div class="video_icon set_smiley"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+    <h3 align="center">Your Rank Is Not Permitted To Post Chat.</h3>
+  <% end %> -->
+<%else%>
+  <div class="row"></div>
+  <br/>
+  <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+  <h3 align="center">You must be a member to see this page.</h3>
+<% end %>
+<!-- <h4>Post a message to the entire clan.</h4>
+<p><small>Only members with forum / messaging privelages can post a message.</small></p> -->
+
+<% if current_user.present? && (@clan.is_host?(current_user) || @clan.member(current_user)) %>
+  <%# if @clan.is_host?(current_user) || (@clan_member.clan_rank && @clan_member.clan_rank.post_chat? ) %>
+    <% unless @clan.clan_messages.empty? %>
+      <ul class="clan-messages messages-list list-unstyled col-md-12 col-xs-12 <%= current_user.id == @clan.host_id ? 'host' : 'member' %>", id="chat_messages">
+        <%= sync_new partial: 'message_row', resource: ClanMessage.new, direction: :prepend %>
+
+        <%= sync  partial: 'message_row', collection: @clan.clan_messages.limit(@set_offset), as: :clan_message %>
+      </ul>
+      <% if @clan_messages_count >= @set_offset %>
+        <%= link_to "View More", get_messages_clan_path(@clan, offset: @set_offset, total_message: @clan_messages_count), id: "view_more_messages", class: "btn btn-primary view_more_btn pull-right", remote: true %>
+      <% end %>
+    <% else %>
+      <ul class="clan-messages messages-list list-unstyled col-md-12 col-xs-12", id="chat_messages">
+        <%= sync_new partial: 'message_row', resource: ClanMessage.new, direction: :prepend %>
+      </ul>
+      <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+      <h3 align="center">No Chat Posted</h3>
+    <% end %>
+  <% end %>
+<%# end %>

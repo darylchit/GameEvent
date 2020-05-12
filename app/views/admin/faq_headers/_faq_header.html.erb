@@ -1,0 +1,6 @@
+<h2 class="text-primary"><%= faq_header.name.try(:html_safe)%></h2>
+<div class="panel-group panel-group-clear accordion-lg" id="accordion<%=faq_header.id%>" role="tablist" aria-multiselectable="true">
+  <% faq_header.faqs.live.each_with_index do| faq,index|%>
+  <%= render "shared/collapse_panel", id: "acc_faq#{faq.id}", active: index == 0, title: faq.name.try(:html_safe), content: faq.answer.try(:html_safe)  %>
+  <% end %>
+</div>

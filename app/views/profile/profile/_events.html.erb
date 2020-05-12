@@ -1,0 +1,25 @@
+<h2 class="text-center">Events</h2>
+<div class=''>
+  <div class="profile-events table-responsive">
+    <% if @events.any?%>
+      <table class="table table-hover events_table">
+      <thead>
+        <tr>
+          <th class=''>Game Title</th>
+          <th class="text-center">Type</th>
+          <th class="text-center">Status</th>
+          <th class="text-center">Start Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render :partial => "event", :collection => @events, :as => :event %>
+      </tbody>
+      </table>
+    <% else %>
+      <div class="video_icon">
+        <i class="fa fa-frown-o" aria-hidden="true"></i>
+      </div>
+      <h3 class="text-center"> Events not found </h3>
+    <% end  %>
+  </div>
+</div>

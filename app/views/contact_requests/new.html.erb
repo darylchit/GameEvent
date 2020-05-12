@@ -1,0 +1,47 @@
+<div class="background-block content-area">
+	<div class="container">
+		<h2 class="mt0">Contact Us</h2>
+
+		<%= render 'layouts/flash' %>
+
+    <p class="lead">
+			We strive to have a reliable, safe, and fair marketplace for gamers. Your feedback is an important 
+			way for us to address issues and grow. Use the form below to share some thoughts, request new titles,
+			report problems, or to get certified.
+		</p>
+
+    <%= form_for resource do |f| %>
+      <div class="form-group">
+				<label>Name</label>
+				<%= f.text_field :name, class: "form-control" %>
+			</div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <% if current_user.present? %>
+          <div>
+            <%= current_user.email %>
+          </div>
+        <% else %>
+            <%= f.text_field :email, class: "form-control" %>
+        <% end %>
+      </div>
+
+      <div class="form-group">
+				<label>Contact Type</label>
+				<%= f.select :contact_type, [
+                                    "Gameplay Dispute", "Technical Support", "Report Player",
+                                    "Report Clan", "Request Pro Player Status", "Request Custom Avatar",
+                                    "Request New Game", "Suggestions", "Other"
+                                ], {}, :class => "form-control" %>
+			</div>
+
+			<div class="form-group">
+				<label>Message</label>
+				<%= f.text_area :message, :class => "form-control" %>
+			</div>
+
+      <%= f.submit value: 'Contact Us', class: "btn btn-primary btn-lg btn-x pull-right-md", data: { disable_with: "..." } %>
+    <% end %>
+  </div>
+</div>

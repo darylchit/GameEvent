@@ -1,0 +1,124 @@
+	<section class="content-block hero-block home-hero">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-6">
+					<%= image_tag("home-1.png", :class=>'cta-feature') %>
+					<h1>GET COORDINATED</h1>
+					<p class="lead text-justify">Simplify your raid and clan event planning with invites, interactive rosters, and group messaging.  Everyone is finally on the same page and organizing group events is now a breeze.</p>
+
+					<%= link_to "Get Started", new_user_registration_path, class: 'btn btn-primary btn-lg btn-x' %>
+				</div>
+
+				<div class="col-md-6">
+					<div class="embed-frame home-video">
+						<div class="embed-responsive embed-responsive-16by9">
+							<% if true %>
+								<iframe src="https://player.vimeo.com/video/140309292?title=0&byline=0&portrait=0" width="560" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+							<%  end %>
+							<% if false %>
+								<video controls="true" width='100%' height='100%'>
+									<source src="<%= asset_path 'Promo_MD.mp4' %>" type="video/mp4" media="all and (max-width: 480px)">
+									<source src="<%= asset_path 'Promo_MD.webm' %>" type="video/webm" media="all and (max-width: 480px)">
+									<source src="<%= asset_path 'Promo_HD.ogg' %>" type="video/ogg">
+									<source src="<%= asset_path 'Promo_HD.mp4' %>" type="video/mp4">
+									<source src="<%= asset_path 'Promo_HD.webm' %>" type="video/webm">
+								</video>
+							<% end %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="content-block">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<%= image_tag('game-merc-devices.png') %>
+				</diV>
+
+				<div class="col-md-6">
+					<h1>GET CONNECTED</h1>
+					<p class="lead text-justify">Connect with friends or find players for all your titles in one place. Discover great clans and independent gamers while avoiding random matches or trolls that can ruin your game. Block players based on your rating and reliability preferences.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+					
+	<section class="content-block">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 text-center col-md-push-6">
+					<div class="mtneg pc-display">
+						<%= image_tag('profile-pc.png')%>
+					</div>
+				</diV>
+
+				<div class="col-md-6 col-md-pull-6">
+					<h1>GET INFORMED</h1>
+					<p class="lead text-justify">Our algorithms, ratings, and video highlights help you quickly find the right players and clans. Filter titles, players, and clans by the criteria you select. One site and one profile for all your gaming needs.</p>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="content-block">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 text-center">
+					<%= image_tag('gm-shield-landing.png') %>
+				</diV>
+
+				<div class="col-md-6">
+					<h1>GET PAID 2 PLAY</h1>
+					<p class="lead text-justify">Want to be a Game Mercenary?  We provide all the tools you need to find supporters, build a reputation, and collect donations for yourself or a good cause.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<section class="content-block">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 text-center col-md-push-6">
+					<div class="mtneg pc-display">
+						<%= image_tag('profile-security.png') %>
+					</div>
+				</diV>
+
+				<div class="col-md-6 col-md-pull-6">
+					<h1>BE CONFIDENT</h1>
+					<p class="lead text-justify">Enjoy a trusted platform endorsed by GameStop.  Unlike other sites, you can rest easy knowing that your browsing history is not tracked and sold. </p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="content-block">
+		<div class="container">
+				<div class="col-md-10 col-md-offset-1 text-center text-primary">
+					<h1>FREE OR PAID TIERS</h1>
+					<p class="lead"><span style="font-size: 1.2em; !important">Create a profile, find players, join clans, or play public games for FREE or subscribe for $0.99/month or $4.99/year to collect donations, remove ads, upload a custom avatar, and host your own clan. </span></p>
+					<p class="text-center"><%= link_to "Get Started", new_user_registration_path, class: 'btn btn-primary btn-lg btn-x' %></p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="content-block">
+		<div class="container">
+			<div class="row">
+				<div class="text-center col-md-4 col-md-offset-4 col-xs-6 col-xs-offset-3">
+					<%= link_to 'http://gamestop.com', target: '_blank', class: 'img-link' do %>
+						<%= image_tag("GameStopLogo_WhiteRed.png") %>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

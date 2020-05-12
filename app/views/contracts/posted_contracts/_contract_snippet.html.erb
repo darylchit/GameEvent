@@ -1,0 +1,83 @@
+<div class="container-box contract-details">
+  <div class="row">
+    <div class="col-md-6">
+      <% if contract.buyer.present? %>
+      <h1 class="mt0"><%= link_to contract.buyer.username, profiles_path() + '/' + contract.buyer.username %></h1>
+      <% else %>
+      <h1 class="mt0">Unclaimed</h1>
+      <% end %>
+    </div>
+    <div class="col-md-6 text-right-md">
+      <small>Event #</small>
+      <h5 class="mt0"><%= contract.id %></h5>
+    </div>
+  </div>
+
+  <ul class="list-unstyled contract-meta">
+    <li class="contract-cal"><strong>Start Date:</strong>
+      <%=  contract.start_date_time.strftime("%Y/%m/%d") %>
+    </li>
+    <li class="contract-clock"><strong>Start Time:</strong>
+      <%=  contract.start_date_time.strftime("%I:%M%P") %>
+    </li>
+    <li class="contract-length"><strong>Length:</strong>
+      <%= d = contract.duration/60
+      "#{d} #{"Hour".pluralize d}"%>
+    </li>
+    <li class="contract-will-play"><strong>Will Play:</strong>
+      <%= contract.will_play %>
+    </li>
+    <li class="contract-status"><strong>Status:</strong>
+      <%= contract.status %>
+    </li>
+  </ul>
+  <p class="description-text"><%= contract.details %></p>
+  <% if contract.selected_game_game_system_join.present? %>
+  <div>
+    <ul class="messages-list list-unstyled">
+      <li class="message">
+        <span class="message-avatar">
+          <% if contract.selected_game_game_system_join.game.game_cover.present? %>
+          <%= image_tag(contract.selected_game_game_system_join.game.game_cover.url) %>
+          <% else %>
+          <%= image_tag('def-cover.jpg') %>
+          <% end %>
+        </span>
+        <div class="message-content">
+          <h4><span class="text-primary">Title: </span><%=  contract.selected_game_game_system_join.game.title %></h4>
+          <h4><span class="text-primary">System: </span><%=  contract.selected_game_game_system_join.game_system.title %></h4>
+          <h4>
+            <% if contract.selected_game_game_system_join.game_system.abbreviation == 'PS4' || contract.selected_game_game_system_join.game_system.abbreviation == 'PS3' %>
+            <span class="text-primary"><%= contract.buyer.username %>'s PSN Online ID:</span>
+            <%= contract.buyer.psn_user_name.present? ? contract.buyer.psn_user_name : 'Not Listed' %>
+            <% elsif contract.selected_game_game_system_join.game_system.abbreviation == 'XB1' || contract.selected_game_game_system_join.game_system.abbreviation == 'XB360' %>
+            <span class="text-primary"><%= contract.buyer.username %>'s Xbox Gamertag:</span>
+            <%= contract.buyer.xbox_live_user_name.present? ? contract.buyer.xbox_live_user_name : 'Not Listed' %>
+            <% elsif contract.selected_game_game_system_join.game_system.abbreviation == 'Wii U'%>
+            <span class="text-primary"><%= contract.buyer.username %>'s Nintendo Network ID:</span>
+            <%= contract.buyer.nintendo_user_name.present? ? contract.buyer.nintendo_user_name : 'Not Listed' %>
+            <% elsif contract.selected_game_game_system_join.game_system.title == 'PC'%>
+            <span class="text-primary"><%= contract.buyer.username %>'s PC IGNs: </span>
+            <%= contract.buyer.pc_user_name.present? ? contract.buyer.pc_user_name : 'Not Listed' %>
+            <% end %>
+          </h4>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <% else %>
+  <div>
+    <h3>Available Titles</h3>
+    <ul class="game-list clearfix">
+      <%  contract.game_game_system_joins.each do | ggs | %>
+      <li class="game-item col-fifth">
+        <%= game_cover_html ggs.game %>
+        <div class="game-details">
+          <h5 class="mb0"><%= ggs.game.title %> - <%= ggs.game_system.title %></h5>
+        </div>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+</div>

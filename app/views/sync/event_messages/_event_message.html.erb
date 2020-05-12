@@ -1,0 +1,47 @@
+<li class="message message-self wow fadeInUp">
+  <div class ='message-container'>
+    <div class="hidden-xs">
+      <span class="message-avatar message-self reduce_size">
+          <a href="<%= profiles_path() + '/' + event_message.event.user.username %>"><%= image_tag event_message.user.avatar_url, :class=>'avatar-sm'%></a>
+      </span>
+      <div class="message-content set_width_chat">
+        <h5 class="set_chat_text">
+          <span class="text-primary">
+            <%= event_message.user.username%>:
+            <span class="font_color_white helper-text">
+              <%=event_message.message%>
+            </span>
+          </span>
+          <span class="visible-sm-block visible-xs-block visible-md visible-lg pull-right-md">
+            <small>
+              <span class="hidden-xs"><%= event_message[:created_at].strftime("%m/%d %I:%M%p %Z ") if event_message[:created_at].present? %>&nbsp;</span>
+            </small>
+          </span>
+        </h5>
+        <div class="message-body left-rect">
+        </div>
+      </div>
+    </div>
+    <div class="visible-xs">
+      <div class="message-content set_width_chat mobile_chat">
+        <h5 class="set_chat_text">
+          <span class="text-primary">
+            <strong><%= event_message.user.username %></strong>
+            <span class="mobile-chat-date pull-right">
+              <%=event_message[:created_at].strftime("%b-%-d | %l:%M%p") if event_message[:created_at].present? %>&nbsp;
+            </span>
+            <div class="font_color_white helper-text">
+              <%=event_message.message%>
+            </div>
+          </span>
+          <span class="visible-sm-block visible-xs-block visible-md visible-lg pull-right-md">
+            <small>
+              <span class="hidden-xs"><%=event_message[:created_at].strftime("%m/%d %I:%M%p %Z ") if event_message[:created_at].present? %>&nbsp;</span>
+            </small>
+          </span>
+        </h5>
+      </div>
+    </div>
+  </div>
+
+</li>

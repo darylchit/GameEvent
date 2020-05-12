@@ -1,0 +1,29 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="well">
+					<div class="row">
+						<div class="col-md-12">
+							<h2 class="mt0">Post</h2>
+							<!-- 
+							<h2 id="new-roster-header" class="mt0">Post</h2>
+							<p class="lead text-primary">
+								This page lets you create public or private <%= params[:clan_event] == "true" ? 'clan' : 'game' %> events. 
+								<span class="roster-clan-text" style="<%= params[:clan_event] == "true" ? 'display: none' : '' %>">
+									Only clan members can be invited to clan events.
+								</span>
+								<span class="roster-public-text" style="<%= params[:clan_event] == "false" ? 'display: none' : '' %>">
+									If you want to post your availability to help others you will need to go to the <%= link_to 'Post Availability', new_posted_contract_path() %> page.
+								</span>
+							</p>
+							-->
+							<%= render 'form' %>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>	
+</div>

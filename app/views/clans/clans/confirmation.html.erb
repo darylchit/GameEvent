@@ -1,0 +1,73 @@
+<div class="background-block content-area clan_confirm_page">
+  <div class="container">
+    <div class="row text-center">
+      <%= image_tag "game_roster_1.png", :class=> 'logo wow flip'%>
+      <h1 class="hidden-xs">CLAN CREATED</h1>
+      <h2 class="mt8 visible-xs">CLAN CREATED</h2>
+    </div>
+    <div class="row  gold-header-row "></div>
+    <div class="row">
+      <%= image_tag(clan_jumbo_url(@clan), class: "topmrg_20 hidden-xs", id: '') %>
+      <%= image_tag(clan_mobile_jumbo_url(@clan), class: "topmrg_20 visible-xs", id: '') %>
+    </div>
+    <div class="row clan_email_body" >
+      <div class="col-md-12 topmrg_20 text-justify">
+        <%= @clan_mail.value.try(:html_safe) %>
+      </div>
+      <div class="col-sm-4 col-sm-offset-4 col-xs-12 topmrg_20 form-group">
+        <%= link_to 'Go To My Clan', clan_path(@clan), class: 'btn btn-lightgrey btn-full' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Facebook Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+ fbq('init', '205890153107279');
+fbq('track', 'PageView');
+</script>
+<noscript>
+ <img height="1" width="1"
+src="https://www.facebook.com/tr?id=205890153107279&ev=PageView
+&noscript=1"/>
+</noscript>
+<!-- End Facebook Pixel Code -->
+
+
+<!-- Twitter universal website tag code -->
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+// Insert Twitter Pixel ID and Standard Event data below
+twq('init','nyf9q');
+twq('track','PageView');
+</script>
+<!-- End Twitter universal website tag code -->
+
+<!-- Google Code for Destiny LFG Sign Up Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1024046696;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "eMYDCP3A718Q6Oym6AM";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/1024046696/?label=eMYDCP3A718Q6Oym6AM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript> 

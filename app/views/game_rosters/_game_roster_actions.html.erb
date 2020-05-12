@@ -1,0 +1,60 @@
+<div class="modal fade game_roster_actions" id="game_roster_actions_invite<%= invite.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" type="button" data-target="#game_roster_actions" aria-label="Close"><span aria-hidden="true" class="action_popup" id="">&times;</span></button>
+        <h4 class="modal-title">
+          Actions
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="set_mrg_tbl_application set_table_width">
+
+            <% if invite.confirmed? %>
+                <% if current_user.present? %>
+                    <% if current_user != invite.user %>
+                      <div class="col-xs-12">
+                      <%= link_to 'Rate', link_if_cancelled_event(rate_invite_path(event, invite)), method: method_if_cancelled_event(:get), class: 'btn btn-lightgrey col-xs-12 btn-full set_font_size cancelled_event_link', remote:  true %>
+                      </div>
+                    <% end %>
+                <% else %>
+                  <div class="col-xs-12">
+                    <%= link_to 'Rate', link_if_cancelled_event(new_user_session_path), method: method_if_cancelled_event(:get), class: 'btn btn-lightgrey col-xs-12 btn-full set_font_size cancelled_event_link' %>
+                  </div>
+                <% end %>
+            <% else %>
+               <!--message-->
+            <% end %>
+
+
+          <div class="col-xs-12">
+            <% if current_user.present? %>
+                <% if current_user == invite.user %>
+                    <%= link_to "Edit Profile", edit_profile_path, class: "btn btn-lightgrey btn-full set_font_size set_5_top_mrg " %>
+                <% else %>
+                    <% if current_user.is_blocking_user?(invite.user)%>
+                      <%= link_to "Unblock", link_if_cancelled_event(profile_block_path(current_user.blocks.where(:blocked_user => invite.user)[0])), :method => method_if_cancelled_event(:delete), class: "btn btn-lightgrey table_action_btn set_5_top_mrg" %>
+                    <% else %>
+                        <%= link_to "Block", link_if_cancelled_event(profile_blocks_path(block: {blocked_user_id: invite.user_id})), method: method_if_cancelled_event(:post), class: "btn btn-lightgrey btn-full set_font_size cancelled_event_link set_5_top_mrg", remote: (current_user.present? ? true : false) %>
+                    <% end %>
+                <% end %>
+            <% else %>
+                <%= link_to "Block", link_if_cancelled_event(new_user_session_path), method: method_if_cancelled_event(""), class: "btn btn-lightgrey btn-full set_font_size cancelled_event_link set_5_top_mrg", remote: (current_user.present? ? true : false)  %>
+            <% end %>
+          </div>
+
+          <% if invite.confirmed? && (current_user != invite.user || !current_user.present?) %>
+          <div class="col-xs-12">
+            <%= link_to "No Show", link_if_cancelled_event(not_show_invite_path(event, invite)), method: method_if_cancelled_event("put"), remote: (current_user.present? ? true : false), id: "event_not_show_user#{invite.user_id}_event#{invite.event_id}", class: "btn btn-lightgrey col-xs-12 btn-full set_font_size cancelled_event_link set_5_top_mrg event_not_show_user#{invite.user_id}_event#{invite.event_id}"  %>
+          </div>
+          <% end %>
+          <% if current_user.present? && event.user_id == current_user.id && !event.completed? %>
+            <div class="col-xs-12">
+              <%= link_to "Remove", link_if_cancelled_event(remove_invite_path(event, invite)), method: method_if_cancelled_event('delete'), remote: (current_user.present? ? true : false), id: "event_action#{event.id}", class: "btn btn-lightgrey btn-full set_font_size set_5_top_mrg" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

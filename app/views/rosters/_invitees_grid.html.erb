@@ -1,0 +1,42 @@
+<div class="table-responsive">
+	<%= define_grid(@invitees_grid, show_filters: :yes, hide_csv_button: true,allow_showing_all_records: false,  html: {class: 'table table-responsive admin-games invitees-grid table-striped data-tr'}) do |g|
+
+		g.blank_slate do
+			content_tag :div, "No results.", class: 'no-results text-center panel-body'
+		end
+
+		g.column name: '', class: "sel" do | f |
+			# Check the user to see if they are already invited			
+			raw("<input type='checkbox' name='roster_invitees[]' value='#{f.id}'>")
+		end
+
+		g.column name: '', html: { width: "72px"} do | f |
+			link_to "#{profiles_path() + '/' + f.username}" do
+				raw("#{image_tag(f.avatar_url, class: 'media-object avatar-sm')}")
+			end
+		end
+
+		g.column name: 'User', attribute: 'username',  detach_with_id: :user_filter, auto_reload: true do | f |
+			link_to "#{profiles_path() + '/' + f.username}" do
+				raw("<h4>#{f.username}</h4><h5 class='hidden-lg hidden-md'>Status</h5>")
+			end
+		end
+
+		g.column name: 'Status' do | f |
+			# Will show the current status of the user: invited, claimed, and waitlisted
+			if resource.invited?(f)
+				status = resource.invites.find_by( user: f).status
+
+				if status == nil
+					"invited"
+				else
+					status
+				end
+				
+			end
+		end
+
+	end -%>
+
+</div>
+

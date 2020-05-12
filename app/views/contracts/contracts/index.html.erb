@@ -1,0 +1,59 @@
+<%
+#----------------------------
+# NOTE: This view shows both contracts and rosters, claimed and posted
+#----------------------------
+if false
+%>
+<div class="container">
+  <%= render 'layouts/flash' %>
+	<div class="well my-events">
+		<div class="row heading">
+			<div class="col-md-6">
+        <h2 class="mt0">Posted Contracts</h2>
+			</div>
+			<div class="col-md-6 post-buttons text-right-md">
+				<%= link_to 'Post Availability', new_posted_contract_path(), class: "btn btn-primary post-contract" %> 
+			</div>
+		</div>
+
+
+    <div class="text-right-md">
+      <button class="btn btn-outline" data-toggle="collapse" data-target="#collapse-filters" aria-expanded="false" aria-controls="collapseExample">Filter Options</button>
+    </div>
+
+
+    <br>
+
+		<div class="filter-panel collapse" id="collapse-filters">
+      <!-- Player Filter -->
+      <%= render 'contracts/contracts/filter_form' %> 
+    </div>
+		<div>
+      <ul class="list-unstyled clearfix">         
+	       <%= render :partial => 'events/event', collection: @contracts, as: :event %>
+      </ul>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div>  
+          <%= paginate @contracts %> 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% else %>
+  <div class="background-block content-area public_game_page">
+    <div class="container">
+      <div class="">
+        <div class="row">
+          <h2 class="text-center">Coming Soon</h2>
+        </div>
+        <div class="row text-center">
+          <%= image_tag "game_roster_1.png", :class=> 'avatar-md1 wow flip'%>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+

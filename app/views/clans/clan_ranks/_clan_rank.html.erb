@@ -1,0 +1,14 @@
+<div class="row" id="rank-<%= clan_rank.id%>">
+  <div class="col-md-12">
+      <div class="col-md-12">
+        <h3><%= clan_rank.title %></h3><hr>
+      </div>
+      <div class="row">
+        <% clan_rank.permissions.each do |role| %>
+          <div class="col-md-2">
+            <label><%= role.to_s.humanize %></label>
+          </div>
+        <% end %>
+      </div>
+  </div>
+</div>

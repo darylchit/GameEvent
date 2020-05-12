@@ -1,0 +1,19 @@
+$('.modal-title').html('Event Details');
+$('.modal-body').html('<%= j render "bounty_details" %>').addClass('contract-body');
+$('.modal-footer-label').html('<span class="<% if resource.price_in_cents != 0 %>text-success<% end %>">Donation Amount: <%= resource.price_in_cents == 0 ? "Free" : "$#{resource.price_in_dollars}" %></span>');
+$('.modal-footer:not(".modal-contract-footer")').addClass('hidden');
+$('.modal').modal('show');
+
+$('[data-toggle="tooltip"]').tooltip();
+
+if ($('.game-item input[type="radio"]').length < 2) {
+	$('.game-item input[type="radio"]').parent().parent().parent().addClass('selected');
+	$('input[type="submit"]').removeClass('disabled').tooltip('destroy');
+	$('.game-item input[type="radio"]').prop('checked',true);
+}
+
+$('.game-item input[type="radio"]').on('change', function() {
+	$(this).parent().parent().parent().parent().children('li').removeClass('selected');
+	$(this).parent().parent().parent().addClass('selected');
+	$('input[type="submit"]').removeClass('disabled').tooltip('destroy');
+});

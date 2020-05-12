@@ -1,0 +1,47 @@
+<%= define_grid(@events, show_filters: :yes, hide_csv_button: true, html: {class: 'table table-responsive admin-games table-striped data-tr'}) do |g|
+
+	g.column name: 'Host', in_csv: false do | e |
+		link_to admin_user_path(e.owner) do
+			raw "<h5> #{e.owner.username} </h5>"
+		end
+	end
+	g.column name: 'Host', in_html: false do | e |
+		e.owner.username
+	end
+
+  g.column name: 'Host Email' do | e |
+    e.owner.email
+  end
+
+	g.column name: 'Event #', attribute: 'id'
+
+	g.column name: 'Type', attribute: 'contract_type', detach_with_id: :type_filter do | e |
+		e.contract_type
+	end
+
+  g.column name: 'Visibility', attribute: 'private', detach_with_id: :visibility_filter, custom_filter: {'Private' => 1, 'Public' => 0} do | e |
+    e.private? ? 'Private' : 'Public'
+  end
+
+  g.column name: 'Starts At', attribute: 'start_date_time', detach_with_id: :start_date_filter do | e |
+    e.start_date_time.strftime("%Y/%m/%d %I:%M%p")
+  end
+
+  g.column name: 'Roster Size' do | e |
+    if e.roster?
+      r = Roster.find e.id
+      "#{r.confirmed_users_count} / #{r.max_roster_size}"
+    else
+      num = (e.buyer.present? ? 1 : 0) + (e.seller.present? ? 1 : 0)
+      "#{num} / 2"
+    end
+  end
+
+  g.column name: 'Cancellation Date', attribute: 'cancelled_at' do | e |
+      e.cancelled_at.strftime("%Y/%m/%d %I:%M%p") if e.cancelled_at.present?
+  end
+
+  g.column name: 'Created At', attribute: 'created_at', detach_with_id: :created_at_filter do | e |
+    e.created_at.strftime("%Y/%m/%d %I:%M%p")
+  end
+end -%>

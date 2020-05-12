@@ -1,0 +1,192 @@
+<div class="background-block content-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+      <%= render "layouts/adminnav" %>
+      </div>
+      <div class="col-md-9">
+        <h2 class="mt0"><%= link_to resource.username, "/profiles/#{resource.username}" %></h2>
+        <p id="notice"><%= notice %></p>
+
+        <h3 class="mt0">User Info</h3>
+        <div class="container-box">
+          <div class="form-group">
+            <label>User Confirmed:</label>
+            <% if resource.confirmed? %>                            
+              <%= long_date_time resource.confirmed_at %>              
+            <% else %>              
+              Not Confirmed
+            <% end %>
+          </div>
+          <div class="form-group">
+            <label>Email:</label>
+            <%= resource.email %>
+          </div>
+        <div class="form-group">
+          <label>Sign In Count:</label>
+          <%= resource.sign_in_count %>
+        </div>
+        <div class="row">
+          
+        </div>
+        <div class='row'>
+          <div class="col-md-3">
+            <%= link_to 'Confirm Account', admin_user_confirm_path(resource), class: 'btn btn-full btn-primary' %>          
+          </div>
+          <div class ='col-md-3'>
+            <%= link_to "Edit User Account", admin_user_account_path(resource.id), class: "btn btn-primary btn-full" %>    
+          </div>
+          <div class = 'col-md-3'>
+            <%= link_to "Become User", admin_user_become_path(resource.id, prev_action: '/profile/edit'), method: :post, class: "btn btn-primary btn-full" %>    
+          </div>
+          <div class ='col-md-3'>
+            <%= button_to "Delete Account", admin_user_path(resource.id), method: :delete, class: "btn btn-danger btn-full" %>            
+          </div>
+        </div>
+      </div>
+
+      <h3>Subscription</h3>
+      <div class="container-box">
+        <% if resource.active_subscription.present? %>
+          <% if resource.active_subscription.lifetime? %>
+            <p><label>Current Subscription:</label> <%= "#{resource.active_subscription.subscription_plan.name} #{resource.active_subscription.subscription_type_text}" %>              
+            </p>
+          <% else %>
+            <p><label>Current Subscription:</label> <%= "#{resource.active_subscription.subscription_plan.name} #{resource.active_subscription.subscription_type_text}" %>              
+            </p>
+            <p>Expires on <%= short_date resource.active_subscription.ends_on %></p>
+          <% end %>
+        <% else %>
+          <p><label>Current Subscription:</label>  Basic</p>
+        <% end %>
+
+        <% if !resource.active_subscription.present?  || (resource.active_subscription.present? && resource.active_subscription.promotional?)%>
+          <div class='row'>
+            <% active_subscription_plan.each do |sp|%>
+              <div class='col-md-3'>
+                <%= link_to "Set Lifetime #{sp.name}", admin_user_lifetime_path(resource.id, sp.id), class: "btn btn-primary btn-full", method: :post %>
+              </div>  
+            <% end %>
+            <div class='col-md-3'>
+              <button type="button" class="btn btn-primary btn-full" data-toggle="modal" data-target="#PayPalCustom">
+                PayPal Custom
+              </button>
+            </div>
+            <div class="col-md-3">
+              <%= link_to 'Remove Lifetime', remove_lifetime_admin_user_path, class: 'btn btn-primary btn-full', method: :delete %>
+            </div>   
+          </div>
+          <div class="modal fade" id="PayPalCustom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content modal-vertical">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">PayPal Custom subscription</h4>
+                </div>
+                <%= form_for Subscription.new, url: subscription_admin_user_path(resource.id) do |f|%>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <%= f.label :ends_on %>
+                      <%= f.text_field :ends_on, class: 'form-control' %>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :subscription_plan_id %>
+                      <%= f.select :subscription_plan_id, options_for_select(active_subscription_plan.map{|sp|[sp.name, sp.id]}), {} ,class: 'form-control' %>
+                    </div>        
+                  </div>
+                  <div class="modal-footer">
+                    <%= f.submit 'Submit', class: 'btn btn-primary btn-full'%>      
+                  </div>
+                <% end %>      
+              </div>
+            </div>
+          </div>
+        <% elsif resource.active_subscription.present? && (resource.active_subscription.lifetime? || resource.active_subscription.promotional? || resource.active_subscription.paypal_paid? ) %>
+           <div class="row">
+             <div class="col-md-3">
+              <%= link_to 'End Subscription', remove_lifetime_admin_user_path, class: 'btn btn-primary btn-full', method: :delete %>
+            </div> 
+           </div> 
+        <% end %>
+      <%#= link_to "Edit Expiration", edit_admin_user_path(resource.id), class: "btn btn-primary" %>
+      </div>
+
+      <h3>PSR</h3>
+      <div class="container-box">
+        <%user_setting = resource.user_setting %>
+        <%= form_for user_setting, url: admin_user_setting_path(resource.id, user_setting.id ) do |f|%>
+          <div class="">
+            <label>Currently Displayed Personality: <%= user_setting.total_personality %></label><br>
+            <label>User's Personality: <%= user_setting.personality %></label>
+          </div>
+            <div class="form-group">
+              <%= f.label :admin_personality, 'Admin Personality Adjustment' %>
+              <%= f.number_field :admin_personality, class: 'form-control'%>
+            </div>
+            <div class="">
+              <label>Currently Displayed Skill: <%= user_setting.total_skill%></label><br>
+              <label>User's Skill: <%= user_setting.skill %></label>
+            </div>
+            <div class="form-group">
+              <%= f.label :admin_skill, 'Admin Skill Adjustment' %>
+              <%= f.number_field :admin_skill, class: 'form-control'%>
+            </div>
+            <div class="">
+              <label>Currently Displayed Respect: <%= user_setting.total_respect%></label><br>
+              <label>User's Respect: <%= user_setting.respect %></label>
+            </div>
+            <div class="form-group">
+              <%= f.label :admin_respect, 'Admin Respect Adjustment' %>
+              <%= f.number_field :admin_respect, class: 'form-control'%>
+            </div>
+            <div class="">
+              <label>Currently Cancelation Count: <%= resource.event_cancellation_count + user_setting.old_cancellation_count + user_setting.admin_cancellation_count %></label><br>
+              <label>Old Site Cancelation Count: <%= user_setting.old_cancellation_count%></label><br>
+              <label>User's Cancelation Count: <%= resource.event_cancellation_count %></label>
+            </div>
+            <div class="form-group">
+              <%= f.label :admin_cancellation_count, 'Admin Cancellation Count Adjustment' %>
+              <%= f.number_field :admin_cancellation_count , class: 'form-control'%>
+            </div>
+            <div class="">
+              <label>Currently Experience: <%= resource.event_current_exp + user_setting.old_event_completed + user_setting.admin_event_completed %></label><br>
+              <label>Old Site Experience: <%= user_setting.old_event_completed %></label><br>
+              <label>User's Experience: <%= resource.event_current_exp %></label>
+            </div>
+            <div class="form-group">
+              <%= f.label :admin_event_completed, 'Admin Experience Adjustment' %>
+              <%= f.number_field :admin_event_completed, class: 'form-control'%>
+            </div>
+            <div class="form-group">
+              <%= f.submit 'Submit', class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+
+        <h3>User Preferences</h3>
+        <div class="container-box">
+          <div class="form-group">
+            <label>Minimum Personality Rating:</label>
+            <span class="psa-rating-read-only" data-score="<%= resource.required_psa_rating %>"></span>
+          </div>
+          <div class="form-group">
+            <label>Minimum Personality Rating:</label>
+            <span class="psa-rating-read-only" data-score="<%= resource.required_personality_rating %>"></span>
+          </div>
+          <div class="form-group">
+            <label>Minimum Skill Rating:</label>
+            <span class="psa-rating-read-only" data-score="<%= resource.required_skill_rating %>"></span>
+          </div>
+          <div class="form-group">
+            <label>Minimum Approval Rating:</label>
+            <span class="psa-rating-read-only" data-score="<%= resource.required_approval_rating %>"></span>
+          </div>
+          <div class="form-group">
+            <label>Maximum Cancellation Rate:</label>
+            <%= resource.required_cancellation_rate %>%
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

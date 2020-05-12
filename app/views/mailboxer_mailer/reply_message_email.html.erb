@@ -1,0 +1,28 @@
+<%
+other_user = nil
+@message.recipients.each do |r|
+  if r.id != @message.sender.id
+    other_user = r
+  end
+end
+
+other_user = @message.sender if other_user.nil?
+%>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>You have a new reply: </h1>
+    <blockquote>
+      <p>
+        <%= parse_message @message.body, other_user, true %>
+      </p>
+    </blockquote>
+    <p>
+      Visit <%= link_to root_url, root_url %> for more details or to respond.
+    </p>
+  </body>
+</html>

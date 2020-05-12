@@ -1,0 +1,41 @@
+<li class="roster-invite-card">                        
+    <% if n.has_attribute?(:type) %>
+        <%= link_to(n.type == 'ClanNotice' ? clan_notice_path(n) : system_notice_path(n)) do %>
+            <div class="container-box">
+                <p class="small">
+                    <span class="badge badge-outline">
+                        <%= n.created_at.to_date == Date.today ? "Today, #{standard_time(n.created_at)}" : short_date_time(n.created_at) %>
+                    </span>
+                </p>
+                <h4 class="mt0 mb0"><%= n.type == 'ClanNotice' ? 'Clan: ' + n.clan.name : n.type.underscore.humanize.titleize %></h4>
+                <div class="invite card-content">
+                    <p>
+                        <%= n.title %>
+                    </p>
+                    <p class="text-gray">
+                        <%= n.body.present? ? n.body : "&mdash;".html_safe %>
+                    </p>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <%= link_to(message_path(n)) do %>
+            <div class="container-box">
+                <p class="small">
+                    <span class="badge badge-outline">
+                        <%= n.created_at.to_date == Date.today ? "Today, #{standard_time(n.created_at)}" : short_date_time(n.created_at) %>
+                    </span>
+                </p>
+                <h4 class="mt0 mb0">Message</h4>
+                <div class="invite card-content">
+                    <p>
+                        <%= n.subject %>
+                    </p>
+                    <p class="text-gray">
+                        <%= (n.receipts.last.message.body.gsub(/\[[^\]]*\]/, '')).present? ? truncate(n.receipts.last.message.body.gsub(/\[[^\]]*\]/, ''), :length => 40) : "&mdash;".html_safe %>
+                    </p>
+                </div>
+            </div>
+        <% end %>
+    <% end %>
+</li>

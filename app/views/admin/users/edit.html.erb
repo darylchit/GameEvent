@@ -1,0 +1,13 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/adminnav" %>
+			</div>
+			<div class="col-md-9">
+				<h2 class="mt0">Edit <%= @user.username %>'s <% @user.active_subscription.present? ? "Subscription" : "Trial" %> Expiration</h2>
+				<%= render 'form' %>
+			</div>
+		</div>
+	</div>	
+</div>

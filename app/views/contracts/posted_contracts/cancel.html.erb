@@ -1,0 +1,54 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+			<div class="col-md-9">
+				 <h3 class="mt0">Cancel Event</h3>
+
+				<div class="container-box contract-details">
+
+
+					<%= form_for resource, :url => posted_contract_path(resource),  method: 'delete' do |f| %>
+						<% if resource.status == 'Open' %>
+							<p>
+								Are you sure you want to cancel this event?
+							</p>
+						<% else %>
+							<div class="form-group">
+								<label>Reason for Cancellation</label>
+								<%= f.select :cancellation_reason, ["I'm No Longer Available", "Player’s Behavior", "Player Quit or Never Showed Up", "Broken Game/Game System", "Power/Internet/Game Service Outage", "Other (Please specify in notes)"], {}, :class => "form-control" %>
+							</div>
+							<div class="form-group">
+								<label>Additional Notes</label>
+								<%= f.text_area :cancellation_note, :class => "form-control" %>
+							</div>
+
+							<p><small>We generally discourage cancellations and recommend trying to reschedule your event with your counterpart.  Your cancelations will be tracked and repeated cancellations may hurt your ability to find other players. </small></p>
+						<% end %>
+
+						<hr>
+						<div class="clearfix form-group">
+							<div class="row">
+								<div class="col-md-6">
+									<% if request.referer.present? %>
+										<%= link_to "Back", request.referer, class: "btn btn-primary btn-lg btn-x" %>
+									<% else %>
+                  						<%= link_to "Back", posted_contract_path(resource), class: "btn btn-primary btn-lg btn-x" %>
+									<% end %>
+								</div>
+								<div class="col-md-6">
+									<%= f.submit :cancel, :class => "btn btn-danger btn-lg btn-x pull-right-md", :value => (resource.status == 'Open' ? 'Yes' : 'Submit') %>
+								</div>
+							</div>
+						</div>
+					<% end %>
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

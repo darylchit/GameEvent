@@ -1,0 +1,56 @@
+<div class="block-grid">
+	<div class="block-grid-header">
+		<div class="row">
+			<div class="col-md-10 col-sm-8">
+				<h2 class="mt0">
+					Relevant Events
+				</h2>
+			</div>
+		         <div class="col-md-2 col-sm-4 text-right-md text-right-sm hidden-xs">
+			            <%= link_to 'VIEW ALL', events_path, class: "btn btn-primary btn-block" %>
+		        </div>
+	     </div>
+
+		<ul class="mss-list clearfix">
+    		<li class="mss">
+    			<%= link_to profiles_path() + '/' + @available_players.first.username do %>
+					<%= image_tag(@relevant_events.first.contract_game_game_system_joins.first.game_game_system_join.game.game_jumbo) %>
+	           
+  					<div class="mss-details">
+         				<%= image_tag(@relevant_events.first.buyer.avatar_url, class: 'avatar-xs hidden-xs') %> <%= @relevant_events.first.buyer.username %>
+			       		<br><%= @relevant_events.first.contract_game_game_system_joins.first.game_game_system_join.game.title %>
+        			</div>
+        		<% end %>
+  			</li>
+		</ul>
+
+		<ul class="mss-list clearfix">
+			<% if browser.device.mobile? %>
+				<% @relevant_events[1..3].each do |event| %>
+					<li class="mss col-third-rel">
+				      	<%= link_to roster_path(event) do %>
+					    	<%= image_tag(event.contract_game_game_system_joins.first.game_game_system_join.game.game_cover) %>
+					    	 <div class="mss-details">					           
+					    	 	<h4><%= event.contract_game_game_system_joins.first.game_game_system_join.game.title %></h4>
+					        </div>
+						<% end %>
+					</li>
+      			<%end%>
+			<% else %>
+				<% @relevant_events[1..3].each do |event| %>
+					<li class="mss col-third-rel">
+				      	<%= link_to roster_path(event) do %>
+					    	<%= image_tag(event.contract_game_game_system_joins.first.game_game_system_join.game.game_cover) %>
+						    <div class="mss-details">
+								<%= image_tag(@relevant_events.first.buyer.avatar_url, class: 'avatar-xs hidden-xs') %>     <%= @relevant_events.first.buyer.username %>
+								<br><%= @relevant_events.first.contract_game_game_system_joins.first.game_game_system_join.game.title %>
+							</div>
+						<% end %>
+					</li>
+      			<%end%>
+      		<% end %>
+		</ul>
+
+		<%= link_to 'VIEW ALL', events_path, class: "btn btn-primary btn-block visible-xs" %>
+	</div>
+</div>

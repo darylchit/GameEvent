@@ -1,0 +1,167 @@
+<div class="modal fade" id="event_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content ">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel"><%= event.new_record? ? "Post New Event" : "Edit Event"%></h4>
+			</div>
+			<div class="modal-body contract-details">
+        <%if event.persisted? %>
+          <div class="row-fluid">
+            <p class="text-justify ">
+              You can edit any of the items below but changing the Event Title, Start Time, or Game will reset the roster and require participants to reconfirm.   You can cancel your event on the event's game roster page.
+            </p>
+          </div>
+        <% end %>
+
+				<div class="display_errors hide">
+					<h4 class="event_error_count"></h4>
+					<ul class="event_error_explanation"></ul>
+				</div>
+        <%= form_for event, :url => event.new_record? ? game_rosters_path : game_roster_path(event), remote: true, html: {id: 'event_form_popup'} do |f| %>
+
+					<div class="form-group">
+						<%= f.label :title, 'Event Title', class: 'required' %>
+						<%= f.text_field :title, class: 'form-control', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}%>
+					</div>
+
+					<%if event.new_record? %>
+						<div class="row">
+						  <div class="col-md-6">
+								<div class="form-group">
+									<%= f.label :maximum_size, 'Maximum Roster Size', class: 'required' %>
+									<%= f.number_field :maximum_size, class: 'form-control', min: 2, step: 1, data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<%= f.label :event_type, 'Event Type', class: 'required' %>
+			            <%= f.select :event_type, Event.event_types.map{|k,v| [k.titleize,k] }, {prompt: 'Select Event Type'}, class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+									<div class="event-note hide">
+			              Requires Premium Membership But Any Invited User Can Join <%=link_to "(Learn More)", about_path %>.
+			            </div>
+								</div>
+							</div>
+						</div>
+
+	          <div class="form-group hide" id="clan_select">
+	            <%= f.label :clan_id, 'Select Clan', class: 'required' %>
+	            <%= f.select :clan_id, user_clans.map{|c|[c.name, c.id]}, {prompt: ''}, class: 'form-control event-chosen-select' %>
+	          </div>
+					<% else %>
+						<div class="form-group">
+							<%= f.label :maximum_size, 'Maximum Roster Size', class: 'required' %>
+							<%= f.number_field :maximum_size, class: 'form-control', min: 2, step: 1, data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+						</div>
+					<% end %>
+
+          <div class="form-group">
+            <%= f.label :game_game_system_join_id, 'Game', class: 'required' %><%= link_to ' (Add Games to Library)', '/profile/edit#my_games', id: "edit_profile_my_games"%>
+						<% if user_games.present? %>
+							<%= f.select :game_game_system_join_id, user_games,{prompt: 'Select A Game'},class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+						<% else %>
+							<%= f.select :game_game_system_join_id, {},{:prompt => "You Must Add Titles To Your Game Library To Post"},class: 'form-control event-chosen-select' %>
+						<% end %>
+					</div>
+
+					<div class="form-group ign-field-event-popup hide">
+				    <% if current_user.present? %>
+				      <%= hidden_field_tag :psn_user_name, current_user.psn_user_name %>
+				      <%= hidden_field_tag :xbox_live_user_name, current_user.xbox_live_user_name %>
+				      <%= hidden_field_tag :nintendo_user_name, current_user.nintendo_user_name %>
+				      <%= hidden_field_tag :battle_user_name, current_user.battle_user_name %>
+				      <%= hidden_field_tag :origins_user_name,  current_user.origins_user_name %>
+				      <%= hidden_field_tag :steam_user_name, current_user.steam_user_name %>
+							<%= f.hidden_field :pc_type %>
+				    <% end %>
+				  </div>
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<%= f.label :start_at, 'Time and Date', class: 'required'%>
+								<% start =  (f.object.start_at || Time.now.advance(hours: 1)).strftime("%m/%d/%Y %I:%M %p") # if Time.now form sometimes can't submit %>
+								<%= f.text_field :start_at, value: start, class: 'form-control date-time-picker',
+																	 data: (event.new_record? ? {start_date: start} : {start_date: start,  toggle:'tooltip', placement:'top'}),
+																	 title: 'Upating the time will send out new invites to all invitees', :help => 'Your Events cannot be claimed after this start date/time.', id: 'event_start_at_popup', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<%= f.label :duration, 'Event Duration' %>
+								<%= f.select :duration, Event::DURATIONS, {}, :class => "form-control event-chosen-select", data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+							</div>
+						</div>
+					</div>
+					<h3 class="text-center text-primary">OPTIONAL ITEMS</h3>
+					<div class="gold-header-row form-group"></div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :game_type, 'Game Type' %>
+                <%= f.select :game_type, User::GAME_TYPE, {}, class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :play_type, 'Play Type' %>
+                <%= f.select :play_type, User::GAME_STYLE, {}, class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+              </div>
+            </div>
+          </div>
+
+					<div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :minimum_age, 'Minimum Age' %>
+								<%= f.select :minimum_age, options_for_select((13..99).map{|v| [v,v]}, selected: event.minimum_age), { prompt: 'None', :selected => event.minimum_age}, {:class => 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}} %>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :maximum_age, 'Maximum Age' %>
+              	<%= f.select :maximum_age, options_for_select((13..99).map{|v| [v,v]}, selected: event.maximum_age), {prompt: 'None', :selected => event.maximum_age}, {:class => 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}} %>
+              </div>
+            </div>
+          </div>
+          <div class="row hide">
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :allow_waitlist, 'Allow Waitlist'  %>
+                <%= f.select :allow_waitlist, Event::WAITLIST, {}, class: 'form-control event-chosen-select' %>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+
+            <%= f.label :private_invite_ids, 'Invite My Favorite Players' %><%= link_to ' (Edit)', edit_profile_path(step: 4)%>
+            <%= f.select :private_invite_ids, users.collect{|u| [u.favorited_user.username, u.favorited_user.id]}, {include_blank: false}, class: 'form-control event-chosen-select', :multiple => true %>
+          </div>
+
+
+
+          <div class="form-group hide">
+            <%= f.label :details, 'Details & Requirements' %>
+            <%= f.text_area :details, placeholder: 'None', class: 'form-control' %>
+          </div>
+
+
+
+
+
+          <div class="row topmrg_20">
+						<div class="col-md-3">
+						</div>
+            <div class="col-md-6">
+							<%= f.button "Submit".html_safe, class: 'btn btn-primary btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Saving..."} %>
+              <%#= f.submit 'Submit', class: 'btn btn-primary btn-full'%>
+            </div>
+						<div class="col-md-12">
+						</div>
+          </div>
+        <% end %>
+			</div>
+		</div>
+	</div>
+</div>

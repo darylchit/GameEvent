@@ -1,0 +1,120 @@
+<div class="background-block content-area sign-in">
+	<%#= video_tag "video1.mp4", autoplay: :autoplay, loop: :loop, mute: :mute, class: "bg-video hidden-xs" %>
+	<%#= image_tag "rajnik.png", class: "bg-image" %>
+	<div class="container">
+		<div class="topmrg_20">
+			<div class="col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 box">
+				<div class="row"><h1 class="text-center text-primary set_box_header">Login</h1></div>
+				<div class="devise-block">
+					<% if is_mobile_app? %>
+						<%= render 'layouts/flash' %>
+						Please press the back button and use the app to log in.
+					<% else %>
+						<%= bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name), remote: true) do |f| %>
+							<%#= render 'layouts/error_modal' %>
+              <div class="topmrg_20">
+							<%= f.text_field :email, autofocus: true, hide_label: :true, tabindex: 1, placeholder: 'Email' %>
+              </div>
+							<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+									<%= link_to "Resend My Email Confirmation", "", "data-toggle" => "modal", "data-target" => "#confirmation_model", class: 'text-gray' %><br />
+							<% end -%>
+							<br />
+							<%= f.password_field :password, hide_label: :true, autocomplete: 'new-password', tabindex: 2, placeholder: 'Password' %>
+							<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+								<%= link_to "Forgot My Password", "", "data-toggle" => "modal", "data-target" => "#forgot_password_modal", class: 'text-gray' %><br />
+							<% end -%>
+
+							<div class="form-group topmrg_20">
+								<div class="row set_margin">
+                  <div class="text-center col-md-12">
+                    <%= f.submit "Login", class: "btn btn-lightgrey btn-full" %>
+                    <% if devise_mapping.rememberable? -%>
+                        <%= f.check_box :remember_me, label: "Remember Me", checked: true %>
+                    <% end -%>
+                    Need an Account? <%= link_to "Sign Up", new_user_registration_path %>
+
+										<div class="col-md-12">
+											<script type="text/javascript">
+					              function open_and_redirect() {
+					                window.open('<%= user_omniauth_authorize_path(:discord)%>', '', 'toolbars=0');
+					//                window.location = 'the new location for the parent window';
+					              }
+					              function call_discord_login(){
+					                location.reload();
+					              }
+					            </script>
+					            <!-- <button class="btn btn-primary btn-x" id="discord_channel_login" onclick="open_and_redirect()">Discord login</button> -->
+
+									  </div>
+                  </div>
+								</div>
+							</div>
+
+						<% end %>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ajaxError(function (e, xhr, settings) {
+        if (xhr.status == 401) {
+					toastr.options = {
+				      "closeButton": true,
+				      "timeOut": "7000",
+				      "extendedTimeOut": "0",
+				      "positionClass": "toast-top-center"
+				  };
+				  toastr.success("You have to confirm your email address before continuing.");
+        }
+    });
+</script>
+
+
+
+<!-- Email Confermation Modal STARTS-->
+<div class="modal fade" id="confirmation_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog set_popup_mrg" role="document">
+		<div class="modal-content modal-medium">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Resend Confirmation Instructions</h4>
+			</div>
+			<div class="modal-body contract-details">
+				<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), remote: true, html: { method: :post, id: 'confirmation_form'}) do |f| %>
+					<div class="form-group clearfix">
+						<label>Email Address</label>
+						<%= f.email_field :email, autofocus: true, class: "form-control", "data-validation" => "[NOTEMPTY,EMAIL]" %>
+					</div>
+					<div class="form group text-center">
+            <%= f.button "Resend Confirmation", class: "btn btn-primary btn-x", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Resend Confirmation"} %>
+					</div>
+			  <% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Email Confermation Modal ENDS -->
+
+<!-- Forgot Password Modal STARTS-->
+<div class="modal fade" id="forgot_password_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog set_popup_mrg" role="document">
+		<div class="modal-content modal-medium">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Forgot Password</h4>
+			</div>
+			<div class="modal-body contract-details">
+				<%= bootstrap_form_for(resource, as: resource_name, url: user_password_path(resource), remote: true, html: { method: :post, id: 'forgot_password_form'}) do |f| %>
+					<%= f.text_field :email, autofocus: true, label: "Email Address", "data-validation" => "[NOTEMPTY,EMAIL]" %>
+					<div class="form group text-center">
+						<%= f.submit "Send Instructions", class: "btn btn-primary btn-x" %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Forgot Password Modal ENDS -->

@@ -1,0 +1,44 @@
+<% clan_invitation = receipt.message.notified_object %>
+<div class="row box_border">
+	<%= link_to clan_path(clan_invitation), target: '_blank' do %>
+		<div class="col-sm-2 col-xs-3 receipt_img">
+			<span class="clan_avatar">
+				<%= image_tag(clan_cover_url(clan_invitation), class: 'message_avatar') %>
+			</span>
+		</div>
+	<% end %>
+	<div class="col-sm-10 col-xs-9 content_text receipt_data">
+		<div class="row">
+			<div class="col-xs-12 pdl5">
+				<%= link_to clan_path(clan_invitation), target: '_blank' do %>
+				<span class="pull-left">
+					<b class="msg-title">You Are Invited To Join</b>
+				</span>
+				<% end %>
+				<span class="pull-right msg-text">
+					<%= link_to clan_path(clan_invitation), target: '_blank' do %>
+						<%= receipt.is_read? ? '' : "<i class='fa fa-dot-circle-o' aria-hidden='true'></i>".html_safe %>
+						<span class="gray_font" data-toggle="tooltip" data-placement="top" data-title="<%= receipt.created_at.strftime("%b/%d/%Y - %l:%M%P")%>"> <%= receipt.created_at.present? ? receipt.created_at.strftime("%b-%-d") : "" %></span>
+					<% end %>
+					<span class="hidden-xs"><%= check_box_tag 'checkbox_receipt[]', receipt.id, false, class: 'checkbox_action' %></span>
+				</span>
+			</div>
+		</div>
+
+		<div class="row msg-text text-left">
+			<%= link_to clan_path(clan_invitation), target: '_blank' do %>
+				<div class="col-sm-12 pdl5">
+	        <%= clan_invitation.name %>
+	      </div>
+	      <div class="col-sm-12 pdl5">
+						Invite Sent From <%= receipt.message.sender.username %>
+				</div>
+				<div class="col-sm-12 pdl5 hidden-xs">
+					View Clan Page And Join
+				</div>
+			<% end %>	
+		</div>
+	</div>
+</div>
+
+<%= render partial: 'message_action_menu_popup', locals: {receipt: receipt} %>

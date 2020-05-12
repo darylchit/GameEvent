@@ -1,0 +1,24 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+				<div class="devise-block">
+					<h1 class="text-center">Resend unlock instructions</h1>
+					<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+				  <%= devise_error_messages! %>
+
+				  <div><%= f.label :email %><br />
+				  <%= f.email_field :email, autofocus: true %></div>
+
+					<div class="form group text-center-md">
+						<%= f.submit "Log in", class: "btn btn-primary btn-x" %>
+					</div>
+
+					<%= render "users/shared/links" %>
+	
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

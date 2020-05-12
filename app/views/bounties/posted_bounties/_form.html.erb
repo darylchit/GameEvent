@@ -1,0 +1,176 @@
+<%= render 'layouts/flash' %>
+<%= form_for resource, :url => resource.new_record? ? posted_bounties_path : posted_bounty_path, :html => {multipart: true } do |f| %>
+	<% if resource.errors.any? %>
+		<div id="error_explanation">
+			<ul>
+				<% resource.errors.full_messages.each do |message| %>
+					<li><%= message %></li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+	<div class="form-group">
+		<% if @games.count == 0 %>
+			You do not have Destiny listed in any game systems that you have provided an IGN for. <br />
+			<%= link_to 'Add Games', edit_games_and_systems_path %><br />
+			<%= link_to 'Add IGNs', edit_profile_path %>
+		<% end %>
+		<%= f.collection_select :game_game_system_join_ids, @games, :id, :game_system_name_label, {include_blank: true}, {:class => "form-control chosen-select", :multiple => true} %>
+	</div>
+	<div class="form-group">
+		 <label>Will Play</label>
+		 <%= f.select(:will_play, options_for_select(["All Types", "Player vs. Player", "Player vs. Enemy"], resource.will_play), {}, {:class => "form-control"}) %>
+	</div>
+
+	<div class="form-group">
+		<label>Players Must Be: Class</label>
+		<%= f.select :player_class, options_for_select(['Warlock', 'Titan', 'Hunter', 'Any'], :selected => params[:bounty].present? ? params[:bounty][:player_class] : resource.player_class), {include_blank: true}, {:class => "form-control chosen-select"} %>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label>Select Mission</label>
+				<%= f.select :mission, options_for_select([
+						"Daily Heroic Mission",
+						"Weekly Heroic Mission",
+						"Weekly Nightfall Strike",
+						"Questing - Any",
+						"Questing - Hunter",
+						"Questing - Titan",
+						"Questing - Warlock",
+						"King's Fall Raid - Normal",
+						"King's Fall Raid - Hard",
+						"Crota’s End – Hard - Full Raid",
+						"Crota’s End – Hard - Abyss",
+						"Crota’s End – Hard - The Bridge",
+						"Crota’s End – Hard - Shrieker Hallway",
+						"Crota’s End – Hard – Ir Yut",
+						"Crota’s End – Hard - Crota",
+						"Crota’s End – Normal - Full Raid",
+						"Crota’s End – Normal - Abyss",
+						"Crota’s End – Normal - The Bridge",
+						"Crota’s End – Normal - Shrieker Hallway",
+						"Crota’s End – Normal – Ir Yut",
+						"Crota’s End – Normal – Crota",
+						"Prison of Elders – Easiest Level",
+						"Prison of Elders – Mid Level Low",
+						"Prison of Elders – Mid Level High",
+						"Prison of Elders – Hardest Level",
+						"Vault of Glass – Hard - Full Raid",
+						"Vault of Glass – Hard - Confluxes",
+						"Vault of Glass – Hard - Oracles",
+						"Vault of Glass – Hard - Templar",
+						"Vault of Glass – Hard – Gorgon’s Maze",
+						"Vault of Glass – Hard – Jump Puzzle",
+						"Vault of Glass – Hard - Gatekeeper",
+						"Vault of Glass – Hard - Atheon",
+						"Vault of Glass – Normal - Full Raid",
+						"Vault of Glass – Normal - Confluxes",
+						"Vault of Glass – Normal - Oracles",
+						"Vault of Glass – Normal - Templar",
+						"Vault of Glass – Normal – Gorgon’s Maze",
+						"Vault of Glass – Normal – Jump Puzzle",
+						"Vault of Glass – Normal - Gatekeeper",
+						"Vault of Glass – Normal - Atheon",
+						"PVP - All Types",
+						"PVP - Iron Banner",
+						"PVP - Trials of Osiris",
+						"PVP – Control",
+						"PVP – Clash",
+						"PVP – Elimination",
+						"PVP - Inferno",
+						"PVP – Mayhem",
+						"PVP - Rift",
+						"PVP – Rumble",
+						"PVP – Skirmish",
+						"PVP – Salvage",
+						"PVP – Zone Control",
+						"PVP – Other",
+						"Other - Thorn Bounty – Xuyr",
+						"Other - Flawless Raider Achievement",
+						"Other - Miscellaneous (explain in notes)"
+				], :selected => params[:mission].present? ? params[:bounty][:mission] : resource.mission ), {include_blank: true}, :class =>'form-control chosen-select' %>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label>Players Must Be: Light Level</label>
+				<%= f.select :level,[
+					['Any', ''],
+					['290+', '290'],
+					['280+', '280'],
+					['270+', '270'],
+					['260+', '260'],
+					['250+', '250'],
+					['240+', '240'],
+					['230+', '230'],
+					['220+', '220'],
+					['210+', '210'],
+					['200+', '200']
+					], {:selected => params[:level].present? ? params[:bounty][:level] : resource.level}, :class =>'form-control chosen-select' %>
+
+
+
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label>Start Date / Time</label>
+		<%
+		start = long_date_time (f.object.start_date_time || Time.now.advance(hours: 1))
+		%>
+		<%= f.text_field :start_date_time, value: start, class: 'form-control date-time-picker', data: {start_date: start}, :help => 'Your events cannot be claimed after this start date/time.' %>
+	</div>
+
+
+	<div class="form-group">
+		<label>Details</label>
+		<%= f.text_area :details, :class => 'form-control', :rows=>'5'%>
+	</div>
+
+
+	<div class="form-group">
+		<label>Will You Offer a Donation:</label>
+		<% if current_user.can_create_paid_contracts? %>
+			<div class="input-group group-toggle">
+				<span class="input-group-addon">
+					<label class="switch">
+				      <input type="checkbox" class="switch-input" id="toggle-paid">
+				      <span class="switch-label" data-on="Yes" data-off="No"></span>
+				      <span class="switch-handle"></span>
+				    </label>
+				</span>
+				<%= f.number_field :price_in_dollars, placeholder: "Donation Amount In dollars", step: ".50", min: "0", class: 'form-control' %>
+			</div>
+		<% else %>
+
+			<div class="row">
+				<div class="col-md-12">
+					<input type="text" class="form-control" placeholder="Free" disabled>
+					<span class="help-block">
+						<% if current_user.country == "PR" %>
+							<small><span class="fa fa-warning"></span> Paid bounties are currently not available in Puerto Rico.</small>
+						<% else %>
+							<small><span class="fa fa-warning"></span> You are not able to post paid bounties. <%= link_to 'Subscribe', profile_subscription_path %> to unlock this feature.</small>
+						<% end %>
+					</span>
+					<%= f.hidden_field :price_in_dollars, value: 0 %>
+				</div>
+			</div>
+		<% end %>
+
+	</div>
+
+	<p>
+		Your bounty will be removed after 30 minutes if it is unclaimed.  Mercenaries are only obligated to play for up to two hours for the task you select.  They can drop out after the task is complete or after two hours have passed.
+	</p>
+	<hr>
+	<div class="clearfix form-group">
+	<%  if resource.status == "Claimed" or resource.status == "Pending Payment Notification from Paypal" %>
+		<%= link_to 'Cancel', posted_bounty_cancel_path(resource), class: 'btn btn-danger btn-lg' %>
+	<% end %>
+		<%= f.submit class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+	</div>
+<% end %>

@@ -1,0 +1,39 @@
+<%= define_grid(@users, show_filters: true, hide_csv_button: true, html: {class: 'table table-responsive admin-users table-striped data-tr'}) do |g|
+
+	g.column name: 'Username', attribute: 'username', detach_with_id: :user_filter, in_csv: false do | u |
+		link_to u.username, admin_user_path(u)
+	end
+	g.column name: 'Username', attribute: 'username', in_html: false do | u |
+		u.username
+	end
+
+	g.column name: 'Email', attribute: 'email', detach_with_id: :email_filter, in_csv: false do |u|
+		link_to u.email, admin_user_path(u)
+	end
+	g.column name: 'Email', attribute: 'email', in_html: false do |u|
+		u.email
+	end
+
+	g.column name: 'Registered', attribute: 'created_at', detach_with_id: :date_filter, in_csv: false do |u|
+		link_to long_date_time(u.created_at), admin_user_path(u)
+		end
+	g.column name: 'Registered', attribute: 'created_at', in_html: false do |u|
+		long_date_time u.created_at
+	end
+
+	g.column name: 'Confirmed At', attribute: 'confirmed_at', in_csv: false, filter: false do |u|
+		link_to long_date_time(u.confirmed_at), admin_user_path(u) if u.confirmed_at.present?
+	end
+	g.column name: 'Confirmed At', attribute: 'confirmed_at', in_html: false, filter: false do |u|
+		long_date_time u.confirmed_at if u.confirmed_at.present?
+	end
+
+  g.column name: 'Get Emails', attribute: 'notif_email' do |u|
+    link_to u.notif_email? ? "true" : "false", admin_user_path(u)
+  end
+
+  g.column name: '' do | u |
+		link_to 'Become User', admin_user_become_path(u), in_csv: true, :class => 'btn', :method => 'POST'
+	end
+
+end -%>

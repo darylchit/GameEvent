@@ -1,0 +1,95 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+			<div class="col-md-9">
+				<div class="row">
+						<div class="col-md-12">
+								<h2 class="mt0">My Events</h2>
+						</div>
+				</div>
+				<p id="notice"><%= notice %></p>
+				<div class="table-responsive">
+					<%= grid(@grid, show_filters: :no, hide_csv_button: true, html: {class: 'table table-responsive admin-games table-striped data-tr'}) do |g|
+						g.blank_slate do
+					    	content_tag :div, 'You have not claimed any bounties or contracts', class: 'no-results'
+						end
+
+						g.column name: 'Provided Assistance' do | c |
+							if c.seller.present?
+								link_to "#{profiles_path()}/#{c.seller.username}" do
+									# raw "#{image_tag(c.seller.avatar_url, class: 'avatar-sm')}"
+									raw "<h5> #{c.seller.username} </h5>"
+								end
+							else
+								""
+							end
+						end
+
+						g.column name: 'Requested Assistance' do  | c |
+							if c.buyer.present?
+								link_to "#{profiles_path()}/#{c.buyer.username}" do
+									raw "<h5> #{c.buyer.username} </h5>"
+								end
+							else
+								""
+							end
+						end
+
+						# g.column name: 'Event #', attribute: 'id' do | c |
+						# 	link_to c.id, claimed_contract_path(c)
+						# end
+
+						g.column name: 'Type', attribute: 'contract_type' do | c |
+							if c.contract_type == 'Bounty'
+								link_to 'Bounty', claimed_bounty_path(c)
+							else
+								link_to 'Contract', claimed_contract_path(c)
+							end
+						end
+
+						g.column name: 'Date', attribute: 'start_date_time' do | c |
+							if c.contract_type == 'Bounty'
+								link_to short_date_time(c.start_date_time), claimed_bounty_path(c)
+							else
+								link_to short_date_time(c.start_date_time), claimed_contract_path(c)
+							end
+						end
+
+						# g.column name: 'Duration', attribute: 'duration' do | c |
+						# 	link_to c.duration.to_s + ' Hrs', claimed_contract_path(c)
+						# end
+
+						g.column name: 'Status', attribute: 'status' do | c |
+							status = (c.is_closed_by_poster? ? 'Cancelled' : c.status)
+							if c.contract_type == 'Bounty'
+								link_to status, claimed_bounty_path(c)
+							else
+								link_to status, claimed_contract_path(c)
+							end
+						end
+
+						g.column do | c |
+							if c.contract_type == 'Contract'
+								if c.status == "Claimed"
+									link_to 'Cancel', claimed_contract_cancel_path(c), class: 'btn btn-danger btn-lg'
+								elsif c.is_closed? && !c.is_closed_by_poster? && c.seller_feedback_date_time.nil?
+									link_to 'Rate', claimed_contract_path(c), class: 'btn btn-info btn-lg'
+								end
+							else
+								if c.status == "Claimed"
+									link_to 'Cancel', claimed_bounty_cancel_path(c), class: 'btn btn-danger btn-lg'
+								elsif c.is_closed? && !c.is_closed_by_poster? && c.buyer_feedback_date_time.nil?
+									link_to 'Rate', claimed_bounty_path(c), class: 'btn btn-info btn-lg'
+								end
+							end
+						end
+
+					end -%>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

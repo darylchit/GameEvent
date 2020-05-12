@@ -1,0 +1,100 @@
+<% if game_collection and game_collection.length > 0%>
+  <section class="common_main mb0">
+    <div class="container">
+      <div class="block-grid clans games">
+        <div class="block-grid-header">
+          <br>
+          <div class="row mrg_btm_20 mrg_top_10">
+            <div class="col-md-10 col-sm-8">
+              <h2 class="mt0 mb0 hidden-xs">
+                <%= header %>
+              </h2>
+              <h2 class="mt0 mb0 text-center visible-xs ">
+                <%= header %>
+              </h2>
+            </div>
+            <div class="col-md-2 col-sm-4 text-right-md text-right-sm hidden-xs">
+              <%#= link_to 'View All', view_all_url, class: "btn btn-lightgrey btn-block" %>
+
+            </div>
+          </div>
+
+          <ul class="mss-list clearfix">
+            <li class="mss game-card wow fadeInUp" data-wow-delay="0s">
+              <div class="inner-box">
+                <div class="image">
+                  <%= image_tag(game_collection.first.game_jumbo,  class: 'hidden-xs' )%>
+                  <%= image_tag(game_collection.first.game_jumbo_mobile,  class: 'visible-xs' )%>
+                  <!-- TODO: Link to rosters grid with selected game as a query param -->
+                  <div class="mss-details">
+                    <div class="traperent">
+                      <h4 class="mb0 title_wrap mrg_left text-primary game-title"><%= game_collection.first.title %></h4>
+                      <div class="mt0 title_wrap mrg_left game-data">Release Date: <%= game_collection.first.release_date.present? ? short_date(game_collection.first.release_date) : '&mdash;'.html_safe %></div>
+                     </div>
+                  </div>
+
+                  <div class="overlay-box">
+                    <div class="overlay-inner">
+                      <div class="content jumbo">
+                        <% if current_user.present? %>
+                            <h3 class="add-to-library"><%= link_to "Add to Library", add_game_modal_path(:game_id => game_collection.first.id), remote: true %></h3>
+                        <% else %>
+                            <h3 class="add-to-library"><%= link_to "Add", new_user_session_path %></h3>
+                        <% end %>
+
+                        <% if game_collection.first.affiliate_network_link.present? %>
+                            <h3><%= link_to 'Buy', game_collection.first.affiliate_network_link, target: '_blank' %></h3>
+                        <% else %>
+                            <h3><a>Buy</a></h3>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <ul class="mss-list clearfix mb0">
+            <% game_collection[1..4].each_with_index do |game, index| %>
+            <li class="mss col-third-rel game-card wow fadeInUp" data-wow-delay="0s">
+              <div class="inner-box">
+                <div class="image">
+
+                  <!-- TODO: Link to rosters grid with selected game as a query param -->
+                  <%= image_tag(game.game_cover) %>
+                  <div class="mss-details">
+                    <div class="traperent">
+                      <h4 class="mb0 title_wrap mrg_left text-primary game-title"><%= game.title %></h4>
+                      <div class="mt0 title_wrap mrg_left game-data">Release Date: <%= game.release_date.present? ? short_date(game.release_date) : '&mdash;'.html_safe %></div>
+                    </div>
+                  </div>
+
+                  <div class="overlay-box">
+                    <div class="overlay-inner">
+                      <div class="content">
+                        <% if current_user.present? %>
+                            <h3><%= link_to "Add to Library", add_game_modal_path(:game_id => game.id), remote: true %></h3>
+                        <% else %>
+                            <h3><%= link_to "Add to Library", new_user_session_path %></h3>
+                        <% end %>
+
+                        <% if game.affiliate_network_link.present? %>
+                            <h3><%= link_to 'Buy', game.affiliate_network_link, target: '_blank' %></h3>
+                        <% else %>
+                            <h3><a>Buy</a></h3>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <%end%>
+          </ul>
+          <%#= link_to 'View All', view_all_url, class: "btn btn-lightgrey btn-block mrg_top_20 visible-xs " %>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>

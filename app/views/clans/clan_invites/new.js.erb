@@ -1,0 +1,17 @@
+
+$('#global_model').html('<%= j render "invite_user_form" %>');
+$('#user_invite_to_clan').modal();
+
+$('[data-toggle="tooltip"]').tooltip();
+
+if ($('.game-item input[type="radio"]').length < 2 && $('.game-item input[type="radio"]').length != 0) {
+	$('.game-item input[type="radio"]').parent().parent().parent().addClass('selected');
+	$('input[type="submit"]').removeClass('disabled').tooltip('destroy');
+	$('.game-item input[type="radio"]').prop('checked',true);
+}
+
+$('.game-item input[type="radio"]').on('change', function() {
+	$('.modal-body label.selected').removeClass('selected');
+	$(this).parent().parent().parent().addClass('selected');
+	$('input[type="submit"]').removeClass('disabled').tooltip('destroy');
+});

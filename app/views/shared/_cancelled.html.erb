@@ -1,0 +1,8 @@
+<div class="alert alert-dismissable alert-danger text-center">
+    <h2>
+        <%= "This #{ params[:controller].split('/')[0].singularize } was cancelled on #{ short_date(event.cancelled_at) }" %>
+    </h2>
+    <p>
+        <%= link_to "CREATE A NEW #{ params[:controller].split('/')[0].singularize.upcase }", new_path, class: 'btn btn-danger', target: '_blank' %>
+    </p>
+</div>

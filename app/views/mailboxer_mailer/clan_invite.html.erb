@@ -1,0 +1,11 @@
+<p><%= @invite.user.username %> wants to join clan <%= @invite.clan.name %></p>
+<div class="row">
+  <%= form_for @clan_invite, method: :put do |f| %>
+    <%= f.hidden_field(:status, value: "confirmed") %>
+    <%= f.submit "Accept Request", class: 'btn btn-primary' %>
+  <% end %>
+  <%= form_for @clan_invite, method: :put do |f| %>
+    <%= f.hidden_field(:status, value: "declined") %>
+    <%= f.submit "Deny Request", class: 'btn btn-primary' %>
+  <% end %>
+</div>

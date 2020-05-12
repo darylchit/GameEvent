@@ -1,0 +1,1016 @@
+.affix {
+    top: 0;
+    width: 100%;
+}
+
+.affix + .set_box1{
+    padding-top: 80px;
+}
+.set_tab_icon_index{z-index: 9;}
+.custom_links, .video_url, .clan_questions{
+	i{
+		margin-top: 35px;
+		font-size: 30px
+	}
+	.add_button{
+		font-size: 25px;
+	}
+	.remove_link{
+		cursor: pointer;
+	}
+}
+.remove_video{
+	width: auto;
+}
+.topmrg_20{
+	margin-top: 20px;
+}
+.botmrg_0{
+  margin-bottom: 0px;
+}
+.botmrg_15{margin-bottom: 15px;}
+.topmrg_35{margin-top: 35px;}
+.btn-full{
+	width: 100%;
+}
+.host-title{text-align:center; margin:10px auto; display:block;font-size:22px;}
+.gray_font{color: #A8A8A8;display: inline-block;}
+.pending_application_mobile{
+		display: none;
+}
+.padding-left_0 {margin-left: -7px !important; }
+.padding-left_button {margin-left: 15px !important; }
+.message_body{width: 80% !important;}
+.set_member_padding{margin-bottom: 0px; margin-top: 0px;}
+.set_member_header_padding{ margin-top: 0px;}
+.set_black_color{ color: #000000; }
+.set_img_position{position: fixed; margin-top: -430px; z-index: 10;}
+.set_bg_flat{background: #0f0f0f !important;}
+.set_box_shadow{box-shadow: none!important;}
+.set_header_position{margin-top: 100px;}
+.set_img_border_tab{border-bottom: solid 3px #ddaf3b; }
+.set_plus_btn_margin{margin-top: 125px !important;}
+/*.set_image_padding{height: 420px !important;width: 100% !important;}*/
+.set_image_padding{width: 100% !important;}
+
+.set_margin_action_btn{margin-bottom: 2px;}
+.set_width_10{width: 10%;}
+.hide_content_tabs{width: 100%;
+    display: block;
+    height: 90px;
+    background: #0f0f0f;
+    position: fixed;
+    z-index: 2;
+    top: 27px;}
+.container .set_top_margin_content{margin-top: 495px !important;}
+.container .remove_top_margin_content{margin-top: 140px !important;}
+.require_bold{font-weight: bold !important;}
+.set_color_gold{color: #ddaf3b;}
+.set_outline{box-shadow: 0 0 1pt 2pt black;}
+.set_grey_border_card{border: 1px solid grey; border-radius: 7px;}
+.set_padding_banner{padding: 0 10px 10px 0;}
+a:hover, a:focus {text-decoration: none !important;}
+.col-three:not(:nth-child(3n)){ margin-right: 0.1%;}
+.col-three{width: 33%; margin-right: 0px; display: inline-table;; margin-bottom: 25px; }
+.col-four:not(:nth-child(4n)){ margin-right: 2%;}
+.col-four{width: 23%; margin-right: 0%; float: left; margin-bottom: 25px; }
+.padding_right_0{padding-right: 0;}
+.clan_img_height{height: auto !important;}
+.notice_page_radius{border-radius: 10px;}
+.btn_new_notice {width: 80%; margin: 0 auto; text-align: right; margin-left: 85px}
+.clans_cover_bg{
+  overflow: hidden;
+
+  .active_games{
+    .fa.fa-star, .fa.fa-star-half-empty {
+      color: #333333;
+    }
+  }
+}
+.clans_btn{width: 35%;}
+.set_tabs_width{width: 100%;}
+.set_width_tabs .profile-actions .set_tabs_padding{width: 8%; padding: 0; font-size: 15px;}
+/*set font of clans content*/
+.card-wrapper .card-content .card-pad p {font-size: 14px;}
+/*#box1{position: relative; z-index: 8;}*/
+.clan_li_set_color_size{color: #ddaf3b;}
+.set_icon_size{font-size: 1.8em; display: block;}
+.set_clan_btn_style{background: transparent; border:none; outline:none; padding: 0;vertical-align: bottom;}
+.set_line_before_li {border-left: #777777 solid 1px;}
+.modal-open {padding-right: 0 !important;}
+a:focus{outline: none;}
+.tab_icons {
+    width: 100%;
+    border-bottom: solid 3px #ddaf3b;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    background: #000;
+    padding: 16px;
+}
+/*.tab_icons.fixed_menu {
+	position: fixed;
+	top: 65px;
+	z-index: 11;
+}*/
+.tab_icons .profile-actions ul {
+    margin: 0;
+    font-size: 0px !important;
+}
+.set_50_padding{min-height: 900px;}
+.member_table{
+    thead{
+      background-color:  #ddaf3b;
+      color: black;
+      border-radius: 7px !important;
+      font-weight: bold !important;
+    }
+  }
+/*.btn_new_notice {width: 100%; margin: 0 auto; text-align: right; margin-left: 95px}*/
+.text_justify{text-align: justify;}
+.video_name_size{font-size: 25px;}
+.name_lbl_permission{margin-left: 95px;}
+.name_lbl_permisstion_row{
+  margin-top: 25px;
+}
+
+
+.notice_tab_buttons{margin-bottom: -15px; margin-right: -15px;}
+.members_tab_rank_name{border-radius: 5px;}
+.set_alignment_pending_app_text{text-align: left;}
+.set_table_header_banned_user{font-size: 15px; font-weight: bold; background-color: #ddaf3b; color: #000;}
+.set_margin_top_table{margin-top: 70px;}
+.table-hover > tbody > tr:hover {background-color: rgba(0,0,0,0.4) !important;}
+.tab-content .set-padding-clan-name{padding-top: 0px !important; padding-bottom: -5px !important;}
+.clan-header .set_mrg_0_clan_name{margin-top: 0px;}
+.clan-header .set_mrg_10{margin-bottom: -10px !important;}
+.set_left{float: left;}
+.video_icon.set_mrg_top{margin-top: 20px;}
+.mrg_btm_10{margin-bottom: 10px;}
+.new_clan_message{
+	.btn-discord, .btn-curse{width: 140px !important;}
+	.set_mrg_left{margin-left: -14px;resize: none;}
+	.set_post_btn{margin-left: -10px;}
+	.set_mrg_left_no_btn{margin-left: 6px;}
+	.set_post_btn_no_btn{margin-left: 6px; width: 100%;}
+	/*.post_btn_with_no_btn{width: 150px;}*/
+	.resize_none{resize: none;}
+}
+
+.tab-content{
+	.text-white{color: #fff;}
+}
+.clan_edit_page{
+	.set_curson_pointer{cursor: pointer;}
+	.remove_right_padding{padding-right: 0;}
+    .clan_rank_name_lg{
+      font-size: 14px;
+      text-align: center;
+    }
+	@media(max-width: 767px){
+		.width_100{width: 100%;}
+		.rank_name{margin-left: 10px;}
+	}
+}
+.clan_profile_page_main{
+	.remove_padding{padding-left: 5px; padding-right: 5px;}
+	.mrg_top_15{margin-top: 15px;}
+
+	.member_card{
+		margin-right: 10px !important;
+	}
+	.member_card:last-child{
+		margin-right: 0px !important;
+	}
+  .clan-header{
+    h1{
+      margin-top: 0px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      -webkit-font-smoothing: antialiased;
+      font-size: 36px;
+      margin-bottom: 13.5px;
+      font-family: inherit;
+      font-weight: normal;
+      line-height: 1.1;
+      color: inherit;
+    }
+  }
+
+    #chat_messages.member{
+      .clan_message_remove{
+        display: none;
+      }
+    }
+    #chat_messages.host{
+      .clan_message_remove{
+        cursor: pointer;
+        color: #777777;
+      }
+      .clan_message_remove:hover{
+        color: #777777;
+      }
+      .mobile_chat{
+        .clan_message_remove{
+          font-size: 20px;
+        }
+      }
+    }
+
+    #upcoming_clan_event_desktop{
+      margin-top: 24px;
+    }
+
+
+	@media(max-width: 767px){
+		.mobile_card.col-half-xs{ width: 49% !important; max-width: 49% !important; }
+		.member_card{margin-right: 2px !important;}
+	}
+
+
+}
+.clan_profile_page{
+
+  .player-card:hover{
+    border-color: #ddaf3b;
+  }
+  .col-fifth{
+    margin-bottom: 20px;
+  }
+
+  .lightgrey-bg{
+    background-color: #333333;
+    color: white;
+    h2{
+      margin: 0px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+  #clan_members{
+    .add-icon-top{
+      top: 10px;
+    }
+    .player-card .player-add-menu li a, .player-card .player-add-menu li button{
+      background: rgba(0, 0, 0, 0.8);
+    }
+    .thump-pos{padding-left: 7px;}
+  	.circle-main{
+	  	font-size: 30px;
+	    position: absolute;
+	    text-align: left;
+	    top: -4px;
+	    left: 54px;
+    }
+    @media (max-width: 767px){
+    .thump-pos{padding-left: 15px;}
+	  .circle-main{
+	  	font-size: 25px;
+	    position: absolute;
+	    text-align: left;
+	    top: -3px;
+	    left: 58px;
+    }
+    }
+  }
+  .set-border{
+    border: 1px solid grey;
+    border-radius: 7px;
+  }
+  .vedio_box{
+	  border: 1px solid grey;
+	  border-radius: 7px 7px 0px 0px;
+	  background-color: #ddaf3b;
+	  color: black;
+	  h3{
+	    margin-top: 10px;
+	    margin-bottom: 10px;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	  }
+
+	}
+	.vedio_box:hover{
+	  border: 1px solid #ddaf3b;
+	}
+	@media (max-width: 767px){
+	 .vedio_box{
+	    border-radius: 0px;
+	  }
+	  ul .card-content .card-body.card-mobile {
+	  	width: 100%;
+	   	padding: 3px;
+	  }
+	}
+    @media (min-width: 768px) {
+      .host-name {
+        h2{
+          font-size: 46px;
+        }
+      }
+    }
+
+}
+.clan_applications .table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td {
+    border-top: 1px solid #ddaf3b;
+}
+.set_view_more_btn{float: right !important;}
+.set_desk_view_more_mrg{margin-top: -40px;}
+.set_smiley{margin-right: 330px;}
+.clan_edit_page, .pending_application_desktop{
+		.white_star_size img {max-width: 14px;}
+}
+.share-button{
+	.share_btn{
+			position: absolute;
+	    top:80px;
+	    right: 20px;
+	    padding: 11px;
+	    border: 2px solid #ddaf3b;
+	    width: 40px;
+	    height: 40px;
+	    line-height: 1;
+	    text-align: center;
+	    border-radius: 26px;
+	    color: #ddaf3b;
+	    font-size: 15px;
+	    background-color: black;
+
+	 }
+
+	@media (max-width: 550px){
+		.share_btn{
+        top: 66px;
+        right: 15px;
+        width: 25px;
+        height: 25px;
+        padding: 3px;
+      }
+ 	}
+
+}
+.clans_page{
+  padding-top: 27px;
+}
+.clans_page, .player-card{
+	.logo{width: 18%;}
+	.avatar-md2{width: 30%;}
+	.btn_width{width: 48%;}
+	.gold_row{border-bottom: solid 3px #ddaf3b;}
+	.black-color{color: black;}
+	.mrg_top_32{margin-top: 32px;}
+	.set_relative{position: relative;}
+	.set_absolute{position: absolute; top:18%; left: 0;width: 100%;line-height: 1;display:none; font-size: 14px;}
+	.set_image_animation_box{overflow:hidden;}
+	.set_image_animation {
+		background-position:center;
+		transition: all 1s ease;
+	  -moz-transition: all 1s ease;
+	  -ms-transition: all 1s ease;
+	  -webkit-transition: all 1s ease;
+	  -o-transition: all 1s ease;
+	}
+	.set_image_animation:hover {
+		background-color: rgba(222, 175, 57,0.75);
+	  transform: scale(1.5);
+	  -moz-transform: scale(1.5);
+	  -webkit-transform: scale(1.5);
+	  -o-transform: scale(1.5);
+	  -ms-transform: scale(1.5); /* IE 9 */
+	  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=1.5, M12=0, M21=0, M22=1.5, SizingMethod='auto expand')"; /* IE8 */
+	   filter: progid:DXImageTransform.Microsoft.Matrix(M11=1.5, M12=0, M21=0, M22=1.5, SizingMethod='auto expand'); /* IE6 and 7 */
+	}
+
+	.set_image_animation:before {
+	  position: absolute;
+	  top: 0; right: 0; bottom: 0; left: 0;
+	  background-color: inherit;
+	  content: '';
+	}
+
+	@media (max-width: 767px){
+		.btn_width{width: 100%;}
+		.logo{width: 30%;}
+		.mrg_top_32{margin-top: 0;}
+        .active_games{
+          .mb5{
+            margin-bottom: 2px;
+          }
+          .mt5{
+            margin-top: 2px;
+          }
+          .bold{
+            font-size: 12px;
+          }
+
+        }
+	}
+}
+/*@media only screen and (max-width: 1930px){
+	.set_img_position{position: fixed; margin-top: -710px; z-index: 10;}
+	.container .set_top_margin_content {margin-top: 740px !important;}
+}
+@media  (max-width: 1800px){
+	.set_img_position{position: fixed; margin-top: -700px; z-index: 10;}
+}
+@media  (max-width: 1700px){
+	.set_img_position{position: fixed; margin-top: -650px; z-index: 10;}
+}
+@media  (max-width: 1600px){
+	.set_img_position{position: fixed; margin-top: -600px; z-index: 10;}
+}
+@media  (max-width: 1500px){
+	.set_img_position{position: fixed; margin-top: -550px; z-index: 10;}
+}
+@media  (max-width: 1400px){
+	.set_img_position{position: fixed; margin-top: -500px; z-index: 10;}
+}
+@media  (max-width: 1350px){
+	.container .set_top_margin_content {margin-top: 520px !important;}
+	.set_img_position{position: fixed; margin-top: -450px; z-index: 10;}
+}*/
+
+
+@media only screen and (max-width: 1150px){
+	.chat_btn_width .btn-discord, .chat_btn_width .btn-curse {
+	    width: 40%;
+	}
+	.col-three:not(:nth-child(2n)){ margin-right: 2%;}
+	.col-three{width: 48%;}
+	.clans_btn_mrg{margin-left: -22px;}
+	.clans_btn{width: 40%;}
+	.set_width_tabs .profile-actions .set_tabs_padding {width: 17%; border-left: none !important; margin-top: 5px;}
+	.affix + .set_box1{
+    padding-top: 150px;
+	}
+}
+@media  (min-width: 768px) and (max-width: 991px){
+  .btn_new_notice{margin-left: 120px;}
+	.cover-bg{ height: 185px; overflow: hidden; }
+	.set_icon_size{font-size: 1.25em;}
+	.message_body {width: 100% !important;}
+	.clans_btn{width: 49%;}
+	.clans_btn_mrg{margin-left: -16px;}
+	.set_left_margin{margin-left: 0px !important}
+	.set_bottom_margin{width: 100% !important; margin-bottom: 5px !important}
+	.container .set_top_margin_content{margin-top: 400px !important;}
+	.set_img_position{position: fixed; margin-top: -290px; z-index: 10;}
+	.hide_content_tabs{height: 110px;}
+
+	.clan_questions{
+		.set_close_btn{margin-top: -125px;float: right;}
+		.set_close_btn_with_error{margin-top: -140px;;float: right;}
+
+	}
+
+	.video_url{
+		.set_close_btn{margin-top: -215px;float: right;}
+		.set_close_btn_with_error{margin-top: -240px;float: right;}
+	}
+
+	.custom_links{
+		.set_close_btn{margin-top: -215px;float: right;}
+		.set_close_btn_with_error{margin-top: -240px;float: right;}
+	}
+
+	.profile-actions {
+		font-size: 15px !important;
+
+		li:not(.breaker) {
+	    	@media only screen and (max-width : 768px) {
+				padding: 0 2% !important;
+	    	}
+	  }
+	}
+
+	.affix + .set_box1{
+    padding-top: 100px;
+	}
+
+}
+
+@media (min-width:768px) and ( max-width:790px) {
+	.set_icon_size{font-size: 1.25em;}
+
+}
+@media(min-width: 991px){
+	.cover-bg{
+			height: 265px;
+	    overflow: hidden;
+	}
+}
+@media(max-width: 1150px) {
+  .player_profile_edit_page{
+    .btn-full{margin-top: 10px;}
+  }
+  .build_player_profile{
+    .btn-full{margin-top: 10px;}
+  }
+
+}
+@media(max-width: 767px){
+
+	.nav-tabs > li.right{
+		width:100% !important;
+	}
+	.custom_links, .video_url, .clan_questions{
+		i{
+			margin-top: 0px;
+			font-size: 28px
+		}
+	}
+	.remove_video{
+		width: auto;
+	}
+	.box-color{
+		border: 1px solid #ddaf3b;
+		padding: 15px 0;
+		margin-bottom: 15px;
+	}
+	.padding_set{padding: 0 15px;}
+	.move_plus_button {
+		margin-top: 3cm !important;
+		margin-right: 1.5cm !important;
+	}
+
+	.tab_icons {
+	   width: 100% !important;
+	}
+	.clan-media .media-body.media-middle {
+    padding-left: 1px;
+    font-size: 13px;
+	}
+	.xs_notice_box {width: 100% !important;}
+	.set-notice-button {margin-top: 6px !important; margin-right: auto !important;}
+	a.button-edit-delete {display: block !important; width: 100% !important; margin-bottom: 10px !important;}
+	.custom-link-buttons {margin-bottom: 10px !important; margin-left: 4px !important; }
+	.padding-left_0 {margin-left: -4px !important; }
+	.padding-left_button {margin-left: -15px !important; }
+  .set_width_chat{width: 100% !important;}
+  ul.set_player_menu li a {background-color: rgba(0,0,0,0.9) !important;}
+  .view_more_btn{width: 100% !important;}
+  .message_body{width: 100% !important;}
+  .set_margin_action_btn{margin-bottom: 2px;}
+  .set_margin_donation_btn{margin-bottom: 4px;}
+	.set_table_width{width: 100%; overflow-x: scroll;}
+	.col-three:not(:nth-child(3n)){ margin-right: 0%;}
+	.col-three:not(:nth-child(2n)){ margin-right: 0%;}
+	.col-three{width: 100%; margin-right: 0%; margin-bottom: 25px; }
+	.btn_new_notice {width: 100% !important; text-align: center !important; margin-left: 0px !important}
+	.clans_btn{width: 100%;}
+	.clans_btn_mrg{margin-left: 0px;}
+	/*set font size on clans content*/
+	.card-wrapper .card-content .card-pad p {font-size: 12px;}
+	.clans_set_font_size_name{font-size: 25px;}
+	.clans_set_font_size_motto{font-size: 12px;}
+	.set_icon_size{font-size: 1.25em;}
+
+	/*.tab_icons {width: 100%; margin-top: -3px !important;}*/
+
+	/*.tab_icons.fixed_menu {
+		width: 100%;
+		position: fixed!important;
+	    top: 16px !important;
+	    z-index: 11!important;
+
+	}*/
+
+	.set_left_margin{margin-left: 0px !important}
+	.set_bottom_margin{width: 100% !important; margin-bottom: 5px !important;}
+	.set_img_position{position: fixed; margin-top: -310px; z-index: 10;}
+
+	.set_plus_btn_margin{margin-top: 70px !important;}
+	.set_text_center{text-align: center;}
+	/*.container .set_top_margin_content{margin-top: 3px !important;}*/
+	.set_image_padding{
+		/*height: 340px !important;*/
+    width: 100% !important;
+  }
+  .clan-header h3 {margin-top: 0px;}
+	.tab-content .set-padding-clan-name{margin-bottom: -20px;}
+
+  .hide_content_tabs{width: 100%;
+    display: block;
+    height: 140px;
+    background: #0f0f0f;
+    position: fixed;
+    z-index: 1;
+    top: 0px;}
+	.container .set_top_margin_content{margin-top: 510px !important;}
+	.btn_new_notice {width: 100%;}
+	.set-padding-clan-name h2 {margin-top: 0;}
+	.tab_icons .profile-actions ul {
+    margin: 0;
+    font-size: 20px !important;
+    margin-top: -10px;
+    margin-bottom: -10px;
+	}
+	.tab_icons{
+		ul{
+			li{padding-right: 5px;}
+		}
+	}
+	.clan-header h3{font-size: 15px;}
+	.clan-header p{font-size: 0.8em;}
+	.notice_box_mrg{margin-top: 6px !important;}
+	.set_toggle_alignment_clans{text-align: center;}
+	.pending_application_desktop{
+		display: none;
+	}
+	.pending_application_mobile{
+		display: block;
+	}
+	.set_top_mrg{margin-top: 10px;}
+
+	.set_plus_mrg{top: -3px; right: 20px;}
+	.clan_edit_page.set_padding_0{ padding: 0; overflow: hidden;}
+	ul.set_mrg_0.nav.nav-tabs.pull-right.right li {margin: 0;}
+	ul.set_mrg_0.nav.nav-tabs.pull-right.right li a{width: 100% ; border-radius: 0px;}
+	.clan_edit_page, .pending_application_mobile{
+		.white_star_size img {max-width: 7%;}
+		.set_date_size{font-size: 14px;}
+		.pending_application_mobile{
+			.set_date_size{font-size: 17px;}
+			.set_gold_line{border-bottom: 1px solid #ddaf3b;}
+		}
+	}
+	#edit_clan_form.set_padding_form{padding: 0 15px;}
+  #clan_recurring_event.set_padding_form{padding: 0 15px;}
+	/*.set_row_mrg{margin-left: 15px;margin-right: 15px;}
+	.set_remove_row__mrg{margin-left: -15 !important;margin-right: 0!important;}
+*/
+
+	.new_clan_message{
+		.mrg_left_post_message{margin-left: -6px;}
+		.filed_width_100{width: 100%;}
+	}
+	.clan_questions{
+		.set_close_btn{margin-top: -90px;float: right;}
+		.set_close_btn_with_error{margin-top: -115px;;float: right;}
+
+	}
+
+	.video_url{
+		.set_close_btn{margin-top: -175px;float: right;}
+		.set_close_btn_with_error{margin-top: -200px;float: right;}
+	}
+
+	.custom_links{
+		.set_close_btn{margin-top: -175px;float: right;}
+		.set_close_btn_with_error{margin-top: -200px;float: right;}
+	}
+
+	.set_mrg_tbl_application{margin-top: 10px;}
+	.set_plus_mrg_application{margin-right: 10px;margin-top: -10px;}
+	.set_mrg_questions{margin-right: 15px; margin-left: 15px;}
+	.set_view_more_mrg{margin-left: 0px;margin-right: 0px;}
+	.affix + .set_box1{
+    padding-top: 100px;
+	}
+
+}
+.clan_motto{
+  font-size: 30px;
+}
+.message-body{
+  p{
+    text-align: justify;
+  }
+}
+@media(max-width: 750px){
+	.container .set_top_margin_content{margin-top: 500px !important;}
+}
+
+@media(max-width: 700px){
+	.container .set_top_margin_content{margin-top: 470px !important;}
+}
+@media(max-width: 650px){
+	.container .set_top_margin_content{margin-top: 450px !important;}
+}
+@media(max-width: 600px){
+	.container .set_top_margin_content{margin-top: 420px !important;}
+	.set_img_position{position: fixed; margin-top: -280px; z-index: 10;}
+	.btn-discord {width: 100%;margin: 10px auto;display:block;}
+	.btn-curse {width: 100%;margin: 10px auto;display:block;}
+	.action_button_width{font-size: 11px;}
+
+	.avatar-sm{width: 100%;height: 100%;}
+	/*.clan-header h3{font-size: 25px;}*/
+	/*.clan-header p{font-size: 20px;}*/
+}
+@media(max-width: 550px){
+	.container .set_top_margin_content{margin-top: 400px !important;}
+}
+@media(max-width: 530px){
+	/*.clan-header h3{font-size: 20px;}*/
+	/*.clan-header p{font-size: 15px;}*/
+	.container .set_top_margin_content{margin-top: 380px !important;}
+	.set_img_position{position: fixed; margin-top: -180px; z-index: 10;}
+
+}
+@media(max-width: 500px){
+	.container .set_top_margin_content{margin-top: 360px !important;}
+	.set_width_tabs .profile-actions .set_tabs_padding {font-size: 13px;}
+	.tab_icons{padding: 16px 0px;}
+	.clan_li_set_color_size{top: -17px;}
+
+}
+
+@media(max-width: 480px){
+	.container .set_top_margin_content{margin-top: 340px !important;}
+	.btn-full{margin-top: 10px;}
+	.clan-stats .roster-list dt{margin-right:10px;}
+	.clan-stats .roster-list dt, .roster-list  {font-size: 14px;}
+    .clan_edit_page{
+      h3{
+        text-align: center;
+      }
+    }
+   .clan-messages{
+     padding: 0px;
+   }
+  li.message .message-content{
+    padding: 0px 0px ;
+  }
+  .clan-messages .message .message-container .message-content {
+
+    border: 1px solid #ddaf3b !important;
+    margin-top: 10px !important;
+    padding: 10px;
+  }
+  .notice_tab_buttons{ margin-right: 0px;}
+
+  li.message .mobile_chat{
+    padding: 0px 2px 4px 2px;
+  }
+  .clan_motto{
+    font-size: 25px;
+  }
+
+  .clan_edit_page, .pending_application_mobile{
+		.pending_application_mobile{
+			.set_xs_padding{padding-right: 0px;}
+		}
+	}
+  .clan_profile_page_main{
+    #applications_modal_tab{
+      .pdr0{
+        padding-right: 0px;
+      }
+    }
+    #pending_application_mobile{
+      border-top: 1px solid #ddaf3b;
+      margin-left: -15px;
+      margin-right: -15px;
+    }
+  }
+}
+@media(max-width: 420px){
+	/*.container .set_top_margin_content{margin-top: 320px !important;}*/
+
+	/*.clan-header h3{font-size: 17px;}*/
+	/*.clan-header p{font-size: 14px;}*/
+}
+
+@media(max-width: 400px){
+	.container .set_top_margin_content{margin-top: 330px !important;}
+	.set_width_tabs .profile-actions .set_tabs_padding {font-size: 11px;}
+	.clan_li_set_color_size{top: -15px;}
+	.clan_edit_page{
+		.pending_application_mobile{
+			img.set_img_height{height: 91px;}
+		}
+	}
+	.pending_application_mobile{.set_font_size{font-size: 15px;}}
+}
+
+@media(max-width: 380px){
+	.container .set_top_margin_content{margin-top: 290px !important;}
+	.pending_application_mobile{.set_font_size{font-size: 14px;}}
+
+	.clan_edit_page, .pending_application_mobile{
+		.white_star_size {max-width: 9%;}
+		.set_date_size{font-size: 12px;}
+		.pending_application_mobile{
+			.set_date_size{font-size: 12px;}
+		}
+		.set_plus_mrg {
+		    top: -3px;
+		    right: 20px;
+		}
+	}
+}
+
+@media(max-width: 360px){
+	.container .set_top_margin_content{margin-top: 280px !important;}
+	.pending_application_mobile{.set_font_size{font-size: 13px;} .set_date_size{font-size: 10px;}}
+
+}
+
+@media(max-width: 350px){
+	.container .set_top_margin_content{margin-top: 270px !important;}
+	.set_width_tabs .profile-actions .set_tabs_padding {font-size: 10px;}
+	.btn-span{display: block;}
+}
+@media(max-width: 340px){
+	.container .set_top_margin_content{margin-top: 270px !important;}
+
+	.btn-span{display: block !important;}
+}
+
+
+.pending_application_desktop{
+	td{
+		vertical-align: inherit !important;
+	}
+}
+.avatar-sm{width: 100%;
+    height: 100%;}
+.clan_edit_page{
+  padding-top: 27px;
+     .logo{width: 18%}
+     .gold-row{
+       border-bottom: solid 3px #ddaf3b;
+     }
+	.nav-tabs > li > a{
+		border: 0;
+		border-radius: 0;
+		margin-right: 0;
+	}
+	.nav-tabs > li > a:hover {
+		background-color: #ddaf3b;
+		border: 0px;
+		color: #000;
+	}
+	.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+		background-color: #ddaf3b;
+		border: 0px;
+		color: #000;
+	}
+	ul.right{
+		width: 100%;
+	    text-align: right;
+	}
+	.nav-tabs > li.right{
+		float: none;
+	    margin-bottom: -1px;
+	    display: inline-block;
+	    width: 168px;
+	    text-align: center;
+	    margin-right: 0px;
+      margin-left: -4px;
+	}
+	.nav-tabs > li.right_width{
+		float: none;
+	    margin-bottom: -1px;
+	    display: inline-block;
+	    width: 100%;
+	    text-align: center;
+	}
+    .nav-tabs {
+      border-bottom: 3px solid #ddaf3b;
+      border-top: 3px solid #ddaf3b;
+    }
+    hr{
+      border-top: 1px solid #ddaf3b;
+    }
+    .member_table{
+      thead{
+        background-color:  #ddaf3b;
+        color: black;
+        border-radius: 7px !important;
+
+      }
+    }
+  .rank_option{
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+  .text-area-twitch-clan-copy{
+    background-color: #191919;
+    color: #ddaf3b;
+    padding: 10px;
+    border: none;
+    text-align: center;
+    font-size: 22px;
+
+  }
+  .twitch-post-form-page{
+    margin-bottom: 0px;
+  }
+}
+
+#clan-links{
+  .circle_logo {
+    width: 1.75em;
+    line-height: 1.6em;
+    background: rgba(221, 175, 59, 0.00);
+    color: #fff;
+    border-radius: 7em;
+    border: 2px solid #ddaf3b;
+    width: 52px !important;
+    height: 52px !important;
+
+    .scuf{
+      width: 70%;
+    }
+
+  }
+}
+.clan_spec_tab{
+	dd{
+		display: flex;
+	}
+	.roster-list{
+		.text-primary{
+			float: left;
+			margin-right: 5px;
+		}
+		.text-grey{
+			display: flex;
+		}
+	}
+	.three_column{
+		display: table;
+		margin: 0 auto;
+	}
+}
+
+.justify-text{text-align: justify;}
+a.button-size-notice{width: 70px; margin-right: 6px;}
+.clan-messages .message .message-container .message-content{border: 2px solid #ddaf3b;}
+.clan-messages .message .message-container .message-user{border-radius: 25px;border: 2px solid #ffffff;}
+.clan-messages .message .message-container .mobile-chat-date{font-size: 10px; color: lightgrey;}
+.padding_set_spec{padding: 0 30px 0 30px;}
+
+.baner-border {
+		margin-top: 0px;
+    margin-bottom: 22px;
+}
+.player-card-remove-radius{
+		border-radius: 0px !important;
+}
+
+.media-object {
+    display: block;
+    width: 52px !important;
+    height: 52px !important;
+}
+
+.helper-text {word-break: break-all; margin-bottom: 0px;}
+.clear {clear:both;}
+/*.container .set-well-marging{margin-top: -55px !important;}*/
+
+
+.set-subject-bold {font-weight: bold !important;}
+.set-notice-button {margin-top: -36px;}
+.primary-text h3 {margin: auto !important;}
+li.message .reduce_size {width: 60px !important;}
+.set_chat_text{margin-top: 0px;}
+
+.well{ float: left; width: 100%; }
+.font_color_white{color: #ffffff;}
+.video_icon{
+    font-size: 70px;
+    text-align: center;
+    margin-top: -20px;
+    margin-bottom: -20px;
+  }
+
+#clan_applications_modal .video_icon{
+	padding-top: 20px;
+}
+.set_table_header{font-size: 20px; font-weight: bold;color: #000; background-color: #ddaf3b;}
+.set_table_align {text-align: center;}
+hr {margin-top: 24px;
+    margin-bottom: 24px;}
+
+// clan application popup
+#clan_application_notification_modal{
+  .text-lightgrey{
+    color: lightgrey;
+  }
+  .avatar-sm{
+    width: 30%;
+    border-radius: 7px;
+    margin-top: 20px;
+  }
+  .applicant-data{
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: solid 3px #ddaf3b;
+    .value{
+      color: lightgrey;
+      padding: 0;
+    }
+  }
+  .questions-answer{
+    margin-top: 20px;
+  }
+  @media(max-width: 767px){
+    .avatar-sm{
+      width: 50%;
+    }
+  }
+}

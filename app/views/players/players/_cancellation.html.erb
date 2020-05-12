@@ -1,0 +1,30 @@
+<%
+canceller = User.find contract.canceler_id
+%>
+
+<h3>Cancellation</h3>
+<div class="container-box cancellation-details"> 
+  <div class="row">
+    <div class="col-md-12">
+      
+        <h4><span class="text-primary">Initiated by: </span><%= canceller.username %></h4>
+        <h4><span class="text-primary">Cancellation Time: </span><%= contract.cancelled_at.strftime "%Y/%m/%d %I:%M%P" %></h4>
+        <h4><span class="text-primary">Reason: </span><%= contract.cancellation_reason %></h4>
+      <% if contract.cancellation_note.present? %>
+        <h4><span class="text-primary">Note:</span></h4>
+          <div class="note">
+            <%= simple_format contract.cancellation_note %>
+          </div>
+      <% end %>
+      <% if contract.cancellation_assignee != canceller || contract.admin_cancellation_note.present? || current_admin.present? %>
+        <h4><span class="text-primary">Cancellation Assigned To:</span> <%= contract.cancellation_assignee.try(:username) %></h4>
+      <% end %>
+      <% if contract.admin_cancellation_note.present? %>
+        <h4><span class="text-primary">Admin Note:</span></h4>
+          <div class="note">
+            <%= simple_format contract.admin_cancellation_note %>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>

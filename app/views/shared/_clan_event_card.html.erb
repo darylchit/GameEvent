@@ -1,0 +1,33 @@
+<li class="roster-invite-card col-half">
+	<%= link_to roster_path(event) do %>
+		<div class="container-box">
+			<p class="small">
+				<span class="badge badge-outline">
+					<%= short_date_time_spacing event.start_date_time %> 
+					&#8226;
+					 <%= d = event.duration/60
+					  	"#{d} #{"Hr".pluralize d}"%>
+				</span>
+				<% if event.roster? %>
+					<span class="pull-right text-primary card-roster-size">
+						<span class="fa fa-group"></span> <%= event.confirmed_users_count %>/<%= event.max_roster_size %>
+					</span>
+				<% end %>										  	
+			</p>
+			<% game_titles = event.contract_game_game_system_joins %>
+			<% if game_titles.any? %>
+				<h4 class="mb0"><%= event.contract_game_game_system_joins.first.game_game_system_join.game.title %> (<%=  event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation %>)</h4>
+			<% end %>
+			<p class="text-gray"><%= !event.title? ? 'n/a' : event.title %></p>
+			
+			<div class="card-content">
+				<div class="card-avatar">
+					<%= image_tag(event.buyer.avatar_url, class: 'avatar-xs') if event.buyer %>
+				</div>
+				<div class="card-body">
+					<p class="text-gray"><strong class="text-primary">Host:</strong> <%= event.buyer.username if event.buyer %></p>
+				</div>
+			</div>
+		</div>
+	<% end %>
+</li>

@@ -1,0 +1,21 @@
+<table>
+  <tr>
+    <td><b>Name:</b></td>
+    <td><%= @contact_request.name %></td>
+  </tr>
+  <tr>
+    <td><b>Email:</b></td>
+    <td><%= @contact_request.email %></td>
+  </tr>
+  <tr>
+    <td><b>Request Type:</b></td>
+    <td><%= @contact_request.contact_type %></td>
+  <tr>
+    <td colspan="2"><b>Message:</b></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <%= simple_format @contact_request.message %>
+    </td>
+  </tr>
+</table>

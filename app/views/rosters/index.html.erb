@@ -1,0 +1,83 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+			<div class="col-md-9">
+				<div class="row">
+					<%= render 'layouts/flash' %>
+						<div class="col-md-8">
+								<h2 class="mt0">My Events</h2>
+						</div>
+						<div class="col-md-4 post-buttons">
+							<%= link_to 'New Roster', new_roster_path(), class: "btn btn-primary pull-right-md post-contract" %>
+							<%= link_to 'Post', new_posted_contract_path(), class: "btn btn-primary pull-right-md post-contract" %>
+							</div>
+				</div>
+
+				<p id="notice"><%= notice %></p>
+
+
+				<ul class="nav nav-tabs nav-tabs-gray" role="tablist">
+	                <li class="">
+	                    <a href="#posted-bounties" aria-controls="posted-bounties" role="tab" data-toggle="tab" aria-expanded="true">
+	                        All Events<span class="badge">61</span>
+	                    </a>
+	                </li>
+	                <li class="">
+	                    <a href="#claimed-bounties" aria-controls="claimed-bounties" role="tab" data-toggle="tab" aria-expanded="false">
+	                        1:1 Events
+	                        <span class="badge">54</span>
+	                    </a>
+	                </li>
+	                 <li class="active">
+	                    <a href="#claimed-bounties" aria-controls="Game Rosters" role="tab" data-toggle="tab" aria-expanded="false">
+	                        Game Rosters
+	                        <span class="badge">7</span>
+	                    </a>
+	                </li>
+	            </ul>
+				<div class="table-responsive">
+					<%= grid(@grid, show_filters: :no, hide_csv_button: true, html: {class: 'table table-responsive admin-games table-striped data-tr my-events'}) do |g|
+
+            is_mine = false
+            link = roster_path(g)
+           
+
+						g.blank_slate do
+					    	content_tag :div, 'There are currently no rosters', class: 'no-results'
+						end
+
+						g.column name: 'name' do | r |
+              if r.owner.eql?(current_user)
+                is_mine = true
+                link = edit_roster_path(r)
+              end
+               link_to r.name, link
+						end
+
+						g.column name: 'Event Time', attribute: 'start_date_time' do | r |
+							link_to short_date_time(r.start_date_time), link
+						end
+
+            g.column :class => 'contract-actions text-right-md' do | c |
+              html = ''
+							if c.status == 'Open'
+								if is_mine # && r is not in the past?
+									html += link_to 'Edit', edit_roster_path(c), class: 'btn btn-primary'
+									html += link_to 'Cancel', edit_roster_path(c), class: 'btn btn-danger'
+								elsif false # I am currently on the roster or waitlist
+									html += link_to 'Leave Roster', edit_roster_path(c), class: 'btn btn-danger'
+								else
+									html += link_to 'Claim Spot', edit_roster_path(c), class: 'btn btn-success'
+                end
+                html.html_safe
+							end
+						end
+					end -%>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

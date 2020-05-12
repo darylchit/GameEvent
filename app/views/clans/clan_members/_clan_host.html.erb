@@ -1,0 +1,10 @@
+<% if @clan.host.present? %>
+  <div class="host-name">
+    <div class="col-md-12 wow flip topmrg_20" data-wow-delay="0.5s">
+ 	<%= link_to player_path(@clan.host) do %>
+      <h2 class="text-center set_member_header_padding flio botmrg_0"><strong class="text-primary"><%= @clan.host.username.upcase%></strong></h2>
+    <% end %>
+      <h4 class="text-center set_member_padding">(Founder)</h4>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,53 @@
+toastr.options = {
+		"closeButton": true,
+		"timeOut": "7000",
+		"extendedTimeOut": "0",
+		"positionClass": "toast-top-center"
+};
+Event = {};
+Event.Validation = {
+	validateForm: function(){
+		 if($('#event_form_popup').length > 0){
+			var url = $('#event_form_popup').attr('action');
+			$("#event_form_popup").validate({
+				submit: {
+					callback: {
+						onSubmit:function(){
+							$.post(url,$("#event_form_popup").serialize(),function(){},"script")
+						}
+					}
+				}
+			});
+		 }
+	}
+}
+Event.Validation.validateForm();
+
+<% if event.present? && event.errors.present? %>
+	$('.display_errors').removeClass('hide')
+	$('.event_error_count').html("<%= pluralize(event.errors.count, 'Error') %> Prohibited This Event From Being Saved:")
+	$('.event_error_explanation').empty()
+	<% event.errors.full_messages.each do |msg| %>
+		<%
+		 if msg == "Title Required"
+	      msg = "Event Title Required"
+		 end
+		 if msg == "Game game system join Required"
+			 msg = "Game Required"
+		 end
+		%>
+		$('.event_error_explanation').append("<li><%= msg.titleize %></li>")
+	<% end %>
+  $("#event_form_popup").addError({
+    <% event.errors.each do |field, message|%>
+        "event[<%= field.to_s %>]": "<%= message %>",
+    <% end %>
+  });
+	$("#event_model").animate({ scrollTop: 0 }, "fast");
+<% else %>
+  $("#event_model").modal("hide");
+	toastr.success('Event Updated');
+	$("#event_model").on('hidden.bs.modal', function(e) {
+		location.reload();
+	})
+<% end %>

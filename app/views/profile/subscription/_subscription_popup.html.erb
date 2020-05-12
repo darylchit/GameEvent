@@ -1,0 +1,135 @@
+<div class="modal fade" id="subscription_status_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-medium">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modify Subscription</h4>
+      </div>
+      <div class="modal-body contract-details">
+        <div class="row-fluid">
+          <p class="text-center">Subscriptions Are Non-Refundable But Can Be Changed At Any Time.   </p>
+        </div>
+        <div class="text-center">
+          <% if active_subscription.present? %>
+            <div class="row text-center">
+              <div class="col-md-6">
+                <h4 class="text-primary">
+                  Current Subscription:
+                </h4>
+                <h4>
+                  <%= active_subscription.paid? ? '' : active_subscription.subscription_type_text %> <%= active_subscription.name %>
+                </h4>
+              </div>
+              <div class="col-md-6">
+                <h4 class="text-primary">
+                  Renewal Date:
+                </h4>
+                <h4>
+                  <% if active_subscription.lifetime? %>
+                   N/A
+                  <% else %>
+                    <%= short_date active_subscription.ends_on %>
+                  <% end %>
+                </h4>
+              </div>
+            </div>
+
+
+          <% else %>
+            <div class="row text-center">
+              <div class="col-md-6">
+                <h4 class="text-primary">
+                  Subscription:
+                </h4>
+                <h4>
+                  Basic
+                </h4>
+              </div>
+              <div class="col-md-6">
+                <h4 class="text-primary">
+                  Renewal Date:
+                </h4>
+                <h4>
+                  N/A
+                </h4>
+              </div>
+            </div>
+          <% end %>
+          <% if active_subscription.present? && active_subscription.next_plan.present?%>
+            <p> Your <%= active_subscription.subscription_plan.name  %>  Subscription Will Change To <%= active_subscription.next_plan.titleize %> On Your Upcoming Renewal Date
+          <% end %>
+          <% if false #active_subscription.present? &&  active_subscription.paid? %>
+            <p>
+               <%= link_to "Cancel", stripe_subscription_path(active_subscription), method: :delete, class: 'btn btn-primary' %>
+            </p>
+          <% end %>
+
+          <% if active_subscription.present? && (active_subscription.promotional? )%>
+
+            <div class="row-fluid">
+              <div class="form-group text-center">
+                <h4><%= label_tag :subscription_plan_id, "Select A Subscription Option" %> <%= link_to '(Compare Features)', features_path, target: "_blank" %></h4>
+                <%= select_tag :subscription_plan_id, options_for_select(subscription_plans), prompt: 'Select Plan' ,class: 'form-control plan-chosen-select', id: 'stripe_subscription_plan_id' %>
+              </div>
+            </div>
+
+            <div id='stripe_subscription_plan_form'>
+              <% active_subscription_plans.each do |plan| %>
+                <div id="stripe_plan_<%= plan.id%>" class="text-center hide  stripe_plans">
+
+                  <%= form_tag stripe_subscriptions_path, method: :post, remote: true do %>
+                    <article>
+                      <label class="amount">
+                        <h4>Annual Amount: $<%= plan.price%></h4>
+                      </label>
+                    </article>
+                     <%= hidden_field_tag :plan_id,  plan.id %>
+                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                            data-description="<%= plan.name%> Subscription"
+                            data-amount="<%= (plan.price*100).to_i%>"
+                            data-label="Enter Payment Information"
+                            data-email="<%= current_user.email%>"
+                            data-locale="auto"></script>
+                  <% end %>
+                </div>
+              <% end %>
+              <div id="stripe_plan_basic" class="text-center hide  stripe_plans">
+                Your Plan Automatically Changes to Basic on Your Renewal Date
+              </div>
+            </div>
+
+          <% elsif current_user.user_setting.stripe_customer.present?  || (active_subscription.present?  && active_subscription.paid?) %>
+
+            <div class="row-fluid">
+              <div class="form-group text-center">
+                <h4><%= label_tag :subscription_plan_id, "Select A Subscription Option" %> <%= link_to '(Compare Features)', features_path, target: "_blank" %></h4>
+                <%= select_tag :subscription_plan_id, options_for_select(subscription_plans), prompt: 'Select A New Plan' ,class: 'form-control plan-chosen-select', id: 'stripe_subscription_plan_id' %>
+
+              </div>
+            </div>
+            <div class="form-group" id='plan_conformation_div'>
+              <%= label_tag :plan_conformation, "Type 'CONFIRM'" %>
+              <%= text_field_tag :plan_conformation, nil ,class: 'form-control', id: 'plan_conformation' %>
+              <div class="row">
+                <span class="btn btn-primary topmrg_20 col-xs-4 col-xs-offset-4" id='plan_confirm_btn'> Submit </span>
+              </div>
+            </div>
+              <div id="subscription_plan_error" class="text-primary"> </div>
+
+            <% if false #active_subscription.pro? %>
+              <p>
+              <%= link_to  'Change to Elite $19.99/year', stripe_subscription_path(elite_plan), method: :put%>
+              </p>
+            <% elsif false #active_subscription.elite? %>
+             <p>
+               <%= link_to  'change to pro $5.99/year', stripe_subscription_path(pro_plan), method: :put %>
+             </p>
+            <% end %>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

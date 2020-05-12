@@ -1,0 +1,10 @@
+$('#global_model').html("<%= j render(:partial => 'new')%>");
+$("#new_subscription_modal").modal();
+$('#new_subscription_modal').on('shown.bs.modal', function () {
+  $('.plan-chosen-select').chosen();
+  $('#stripe_subscription_plan_id').on('change', function(){
+    $('.stripe_plans').addClass('hide');
+    $('#stripe_plan_'+$(this).val()).removeClass('hide');
+    // alert($(this).val())
+  })
+});

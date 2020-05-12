@@ -1,0 +1,8 @@
+$('#global_model').html("<%= j render(:partial => 'delete_confirmation_popup')%>")
+$('.delete_clan_confirmation_title').html('CLAN REMOVED');
+$('.delete_clan_confirmation_msg').html("Your clan has been removed.  You can reactivate it or transfer ownership of your clan on the Edit Clan page. You must have an Elite subscription to reactivate your clan.");
+$('#delete_clan').html("Reactivate Clan")
+$("#delete_clan_confirmation_popup").modal();
+$("#delete_clan_confirmation_popup").on('hidden.bs.modal', function(e) {
+  location.reload();
+})

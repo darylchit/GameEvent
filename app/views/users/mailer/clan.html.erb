@@ -1,0 +1,7 @@
+<div style="<%= AdminConfig.email_image_css.value %>">
+  <%= image_tag(attachments['logo.png'].url, style: "width: #{AdminConfig.email_image_width.value}%" ) %>
+</div>
+<div style="<%= AdminConfig.email_image_css.value2 %>">
+  <%= AdminConfig.clan_create_email.value.html_safe %>
+</div>
+<%= AdminConfig.mail_signature.value.html_safe %>

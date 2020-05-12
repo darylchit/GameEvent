@@ -1,0 +1,37 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/adminnav" %>
+			</div>
+			<div class="col-md-9">
+				<div class="row">
+	                <div class="col-md-9">
+	                    <h2 class="mt0">Manage Charities</h2>
+	                </div>
+	                <div class="col-md-3">
+	                	<%= link_to 'Add Charity', new_admin_charity_path(), class: "btn btn-primary pull-right-md" %>
+	                </div>
+	            </div>
+				
+				<p id="notice"><%= notice %></p>
+				<div class="table-responsive">
+					<%= grid(@grid, show_filters: :no, hide_csv_button: true, html: {class: 'table table-responsive admin-charities table-striped data-tr'}) do |c|
+						c.blank_slate do
+					    	content_tag :div, 'You have not added any charities', class: 'no-results'
+					  	end
+					  	c.row_attributes do |c|
+						    {:datasrc => edit_admin_charity_path(c)}
+						end
+						c.column name: 'Logo', attribute: 'charity_logo', :class => 'charity-logo' do | c |
+							link_to raw("#{image_tag(c.charity_logo)}"), edit_admin_charity_path(c)
+						end
+					  	c.column name: 'Name', attribute: 'charity_name' do | c |
+							link_to c.charity_name, edit_admin_charity_path(c)
+						end
+					end -%>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>

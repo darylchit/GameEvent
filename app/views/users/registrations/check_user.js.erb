@@ -1,0 +1,5 @@
+<%if @user.present? %>
+  $("#user_sign_up").addError({"user[username]": "Username Already In Use."});
+<% else %>
+  $("#user_sign_up").removeError(["user[username]"]);
+<% end%>

@@ -1,0 +1,15 @@
+<%= form_for @member, class: "edit_clan_member", method: :patch, remote: true, update: {success: "data", failure: "error"} do |f| %>
+  <div class="contract-padding">
+  	<div class="form-group">
+		<h3 class="text-center">Select a rank to assign the user:</h3></h3>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+  				<%= f.collection_select :clan_rank_id, @clan.clan_ranks, :id, :title, {include_blank: false}, {:class => "form-control chosen-select", :multiple => false} %>
+  			</div>
+  		</div>
+  	</div>
+  </div>
+  <div class="modal-footer modal-contract-footer contract-padding">
+  	<%= f.submit value: "Submit", class: "btn btn-lg btn-outline pull-right-md" %>
+  </div>
+<% end %>

@@ -1,0 +1,16 @@
+<div class="well time-slot">
+	<div class="row">
+		<div class="col-xs-10">
+			<label class="text-primary">Start Date/Time:</label> <%= short_date_time s[0] %>
+			<br />
+			<label class="text-primary">Duration:</label> <%=  "#{s[1]/60} #{"Hour".pluralize(s[1]/60)}" %>
+			<input type="hidden" value="<%= s[0]  %>" name="start_date_times_durations[<%= k %>][start_date_time]" />
+			<input type="hidden" value="<%= s[1]  %>" name="start_date_times_durations[<%= k %>][duration]" />
+		</div>
+		<div class="col-xs-2">
+			<div class="clearfix">
+				<a class="pull-right close"><span class="fa fa-close"></span></a>
+			</div>
+		</div>
+	</div>
+</div>

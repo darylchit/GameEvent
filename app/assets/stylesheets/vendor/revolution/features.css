@@ -1,0 +1,65 @@
+.about_page{
+  .about-features {
+    padding: 100px 80px 20px 80px;
+    background-color: #ffffff;
+    }
+
+  .about-features i {
+    font-size: 50px;
+    padding: 35px 5px 10px 5px;
+    color: #5E3BDD;
+    }
+
+  i:hover {
+    color: #ddaf3b;
+    }
+
+  .about-features h4{
+    margin: 0px 0px 0px 0px;
+    font-size: 17px;
+    line-height: 1.4em;
+    font-weight: 600;
+    color: black;
+    }
+
+  .about-features p {
+    font-size: 15px;
+    color: #333333;
+    padding: 0px;
+    margin: 0px;
+    line-height: 1.3em;
+    }
+
+  .features {
+    text-align: center;
+    }
+
+
+
+
+  @media (max-width: 767px) {
+
+    .about-features {
+      padding: 20px 5px 20px 5px;
+      }
+
+    .about-features i {
+      font-size: 30px;
+      padding: 15px 2px 2px 2px;
+      }
+
+    .about-features h4{
+      margin: 0px 0px 0px 0px;
+      font-size: 12px;
+      line-height: 1.2em;
+      font-weight: 500;
+      }
+
+    .about-features p {
+      font-size: 10px;
+      padding: 0px;
+      margin: 0px;
+      line-height: 1.15em;
+      }
+  }
+}

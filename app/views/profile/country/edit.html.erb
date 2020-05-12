@@ -1,0 +1,26 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="devise-block">
+					<h2 class="mt0 text-center">Please Select Your Country or US Territory</h2>
+					<p class="text-center" style="margin-bottom: 1em;">PayPal has updated their policies and will no longer accept payments in Puerto Rico.</p>
+					<%= render 'layouts/flash' %>
+					<%= bootstrap_form_for(resource, {url: '/profile/country'}) do |f| %>
+						<%= f.error_summary %>
+							  <%= f.select :country, countries_list, {include_blank: true, hide_label: :true}, {:class => 'form-control chosen-select', :multiple => false, 'data-placeholder' => "Select your country or US territory" } %>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+								<div class="form-group clearfix">
+									<%= f.submit "Update", class: "btn btn-primary btn-lg btn-x pull-right-md btn-block" %>
+								</div>
+							</div>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

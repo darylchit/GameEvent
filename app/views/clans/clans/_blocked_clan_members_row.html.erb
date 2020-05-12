@@ -1,0 +1,46 @@
+<tr class="clan_member_remove_<%= clan_member.id%>" >
+  <td class="col-md-2">
+    <%= link_to player_path(clan_member.user) do %>
+    <%= image_tag clan_member.user.avatar_url, :class=> 'avatar-md' %>
+    <% end %>
+  </td>
+  <td><span><%= clan_member.user.username %></span></td>
+  <td>
+    <span class="text-primary">PSR: </span>
+    <span class="psr_thump_up text-white">
+                  <%= clan_member.user.user_setting.total_psr %>
+      <!--<i class="fa fa-circle-thin circle-main" aria-hidden="true"></i>-->
+                  <i class="fa fa-thumbs-up thump-pos1" aria-hidden="true"></i>
+    </span>
+  </td>
+  <td>
+    <span class="text-primary">Exp: </span>
+    <span class="gray_font">
+    <%= clan_member.user.event_experience %>
+    </span>
+  </td>
+  <td class="">
+    <span class="text-primary">CR: </span>
+    <span class="gray_font">
+    <%= clan_member.user.event_cancellation_rate %>%
+    </span>
+  </td>
+  <td>
+    <span class="text-primary">Age: </span>
+    <span class="gray_font">
+    <%= clan_member.user.public_age ? clan_member.user.age : 'N/A' %>
+    </span> 
+  </td>
+  <td class="">
+    <span class="text-primary">Banned: </span>
+    <span class="gray_font">
+    <%= clan_member.deleted_at.strftime('%m/%d/%y') %>
+    </span>
+  </td>
+ <!--  <td class="set_table_align">
+    <p class='clan_member_unblock btn btn btn-primary col-xs-12 btn-ful' data-clan="<%= clan_member.clan_id%>" data-id="<%=clan_member.id%>" id="member_unblock_<%= clan_member.id %>" data-remote="true"> Unblock  </p>
+  </td> -->
+  <td>
+    <%= link_to 'Unblock', unblock_member_clan_path(clan_member.clan_id, clan_member.id),method: :patch, remote: true, class: 'btn btn-primary set_mrg_tbl_application', id: "view_more_applications_mobile", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Unblock"}  %>
+  </td>
+</tr>

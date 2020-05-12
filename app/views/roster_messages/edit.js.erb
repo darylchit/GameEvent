@@ -1,0 +1,10 @@
+var content = "<%= j render :partial => 'roster_messages/form', :locals => { :roster_message => @roster_message} %>";
+
+(function(){
+    $(document).on('ajax:success', '.edit_message', function(e){
+        //$(e.target).parents('.message-container .dropdown-menu').dropdown('toggle');
+        $(e.target).parents('.message-container').find('.message-body p').first().html(content);
+        
+    });
+    
+})();

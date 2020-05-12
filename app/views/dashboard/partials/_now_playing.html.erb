@@ -1,0 +1,52 @@
+<div class="block-grid">
+    <div class="block-grid-header">
+        <div class="row">
+            <div class="col-md-10 col-sm-8">
+                <h2 class="mt0">
+                    Live Streams
+                </h2>
+            </div>
+        </div>
+        <ul class="mss-list clearfix">
+            <li class="mss">
+                <%= link_to(@streaming_users.first[:stream].url, target: '_blank') do %>
+                    <% if @streaming_users.first[:game] %>
+                        <%= image_tag(@streaming_users.first[:game].game_jumbo) %>
+                    <% else %>
+                        <%= image_tag("twitch_placeholder_lg.png") %>
+                    <% end %>
+                <% end %>
+                <div class="mss-details">
+                    <%= link_to("/profiles/#{@streaming_users.first[:user].username}") do %>
+                        <%= image_tag(@streaming_users.first[:user].avatar_url, class: 'avatar-xs') %>
+                        <%= @streaming_users.first[:user].username %>
+                        <br>
+                        <%= @streaming_users.first[:stream].game_name %>
+                    <% end %>
+                </div>
+            </li>
+        </ul>
+        <% if @streaming_max > 1 %>
+            <ul class="mss-list clearfix">
+                <% @streaming_users[1..@streaming_max].each do |stream| %>
+                    <li class="mss mss-list-inline col-half">
+                        <%= link_to(stream[:stream].url, target: '_blank') do %>
+                            <% if stream[:game] %>
+                                <%= image_tag(stream[:game].game_jumbo_mobile) %>
+                            <% else %>
+                                <%= image_tag("twitch_placeholder_sm.png") %>
+                            <% end %>
+                        <% end %>
+                        <div class="mss-details">
+                            <%= link_to("/profiles/#{stream[:user].username}") do %>
+                                <%= image_tag(stream[:user].avatar_url, class: 'avatar-xs') %>
+                                <br>
+                                <%= stream[:stream].game_name %>
+                            <% end %>
+                        </div>
+                    </li>
+                <% end %>
+            </ul>
+        <% end %>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+
+<% if @is_login == true %>
+<script type="text/javascript">
+window.close();
+opener.call_discord_login();
+</script>
+
+<% else %>
+<script type="text/javascript">
+window.close();
+opener.call_parent_discord();
+</script>
+<% end %>

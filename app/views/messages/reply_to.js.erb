@@ -1,0 +1,5 @@
+<% if message.present? %>
+$('#global_model').html("<%= j render(:partial => 'reply')%>");
+$("#message_reply").modal();
+Message.ReplyMessagePopupForm.OnReplyMessagePopupValidation();
+<% end %>

@@ -1,0 +1,85 @@
+<li class="<%= browser.device.mobile? ? 'col-half col-half-xs' : 'col-fifth' %> card-wrapper player-card p-x-0-xs wow fadeInUp set-border" id="player-<%= player.id%>">
+  <div class="inner-box">
+    <div class="image">
+
+
+        <%= image_tag(player.avatar_url, class: 'avatar-lg') %>
+        <div class="card-content">
+          <div class="card-body card-pad card-mobile">
+            <div class="row">
+              <strong class="text-white col-xs-12 title_wrap">
+              <%= player.username %>
+              </strong>
+            </div>
+            <div class="row">
+              <div class="col-xs-6 first-part">
+                <div>
+                  <p class="text-gray">
+                    <strong class="text-primary">Age:</strong> <%= player.public_age ? player.age : 'N/A' %> <%# do we need to hide ages still? %>
+                  </p>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <div>
+                  <p class="text-gray">
+                    <strong class="text-primary">CR:</strong>
+                    <span> <%= player.event_cancellation_rate %>%</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div class="overlay-box">
+        <div class="overlay-inner">
+          <div class="content">
+            <h3><%= link_to 'View Profile', player_path(player) %></h3>
+            <% if current_user.present? %>
+              <% if current_user.id == player.id %>
+                <h3><%= link_to 'Edit Profile', edit_profile_path %></h3>
+              <% else %>
+                <% if !player.is_blocking_user?(current_user) and !current_user.is_blocking_user?(player) %>
+                  <h3><%= link_to 'Message', new_message_path(:recipient_id => player.id), remote: true %></h3>
+                <% end %>
+                <% if  current_user.has_open_rosters? %>
+                  <h3><%= link_to "Invite to Roster", invite_user_path(user_id: player.id), remote: true %></h3>
+                <% end %>
+              <h3><%= link_to "Invite to Clan", new_clan_invite_path(user_id: player.id), remote: true %></h3>
+              <h3>
+                <% if current_user.is_favoriting_user?(player) %>
+                  <%#= render "shared/favorites/remove", player: player %>
+                  <%= link_to profile_favorite_path(current_user.favorite_by_user(player)), :method => 'delete', remote: true, class: '', id: "player-favorite-#{player.id}" do %>
+                    Remove Favorite
+                    <% end %>
+                <% else %>
+                  <%#= render "shared/favorites/add", player: player %>
+                  <%= link_to profile_favorites_path(favorite:  {favorited_user_id:  player.id}), method: :post, remote: true, id: "player-favorite-#{player.id}" do %>
+                    Add Favorite
+                  <% end %>
+                <% end %>
+              </h3>
+              <h3 class="hidden-xs">
+                <% if current_user.is_blocking_user?(player) %>
+                  <%= link_to profile_block_path(current_user.blocks.where(:blocked_user => player)[0]), remote: true , :method => 'delete', class: "" do %>
+                      Unblock User
+                  <% end %>
+                <% else %>
+                  <%= link_to profile_blocks_path(block: {blocked_user_id: player.id}), class: "", remote: true, method: :post  do %>
+                    Block User
+                  <% end %>
+                <% end %>
+              </h3>
+              <% end %>
+            <% else %>
+              <h3><%= link_to 'Message', new_user_session_path %></h3>
+              <h3><%= link_to 'Invite to Clan', new_user_session_path %></h3>
+              <h3><%= link_to 'Add Favorite', new_user_session_path %></h3>
+              <!-- <h3><%#= link_to 'Block User', new_user_session_path %></h3> -->
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

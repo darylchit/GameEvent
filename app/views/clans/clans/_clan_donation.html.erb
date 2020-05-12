@@ -1,0 +1,33 @@
+<div class="modal fade" id="donate_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content modal-vertical">
+	    <%= form_for(@clan_donation, url: clan_clan_donations_path( @clan )  ) do |f| %>
+	    	 <%= f.hidden_field :clan_id%>
+		     <%= f.hidden_field :user_id, value: current_user.id %>
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title">
+            Pledge
+	        </h4>
+	      </div>
+	      <div class="modal-body contract-details">
+	      	<div class="form-group">
+            <%= f.label :amount_dollars, 'Non-Refundable Donation Amount' %>
+		      	<%= f.number_field :amount_dollars, min: 0, class: 'form-control', hide_label: :true, placeholder: 'In Dollars', step: '1', value: @clan_donation.amount_dollars,'data-validation'=> '[NOTEMPTY,NUMERIC]', 'data-validation-message' => 'Invalid Donation Amount : Enter Whole Number.'  %>
+		      	</div>
+		      	<div class="form-group">
+		      	<div class="topmrg_20"></div>
+		      	<div class="row">
+	    				<div class="col-sm-12 col-xs-12 set_margin_donation_btn">
+	      				<%= f.submit class: 'btn btn-lightgrey btn-full', value: 'Submit' %>
+		      		</div>
+		      		<div class="col-sm-12 col-xs-12 topmrg_20">
+		      			<button type="button" class="btn btn-lightgrey btn-full" data-dismiss="modal" aria-label="Close">Cancel</button>
+		      		</div>
+		      	</div>
+	      	</div>
+	    	</div>
+	    <% end %>
+	  </div>
+	</div>
+</div>

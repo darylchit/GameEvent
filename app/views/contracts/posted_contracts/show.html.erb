@@ -1,0 +1,72 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+			<div class="col-md-9">
+				<p id="notice"><%= notice %></p>
+				<div class="row">
+					<div class="col-md-8 col-sm-6">
+						<h3 class="mt0">Event Details</h3>
+					</div>
+					<div class="col-md-4 col-sm-6 text-right-md">
+						<%  if resource.status == "Open" %>
+							<div class="sharing-buttons">
+								<a href="https://twitter.com/intent/tweet/?text=&url=<%= URI.escape (event_url resource.id.to_s) %>&via=GameRoster" class="btn btn-twitter btn-sharing">
+									<span class="fa fa-twitter"></span>
+								</a> 
+								<a href="#" class="btn btn-facebook btn-sharing" data-event-id="<%= resource.id %>">
+									<span class="fa fa-facebook"></span>
+								</a>
+							</div>
+						<% end %>
+					</div>
+				</div>
+				<%= render 'contract_snippet', contract: resource %>
+
+				<br>
+
+				<%  if resource.status == "Claimed" %>
+					<div class="row">
+						<div class="col-md-6">
+							<%= link_to 'Cancel Contract', posted_contract_cancel_path(resource), class: 'btn btn-danger btn-lg' %>
+						</div>
+						<div class="col-md-6">
+							<%= form_for resource, :url => posted_contract_path(resource),  method: 'delete' do |f| %>
+								<%= f.hidden_field :cancellation_reason, value: 'Player Quit or Never Showed Up' %>
+								<%= f.submit :cancel, :class => "btn btn-danger btn-lg pull-right-md", :value => (resource.status == 'Open' ? 'Yes' : 'No Show') %>
+		 					<% end %>
+		 				</div>
+		 			</div>
+				<% end %>
+
+
+
+				<% if resource.status == 'Cancelled' %>
+		          <%= render 'contracts/contracts/cancellation', contract: resource %>
+		        <% else %>
+		          <% if resource.is_closed? && !resource.is_closed_by_poster? && !resource.buyer.nil? %>
+		            <div class="row">
+		              <div class="col-md-12">
+		                <%= form_for resource, :url => posted_contract_path(resource),  method: 'delete' do |f| %>
+		                  <%= f.hidden_field :cancellation_reason, value: 'Player Quit or Never Showed Up' %>
+		                  <%= f.submit :cancel, :class => "btn btn-danger btn-lg pull-right-md", :value => (resource.status == 'Open' ? 'Yes' : 'No Show') %>
+		                <% end %>
+		              </div>
+		            </div>
+		          <% end %>
+				<% end %>
+
+
+        		<% if resource.is_closed? && !resource.is_closed_by_poster? && !resource.buyer.nil? %>
+        			<h3 id="event-rating">Feedback</h3>
+					<div class="container-box">
+						<%= render "ratings/form", rated_user: resource.buyer %>
+					</div>
+				<% end %>
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,33 @@
+<section class="content-block hero-block">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+				<%= image_tag("game-mercenaries.png") %>
+			</div>
+		</div>
+	</div>
+</section>
+<br>
+<section >
+	<div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="devise-block">
+		
+          <%= render 'layouts/flash' %>
+          <%= bootstrap_form_tag url: site_password_path do |f| %>
+
+            <div class="form-group">
+              <p class="lead">
+                Game Roster is a subscription-based site that is only accessible by invitation. Please enter your invitation passcode below:</p>
+              <%= password_field :password, 'password', class: 'form-control', placeholder: "Invitation Passcode"  %>
+            </div>
+            <div class="text-center">
+              <%= f.submit value: 'Enter Site', class: 'btn btn-primary btn-lg btn-x'%>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

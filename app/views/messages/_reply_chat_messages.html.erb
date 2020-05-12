@@ -1,0 +1,52 @@
+<li class="message message-self">
+  <div class ='message-container'>
+    <div class="hidden-xs">
+      <span class="message-avatar message-self reduce_size">
+        <%= link_to player_path(reply.sender) do %>
+          <%= image_tag reply.sender.avatar_url, :class=>'avatar-sm'%>
+        <% end %>
+      </span>
+      <div class="message-content set_width_chat">
+        <h5 class="set_chat_text">
+          <span class="text-primary">
+            <%= reply.sender.username %>:
+            <span class="font_color_white helper-text">
+                <%=reply.subject %>
+            </span>
+          </span>
+          <span class="visible-sm-block visible-xs-block visible-md visible-lg pull-right-md">
+            <small>
+              <span class="hidden-xs"><%=reply.created_at.strftime("%m/%d %I:%M%p %Z ") %>&nbsp;</span>
+            </small>
+          </span>
+        </h5>
+        <div class="message-body left-rect">
+        </div>
+      </div>
+    </div>
+    <div class="visible-xs">
+      <div class="row message-content set_width_chat mobile_chat">
+        <div class="col-xs-3 user-image">
+          <span class="message-avatar message-self reduce_size ">
+            <%= link_to player_path(reply.sender) do %>
+              <%= image_tag reply.sender.avatar_url, :class=>'avatar-sm'%>
+            <% end %>
+           </span>
+        </div>
+        <div class="col-xs-9 user-msg">
+        <span class="mobile-chat-date">
+          <%=reply.created_at.strftime("%m/%d %I:%M%p %Z ") %>
+        </span>
+        <h5 class="set_chat_text">
+          <span class="text-primary">
+            <%= reply.sender.username %>:
+            <span class="font_color_white helper-text">
+              <%=reply.subject %>
+            </span>
+          </span>
+        </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

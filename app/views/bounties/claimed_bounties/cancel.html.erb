@@ -1,0 +1,45 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+			<div class="col-md-9">
+				<h3 class="mt0">Cancel Event</h3>
+
+				<div class="container-box bounty-details">
+
+	          <%= form_for resource, :url => claimed_bounty_path(resource),  method: 'delete' do |f| %>
+	            <div class="form-group">
+	                    <label>Reason for Cancellation</label>
+	                    <%= f.select :cancellation_reason, options_for_select(Contract.cancellation_reasons('seller')), {}, :class => "form-control" %>
+	            </div>
+	            <div class="form-group">
+	                    <label>Additional Notes</label>
+	                    <%= f.text_area :cancellation_note, :class => "form-control" %>
+	            </div>
+
+	            <p><small>We generally discourage cancellations and recommend trying to reschedule your event with your counterpart.  Your cancelations will be tracked and repeated cancelations may hurt your ability to find other players.</small></p>
+
+	            <hr>
+	            <div class="clearfix form-group">
+	            <div class="row">
+                <div class="col-md-6">
+									<% if request.referer.present? %>
+										<%= link_to "Back", request.referer, class: "btn btn-primary btn-lg btn-x" %>
+									<% else %>
+										<%= link_to "Back", claimed_bounty_path(resource), class: "btn btn-primary btn-lg btn-x" %>
+									<% end %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.submit :cancel, :class => "btn btn-danger btn-lg btn-x pull-right-md", :value => "Submit" %>
+                </div>
+	            </div>
+	          </div>
+	          <% end %>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

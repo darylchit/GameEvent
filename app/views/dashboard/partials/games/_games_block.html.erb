@@ -1,0 +1,15 @@
+<%# unless @clan_games.empty? %>
+    <%# render @games_path, game_collection: @clan_games, header: 'Recently Played Clan Games' %>
+<%# end %>
+
+<% unless @trending_games.empty? %>
+    <%= render @games_path, game_collection: @trending_games, header: 'Trending' %>
+<% end %>
+
+<%# unless @coming_soon.empty? %>
+    <%# render @games_path, game_collection: @coming_soon, header: 'Coming Soon' %>
+<%# end %>
+
+<% unless @new_games.empty? %>
+    <%= render @games_path, game_collection: @new_games, header: 'New Games' %>
+<% end %>

@@ -1,0 +1,49 @@
+<% user_message = receipt.message %>
+<% if user_message.body == 'clan_chat' %>
+	<% replies = user_message.notified_object.clan_messages.order(created_at: :desc) %>
+<% else %>
+	<% replies = user_message.replies.order(created_at: :desc) %>
+<% end %>
+<div class="row box_border">
+	<%= link_to replies_message_path(user_message), remote: true do %>
+		<div class="col-sm-2 col-xs-3 receipt_img">
+			<span class="clan_avatar">
+				<%= image_tag((replies.first.sender.avatar_url), class: 'message_avatar') %>
+			</span>
+		</div>
+	<% end %>
+	<div class="col-sm-10 col-xs-9 content_text receipt_data">
+		<div class="row">
+			<div class="col-xs-12 pdl5">
+				<%= link_to replies_message_path(user_message), remote: true do %>
+					<span class="pull-left msg-title">
+		      	<b> <%= user_message.notified_object.name %></b>
+					</span>
+				<% end %>
+				<span class="pull-right msg-text">
+					<%= link_to replies_message_path(user_message), remote: true do %>
+						<%= receipt.is_read? ? '' : "<i class='fa fa-dot-circle-o message-read-#{user_message.id}' id='receipt_read_#{receipt.id}' aria-hidden='true'></i>".html_safe %>
+				  	<span class="" data-toggle="tooltip" data-placement="top" data-title="<%= receipt.created_at.strftime('%b/%d/%Y - %l:%M%P')%>"> <%= receipt.created_at.present? ? receipt.created_at.strftime('%b-%-d') : "" %></span>
+					<% end %>
+					<span class="hidden-xs"><%= check_box_tag 'checkbox_receipt[]', receipt.id, false, class: 'checkbox_action' %></span>
+				</span>
+			</div>
+			<%= link_to replies_message_path(user_message), remote: true do %>
+				<div class="col-xs-12 pdl5 msg-text">
+					Last Post: <%= replies.first.sender.name %>
+				</div>
+			<% end %>
+		</div>
+
+		<div class="row msg-text">
+			<%= link_to replies_message_path(user_message), remote: true do %>
+				<div class="col-sm-12 wrap2line pdl5 justify-text ">
+	        <%= replies.first.subject %>
+	      </div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+
+<%= render partial: 'message_action_menu_popup', locals: {receipt: receipt} %>

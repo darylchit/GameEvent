@@ -1,0 +1,10 @@
+$(document).ready(function() {
+	$('#delete_notice_confirmation_popup').hide();
+	$('.modal-backdrop').hide();
+    if ($('#<%= params[:id] %>').length) {
+        var id = '<%= params[:id] %>';
+        $('#<%= params[:id] %>').hide();
+    } else {
+        location.assign('/clans/<%= @clan.id %>');
+    }
+});

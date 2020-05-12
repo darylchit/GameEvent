@@ -1,0 +1,59 @@
+.feedback-list {
+	> li {
+		padding: .75em 0;
+		border-bottom: 1px solid #444;
+		.feedback-meta {
+			//border-bottom: 1px solid #444;
+			//margin-bottom: 1.5em;
+			.feedback-block {
+				display: inline-block;
+				margin-right: 1em;
+			}
+		}
+		.dropdown-menu {
+			margin-right: 15px;
+		}
+	}
+}
+
+table tbody .roster-rating {
+	td {
+		padding: 0;
+		.collapse-body {
+			padding: 8px;
+		}
+	}
+}
+
+span.feedback-block {
+	display: inline-block;
+	@media screen and (max-width:$screen-sm-max) {
+		display: block;
+		width: 100%;
+	}
+	white-space: nowrap;
+	margin-right: 25px;
+}
+
+.edit_rating, .new_rating {
+	.media {
+		margin-top: 0;
+	}
+	.media-object div {
+		@media screen and (min-width: $screen-md-min) {
+			min-width: 394px;
+		}
+	}
+	.media-left {
+		@media screen and (max-width: $screen-sm-max) {
+			display: block;
+			width: 100%;
+		}
+	}
+}
+
+.feedback-list .media .media .media-object .clearfix {
+	@media screen and (min-width: $screen-md-min) {
+		min-width: 368px;
+	}
+}

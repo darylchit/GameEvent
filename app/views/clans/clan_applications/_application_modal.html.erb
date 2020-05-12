@@ -1,0 +1,18 @@
+<div class="modal fade" id="clan_application_notification_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">
+            Clan Application
+          </h4>
+        </div>
+        <div class="modal-body contract-details">
+          <div class="clan_application_action">
+            <%= render 'application', clan_application: @clan_application%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

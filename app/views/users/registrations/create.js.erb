@@ -1,0 +1,9 @@
+<% if resource.errors.present? %>
+  $('#user_sign_up').addError({
+    <% resource.errors.each do |field, message|%>
+      "user[<%= field.to_s %>]": "<%= message %>",
+    <% end %>
+  });
+<% else %>
+location.pathname = '/thankyou';
+<% end %>

@@ -1,0 +1,229 @@
+<%= define_grid(@contracts_grid, show_filters: :yes, hide_csv_button: true, html: {class: 'wbmr table table-responsive table-striped  tablesaw-stack', 'data-tablesaw-mode' => "columntoggle"}) do |g|
+	g.last_row do |number_of_columns|
+		'<tr><td><div class="no-results">No Results</td></tr>' if g.grid.resultset.size == 0
+	end
+
+	g.column name: 'User', attribute: 'username', model: "User", :html => {'data-tablesaw-priority' => "persist"}, detach_with_id: :user_filter, auto_reload: true, class: 'wbmr-avatar' do | c |
+		link_to new_user_registration_path do
+			raw "<h5 class='mt0'> #{c.seller.username} </h5>" + "#{image_tag(c.seller.avatar_url)}"
+		end
+	end
+	g.column name: 'P.S.A', attribute: 'psa_rating', model: 'User', :html => {'data-tablesaw-priority' => "1"} do | c |
+		link_to new_user_registration_path do
+			if c.seller.psa_rating == 0
+				"N/A"
+			else
+				raw("<span class=\"psa-rating-read-only\" data-score=\"#{c.seller.psa_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Personality', attribute: 'personality_rating', model: 'User', :html => {'data-tablesaw-priority' => "2"}, class: "tablesaw-cell-hidden" do | c |
+		link_to new_user_registration_path do
+			if c.seller.personality_rating == 0
+				"N/A"
+			else
+				raw("<span class=\"psa-rating-read-only\" data-score=\"#{c.seller.personality_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Skill', attribute: 'skill_rating', model: 'User', :html => {'data-tablesaw-priority' => "3"}, class: "tablesaw-cell-hidden" do | c |
+		link_to new_user_registration_path do
+			if c.seller.skill_rating == 0
+				"N/A"
+			else
+				raw("<span class=\"psa-rating-read-only\" data-score=\"#{c.seller.skill_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Approval', attribute: 'approval_rating', model: 'User', :html => {'data-tablesaw-priority' => "4"}, class: "tablesaw-cell-hidden" do | c |
+		link_to new_user_registration_path do
+			if c.seller.approval_rating == 0
+				"N/A"
+			else
+				raw("<span class=\"psa-rating-read-only\" data-score=\"#{c.seller.approval_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Will Play', attribute: 'will_play', :html => {'data-tablesaw-priority' => "5"}, custom_filter: ['Player vs. Player', 'Player vs. Enemy', 'All Types'], detach_with_id: :will_play_filter do | c |
+		link_to new_user_registration_path do
+			if c.will_play == 'Player vs. Player'
+				'PvP'
+			elsif c.will_play == 'Player vs. Enemy'
+				'PvE'
+			else
+				c.will_play
+			end
+		end
+	end
+	g.column name: 'Newb Patience', attribute: 'newbie_patience_level', model: "User", :html => {'data-tablesaw-priority' => "6"}, class: "tablesaw-cell-hidden", custom_filter: ['High', 'Low'], detach_with_id: :newb_patience_filter do | c |
+		link_to new_user_registration_path do
+			c.seller.newbie_patience_level
+		end
+	end
+	g.column name: 'Experience', attribute: 'contracts_completed', model: 'User', :html => {'data-tablesaw-priority' => "7"}, detach_with_id: :contracts_completed_filter, filter_type: :range do | c |
+		link_to new_user_registration_path do
+			"#{c.seller.contracts_completed}"
+		end
+	end
+	g.column name: 'Details', attribute: 'details' do | c |
+		link_to  new_user_registration_path do
+			raw "#{truncate(c.details, :length => 72)}"
+		end
+	end
+	g.column name: 'Date', :html => {'data-tablesaw-priority' => "8"}, class: "tablesaw-inline", attribute: 'start_date_time', detach_with_id: :date_filter, filter_type: :datetime do | c |
+		link_to  new_user_registration_path do
+			compact_date c.start_date_time
+		end
+	end
+	g.column name: 'Time', :html => {'data-tablesaw-priority' => "9"}, class: "tablesaw-inline", attribute: 'start_date_time', detach_with_id: :time_filter do | c |
+		link_to new_user_registration_path do
+			standard_time c.start_date_time
+		end
+	end
+	g.column name: 'Length', :html => {'data-tablesaw-priority' => "10"}, class: "tablesaw-inline", attribute: 'duration', filter_type: :checkbox_range,
+	  values: {
+		"1 Hour"  => ['60', '60'],
+		'2 Hours' => ['120', '120'],
+		'3 Hours' => ['180', '180'],
+		'4 Hours' => ['240', '240'],
+		'5 Hours' => ['300', '300'],
+		'6 Hours' => ['360', '360']
+	  },detach_with_id: :length_filter do | c |
+			d = c.duration/60
+	  	link_to new_user_registration_path do
+			d.to_s + ' Hr'.pluralize(d)
+		end
+	end
+	g.column name: 'Price', :html => {'data-tablesaw-priority' => "11"}, attribute: 'price_in_cents', filter_type: :range,
+	  values: {
+		"$1.00 - $9.99"   => ['100', '999'],
+		'$10.00 - $19.99' => ['1000', '1999'],
+		'$20.00 - $39.99' => ['2000', '3999'],
+		'$40.00 - $69.99' => ['4000', '6999'],
+		'$70.00 - $99.99' => ['7000', '9999'],
+	  },
+	  detach_with_id: :price_in_cents_filter, auto_reload: true do | c |
+  	link_to new_user_registration_path do
+			raw "<span class='wbmr-price'>#{c.price_in_cents == 0 ? 'Free' : '$' + c.price_in_dollars} </span>"
+		end
+	end
+	g.column name: '', attribute: 'id', class: "hidden", model: 'GameSystem', :html => {'data-tablesaw-priority' => "persist"}, detach_with_id: :game_system_filter,
+		custom_filter: GameSystem.all.map{
+			|game_system| [game_system.title, game_system.id]
+		}, allow_multiple_selection: true do |c|
+		""
+	end
+	g.column name: '', attribute: 'id', class: "hidden", model: 'Title', :html => {'data-tablesaw-priority' => "persist"}, detach_with_id: :game_filter,
+		custom_filter: Game.all.map{
+			|game| [game.title, game.id]
+		}, allow_multiple_selection: true do |c|
+		""
+	end
+	g.column name: '' do |c|
+		link_to new_user_registration_path, class: "btn btn-sm btn-primary", :html => {'data-tablesaw-priority' => "persist"} do
+			"Select"
+		end
+	end
+	#g.column name: 'Date', attribute: 'start_date_time' do | c |
+	#	link_to c.start_date_time, show_resource_path(c)
+	#end
+	#g.column name: 'Duration', attribute: 'duration' do | c |
+	#	link_to c.start_date_time, show_resource_path(c)
+	#end
+end -%>
+
+
+<% if @cover_game.present? %>
+	<% if @cover_game.game_jumbo.present? %>
+		<style type="text/css">
+
+			.mini-hero.game-hero {
+				background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==')<%= raw ", url('#{@cover_game.game_jumbo.url}')" if @cover_game.game_jumbo.present? %>;
+
+				background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(22, 22, 22, 0.2)), color-stop(32%, rgba(22, 22, 22, 0.2)), color-stop(50%, rgba(22, 22, 22, 0.2)), color-stop(80%, rgba(22, 22, 22, 0.85)), color-stop(89%, rgba(22, 22, 22, 0.93)), color-stop(100%, #161616))<%= raw ", url('#{@cover_game.game_jumbo.url}')" if @cover_game.game_jumbo.present? %>;
+
+				background-image: -moz-linear-gradient(top, rgba(22, 22, 22, 0.2) 0%, rgba(22, 22, 22, 0.2) 32%, rgba(22, 22, 22, 0.2) 50%, rgba(22, 22, 22, 0.85) 80%, rgba(22, 22, 22, 0.93) 89%, #161616 100%)<%= raw ", url('#{@cover_game.game_jumbo.url}')" if @cover_game.game_jumbo.present? %>;
+
+				background-image: -webkit-linear-gradient(top, rgba(22, 22, 22, 0.2) 0%, rgba(22, 22, 22, 0.2) 32%, rgba(22, 22, 22, 0.2) 50%, rgba(22, 22, 22, 0.85) 80%, rgba(22, 22, 22, 0.93) 89%, #161616 100%)<%= raw ", url('#{@cover_game.game_jumbo.url}')" if @cover_game.game_jumbo.present? %>;
+
+				background-image: linear-gradient(to bottom, rgba(22, 22, 22, 0.2) 0%, rgba(22, 22, 22, 0.2) 32%, rgba(22, 22, 22, 0.2) 50%, rgba(22, 22, 22, 0.85) 80%, rgba(22, 22, 22, 0.93) 89%, #161616 100%)<%= raw ", url('#{@cover_game.game_jumbo.url}')" if @cover_game.game_jumbo.present? %>;
+
+				background-size: cover;
+	    		background-position: 50% 50%;
+			}
+
+			@media screen and (max-width: 767px) {
+				.mini-hero.game-hero {
+					<% if @cover_game.game_jumbo_mobile.present? %>
+					background-image: url('<%= @cover_game.game_jumbo_mobile.url %>');
+					background-size: cover;
+					background-position: 50% 50%;
+					<% end %>
+					padding: 40px 0 60px;
+				}
+			}
+
+		</style>
+
+	<% else %>
+
+	<% end %>
+
+	<section class="content-block mini-hero game-hero<%= " no-image" unless @cover_game.game_jumbo.present? %>">
+			<div class="mini-hero-logo text-center">
+					<div class="game-title">
+						<h1 class="text-center stencil-header">Destiny Looking For Group</h1>
+					</div>
+			</div>
+			<div class="container">
+				<h3 style="text-align:center;">
+					Destiny is a big universe and the kind of place it helps to have a group in.
+				</h3>
+				<div class="col-md-6">
+				   Need a member for the Taken King raid?  Need a replacement for the team member that just got kicked offline?  We got you covered and make finding the perfect player as simple as renting a movie. 
+				</div>
+				<div class="col-md-6">
+					Find players for free pick up games or claim donations for offering your assistance.  Whether you want to get paid to raid or just need that edge in battle, we are the best place to get connected with other guardians.
+				</div>
+			</div>
+		</section>
+		<div class="container container-block">
+			
+<% else %>
+	<section class="content-block mini-hero game-hero no-image">
+		<div class="mini-hero-logo text-center">
+			<% #<%= image_tag 'gm-seal.png' %>
+			<h1 class="text-center stencil-header">Select A Game</h1>
+		</div>
+	</section>
+	<div class="container container-block">
+<% end %>
+
+<p id="notice"><%= notice %></p>
+
+<h2 class="mt0 text-center">Events</h2>
+
+
+<div class="wbmr-table-responsive" id="contracts_table_container">
+	<%= render_grid(@contracts_grid) %>
+</div>
+
+<% if params[:grid].present? and params[:grid][:f].present? %>
+	<div id="filter_description">
+	<%= contract_filter_text params[:grid][:f] %>
+	</div>
+	<script type="text/javascript">
+		(function() {
+			var $fd = $('#filter_description'),
+					$grid_title = $('#grid_title');
+			$grid_title.after($fd);
+		})();
+	</script>
+<% end %>
+
+<% if @cover_game.present? %>
+	</div>
+<% else %>
+	</div>
+</div>
+<% end %>

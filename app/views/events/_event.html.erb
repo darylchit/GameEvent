@@ -1,0 +1,98 @@
+<% if event.roster? %>
+  <% event = event.becomes(Roster) %>
+<% end %>
+
+<li class="col-third col-third-half-xs card-wrapper player-card">
+  <div class="event-cover">
+    <%= link_to link_url(event, current_user) do %>
+      <div class="cover-bg">
+        <%= image_tag(game_photo_cover(event)) %>
+      </div>
+        <div class="img-overlay">
+      </div>
+    <% end %>
+    <div class="cover-details">
+      <h4>
+          <% if event.game_title.present? %>
+              <%= event.game_title %>
+          <% elsif event.game_game_system_joins.present? %>
+              <% event.game_game_system_joins.each do |join| %>
+                  <%= join.game.title %>
+                  <br/>
+                  <br/>
+              <% end %>
+          <% else %>
+              Game Not Selected
+          <% end %>
+      </h4>
+      <% if event.contract_type == 'Roster' %>
+        <small><i class="fa fa-users" aria-hidden="true"></i> 
+        <%= "%s/%s" % [event.becomes(Roster).confirmed_users_count, event.max_roster_size] %></small>
+      <% end %> 
+    </div>
+  </div>
+  <span class="card-icons">
+    <span class="fa <%= event_status_icon event.status %>" data-toggle="tooltip" data-placement="right" title="<%= event.status %>"></span>
+    <% if !event.clan_id.nil? %>
+      <span class="fa fa-shield"></span>
+    <% end %>
+  </span>
+  <button class="btn-link add-icon-top">
+    <span class="fa fa-ellipsis-v"></span>
+  </button>
+  <div class="player-add-menu">
+    <ul class="list-unstyled">
+      <% if current_user.present? %>
+        <% unless current_page?(controller: 'bounties/bounties', action: 'index')  %>
+           <%= contract_actions(event, current_user)%>
+        <% else %> 
+            <%=public_event_actions(event, current_user)%> 
+        <% end %>
+      <% end %>  
+    </ul>
+  </div>
+  <div class="card-content">
+    <div class="card-pad">
+      <div class="card-info clearfix">
+        <%= other_user_avatar event %>
+        <div class="card-info-text">
+          <div class="row">
+            <div class="col-md-6">
+              <p class="text-gray">
+                <strong class="text-primary">Host:</strong>
+                <%=event.try(:owner).try(:username) %>
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">IGN:</strong> 
+                <%= event_ign(event, current_user) %> 
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Exp:</strong>
+                <%=event.try(:owner).try(:contracts_completed) %> 
+              </p>
+            </div>
+            <div class="col-md-6">
+              <p class="text-gray">
+                <strong class="text-primary">PSA:</strong> 
+                <%if event.try(:owner).try(:psa_rating) == 0 %>
+                    N/A
+                <% else %>
+                  <span class="psa-rating-read-only" data-score="<%= event.try(:owner).try(:psa_rating) %>">
+                <% end %>
+              </p>
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Age:</strong>
+                <%= event.try(:owner).try(:age) %> 
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Time:</strong>
+                <%= short_date_time event.start_date_time %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

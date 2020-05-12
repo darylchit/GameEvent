@@ -1,0 +1,20 @@
+<% if flash.present?  %>
+    <script type="text/javascript">
+    toastr.options = {
+        "closeButton": true,
+        "timeOut": "7000",
+        "extendedTimeOut": "0",
+        "positionClass": "toast-top-center"
+    };
+      <% flash.each do |type, messages| %>
+        <% ((messages.is_a? Array) ? messages : [messages]).each do |message| %>
+          <% if message == "User was successfully updated." %>
+            <% message = "Profile Updated" %>
+          <% end %>
+          <%if message != "Signed out successfully."%>
+            toastr.success("<%= message %>");
+          <% end %>
+        <% end %>
+      <% end %>
+    </script>
+<% end %>

@@ -1,0 +1,43 @@
+<div class='row'>
+  <% if @clan.video_urls.present? %>
+    <% @clan.video_urls.each do |video_url| %>
+      <div class="container-boxtemp col-md-6 topmrg_20">
+        <div class="vedio_box">
+          <h3 class="text-center" data-toggle="tooltip" data-placement="top" title="<%= video_url.name %>">
+            <%= video_url.name %>
+          </h3>
+          <div class="embed-responsive embed-responsive-16by9">
+            <% if video_url.youtube_url? %>
+                <iframe width="560" height="315" src="<%= youtube_embed_url video_url.url %>" frameborder="0" allowfullscreen></iframe>
+            <% elsif video_url.twitch_url? %>
+                <iframe src="https://player.twitch.tv/?video=v<%=video_url.video_id %>&autoplay=false" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe><a href="https://www.twitch.tv/joshog?tt_medium=live_embed&tt_content=text_link" style="padding:2px 0px 4px; display:block; width:345px; font-weight:normal; font-size:10px; text-decoration:underline;">Watch live video from JoshOG on www.twitch.tv</a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if @clan.youtube_video_url.present? %>
+    <div class="container-boxtemp col-md-6 topmrg_20">
+      <div class="vedio_box">
+        <h3 class="text-center" data-toggle="tooltip" data-placement="top" title="Youtube">
+          Youtube
+        </h3>
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe width="560" height="315" src="<%= youtube_embed_url @clan.youtube_video_url %>" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class='clearfix'></div>
+</div>
+
+<% if @clan.twitch && @twitch_stream %>
+    <%= render 'shared/twitch_feed', channel: @clan.twitch %>
+<% end %>
+
+<% unless @clan.video_urls.present? ||  @clan.twitch && @twitch_stream ||  @clan.youtube_video_url.present? %>
+  <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+  <h3 class="text-center">No Videos</h3>
+<% end %>

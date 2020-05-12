@@ -1,0 +1,392 @@
+.profile-links {
+	margin: 2em 0;
+	li {
+		@media screen and (min-width: $screen-md-min) {
+			margin-right: .5em;
+			display: inline-block;
+		}
+		@media screen and (max-width: $screen-sm-max) {
+			display: block;
+			.btn {
+				display: block;
+				width: 100%;
+			}
+			&:first-child .btn{
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+				border-bottom-width: 2px;
+			}
+			&:not(:first-child):not(:last-child) .btn{
+				border-radius: 0;
+				border-bottom-width: 0;
+			}
+			&:last-child .btn{
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
+			}
+		}
+	}
+
+}
+.panel-group-games {
+	.panel-heading {
+		margin-bottom: 1em;
+		h3 {
+			font-size: 2em;
+			small {
+				vertical-align: middle;
+			}
+		}
+	}
+}
+.system-avatars-modal {
+	.pagination {
+		margin: .25em 0 0 0;
+	}
+}
+
+@media screen and (min-width: $screen-md-min) {
+	.profile-nav, .account-nav {
+		.side-nav-avatar img {
+			width: 100%;
+		}
+	}
+}
+
+.profile-events {
+	&.table-responsive {
+		@media screen and (max-width: 768px) {
+			border: none;
+		}
+	}
+}
+.block_popup.set_mrg{margin: 20px 10px 20px 10px;}
+.player_profile_page {
+  padding: 20px;
+  .topmrg_13{margin-top: 13px;}
+  .profile-nav .side-nav-avatar {
+    margin-bottom: 0px;
+  }
+  .table-cell-center {
+    display: table-cell;
+    text-align: center;
+  }
+  .thump-circle-main{
+    font-size: 30px;
+    position: absolute;
+    text-align: left;
+    left: 35px;
+  }
+  .thump-pos{padding-left: 12px; padding-top: 6px}
+
+  .player-line-break {
+    border-bottom: 1px #ddaf3b solid;
+  }
+
+  .information_star img {
+    max-width: 14px;
+  }
+  .profile_block {
+    padding: 15px;
+    background: rgba(5, 5, 5, 0.3);
+  }
+  .desktop_username {
+    margin-top: 55px;
+  }
+  .profile-links {
+    li {
+      a {
+        width: 160px;
+      }
+    a.set_width_100{width: 100%;}
+    }
+  }
+  .bio {
+    text-align: justify;
+  }
+  .logo{
+    width: 50%;
+  }
+
+  .column-eq{
+      .row-eq-height {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+      }
+      .row {
+        margin-bottom: 0px;
+      }
+      .row .row {
+        margin-top: 0px;
+        margin-bottom: 0;
+      }
+
+  }
+
+  .game-card{
+    width: 24%;
+    position: relative;
+    overflow: hidden;
+    display: -webkit-inline-box;
+    // border-radius: 7px;
+    //margin-right: 1%;
+
+    &:hover {
+      border-color: #ddaf3b;
+    }
+
+    .move_plus_button {
+      margin-top: 4.5cm;
+      margin-right: 2.5cm;
+    }
+    .cover-details {
+      opacity: 1;
+      transition: opacity 300ms ease-in-out;
+    }
+    .card-icons {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      font-size: 20px;
+      z-index: 3;
+      .fa {
+        margin-right: 5px;
+      }
+    }
+    h4{
+      font-size: 1.2em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+    .game-release-date{
+      font-size: 10px;
+    }
+    .mss-details{
+      h4{
+        margin-bottom: 0px;
+      }
+    }
+		.inner-box .image{
+	  	position:relative;
+	  }
+	  .inner-box .image .overlay-box{
+	  	position:absolute;
+	  	left:0px;
+	  	top:0px;
+	  	width:100%;
+	  	height:100%;
+	  	display:block;
+	  	text-align:center;
+	  	opacity:0;
+	  	background-color:rgba(0,0,0,0.8);
+	      -webkit-transition: all 700ms ease;
+	      -ms-transition: all 700ms ease;
+	      -o-transition: all 700ms ease;
+	      transition: all 700ms ease;
+	      -webkit-transform: translate(-100%,0%);
+	      -ms-transform: translate(-100%,0%);
+	      -o-transform: translate(-100%,0%);
+	      -moz-transform: translate(-100%,0%);
+	      transform: translate(-100%,0%);
+	  }
+
+	  .inner-box:hover .image .overlay-box{
+	  	opacity: 1;
+	      -webkit-transform: translate(0%);
+	      -ms-transform: translate(0%);
+	      -o-transform: translate(0%);
+	      -moz-transform: translate(0%);
+	      transform: translate(0%);
+	  }
+
+	  .inner-box .image .overlay-box .overlay-inner{
+	  	position:relative;
+	      display: table;
+	  	width: 100%;
+	      height: 100%;
+	      vertical-align: middle;
+	      padding: 10px 30px;
+	  }
+
+	   .inner-box .image .overlay-box .overlay-inner .content{
+	  	position:relative;
+	      display: table-cell;
+	      vertical-align: middle;
+	  }
+
+	   .inner-box .image .overlay-box .overlay-inner .content h3{
+	  	position:relative;
+	  	font-weight:700;
+	  	color:#ffffff;
+	  	letter-spacing:2px;
+	  	padding-bottom:12px;
+	  	margin-bottom:20px;
+	  	text-transform:uppercase;
+	  }
+
+	   .inner-box .image .overlay-box .overlay-inner .content a:hover{
+	  	color: #ddaf3b;
+	  }
+
+	  //  .inner-box .image .overlay-box .overlay-inner .content h3:after{
+	  // 	position:absolute;
+	  // 	content:'';
+	  // 	left:50%;
+	  // 	bottom:0px;
+	  // 	width:35px;
+	  // 	height:1px;
+	  // 	margin-left:-17px;
+	  // 	background-color:#ffffff;
+	  // }
+
+	  .inner-box .image .overlay-box .overlay-inner .content h3 a{
+	  	color:#ddaf3b;
+			font-size: 20px;
+			@media(max-width: 767px){
+				font-size: 12px;
+			}
+	  }
+
+	   .inner-box .image .overlay-box .overlay-inner .content .text{
+	  	position:relative;
+	  	color:#d1d1d1;
+	  	font-size:12px;
+	  }
+  }
+  .gold_row{
+    border-top: 1px solid #ddaf3b;
+    margin: 0px;
+  }
+  .padding_zero{
+    padding: 0px;
+  }
+
+  .vedio_box{
+    border: 1px solid grey;
+    //border-radius: 7px 7px 0px 0px;
+    background-color: #ddaf3b;
+    color: black;
+    h4{
+      margin-top: 5px;
+      margin-bottom: 5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+  }
+  .vedio_box:hover{
+    border: 1px solid #ddaf3b;
+  }
+  .container-boxtemp{
+    margin-bottom: 30px;
+  }
+  .social-links li{
+    padding-right: 0px;
+  }
+  .events_table{
+    margin-bottom: 0px;
+    thead{
+      background-color: #ddaf3b;
+      color: black;
+      border-radius: 7px !important;
+    }
+  }
+  @media only screen and (max-width: 990px) {
+    .image-container {
+      height: 180px;
+      overflow: hidden;
+      display: block;
+      text-align: center;
+      img {
+        margin-top: -50px;
+      }
+    }
+    .username {
+      margin-bottom: 2.5px;
+    }
+    h3 {
+      margin-bottom: 0px;
+    }
+
+    .nav-tabs > li > a {
+      border: 0;
+    }
+    .nav-tabs {
+      li {
+        width: 25%;
+        text-align: center;
+      }
+    }
+    .nav-tabs > li > a:hover {
+      background-color: #ddaf3b;
+      border: 0px;
+      color: #fff;
+    }
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+      background-color: #ddaf3b;
+      border: 0px;
+      color: #fff;
+    }
+    ul {
+      width: 100%;
+    }
+
+    .nav-tabs {
+      border-bottom: 1px solid #ddaf3b;
+    }
+    .game-card{
+      width: 49%;
+    }
+    .game-card:not(:nth-child(2n)) {
+      margin-right: 1%;
+    }
+
+    .player_plus{
+      margin-right: 10px;
+    }
+
+    .player-card.add-menu-show .player-add-menu{
+      right: 15px;
+      margin-top: -15px;
+    }
+    .vedio_box{
+      border-radius: 0px;
+    }
+
+  }
+
+  .remove_border_radius{border-radius: 0px;}
+  .gold_line{border-top: 1px solid #ddaf3b;}
+}
+
+.add_game_modal{
+	label{
+		font-size: 20px;
+	}
+  .add_game_image{
+    padding:  30px 0;
+    img{
+      max-width: 90%;
+    }
+  }
+}
+
+.global_validation{
+  .error-list{
+    ul{
+      padding: 0px;
+      li{
+        list-style: none;
+        color: #ddaf3b;
+        font-size: 15px;
+      }
+    }
+  }
+}
+@media(max-width: 767px){
+  .player_profile_page.padding{padding-top: 0;}
+}

@@ -1,0 +1,46 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/adminnav" %>
+			</div>
+			<div class="col-md-9">
+				<div class="row">
+	                <div class="col-md-9">
+	                    <h2 class="mt0">Manage Titles</h2>
+	                </div>
+	                <div class="col-md-3">
+	                	<%= link_to 'Add Title', new_admin_game_path(), class: "btn btn-primary pull-right-md" %>
+	                </div>
+	            </div>
+
+				<p id="notice"><%= notice %></p>
+				<div class="table-responsive">
+					<%= grid(@grid, show_filters: :no, hide_csv_button: true, html: {class: 'table table-responsive admin-games table-striped data-tr'}) do |g|
+						g.blank_slate do
+					    	content_tag :div, 'You have not Added any titles', class: 'no-results'
+					  	end
+					  	g.row_attributes do |g|
+						    {:datasrc => edit_admin_game_path(g)}
+						end
+						g.column name: 'Cover', attribute: 'game_cover', :class => 'cover' do | g |
+							game_cover_html g, edit_admin_game_path(g)
+						end
+					  	g.column name: 'Title', attribute: 'title' do | g |
+							link_to g.title, edit_admin_game_path(g)
+						end
+						g.column name: 'Systems' do | g |
+							link_to g.game_systems.map{|game_system| game_system.title }.join(','), edit_admin_game_path(g)
+						end
+						g.column name: 'slug' do | g |
+							link_to g.slug, edit_admin_game_path(g)
+						end
+            g.column name: 'Affiliate Network Link', attribute: 'affiliate_network_link' do |g|
+              link_to g.affiliate_network_link || '#', edit_admin_game_path(g)
+            end
+					end -%>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

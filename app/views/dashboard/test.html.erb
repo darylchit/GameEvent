@@ -1,0 +1,5 @@
+<% if @recurring.present? %>
+  <% @recurring.each do |item| %>
+    title: <%= item.title %> clan: <%= item.clan.name %><br>
+  <% end %>
+<% end %>

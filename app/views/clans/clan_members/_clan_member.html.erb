@@ -1,0 +1,58 @@
+<li class="<%= browser.device.mobile? ? 'mobile_card col-half col-half-xs' : 'col-fifth' %> member_card card-wrapper player-card p-x-0-xs wow fadeInUp set-border" id="player-<%= member.user.id%>">
+  <button class="btn-link add-icon-top">
+    <span class="fa fa-ellipsis-v"></span>
+  </button>
+  <div class="player-add-menu">
+    <ul class="list-unstyled">
+      <% current_member = @clan.member(current_user) %>
+      <li class="player-favorite">
+        <% if current_user.is_favoriting_user?(member.user) %>
+          <%= render "shared/favorites/remove", player: member.user %>
+        <% else %>
+          <%= render "shared/favorites/add", player: member.user %>
+        <% end %>
+      </li>
+      <% if current_user.has_open_rosters? %>
+        <li><%= link_to "Invite to Roster", invite_user_path(user_id: member.user.id), remote: true %></li>
+      <% end %>
+      <% if current_member && current_member.can_perform?(:set_rank) %>
+        <li><%= link_to "Set Rank", edit_clan_member_path(member), remote: true %></li>
+      <% end %>
+      <% if current_member && current_member.can_perform?(:remove_users) && current_member != member %>
+        <li class=remove-clan-member>
+          <%= link_to "Remove From Clan", clan_member_path(member), method: :delete, remote: true %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+    <%= link_to player_path(member.user) do %>
+    <%= image_tag(member.user.avatar_url, class: 'avatar-lg') %>
+    <div class="card-content">
+      <div class="card-body card-pad">
+        <p class="text-gray">
+            <strong class="text-primary">Name: </strong><%= member.user.username %>
+        </p>
+        <% if false && "Hide RANK FOR NOW" %>
+          <p class="text-gray">
+            <strong class="text-primary">Rank:</strong>
+            <span class="clan-rank"><%= @clan.is_host?(member.user) ? "Host" : member.clan_rank.title %></span>
+          </p>
+        <% end %>
+        <p class="text-gray">
+          <strong class="text-primary">PSA:</strong> 
+          <%if member.user.psa_rating == 0 %>
+            N/A
+          <% else %>
+            <span class="psa-rating-read-only" data-score="<%= member.user.psa_rating %>"></span>
+          <% end %>
+        </p>
+        <p class="text-gray">
+          <strong class="text-primary">Exp:</strong> <%= member.user.contracts_completed.to_s %> <%# contracts_completed is the same as experience but is persisted to user model %> 
+        </p>
+        <p class="text-gray">
+          <strong class="text-primary">Age:</strong> <%= member.user.public_age ? member.user.age : 'Not Public' %> <%# do we need to hide ages still? %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+</li>

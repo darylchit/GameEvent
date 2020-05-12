@@ -1,0 +1,65 @@
+<div class="account-nav">
+	<%= link_to profile_path do %>
+		<h3 class="mt0 hidden-sm hidden-xs"><%= current_user.username %></h3>
+	<% end %>
+	<div class="side-nav-avatar image-container">
+		<%= link_to profile_path do %>
+			<%= image_tag(current_user.avatar_url) %>
+		<% end %>
+		<%= link_to edit_profile_path, class: "image-action" do %>
+			<span class="fa fa-gear"></span>
+		<% end %>
+		<%= link_to profile_path do %>
+			<h3 class="mt0 hidden-lg hidden-md"><%= current_user.username %></h3>
+		<% end %>
+	</div>
+	<div class="expand-sidenav">
+		<div class="expand-sidenav-toggle">
+			<h3 class="mb0"><a data-toggle="collapse" data-target="#side-nav-collapsible" aria-expanded="false">Menu</a></h3>
+		</div>
+		<div class="side-nav-container collapse in" id="side-nav-collapsible">
+			<ul class="nav side-nav">
+				<li><%= link_to "Edit Profile", edit_profile_path %></li>
+				<%#= link_to "Edit Account", edit_profile_account_path %>
+				<li><%= link_to "My Events", events_path %></li>
+                <li><%= link_to "My Titles", edit_games_and_systems_path %></li>
+        		<li><%= link_to "Messages", messages_path %></li>
+        		<li><%= link_to "Rate & Block Players", profiles_path + '/' + current_user.username + '/blocks-and-feedback' %></li>
+				<li><%= link_to "Favorites",  profiles_path + '/' + current_user.username + '/favorites' %></li>
+				<% #<li><%= link_to "Claimed Bounties & Contracts", claimed_contracts_path</li>
+				#<li><%= link_to "My Posted Bounties", posted_bounties_path </li>
+				#<li><%= link_to "My Claimed Bounties", claimed_bounties_path </li>%>
+				<li><%= link_to "Subscription", profile_subscription_path %></li>
+				<li><%= link_to "Notification Settings", edit_profile_notifications_path %></li>
+				<li><%= link_to "Contact Us", contact_requests_path %></li>
+				<% if current_admin.present? %>
+					<li class="divider"></li>
+					<div class="panel-group menu-panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-clear">
+					    <div class="panel-heading" role="tab" id="headingAdmin">
+					        <a class="collapsed" data-toggle="collapse" href="#collapseAdmin" aria-expanded="false" aria-controls="collapseAdmin">
+					          Admin
+					        </a>
+					    </div>
+					    <div id="collapseAdmin" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAdmin">
+					      <div class="panel-body">
+					      	<ul class="nav side-nav">
+										<li><%= link_to 'Manage Cancellations', admin_cancellations_path %></li>
+										<li><%= link_to 'Manage Rosters', admin_rosters_path %></li>
+										<li><%= link_to 'View Events', admin_events_path %></li>
+										<li><%= link_to "Manage Systems", admin_game_systems_path %></li>
+										<li><%= link_to "Manage Titles", admin_games_path %></li>
+										<li><%= link_to 'Manage Users', admin_users_path %></li>
+										<li><%= link_to 'Manage Reported Content', admin_reports_path %></li>
+							</ul>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					<li class="divider"></li>
+				<% end %>
+				<li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+			</ul>
+		</div>
+	</div>
+</div>

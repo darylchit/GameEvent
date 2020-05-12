@@ -1,0 +1,7 @@
+$('.modal-body .contract-padding').first().html('<h3 class="text-center">This player has already been invited to the specified roster.</h3><br>');
+$('.modal-footer').hide();
+setTimeout(function(){
+	$('.modal-body .alert').remove();
+	$('.add-menu-show').removeClass('add-menu-show');
+	$('.modal').modal('toggle');
+}, 4500);

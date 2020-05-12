@@ -1,0 +1,159 @@
+<div class="modal fade" id="discord_login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content modal-vertical">
+			<div class="modal-header sign-in">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title text-center" id="myModalLabel"><strong>Login or Sign Up</strong></h4>
+			</div>
+			<div class="modal-body contract-details">
+
+				<div class="col-md-12 hide">
+	        <ul class="nav nav-tabs pull-right right">
+	          <li class="active right">
+	            <a data-toggle="tab" href="#login_tab" class="btn-lightgrey">Login</a>
+	          </li>
+	          <li class="right">
+	            <a data-toggle="tab" href="#signup" class="btn-lightgrey">Sign Up</a>
+	          </li>
+	        </ul>
+	      </div>
+
+				<div class="tab-content">
+		      <div id="login_tab" class="tab-pane fade in active">
+						<%= bootstrap_form_for(User.new, as: :user, url: session_path(:user), remote: true) do |f| %>
+							<div class="topmrg_20">
+							<%= f.text_field :email, hide_label: :true, autofocus: true, tabindex: 1, placeholder: 'Email' %>
+							</div>
+							<%= link_to "Resend My Email Confirmation", "", "data-toggle" => "modal", "data-target" => "#confirmation_model", class: 'text-gray' %><br />
+							<br />
+							<%= f.password_field :password, autocomplete: 'new-password', tabindex: 2, hide_label: :true, placeholder: 'Password' %>
+							<%= link_to "Forgot My Password", "", "data-toggle" => "modal", "data-target" => "#forgot_password_modal", class: 'text-gray' %><br />
+
+							<div class="form-group topmrg_20">
+								<div class="row set_margin">
+									<div class="text-center col-xs-12 login_btn">
+										<%= f.submit "Log in", class: "btn btn-success  btn-full" %>
+										<%= f.check_box :remember_me, label: "Remember Me", checked: true %>
+									</div>
+								</div>
+							</div>
+							<p class="text-center">
+								Need an Account?
+								<a data-toggle="tab" href="#signup">Sign Up</a>
+							</p>
+						<% end %>
+					</div>
+
+					<div id="signup" class="tab-pane fade in">
+
+						<%= form_for(User.new, url: registration_path(:user), remote: true, html: {id: 'user_sign_up'}) do |f| %>
+							<span class="help-block">&nbsp;</span>
+							<div class="form-group topmrg_20">
+								<%= f.text_field :username, hide_label: :true, class: 'form-control', :placeholder=>"Username", 'data-validation' => '[NOTEMPTY,MIXED,L>=4, L<=32]', 'data-validation-message' => 'Username must be 4 to 32 characters long and contain only lowercase characters, uppercase characters, numbers, dashes, and underscores.'  %>
+							</div>
+							<span class="help-block">Choose Wisely...This Cannot Be Changed Later.</span>
+
+							<div class="form-group " data-validation="required">
+								<%= f.email_field :email, autofocus: false, hide_label: :true, class: 'form-control', :placeholder=>"Email", 'data-validation' => '[EMAIL]', 'data-validation-message' => "Email Is Not Valid." %>
+							</div>
+							<div class="form-group">
+								<%= f.email_field :email_confirmation, hide_label: true, class: 'form-control', :placeholder=>'Confirm Email', 'data-validation' => '[V==user[email]]', 'data-validation-message' => "Email Confirmation Does Not Match." %>
+							</div>
+
+
+							<div class="form-group ">
+								<%= f.password_field :password, hide_label: :true, class: 'form-control', :placeholder=>"Password (8 to 32 Characters)", 'data-validation' => '[L>=8, L<=32]', 'data-validation-message' => "Password Must Be 8 to 32 Characters."  %>
+							</div>
+							<div class="form-group">
+								<%#= f.number_field :age, hide_label: :true, class: 'form-control', :placeholder=>"Age", 'data-validation' => '[NOTEMPTY,INTEGER]', 'data-validation-message' => "You Must Be At Least 13 To Use This Service.", min: 13, max: 99  %>
+								<%= f.select :age, options_for_select((13..115).map{|v| [v,v]}), { prompt: 'Age'}, {:class => 'form-control', 'data-validation' => '[NOTEMPTY]', 'data-validation-message' => "Age can't be blank" } %>
+							</div>
+							<%= f.hidden_field :source, value:  request.path %>
+							<div class="checkbox text-center">
+								<label for="termsAgreed">
+								<input id="termsAgreed" name="signup_v2[agree]" data-validation="[NOTEMPTY]" data-validation-message="You must read and agree to the Terms of Use before you can Sign Up." type="checkbox">
+								I Agree With the  <%= link_to 'Terms of Service', '#', data: { toggle: "modal", target: "#tos_popup"}%>
+								</label>
+							</div>
+							<div class="row">
+								<div class="topmrg_20 text-center col-xs-12">
+										<%= f.submit "Sign Up".html_safe, class: 'btn btn-success btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Sign Up"}, id: 'sign_up_btn_div' %>
+								</div>
+							</div>
+							<p class="text-center">
+								Have an Account? <a data-toggle="tab" href="#login_tab">Login</a>
+							</p>
+
+						<% end %>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+$('#discord_login_modal').modal();
+$(document).ajaxError(function (e, xhr, settings) {
+        if (xhr.status == 401) {
+					toastr.options = {
+						 "closeButton": true,
+						 "timeOut": "7000",
+						 "extendedTimeOut": "0",
+						 "positionClass": "toast-top-center"
+				 };
+				 toastr.success("You have to confirm your email address before continuing.");
+        }
+    });
+</script>
+
+
+<!-- Email Confermation Modal STARTS-->
+<div class="modal fade" id="confirmation_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog set_popup_mrg" role="document">
+		<div class="modal-content modal-vertical">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Resend Confirmation Instructions</h4>
+			</div>
+			<div class="modal-body contract-details">
+				<%= form_for(User.new, as: :user, url: confirmation_path(:user), remote: true, html: { method: :post, id: 'confirmation_form'}) do |f| %>
+					<div class="form-group clearfix">
+						<label>Email Address</label>
+						<%= f.email_field :email, autofocus: true, class: "form-control", "data-validation" => "[NOTEMPTY,EMAIL]" %>
+					</div>
+					<div class="form group text-center">
+            <%= f.button "Resend Confirmation", class: "btn btn-success btn-x", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Resend Confirmation"} %>
+					</div>
+			  <% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Email Confermation Modal ENDS -->
+
+<!-- Forgot Password Modal STARTS-->
+<div class="modal fade" id="forgot_password_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog set_popup_mrg" role="document">
+		<div class="modal-content modal-vertical">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Forgot Password</h4>
+			</div>
+			<div class="modal-body contract-details">
+				<%= bootstrap_form_for(User.new, as: :user, url: user_password_path(User.new), remote: true, html: { method: :post, id: 'forgot_password_form'}) do |f| %>
+					<%= f.text_field :email, autofocus: true, label: "Email Address", "data-validation" => "[NOTEMPTY,EMAIL]" %>
+					<div class="form group text-center">
+						<%= f.submit "Send Instructions", class: "btn btn-success btn-x" %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Forgot Password Modal ENDS -->
+
+<%= render '/users/registrations/tos_popup' %>

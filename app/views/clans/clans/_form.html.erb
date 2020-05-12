@@ -1,0 +1,565 @@
+<div class="topmrg_20 row clearfix"></div>
+
+
+<%= form_for(@clan) do |f| %>
+  <h3>Information and Images </h3>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="field">
+          <%= f.label :name, "Name (35 Character Limit)", class: 'required' %>
+          <%= f.text_field :name, :class => 'form-control' %>
+          <% if f.object.errors.try(:messages)[:name].try(:first).present? %>
+            <!-- <p class='text-primary'><%#= f.object.errors.try(:messages)[:name].try(:first) %></p> -->
+            <p class='text-primary'>Required</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="field">
+          <%= f.label :motto, "Motto (40 Character Limit)", class: 'required' %>
+          <%= f.text_field :motto, :class => 'form-control' %>
+          <% if f.object.errors.try(:messages)[:motto].try(:first).present? %>
+            <!-- <p class='text-primary'><%#= f.object.errors.try(:messages)[:motto].try(:first) %></p>
+            -->
+            <p class='text-primary'>Required : Exceeds 40 Character Limit</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :country, "Country", class: 'required'%>
+        <%= f.select :country, countries_list ,{selected: @clan.country.present? ? @clan.country : current_user.country}, {:class => 'form-control chosen-select', :multiple => false} %>
+        <% if f.object.errors.try(:messages)[:country].try(:first).present? %>
+          <!-- <p class='text-primary'><%#= f.object.errors.try(:messages)[:country].try(:first) %></p> -->
+          <p class='text-primary'>Required</p>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :timezone, "Time Zone", class: 'required'%>
+        <%= f.select :timezone, options_for_select(ActiveSupport::TimeZone.all.sort.map{|a|a.name}, ((@clan.try(:timezone) || current_user.timezone))), {}, {:class => 'form-control chosen-select'}%>
+        <%#= time_zone_select("clan", "timezone", ActiveSupport::TimeZone.all.sort, {prompt: "Select Time Zone", default: (@clan.try(:timezone) || current_user.timezone)}, {:class => 'form-control chosen-select'})%>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :languages, "Language", class: 'required' %>
+        <%= f.select :languages, options_for_select(User.available_languages, @clan.languages.present? ?  @clan.languages : current_user.language ), {include_blank: true}, {:class => 'form-control chosen-select'} %>
+        <% if f.object.errors.try(:messages)[:languages].try(:first).present? %>
+          <!-- <p class='text-primary'><%#= f.object.errors.try(:messages)[:languages].try(:first) %></p> -->
+          <p class='text-primary'>Required</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :game_type, "Clan Type", class: 'required' %>
+        <%= f.select(:game_type, options_for_select(["All Types", "Player vs. Player", "Player vs. Enemy"], @clan.game_type), {:label => 'Clan Types'}, {:class => "form-control"}) %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :play_style, "Play Style", class: 'required' %>
+        <%= f.select(:play_style, options_for_select(Clan::PLAY_STYLE, @clan.play_style), {:label => 'Play style'}, {:class => "form-control"}) %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :profanity, class: 'required' %>
+        <%= f.select :family_friendly, options_for_select([['Yes', true], ['No', false]], selected: @clan.family_friendly? ? @clan.family_friendly : ['No', false] ),{}, {class: 'form-control'} %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :most_active_days, "Most Active Days", class: 'required' %>
+        <%= f.select :most_active_days, options_for_select(Clan::POPULAR_DAYS, @clan.most_active_days.present? ? @clan.most_active_days : Clan::POPULAR_DAYS[0]), {include_blank: false}, {:class => 'form-control'} %>
+        <%#= f.select :most_active_days, options_for_select(Clan::POPULAR_DAYS, @clan.most_active_days.present? ? @clan.most_active_days : ''), {include_blank: true}, {:class => 'form-control chosen-select'} %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :most_active, "Most Active Times", class: 'required' %>
+        <%= f.select :most_active, options_for_select(Clan::POPULAR_TIMES, @clan.most_active.present? ? @clan.most_active : ''), {include_blank: false}, {:class => 'form-control'} %>
+        <%#= f.select :most_active, options_for_select(Clan::POPULAR_TIMES, @clan.most_active.present? ? @clan.most_active : ''), {include_blank: true}, {:class => 'form-control chosen-select'} %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <%= f.label :minimum_age, "Minimum Age", class: 'required' %>
+        <%= f.select :minimum_age, options_for_select(Clan::MINIMUMAGE, selected: @clan.minimum_age),{include_blank: false }, {class: 'form-control'} %>
+        <% if f.object.errors.try(:messages)[:minimum_age].try(:first)  %>
+          <p class='text-primary'><%= f.object.errors.try(:messages)[:minimum_age].try(:first) %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :game_ids, "Active Games (Select Up to Four)", class: 'required' %>
+        <%= f.select :game_ids, @games.collect {|p| [ p.title, p.id ] }, {include_blank: false}, :class => 'form-control chosen-select', :multiple => true %>
+        <% if f.object.errors.try(:messages)[:game_ids].try(:first).present? %>
+          <!-- <p class='text-primary'><%#= f.object.errors.try(:messages)[:game_ids].try(:first) %></p> -->
+          <p class='text-primary'>Required</p>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :game_system_ids, "Game Systems", class: 'required' %>
+        <%= f.select :game_system_ids, @sorted_systems.collect {|p| [ p.title, p.id ]}, {include_blank: 'All'}, {:class => 'form-control chosen-select', :multiple => true} %>
+        <% if f.object.errors.try(:messages)[:game_system_ids].try(:first).present? %>
+          <!-- <p class='text-primary'><%#= f.object.errors.try(:messages)[:game_system_ids].try(:first) %></p> -->
+          <p class='text-primary'>Required</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group max-characters" data-max-num="250">
+    <label ><%= f.label :bio ,"Bio", class: 'required' %></label>
+      <%= f.text_area :bio, :class => 'form-control', :rows=>'5' %>
+      <%if f.object.errors.full_messages_for(:bio).first %>
+        <!-- <p class='text-primary'><%#= f.object.errors.messages[:bio].first %></p> -->
+        <p class='text-primary'>Required</p>
+      <% end %>
+  </div>
+  <div class="form-group">
+    <label >
+      <%= f.label :ground_rules, "Ground Rules" %>
+    </label>
+    <%= f.text_area :ground_rules, :class => 'form-control', :rows=>'3'   %>
+    <% if f.object.errors.full_messages_for(:ground_rules).first.present? %>
+      <p class='text-primary'><%= f.object.errors.full_messages_for(:ground_rules).first %></p>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <label ><%= f.label :requirements %></label>
+    <%= f.text_area :requirements, :class => 'form-control', :rows=>'3'   %>
+    <% if f.object.errors.full_messages_for(:requirements).first.present? %>
+      <p class='text-primary'><%= f.object.errors.full_messages_for(:requirements).first %></p>
+    <% end %>
+  </div>
+  <h4 class="text-center text-primary">Image File Types Supported - JPG, JPEG, GIF, PNG</h4>
+  <div class="row">
+      <div class="col-md-6">
+        <h4>
+          <label class= "<%= @clan.new_record? ? '' : 'required' %>" > Desktop Image </label>
+
+          <br><small>Minimum Image Size: (1900x670)</small></br><br>
+          <h4>
+            <% if @clan.jumbo.present? %>
+                <div class="form-group text-center">
+                  <%= link_to @clan.jumbo.url, target: "_blank" do %>
+                      <%= image_tag(@clan.jumbo.url(:jumbo)) %>
+                  <% end %>
+                </div>
+                <div class="form-group">
+          <span class="btn btn-primary btn-file btn-block">
+              <span class="file-label">REPLACE</span> <%= f.file_field :jumbo, data:{filename_placement: "inside", show_upload: "false"}, accept: ".png,.jpg,.jpeg,.gif"%>
+          </span>
+                </div>
+            <% else %>
+                <%= image_tag(clan_jumbo_url(@clan)) %>
+                <span class="btn btn-primary btn-file btn-block">
+            <span class="file-label">BROWSE</span> <%= f.file_field :jumbo, data:{filename_placement: "inside", show_upload: "false"}, accept: ".png,.jpg,.jpeg,.gif"%>
+        </span>
+                <%= f.hidden_field :jumbo_cache %>
+            <% end %>
+      </div>
+      <div class="col-md-4">
+        <h4>
+          <label class= "<%= @clan.new_record? ? '' : 'required' %>" >
+            Mobile Image
+          </label>
+          <br><small>Minimum Image Size: (600x285)</small></br><h4><br>
+          <% if @clan.mobile_jumbo.present? %>
+              <div class="form-group text-center">
+                <%= link_to @clan.mobile_jumbo.url, target: "_blank" do %>
+                    <%= image_tag(@clan.mobile_jumbo.url(:mobile_jumbo)) %>
+                <% end %>
+              </div>
+              <div class="form-group">
+          <span class="btn btn-primary btn-file btn-block">
+              <span class="file-label">REPLACE</span> <%= f.file_field :mobile_jumbo, data:{filename_placement: "inside", show_upload: "false"}, accept: ".png,.jpg,.jpeg,.gif"%>
+          </span>
+              </div>
+          <% else %>
+              <%= image_tag(clan_mobile_jumbo_url(@clan)) %>
+              <span class="btn btn-primary btn-file btn-block">
+            <span class="file-label">BROWSE</span> <%= f.file_field :mobile_jumbo, data:{filename_placement: "inside", show_upload: "false"}, accept: ".png,.jpg,.jpeg,.gif"%>
+        </span>
+              <%= f.hidden_field :mobile_jumbo_cache %>
+          <% end %>
+      </div>
+      <div class="col-md-2">
+        <h4>
+          <label class= "<%= @clan.new_record? ? '' : 'required' %>" >
+            Clan Avatar
+          </label>
+          <br><small>Minimum Image Size: (400X400)</small></br><h4>
+          <% if @clan.cover.present? %>
+              <div class="form-group text-center">
+                <%= link_to @clan.cover.url, target: "_blank" do %>
+                    <%= image_tag(@clan.cover.url(:cover)) %>
+                <% end %>
+              </div>
+              <div class="form-group">
+          <span class="btn btn-primary btn-file btn-block">
+              <span class="file-label">REPLACE</span> <%= f.file_field :cover, data:{filename_placement: "inside", show_upload: "false"}, accept: ".png,.jpg,.jpeg,.gif"%>
+          </span>
+              </div>
+          <% else %>
+              <%= image_tag(clan_cover_url(@clan)) %>
+              <span class="btn btn-primary btn-file btn-block">
+            <span class="file-label">BROWSE</span> <%= f.file_field :cover, data:{filename_placement: "inside", show_upload: "false"}, accept: ".png,.jpg,.jpeg,.gif"%>
+        </span>
+              <%= f.hidden_field :cover_cache %>
+          <% end %>
+      </div>
+    </div>
+  <hr>
+  <h3>Access and Preferences</h3>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= f.label :status, 'Clan Status' ,class: 'required' %>
+          <a href="#user_hide_profile" data-toggle="tooltip" data-placement="top" data-html="true" title="<p style='text-align: justify;'>Open allows anyone to join. Closed blocks new users from joining. Recruiting allows you to accept applications and requires you to provide application questions below. Restricted allows users to join after they enter an Access Code.</p>">?</a>
+          <%= f.select :status, options_for_select(Clan::STATUSES, @clan.status.present? ? @clan.status : ''), {}, {:class => 'form-control'} %>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= f.label :access_code, "Clan Access Code (Six Digits)", class: 'required' %>
+          <%= f.text_field :access_code, class: 'form-control', value: @clan.access_code.present? ? @clan.access_code : '' %>
+          <% if f.object.errors.try(:messages)[:access_code].try(:first).present? %>
+              <p class="text-primary">Required</p>
+          <% end %>
+
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= f.label :re_apply, 'Allow Rejected Applicants to Reapply', class: 'required' %>
+          <%= f.select :re_apply, options_for_select([['Yes', true], ['No', false]], selected: @clan.re_apply),{}, {class: 'form-control'} %>
+        </div>
+      </div>
+    </div>
+
+    <% unless current_user.age < 18%>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <%= f.label :annual_dues, 'Annual Dues', class: 'required' %>
+              <%= f.select :annual_dues, options_for_select(Clan::ANNUAL_DUES, @clan.annual_dues), {include_blank: false}, {:class => 'form-control'} %>
+            </div>
+          </div>
+          <div class="col-md-4 annual_dues_amount <%= @clan.annual_dues == 0 ? '' : ''%>">
+            <div class="form-group">
+              <%= f.label :annual_dues_amount, 'Annual Dues Amount (USD)', class: 'required' %>
+              <%= f.number_field :annual_dues_amount, min: 0, class: 'form-control', placeholder: 'in dollars', step: '1' %>
+              <% if f.object.errors.try(:messages)[:annual_dues_amount].try(:first).present? %>
+                  <p class='text-primary'><%= f.object.errors.try(:messages)[:annual_dues_amount].try(:first) %></p>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <%= f.label :paypal_email, "PayPal Donations Sent To", class: "required" %>
+              <a href="#user_paypal_notification" data-toggle="tooltip" data-placement="top" data-html="true" title="<p style='text-align: justify;'>Donations will be sent to this address. You can change this email on your My Account page.</p>">?</a>
+              <%= f.text_field :paypal_email, :class => 'form-control', disabled: true, value: current_user.paypal_email? ? current_user.paypal_email : current_user.email %>
+
+              <% if f.object.errors.try(:messages)[:paypal_email].try(:first).present? %>
+                  <!-- <p class='text-primary'><%#= f.object.errors.try(:messages)[:paypal_email].try(:first) %></p> -->
+                  <p class='text-primary'>Required</p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+    <% end %>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= f.label :remove_inactive_users, "Remove Inactive Users", class: 'required' %>
+          <%= f.select :remove_inactive_users, options_for_select(Clan::INACTIVE_USER_RANGES, @clan.remove_inactive_users.present? ? @clan.remove_inactive_users : ''), {}, {:class => 'form-control'} %>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= f.label :apply_email, "Email Founder When Users Apply", class: 'required' %>
+          <%= f.select :apply_email, options_for_select([['Yes', true], ['No', false]], selected: @clan.apply_email),{}, {class: 'form-control'} %>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= f.label :join_email, "Email Founder When Users Join", class: 'required' %>
+          <%= f.select :join_email, options_for_select([['Yes', true], ['No', false]], selected: @clan.join_email),{}, {class: 'form-control'} %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" id="discord_configuration">
+      <% if @clan.persisted? &&  ENV['discord_token'].present? && ENV['discord_client'].present? && ENV['discord_secret'].present? %>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= label_tag  "Share Event On Discord", "Share Events On Discord" %>
+          <% if current_user.authorizations.discord.present? && current_user.authorizations.discord.last.guild_id.present? %>
+            <%= link_to 'Discord Bot Configuration', discord_channels_clan_path(@clan), remote: true, class: 'form-control btn discord-color-btn', id: 'discord_channel_popup', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Discord Bot Configuration"} %>
+          <% else %>
+            <%= link_to 'Discord Bot Configuration', discord_channels_clan_path(@clan), remote: true, class: 'form-control btn discord-color-btn hide', id: 'discord_channel_popup', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Discord Bot Configuration"} %>
+            <script type="text/javascript">
+              function open_and_redirect() {
+                window.open('<%= user_omniauth_authorize_path(:discord)%>', '', 'toolbars=0');
+            //                window.location = 'the new location for the parent window';
+              }
+              function call_parent_discord(){
+                $('#discord_channel_login').hide();
+                $('#discord_channel_popup').removeClass('hide');
+                $('#discord_channel_popup').trigger('click');
+              }
+            </script>
+            <span class="form-control btn discord-color-btn" id="discord_channel_login" onclick="open_and_redirect()" >Discord Bot Configuration</span>
+            <%#= link_to 'Discord Bot Configuration for clan Event', root_path, {:class => 'form-control btn btn-primary'} %>
+          <% end %>
+        </div>
+      </div>
+      <% end %>
+      <% if @clan.persisted? %>
+      <div class="col-md-4">
+        <div class="form-group">
+          <%= label_tag  "Twitch LFG Link", "Twitch LFG Link" %>
+          <span class="form-control btn twitch-post-btn" data-toggle='modal' data-target='#twich-clan-event-post'> Twitch LFG Link</span>
+          <div class="twitch-post-form-page">
+            <div class="modal fade" id="twich-clan-event-post" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+            	<div class="modal-dialog" role="document">
+            		<div class="modal-content modal-vertical">
+            			<div class="modal-header">
+            				<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            				<h4 class="modal-title text-center text-white" id="myModalLabel"><strong>Twitch LFG Link</strong></h4>
+            			</div>
+            			<div class="modal-body contract-details">
+                    <p class="text-justify">Paste this link in your Twitch chat to direct users to your clan's Twitch LFG post page.  This page let's users post clan events that will be shared on your clan LFG, the Game Roster mobile app, and your Discord server (if the Discord bot is configured).</p>
+                    <div class="row text-center event-copy-data">
+                      <div class="form-group">
+                        <textarea class="form-control text-area-twitch-clan-copy" rows="3" id="copy_twitch_details"><%= "#{ENV['domain']}/twitch/#{@clan.slug}" %></textarea>
+                      </div>
+                      <div class="col-xs-10 col-xs-offset-1">
+                        <span class=" btn btn-lightgrey btn-full twitch-clan-clipboard-btn" data-clipboard-action="copy" data-clipboard-target="#copy_twitch_details">
+                            Copy Link
+                        </span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+
+  <hr>
+  <%= render 'questions', f: f %>
+
+  <hr>
+
+  <%= render 'popular_links', f: f%>
+  <hr>
+
+  <h3>Custom Links (Optional) - Enter Entire URL</h3>
+  <div class="custom_links">
+    <%= f.fields_for :links do |link| %>
+      <div class="row link" id="remove_0">
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= link.label :name %>
+            <%= link.text_field :name, class: "form-control", placeholder: 'Link Name' %>
+            <% if link.object.errors.try(:messages)[:name].try(:first).present? %>
+              <p class='text-primary'><%= link.object.errors.try(:messages)[:name].try(:first)%></p>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="form-group">
+            <%= link.label :url, 'URL' %>
+            <%= link.text_field :url, class: "form-control", placeholder: 'URL' %>
+            <% if link.object.errors.try(:messages)[:url].try(:first).present? %>
+              <p class='text-primary'><%= link.object.errors.try(:messages)[:url].try(:first)%></p>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-md-1 remove_link <%= link.object.errors.try(:messages)[:url].try(:first).present? ? 'set_close_btn_with_error' : 'set_close_btn' %>" id="rm_btn_0">
+          <%= link.hidden_field :_destroy, class: "show_link remove_link" %>
+          <i class="fa fa-times set_curson_pointer"></i>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="link_add_button">
+    <a href="javascript:;" > <i class="fa fa-plus-circle "></i> Add Links </a>
+  </div>
+  <hr>
+
+  <h3>Videos - Twitch or YouTube URLs</h3>
+  <!-- <%#= f.label :youtube_video_url, "Youtube Video Url" %><br> -->
+  <%#= f.text_field :youtube_video_url, class: "form-control" %>
+  <div class="video_url">
+    <%= f.fields_for :video_urls do |video_url| %>
+      <div class="row video">
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= video_url.label :name, 'Video Name' %>
+            <%= video_url.text_field :name, class: "form-control", placeholder: 'Video Name' %>
+            <% if video_url.object.errors.try(:messages)[:name].try(:first) %>
+              <p class='text-primary'><%= video_url.object.errors.try(:messages)[:name].try(:first)%></p>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="form-group">
+            <%= video_url.label :url, 'Video URL' %>
+            <%= video_url.text_field :url, class: "form-control", placeholder: 'Video URL' %>
+            <% if video_url.object.errors.try(:messages)[:url].try(:first) %>
+              <p class='text-primary'><%= video_url.object.errors.try(:messages)[:url].try(:first)%></p>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-md-1 <%= video_url.object.errors.try(:messages)[:url].try(:first).present? ? 'set_close_btn_with_error' : 'set_close_btn' %> ">
+          <div class="remove_video">
+            <%= video_url.hidden_field :_destroy, class: "show_video remove_link" %>
+            <i class="fa fa-times set_curson_pointer"></i>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="video_add_button">
+    <a href="javascript:;" > <i class="fa fa-plus-circle"></i> Add Video </a>
+  </div>
+  <hr>
+  <h3 >Member Roles and Permissions</h3>
+  <div class="row hidden-xs ">
+    <div class="col-md-8 name_lbl_permisstion_row">
+      <div class="col-md-9 col-md-offset-3 name_lbl_permission">Custome Name</div>
+    </div>
+    <div class="col-md-1 clan_rank_name_lg">Post<br/>Events</div>
+    <div class="col-md-1  clan_rank_name_lg" >Post<br/>Chat</div>
+    <div class="col-md-1  clan_rank_name_lg" >Post Notices</div>
+    <div class="col-md-1  clan_rank_name_lg" >Review Applications</div>
+    <div class="col-md-1 clan_rank_name_lg hide" >Receive Messages
+      <a href="#user_hide_profile" data-toggle="tooltip" data-placement="top" data-html="true" title="<p style='text-align: justify;'>Allow Rank To Receive Group Messages Sent From The Clan's Messages Tab.  This Permission Does Not Include Messages For Recruitment Applications.</p>">?</a>
+    </div>
+  </div>
+  <% number = 0 %>
+  <%= f.fields_for :clan_ranks do |clan_rank| %>
+    <%= clan_rank.hidden_field :is_default, value: number == 2 %>
+    <%= clan_rank.hidden_field :default_sort_order, value: @clan.new_record? ? (number + 1) : clan_rank.object.default_sort_order %>
+    <div class="row padding_set">
+      <div class="box-color">
+        <div class="col-md-8 rank_option">
+         <div class="row">
+            <div class="col-md-2 rank_option rank_name pull text-center"><strong>Rank <%= number = number + 1%></strong></div>
+            <div class="form-group col-md-10">
+              <%#= clan_rank.label :title, 'Name' %>
+              <div class="visible-xs">Name</div>
+              <%= clan_rank.text_field :title, class: "form-control", placeholder: 'Name', value: clan_rank.object.title.nil? ? "Rank #{number}" : clan_rank.object.title %>
+              <% if clan_rank.object.errors.try(:messages)[:title].try(:first).present? %>
+                <p class='text-primary'><%= clan_rank.object.errors.try(:messages)[:title].try(:first)%></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1 rank_option">
+          <div class="form-group">
+            <div class="visible-xs">Post Events</div>
+            <%= clan_rank.select :post_events, options_for_select([['Yes', true], ['No', false]], selected: clan_rank.object.post_events? ),{}, {class: 'form-control'} %>
+          </div>
+        </div>
+        <div class="col-md-1 rank_option">
+          <div class="form-group">
+            <div class="visible-xs">Post Chat</div>
+            <%= clan_rank.select :post_chat, options_for_select([['Yes', true], ['No', false]], selected: clan_rank.object.post_chat?),{}, {class: 'form-control'} %>
+          </div>
+        </div>
+        <div class="col-md-1 rank_option">
+          <div class="form-group">
+            <div class="visible-xs">Post Notices</div>
+            <%= clan_rank.select :post_notices, options_for_select([['Yes', true], ['No', false]], selected: clan_rank.object.post_notices?),{}, {class: 'form-control'} %>
+          </div>
+        </div>
+        <div class="col-md-1 rank_option">
+          <div class="form-group">
+            <div class="visible-xs">Review Applications</div>
+            <%= clan_rank.select :review_applications, options_for_select([['Yes', true], ['No', false]], selected: clan_rank.object.review_applications?),{}, {class: 'form-control'} %>
+          </div>
+        </div>
+        <div class="col-md-1 rank_option hide">
+          <div class="form-group">
+            <div class="visible-xs">Receive Contact</div>
+            <%= clan_rank.select :receive_contact, options_for_select([['Yes', true],['No', false]], selected: clan_rank.object.receive_contact?), {}, {class: 'form-control'} %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% if  f.object.errors.try(:messages)[:clan_ranks]%>
+    <p class="lead text-primary" align="center">
+      <%= f.object.errors.try(:messages)[:clan_ranks].first%>
+    </p>
+  <% end %>
+<p class="lead text-primary" align="center">
+  <!--New members are 	assigned to rank 3 when they join.-->
+  New Members Are Assigned to Rank 3 When They Join.  Set Ranks For Each Member On The Members Tab.
+</p>
+  <hr>
+
+  <div class="row">
+    <div class="col-md-3 col-xs-12">
+      <% if @clan.id.present? %>
+        <% if @clan.paranoia_destroyed? %>
+          <%= link_to "Reactivate Clan", reactivate_clan_clan_path(@clan), method: "put",remote: true, class: "btn-md btn-x btn-primary btn edit-clan-btn col-md-12" , id: "reactivate_clan" %>
+        <% else %>
+        <%= link_to "Remove Clan", delete_confirmation_clan_path(@clan), remote: true, class: "btn-md btn-x btn-primary btn edit-clan-btn col-md-12" , id: "delete_clan" %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="col-md-3 col-xs-12 ">
+      <% if @clan.id.present? %>
+        <%= link_to 'Transfer Ownership', '#', class: "btn-md text-center text-uppercase btn-primary btn edit-clan-btn col-md-12", data: {toggle: 'modal', target: '#change_clan_owner'} %>
+      <% end %>
+    </div>
+    <div class="col-md-3 col-xs-12">
+      <% if @clan.id.present? %>
+        <%= link_to "View Clan", clan_path(@clan.slug), class: "btn-md btn-x btn-primary btn edit-clan-btn col-md-12" %>
+      <% end %>
+    </div>
+    <div class="col-md-3 col-xs-12">
+      <%= f.submit class: "btn btn-primary btn-md btn-x pull-right-md edit-clan-btn col-md-12", value: "SUBMIT" %>
+    </div>
+  </div>
+<% end %>
+
+<!-- clan ownership popup -->
+<%= render 'change_owner_clan'%>

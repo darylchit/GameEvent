@@ -1,0 +1,127 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+			<div class="col-md-9">
+				<div class="devise-block">
+					<h2 class="mt0">Edit Account</h2>
+					<%= render 'layouts/flash' %>
+					<%= form_for(resource, {url: '/profile/account'}) do |f| %>
+						<% if resource.errors.any? %>
+							<div id="error_explanation">
+							  <ul>
+							  <% resource.errors.full_messages.each do |message| %>
+								<li><%= message %></li>
+							  <% end %>
+							  </ul>
+							</div>
+						 <% end %>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>First Name</label>
+									<%= f.text_field :first_name, class: 'form-control', wrapper: { data: { validation: 'required' } } %>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<label>Last Name</label>
+								<%= f.text_field :last_name, class: 'form-control', wrapper: { data: { validation: 'required' } } %>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Email Address</label>
+            				<%= f.text_field :email, class: 'form-control', wrapper: { data: { validation: 'required' } } %>
+
+            				<span class="help-block">Email is an important way for us to send you notices but is also where money is sent if you forget to add your PayPal. Please confirm your address and <%= link_to 'Contact Us', contact_requests_path %> if you do not receive a confirmation.</span>
+						</div>
+						<div class="form-group">
+							<label>Password</label>
+							<%= f.password_field :password, autocomplete: "off", class: 'form-control', wrapper: { data: { validation: 'required' } } %>
+           				</div>
+           				<div class="form-group">
+							<label>Password Confirmation</label>
+           					<%= f.password_field :password_confirmation, class: 'form-control', autocomplete: "off", wrapper: { data: { validation: 'required' } } %>
+           					<span class="help-block">Please enter the same password as above</span>
+						</div>
+						<div class="form-group">
+							<label>Address 1</label>
+							<%= f.text_field :address_1, class: 'form-control', wrapper: { data: { validation: 'required' } } %>
+						</div>
+						<div class="form-group">
+							<label>Address 2</label>
+							<%= f.text_field :address_2, class: 'form-control', wrapper: { data: { validation: 'required' } } %>
+						</div>
+						<div class="row">
+              				<div class="col-md-4">
+              					<div class="form-group">
+									<label>Country or US Territory</label>
+									<%= f.select :country, countries_list, {include_blank: true}, {:class => 'form-control chosen-select', :multiple => false} %>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>City</label>
+									<%= f.text_field :city, class: 'form-control', wrapper: { data: { validation: 'required' } } %>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>State</label>
+									<%= f.text_field :state, class: 'form-control', wrapper: { data: { validation: 'required' } } %>
+								</div>
+							</div>
+						</div>
+						<p style="margin-top: -.5em; display: none;" id="pr-helper"><span class="helper-text"><small><sup>*</sup>Note: PayPal does not support payments for users in Puerto Rico.</small></span></p>
+						<div class="form-group">
+							<label>ZIP Code</label>
+							<%= f.text_field :zipcode, class: 'form-control', label: "ZIP Code"  %>
+						</div>
+						<div class="row">
+							<div class="col-sm-9">
+								<div class="form-group">
+									<label>Date of Birth</label>
+									<%= f.text_field :date_of_birth, class: 'form-control date-picker' %>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>Display Your Age</label>
+									<div class="form-group">
+										<label class="switch">
+											<%= f.check_box :public_age, :class => "switch-input", :id => "toggle-waitlist",  :value => "true" %>
+									      <span class="switch-label" data-on="Yes" data-off="No"></span>
+									      <span class="switch-handle"></span>
+									    </label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label>PayPal Email Address</label>
+							<%= f.text_field :paypal_email, class: 'form-control' %>
+						</div>
+
+						<hr>
+
+						<div class="form-group clearfix">
+								<%= f.submit "Update", class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$('#user_country').on('change', function() {
+		console.log($(this).val());
+		if ($(this).val() == "PR") {
+			$('#pr-helper').fadeIn();
+		}
+	})
+</script>

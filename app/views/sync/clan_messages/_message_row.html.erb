@@ -1,0 +1,57 @@
+<li class="message message-self wow fadeInUp">
+  <div class ='message-container'>
+    <div class="hidden-xs">
+      <span class="message-avatar message-self reduce_size">
+          <a href="<%= profiles_path() + '/' + clan_message.user.username %>"><%= image_tag clan_message.user.avatar_url, :class=>'avatar-sm'%></a>
+      </span>
+      <div class="message-content set_width_chat">
+        <h5 class="set_chat_text">
+          <span class="text-primary">
+            <%= clan_message.user.username%>:
+            <span class="font_color_white helper-text">
+              <%=clan_message.message%>
+            </span>
+          </span>
+          <span class="visible-sm-block visible-xs-block visible-md visible-lg pull-right-md">
+            <small>
+              <span class="hidden-xs"><%=clan_message.created_at.strftime("%m/%d %I:%M%p %Z ") %>&nbsp;</span>
+
+            </small>
+            <%= link_to clan_message_path(clan_message), remote: true, method: :delete do %>
+             <span class='clan_message_remove' aria-hidden="true">&times;</span>
+            <% end %>
+          </span>
+        </h5>
+        <div class="message-body left-rect">
+        </div>
+      </div>
+    </div>
+    <div class="visible-xs">
+      <div class="message-content set_width_chat mobile_chat">
+
+        <h5 class="set_chat_text">
+          <span class="text-primary">
+            <strong><%= clan_message.user.username%>:</strong>
+            <span class="mobile-chat-date pull-right">
+              <%=clan_message.created_at.strftime("%m/%d %I:%M%p %Z ") %>&nbsp;
+              <%= link_to clan_message_path(clan_message), remote: true, method: :delete, class: 'pull-right' do %>
+                 <span class='clan_message_remove' aria-hidden="true">&times;</span>
+                <% end %>
+            </span>
+            <div class="font_color_white helper-text">
+              <%=clan_message.message%>
+            </div>
+          </span>
+          <span class="visible-sm-block visible-xs-block visible-md visible-lg pull-right-md">
+            <small>
+              <span class="hidden-xs"><%=clan_message.created_at.strftime("%m/%d %I:%M%p %Z ") %>&nbsp;</span>
+
+            </small>
+
+          </span>
+        </h5>
+      </div>
+    </div>
+  </div>
+
+</li>

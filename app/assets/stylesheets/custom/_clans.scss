@@ -1,0 +1,336 @@
+// Clan List ----------------------------------
+
+
+
+// Profile -----------------------------------
+.well  {
+	margin-top: 1.5em;
+}
+.profile-title {
+	display: inline-block;
+	margin-top: 14px;
+	vertical-align: top;
+	@media screen and (min-width: $screen-md-min) {
+		margin-right: 24px;
+	}
+	@media only screen and (max-width : 768px) {
+		display: block;
+		text-align: center;
+	}
+}
+
+
+.clan-well {
+	@media screen and (max-width: 768px) {
+		background-color: transparent;
+		padding: 0;
+		margin-top: 0;
+	}
+}
+.clan-header {
+	@media screen and (max-width: $screen-sm-max) {
+		padding: 0 15px 15px;
+		position: relative;
+	}
+}
+
+.clan-header-mobile {
+	display: none;
+	@media screen and (max-width: 768px) {
+		display: block;
+	    background-position: center center;
+	    background-size: cover;
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    left: 0;
+	    bottom: 0;
+	    opacity: 0.2;
+	    /* margin: -10px; */
+	    blur: 40%;
+	    -webkit-filter: blur(5px);
+	    -moz-filter: blur(5px);
+	    -o-filter: blur(5px);
+	    -ms-filter: blur(5px);
+	    filter: blur(5px);
+	    z-index: -1;
+	}
+}
+
+.profile-actions {
+	display: inline-block;
+	font-size: 17px;
+	@media only screen and (max-width : 768px) {
+		display: block;
+		text-align: center;
+		font-size: 13px;
+	}
+	ul {
+		padding: 0;
+	}
+	li.breaker {
+		padding: 0;
+		margin: 0;
+		@media screen and (max-width: $screen-sm-max) {
+			display: block;
+			margin-top: 15px;
+		}
+		@media screen and (min-width: $screen-md-min) {
+			display: none;
+		}
+	}
+	li:not(.breaker) {
+    	display: inline-block;
+    	@media screen and (min-width: $screen-sm-min) {
+    		padding: 0 14px;
+	    	&:not(:first-child) {
+	    		border-left: $gray-light solid 1px;
+	    	}
+	    }
+    	@media only screen and (max-width : 768px) {
+			padding: 0 1%;
+    	}
+    	@media only screen and (max-width: 340px) {
+			span {
+				display: none;
+			}
+   			font-size: .9em;
+    	}
+	}
+}
+
+.profile-actions .profile-action-btns {
+	li {
+		// @media screen and (max-width: $screen-xs-max) {
+		// 	display: block;
+		// 	margin-bottom: .33em;
+		// }
+		a {
+			display: inline-block;
+			text-align: center;
+			text-transform: capitalize;
+			// @media screen and (max-width: $screen-xs-max) {
+			// 	display: block;
+			// 	text-align: left;
+			// 	font-size: 1.33em;
+			// 	i {
+			// 		font-size: 2.25em;
+			// 	}
+			// }
+			// @media screen and (min-width: $screen-sm-min) {
+			    span {
+			    	display: block;
+			    }
+			// }
+		    i {
+		    	font-size: 1.8em;
+		    	@media screen and (max-width: $screen-sm-max) {
+		    		font-size: 1.25em;
+		    	}
+		    }
+		}
+	    &.active a {
+	    	color: #fff;
+	    }
+	}
+}
+
+
+.profile-cover {
+	position: relative;
+	margin: 30px 0;
+	padding-bottom: 45.4545455%;
+	.profile-holder {
+		position: absolute;
+		top: 0;
+	    left: 0;
+	    right: 0;
+	    bottom: 0;
+		background-image: linear-gradient(-180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.6) 100%);
+		@media only screen and (max-width: 480px) {
+			background-image: linear-gradient(-180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.7) 100%);
+		}
+		.profile-bg {
+		  position: absolute;
+		  left: 0;
+		  top: 0;
+		  z-index: -1;
+		}
+	}
+	.cover-content {
+		z-index: 100;
+		position: absolute;
+		color: white;
+		font-size: 24px;
+		font-weight: bold;
+		left: 20px;
+		bottom: 5%;
+		@media only screen and (max-width: 480px) {
+			left: 0;
+	  		text-align: float;
+		}
+	  	@media only screen and (max-width: 480px) {
+	  		.media-object {
+	  			display: none;
+	  		}
+		}
+		.media {
+			margin-right: 15px;
+		}
+	  	.media-body {
+		  	text-shadow: 0px 1px 3px rgba(0,0,0,0.40);
+		  	h2 {
+		  		margin-bottom: 0;
+		  		@media screen and (max-width: $screen-sm-max) {
+		  			font-size: 29px;
+		  		}
+		  	}
+		  	p.small {
+		  		font-size: 1.75rem;
+		  	}
+		  	p {
+		  		margin-bottom: 0;
+		  	}
+		  	@media only screen and (max-width : 480px) {
+		  		float: none;
+			}
+		}
+	}
+}
+
+
+.clan-specs dt {
+	text-transform: capitalize;
+}
+.clan-stats {
+	.roster-list {
+		dt {
+		    font-size: .9em;
+		}
+	}
+}
+
+.clan-disabled {
+	opacity: 0.6;
+}
+
+.social-links {
+	li {
+		margin-bottom: .75em;
+	}
+}
+
+.clan-media {
+	span {
+		// margin-right: 8px;
+	}
+	li a .fa {
+		width: 1.75em;
+		line-height: 1.6em;
+		background: rgba(221,175,59,0.00);
+		color: #fff;
+		border-radius: 7em;
+		border: 2px solid #ddaf3b;
+	}
+	.media-body.media-middle {
+	    padding-left: 14px;
+	}
+	.fa-comment:before {
+		color: transparent !important;
+	}
+	.fa-discord:before {
+		background: url("/assets/discord_logo_sm.png");
+		color: white;
+		background-size: 24px 24px;
+		background-repeat: no-repeat;
+	    margin-left: 5px;
+	}
+}
+
+.clan-rank {
+	.clan-permissions {
+	    margin-left: 8px;
+	    margin-bottom: 1.2em;
+	    @media only screen and (max-width : 992px) {
+			#clan_rank_permissions_ {
+				margin-bottom: 20px;
+			}
+	    }
+	}
+	.btn {
+		margin-bottom: 1em;
+	}
+	.player-card {
+	    margin-bottom: 2em;
+	}
+}
+
+.btn-discord {
+    background-color: #7289DA;
+    color: #fff;
+    line-height: 18px;
+    padding: 11px;
+    width: 150px;
+    img {
+		max-width: 100px;
+    }
+    &:hover {
+    	background-color: #49588C;
+    	img {
+    		opacity: .5;
+    	}
+    }
+}
+.discord-color-btn{
+	background-color: #7289DA;
+	color: #fff;
+	border: 1px solid #fff;
+}
+
+.btn-curse {
+    background-color: #ee6a03;
+    color: #fff;
+    line-height: 18px;
+    padding: 11px;
+    width: 150px;
+    margin-left: 25px;
+    img {
+		max-width: 100px;
+    }
+    &:hover {
+    	background-color: #ec5a13;
+    	img {
+    		opacity: .5;
+    	}
+    }
+}
+
+// Clan Notice ----------------------------------
+
+.clan-notices {
+	li.roster-invite-card {
+	    width: 48%;
+	}
+}
+
+// Edit Clan ----------------------------------
+
+.edit-clan-btn {
+	@media screen and (max-width: 991px) {
+	    width: 100%;
+	    margin-top: .4em;
+	    & a {
+	    	width: 50%
+	    }
+	    &input {
+	    	margin-top: 4em;
+	    }
+	}
+}
+
+
+div.separate {
+    @media screen and (max-width: 991px) {
+        margin-bottom: 0.5em;
+    }
+}

@@ -1,0 +1,15 @@
+<h3 class="mt0">User Info</h3>
+<div class="container-box">
+  <div class="form-group">
+    <label>Username:</label>
+    <%= link_to user.username, profiles_path() + "/#{user.username}" %>
+  </div>
+  <div class="form-group">
+    <label>Email:</label>
+    <%= user.email %>
+  </div>
+  <div class="form-group">
+    <label>Sign In Count:</label>
+    <%= user.sign_in_count %>
+  </div>
+</div>

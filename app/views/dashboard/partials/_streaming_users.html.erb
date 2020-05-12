@@ -1,0 +1,23 @@
+<section class="content-block dash-block">
+    <div class="container p-x-0-xs">
+        <% if @streaming_counter == 1 %>
+            <div class="row">
+                <h2 class="mt0">Now Streaming on Twitch</h2>
+                <%= render 'shared/twitch_feed', channel: @streaming_users.first[:stream].channel.name %>
+            </div>
+        <% end %>
+        <% if @streaming_users.count > 1 || @streaming_counter == 0 %>
+            <div class="row">
+                <div class="invites roster-invites-wrapper roster-invites list-unstyled">
+                    <% @streaming_users[@streaming_counter..@streaming_stop].each do |s| %>
+                        <li class="roster-invite-card">
+                            <%= link_to("/profiles/#{s[:user].id}") do %>
+                                <img alt="twitch-stream" src="<%= s[:stream].preview_url %>" />
+                            <% end %>
+                        </li>
+                    <% end %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</section>

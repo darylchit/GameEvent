@@ -1,0 +1,22 @@
+<div class="contract-padding">
+	<ul class="list-unstyled contract-meta contract-top">
+		<li class="contract-cal"><strong>Start Date:</strong>
+			<%=  bounty.start_date_time.strftime("%Y/%m/%d") %>
+		</li>
+		<li class="contract-clock"><strong>Start Time:</strong>
+			<%=  bounty.start_date_time.strftime("%I:%M%P") %>
+		</li>
+		<li class="contract-length"><strong>Length:</strong>
+			2 Hrs
+		</li>
+		<li class="contract-will-play"><strong>Will Play:</strong>
+			<%= bounty.will_play %>
+		</li>
+	</ul>
+	<% if bounty.price_in_cents != 0 %>
+		<p class="modal-subhead text-success"><%= bounty.buyer.username %> Is Offering A Potential Donation</p>
+	<% end %>
+
+	<div class="modal-error"></div>
+	<p><%= simple_format(bounty.details) %></p>
+</div>

@@ -1,0 +1,3 @@
+//$.ajax({url: "clans/#{@clan.id}/clan_members/", type: "GET"})
+$('#clan_members').html("<%= j render(partial: 'clans/clans/members_by_rank') %>");
+$('#clan_members_paginator').html("<%= j paginate(@clan_members, :remote => true) %>");

@@ -1,0 +1,103 @@
+<div class="row padding_top_5 padding_btm_5 public-event-row">
+  <div class="col-sm-3 padding_right_0 padding_left_5">
+     <%= image_tag(public_event.game.game_cover, :class=> 'avatar-md set_img_mrg_btm', data: {toggle:"tooltip", placement:"top", title: public_event.game.title })%>
+     <%= link_to player_path(public_event.user) do %>
+       <%= image_tag(public_event.user.avatar_url, :class=> 'avatar-md', data: {toggle:"tooltip", placement:"top", title: public_event.user.username })%>
+     <% end %>
+  </div>
+  <div class="col-sm-8 padding_right_0 padding_left_0">
+    <div class="col-sm-12 padding_left_0">
+      <h5 class="title_wrap mrg_btm_0 set_line_height cursor_pointer" data-toggle="modal" data-target="#event-title-<%= public_event.id%>" ><%= public_event.title.present? ? public_event.title : "N/A"%></h5>
+
+      <div class="modal fade" id="event-title-<%= public_event.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title text-center"> Event Title </h4>
+            </div>
+            <div class="modal-body">
+              <p class="text-gray text-center"><%= public_event.title.present? ? public_event.title : "N/A" %></p>
+              <div class="row text-center">
+                <%= link_to 'View Event', get_event_show_path(public_event), class: 'btn btn-lightgrey' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="col-sm-3 padding_left_0">
+      <div class="full_width">
+        <span class="text-primary">Host:</span>
+        <span class="gray_font"><%= public_event.user.username.present? ? public_event.user.username.titleize : "" %></span>
+      </div>
+      <div class="full_width">
+        <span class="text-primary">Host Age: </span>
+        <span class="gray_font"><%= public_event.user.age.present? ? public_event.user.age : ""%></span>
+      </div>
+      <div class="full_width">
+        <span class="text-primary">Host Patience: </span>
+        <span class="gray_font"><%= public_event.user.newbie_patience_level %></span>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="full_width">
+        <span class="text-primary">Host PSR:</span>
+        <span class="gray_font">
+          <%=public_event.user.user_setting.total_psr %>
+          <span class="psr_thump_up">
+            <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+            </span>
+        </span>
+      </div>
+      <div class="full_width">
+        <span class="text-primary">Host Exp: </span>
+        <span class="gray_font"><%= public_event.user.event_experience %></span>
+      </div>
+
+      <div class="full_width">
+        <span class="text-primary">Host CR: </span>
+        <span class="gray_font"><%= public_event.user.event_cancellation_rate %>%</span>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="full_width">
+        <span class="text-primary">System:</span>
+        <span class="gray_font"><%= public_event.game_system.abbreviation.present? ? public_event.game_system.abbreviation.upcase : "" %></span>
+      </div>
+      <div class="full_width">
+        <span class="text-primary">Age Limits: </span>
+        <span class="gray_font">
+        <%= public_event.minimum_age.present? ?  public_event.minimum_age.to_s : "13" %>
+        <%= " - " + ( public_event.maximum_age.present? ? public_event.maximum_age.to_s : "99" ) %>
+        </span>
+      </div>
+      <div class="full_width">
+        <span class="text-primary">Play Style: </span>
+        <span class="gray_font"><%= public_event.play_type.present? ? public_event.play_type.titleize : "" %></span>
+      </div>
+    </div>
+    <div class="col-sm-3 padding_right_0 padding_left_0">
+      <div class="full_width">
+        <span class="text-primary">Starts:</span>
+        <span class="gray_font" data-toggle="tooltip" data-placement="top" data-title="<%= public_event.start_at.strftime("%b %d %Y- %l:%M%P")%>"> <%= public_event.start_at.present? ? public_event.start_at.strftime("%b %-d | %l:%M%P") : "" %></span>
+      </div>
+      <div class="full_width">
+        <span class="text-primary">Duration:</span>
+        <span class="gray_font"><%= "#{public_event.duration/60} Hrs" %></span>
+      </div>
+      <div class="full_width">
+        <span class="text-primary">Spots Filled: </span>
+        <span class="gray_font spot<%= public_event.id %>"><%= public_event.get_spot%></span>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-1 padding_left_0">
+    <%= link_to 'View', get_event_show_path(public_event), class: 'btn btn-primary action_btn_width set_btn_padding mrg_btn_btm topmrg_13', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> View"} %>
+     <% link_string , link_path, method = get_link_for_invite(public_event)%>
+     <%= link_to link_string, link_path, method: method, remote: (current_user.present? ? true : false), id: "event_action#{public_event.id}", class: "btn btn-primary action_btn_width set_btn_padding topmrg_13 event_action#{public_event.id}"  %>
+  </div>
+</div>
+<div class="gold-line row"></div>

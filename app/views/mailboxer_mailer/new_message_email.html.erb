@@ -1,0 +1,30 @@
+<%
+other_user = nil
+@message.recipients.each do |r|
+  if r.id != @message.sender.id
+    other_user = r
+  end
+end
+
+other_user = @message.sender if other_user.nil?
+%>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+  <h3 style="font-family: helvetica, arial, sans-serif;"><%= @subject %></h3>
+    <blockquote style="font-family: helvetica, arial, sans-serif;">
+
+        <%= parse_message @message.body, other_user, true %>
+    </blockquote>
+    <br>
+    <br>
+    <p style="font-family: helvetica, arial, sans-serif;">
+      Visit <%= link_to root_url, root_url %> for more details or to respond.
+    </p>
+    
+  </body>
+</html>

@@ -1,0 +1,21 @@
+<div class="modal fade" id="cancel_event_confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-vertical">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" type="button" data-target="#cancel_event_confirmation" aria-label="Close"><span aria-hidden="true" class="action_popup" id="">&times;</span></button>
+        <h4 class="modal-title text-left">
+          Confirmation
+        </h4>
+      </div>
+      <div class="modal-body text-center">
+        <div class="row"><h4 class="text-center">Cancel This Event?</h4></div>
+        <div class="row">
+          <div class="col-sm-12 topmrg_20">
+            <%= link_to "No", '#', class: "btn btn-lightgrey btn-full", 'data-toggle' => "modal", 'data-target' => "#cancel_event_confirmation" %>
+            <%= link_to "Yes", link_if_cancelled_event(cancel_game_roster_path(event)), method: method_if_cancelled_event('put'), remote: (current_user.present? ? true : false), id: "event_cancel_action#{event.id}", class: "btn btn-lightgrey  btn-full topmrg_20"  %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

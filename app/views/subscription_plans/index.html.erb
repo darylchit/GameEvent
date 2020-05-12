@@ -1,0 +1,7 @@
+<ol>
+  <% collection.each do | subscription | %>
+    <li>
+  <%= link_to "%s $%s/%s" % [subscription.name, subscription.price, subscription.period], new_subscription_plan_subscription_path(subscription) %>
+    </li>
+<% end %>
+</ol>

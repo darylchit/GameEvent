@@ -1,0 +1,38 @@
+<div class="clan-header set-padding-clan-name">
+  <h1 align="center"><%= @clan.name %></h1>
+  <% if @clan.motto.present? %>
+    <p class="small wow fadeInDown clan_motto set_mrg_10" align="center" data-wow-delay="1.5s" >"<%= @clan.motto %>"</p>
+  <% end %>
+
+
+
+  <%#= render "clans/clan_actions" if current_user.present? %>
+  <% if false %>
+    <div class="profile-cover hidden-xs">
+      <div class="profile-holder">
+        <div class="profile-bg">
+          <%= image_tag(clan_jumbo_url(@clan)) %>
+          <!-- <%= image_tag(@clan.mobile_jumbo) %> -->
+        </div>
+      </div>
+      <div class="cover-content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="media">
+              <span class="media-left">
+                <%= image_tag(clan_cover_url(@clan), class: "thumbnail-small media-object") %>
+              </span>
+              <div class="media-body">
+                <h2 class="mt0"><%= @clan.name %></h2>
+                <p><%= @clan.private? ? "Invite Only" : "Public Clan" %></p>
+                <p class="small">"<%= @clan.motto %>"</p>
+                <!-- <a href="#" class="btn btn-primary post-contract">Join Clan</a> -->
+                <%= render "clans/clan_actions" if current_user.present? %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

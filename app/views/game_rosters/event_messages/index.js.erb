@@ -1,0 +1,7 @@
+<% if @event_messages.present? %>
+	$('#chat_event_messages').append("<%= escape_javascript(sync :partial => 'event_message', collection: @event_messages, as: :event_message )%>");
+	$('.event_chat_view_more').data('url',"/game_rosters/"+<%= event.id %> +"/event_messages?page=" + (<%= @page.to_i+1 %>) );
+	window_scroll = true;
+<% else %>
+	$('.event_chat_view_more').remove();
+<% end %>

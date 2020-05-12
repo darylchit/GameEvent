@@ -1,0 +1,27 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1 ">
+				<%= render 'layouts/flash' %>
+				<%= render 'roster_info', show_sharing: true, headline: true %>
+				
+		        <br>
+				<% if @event.start_date_time > Time.now %>
+		       		<%= render 'roster_actions.html.erb' %>
+		       		<br>	
+				<% end %>
+				<ul class="nav nav-tabs nav-tabs-gray" role="tablist">
+				    <li role="presentation" class="active"><a href="#roster-users" aria-controls="home" role="tab" data-toggle="tab">Game Roster <span class="badge <%= @event.confirmed_users_count >= @event.max_roster_size ? "badge-danger" : "badge-success" %>"><%= @event.confirmed_users.count + 1 %> / <%= @event.max_roster_size %></span></a></li>
+				    <li role="presentation" class=""><a href="#roster-messages" aria-controls="profile" role="tab" data-toggle="tab">Roster Chat <span class="badge"><%= @event.roster_messages.count %></span></a></li>
+				</ul>
+
+
+				<div class="tab-content container-box">
+					<div role="tabpanel" class="tab-pane fade in active" id="roster-users"><%= render 'roster_users.html.erb' %></div>
+					<div role="tabpanel" class="tab-pane fade" id="roster-messages"><%= render 'roster_messages.html.erb'%></div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,7 @@
+$('.modal-body .contract-padding').first().html('<h2 class="text-center">Player has been invited.</h2><br>');
+$('.modal-footer').hide();
+setTimeout(function(){
+	$('.modal-body .alert').remove();
+	$('.add-menu-show').removeClass('add-menu-show');
+	$('.modal').modal('toggle');
+}, 1200);

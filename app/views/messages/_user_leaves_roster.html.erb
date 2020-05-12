@@ -1,0 +1,44 @@
+<% event = receipt.message.notified_object.event %>
+<% invite = receipt.message.notified_object %>
+<div class="row box_border">
+	<%= link_to get_event_show_path(event), target: '_blank' do %>
+		<div class="col-sm-2 col-xs-3 receipt_img">
+			<span class="clan_avatar">
+				<%= image_tag((event.game.game_cover.url), class: 'message_avatar') %>
+			</span>
+		</div>
+	<% end %>
+	<div class="col-sm-10 col-xs-9 content_text receipt_data">
+		<div class="row">
+			<div class="col-xs-12 pdl5">
+				<%= link_to get_event_show_path(event), target: '_blank' do %>
+					<span class="pull-left msg-title">
+					  <b><%= invite.user.username %> Left Your Roster</b>
+					</span>
+				<% end %>
+				<span class="pull-right msg-text">
+					<%= link_to get_event_show_path(event), target: '_blank' do %>
+						<%= receipt.is_read? ? '' : "<i class='fa fa-dot-circle-o' aria-hidden='true'></i>".html_safe %>
+						<span class="" data-toggle="tooltip" data-placement="top" data-title="<%= receipt.created_at.strftime("%b/%d/%Y - %l:%M%P")%>"> <%= receipt.created_at.present? ? receipt.created_at.strftime("%b-%-d") : "" %></span>
+					<% end %>
+					<span class="hidden-xs"><%= check_box_tag 'checkbox_receipt[]', receipt.id, false, class: 'checkbox_action' %></span>
+				</span>
+			</div>
+		</div>
+		<div class="row msg-text">
+			<%= link_to get_event_show_path(event), target: '_blank' do %>
+				<div class="col-sm-12 pdl5">
+					Event Starts: <%= event.start_at.strftime("%b %d - %l:%M%P") %>
+	      </div>
+				<div class="col-sm-12 pdl5">
+					<%= event.game.title %>(<%= event.game_system.abbreviation.present? ? event.game_system.abbreviation.upcase : "" %>)
+				</div>
+				<div class="col-sm-12 pdl5 hidden-xs">
+	        Hosted By  <%= event.user.name %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<%= render partial: 'message_action_menu_popup', locals: {receipt: receipt} %>

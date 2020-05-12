@@ -1,0 +1,135 @@
+<%= render 'layouts/flash' %>
+<%= form_for resource, :url => resource.new_record? ? posted_contracts_path : posted_contract_path, :html => {multipart: true } do |f| %>
+	<% if resource.errors.any? %>
+		<div id="error_explanation">
+		  <ul>
+		  <% resource.errors.full_messages.each do |message| %>
+			<li><%= message %></li>
+		  <% end %>
+		  </ul>
+		</div>
+	 <% end %>
+
+	<div class="form-group contract-toggle-type hidden">
+		<h4>I Am:</h4>
+		<div class="radio-inline">
+			<label>
+				<%= f.radio_button :contract_type, "Contract", value: 'Contract', checked: true %>
+				Available To Assist
+			</label>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<% if @games.count == 0 %>
+			You do not have any titles listed for game systems that you have provided an IGN for. <br />
+			<%= link_to 'Add Games', edit_games_and_systems_path %><br />
+			<%= link_to 'Add IGNs', edit_profile_path %><br />
+		<% end %>
+		<label>Titles to Play <%= link_to "(My Titles)", edit_games_and_systems_path %></label>
+		<%= f.collection_select :game_game_system_join_ids, @games, :id, :game_system_name_label, {include_blank: true}, {:class => "form-control chosen-select", :multiple => true} %>
+	</div>
+	<div class="form-group">
+		 <label>Game Type</label>
+		 <%= f.select(:will_play, options_for_select(["All Types", "Player vs. Player", "Player vs. Enemy"], resource.will_play), {}, {:class => "form-control"}) %>
+	</div>
+	<div class="form-group start-date-time">
+		<div class="show-contract" style="display: none;">
+				<div class="form-group mt-md-45">
+					<label>Recurring Event Times</label>
+					<%= link_to multiple_times_new_path(), class: 'btn btn-outline btn-block btn-lg',  :remote => true do %>
+						ADD MULTIPLE TIMES
+					<% end %>
+				</div>
+
+			<div>
+				<h3 class="mt0 mb0 text-center">
+					OR
+				</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label>Single Event Time</label>
+					<% start = long_date_time (f.object.start_date_time || Time.now.advance(hours: 1)) %>
+					<%= f.text_field :start_date_time, value: start, class: 'form-control date-time-picker', data: {start_date: start}, :help => 'Your Events cannot be claimed after this start date/time.' %>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group duration">
+					<label>Event Duration</label>
+					<%= f.select :duration, [["1 Hour", 60], ["2 Hours", 120], ["3 Hours", 180], ["4 Hours", 240], ["5 Hours", 300], ["6 Hours", 360], ["7 Hours", 420], ["8 Hours", 480], ["9 Hours", 540], ["10 Hours", 600], ["11 Hours", 660], ["12 Hours", 680]], {}, :class => "form-control" %>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="start-date-times">
+		<% if params[:start_date_times_durations].present? %>
+			<div class="form-group">
+				<label>Multiple Times Selected</label>
+				<%= link_to '(Multiple Times)', multiple_times_new_path(), :remote => true %>
+			</div>
+			<% params[:start_date_times_durations].each do | sdtd | %>
+				<% s = [] %>
+				<% s[0] = Date.parse(sdtd[1][:start_date_time]) %>
+				<% s[1] = sdtd[1][:duration].to_i %>
+				<%= render 'multiple_times_slot', :s => s, :k => sdtd[0] %>
+			<%end%>
+			<script>
+				$(function(){
+					$('.start-date-time').hide();
+					$('.duration').hide();
+				});
+			</script>
+		<% end %>
+	</div>
+
+	<div class="form-group max-characters" data-max-num="250">
+		<label>Details & Requirements <small>(<span class="remaining-characters"></span> characters remaining)</small></label>
+		<%= f.text_area :details, :class => 'form-control', :maxlength=>'250', :rows=>'5'%>
+	</div>
+	<div class="form-group">
+		<label><span class="show-contract" style="display: none;">Do You Want To Ask For A Donation:</span><span class="show-bounty">Will You Offer A Donation:</span></label>
+		<% if current_user.can_create_paid_contracts? %>
+			<div class="input-group group-toggle">
+				<span class="input-group-addon">
+					<label class="switch">
+				      <input type="checkbox" class="switch-input" id="toggle-paid">
+				      <span class="switch-label" data-on="Yes" data-off="No"></span>
+				      <span class="switch-handle"></span>
+				    </label>
+				</span>
+				<%= f.number_field :price_in_dollars, placeholder: "Donation Amount In dollars", step: ".50", min: "0", class: 'form-control' %>
+			</div>
+			<% if current_user.has_restricted_contract_price? %>
+				<small class="help-text hidden-help"><span>You can only currently create events for up to $5. Get more experience and ratings to remove this limit.</span></small>
+			<% end %>
+		<% else %>
+			<div class="row">
+				<div class="col-md-12">
+					<input type="text" class="form-control" placeholder="Free" disabled>
+					<span class="help-block">
+						<% if current_user.country == "PR" %>
+							<small><span class="fa fa-warning"></span> Paid events are currently not available in Puerto Rico.</small>
+						<% else %>
+							<small><span class="fa fa-warning"></span> <% link_to 'Subscribe', %> to post paid events. <%= link_to 'Subscribe', profile_subscription_path %> to unlock this feature.</small>
+						<% end %>
+					</span>
+					<%= f.hidden_field :price_in_dollars, value: 0 %>
+				</div>
+			</div>
+		<% end %>
+	</div>
+	<hr>
+	<div class="clearfix form-group">
+		<%  if resource.status == "Claimed" or resource.status == "Pending Payment Notification from Paypal" %>
+			<%= link_to 'Cancel', posted_contract_cancel_path(resource), class: 'btn btn-danger btn-lg' %>
+		<% end %>
+		<%= f.submit class: "btn btn-primary btn-lg btn-x pull-right-md", value: "SUBMIT" %>
+	</div>
+
+<% end %>

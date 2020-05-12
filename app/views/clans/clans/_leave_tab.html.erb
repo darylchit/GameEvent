@@ -1,0 +1,6 @@
+ <li class="wow fadeIn set_tabs_padding clan_li_set_color_size" data-wow-delay="0.2s"> 
+    <%= link_to  clan_member_path(@clan_member), method: :delete, remote: true, class: "set_clan_btn_style", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Leaving..."} do %>
+        <i class="fa fa-minus-circle set_icon_size" aria-hidden="true"></i>
+        <span class="btn-span">Leave Clan</span>
+    <% end %>
+  </li>

@@ -1,0 +1,54 @@
+<% rating = current_user.ratings.find_by(rated_user_id: rated_user.id) || Rating.new( rated_user: rated_user ) %>
+
+<%= form_for(rating, url: rating.new_record? ? profile_ratings_path(rating.rated_user) : rating_path(rating), remote: true) do |f| %>
+	<div id="rating_container_<%= rated_user.id %>">
+		<div class="rating-notice">
+			
+		</div>
+		<div class="media">
+			<div class="media-left">
+				<div class="media-object">
+					<div class="clearfix">
+						<span class="feedback-block pull-left">
+							<p>
+					            <label>Personality Rating</label><br />
+								<span class="psa-rating" data-score="<%= f.object.personality_rating %>"></span>
+								<%= f.hidden_field :personality_rating %>
+					        </p>
+				        </span>
+				        <span class="feedback-block pull-left">
+				        	<p>
+					            <label>Skill Rating</label><br />
+								<span class="psa-rating" data-score="<%= f.object.skill_rating %>"></span>
+								<%= f.hidden_field :skill_rating %>
+					        </p>
+				        </span>
+				        <span class="feedback-block pull-left">
+				        	<p>
+					            <label>Approval Rating</label><br />
+								<span class="psa-rating" data-score="<%= f.object.approval_rating %>"></span>
+								<%= f.hidden_field :approval_rating %>
+					        </p>
+				        </span>
+				    </div>
+			    </div>
+		    </div>
+
+			<div class="media-body">
+				<div class="form-group">
+					<label>Comment</label><br />
+			        <%= f.text_area :comment, :class=>'form-control', :rows => "1" %>
+			    </div>
+			    <p class="text-right-md">
+		        	<%= f.submit 'Submit', :class => 'btn btn-primary' %>
+		        </p>
+			</div>
+		</div>
+
+
+
+
+	</div>
+<% end %>
+
+

@@ -1,0 +1,14 @@
+toastr.options = {
+  "closeButton": true,
+  "timeOut": "7000",
+  "extendedTimeOut": "0",
+  "positionClass": "toast-top-center"
+};
+<% if @not_invite_confirmed_user %>
+  toastr.success('You must join the roster to use this feature');
+<% elsif !event.completed? %>
+  toastr.success('This Feature Is Not Available Until After The Event Starts');
+<% else %>
+ $('#global_model').html("<%= j render "ratings/modal_form" %>");
+ $('#rating_modal').modal();
+<% end %>

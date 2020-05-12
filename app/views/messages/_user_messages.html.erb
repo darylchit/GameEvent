@@ -1,0 +1,40 @@
+<% user_message = receipt.message %>
+<% replies = user_message.replies.order(created_at: :desc) %>
+<div class="row box_border">
+	<%= link_to replies_message_path(user_message), remote: true do %>
+		<div class="col-sm-2 col-xs-3 receipt_img">
+			<span class="clan_avatar">
+				<%= image_tag((replies.first.sender.avatar_url), class: 'message_avatar') %>
+			</span>
+		</div>
+	<% end %>
+	<div class="col-sm-10 col-xs-9 content_text receipt_data">
+		<div class="row">
+			<div class="col-xs-12 pdl5">
+				<%= link_to replies_message_path(user_message), remote: true do %>
+					<span class="pull-left">
+						<b class="msg-title">Message From: <%= replies.first.sender.name %></b>
+					</span>
+				<% end %>
+				<span class="pull-right msg-text">
+					<%= link_to replies_message_path(user_message), remote: true do %>
+						<%= receipt.is_read? ? '' : "<i class='fa fa-dot-circle-o message-read-#{user_message.id}' id='receipt_read_#{receipt.id}' aria-hidden='true'></i>".html_safe %>
+						<span class="" data-toggle="tooltip" data-placement="top" data-title="<%= replies.first.created_at.strftime("%b/%d/%Y - %l:%M%P")%>"> <%= replies.first.created_at.present? ? replies.first.created_at.strftime("%b-%-d") : "" %></span>
+					<% end %>
+					<span class="hidden-xs"><%= check_box_tag 'checkbox_receipt[]', receipt.id, false, class: 'checkbox_action' %></span>
+				</span>
+			</div>
+		</div>
+		<div class="row msg-text">
+			<%= link_to replies_message_path(user_message), remote: true do %>
+				<div class="col-sm-12 justify-text pdl5">
+					<%= pluralize( receipt.message.receipts.with_deleted.count - 1, 'Recipient') %>
+				</div>
+				<div class="col-sm-12 wrap2line justify-text pdl5">
+	        <%= replies.first.subject %>
+	      </div>
+			<% end %>
+		</div>
+	</div>
+</div>
+<%= render partial: 'message_action_menu_popup', locals: {receipt: receipt} %>

@@ -1,0 +1,8 @@
+$('#message_content').html("<%= j render(:partial => 'message_data', locals: {messages: clan_receipts} )%>");
+$('li').removeClass('active');
+$('.clan_messages').addClass('active');
+$('#select_all_messages').removeAttr('checked');
+Message.CheckBoxChangeEvent.OnCheckBoxChanged();
+Message.DeleteSelectedReceipts.OnClickDeleteSeleceted();
+Message.MardReadSelected.OnClickMarkReadSelected();
+Message.CompostFormValidation.OnCompostFormValidation();

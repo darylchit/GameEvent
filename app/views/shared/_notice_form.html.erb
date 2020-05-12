@@ -1,0 +1,47 @@
+<div class="background-block content-area">
+    <div class="container">
+    <%= render 'layouts/flash' %>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <%= render 'layouts/flash' %>
+                            <h2 class="mt0">CREATE NEW <%= @is_clan ? 'CLAN ' : 'SYSTEM ' %>NOTICE</h2>
+                            <% if @is_clan %>
+                                <h3>Clan: <span class="lead text-primary"><%= @clan.name %></span></h3>
+                            <% end %>
+                            <%= form_for @notice do |f| %>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Title</label>
+                                            <%= f.text_field :title, value: nil, class: 'form-control' %>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Expiration</label>
+                                            <%= f.select(:expiration, options_for_select([* Date.today..Date.today.advance(years: 1)], nil), {include_blank: true}, {:class => "form-control"}) %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Body</label>
+                                            <%= f.text_area :body, value: nil, class: 'form-control', maxlength: '5000', rows: '5' %>
+                                        </div>
+                                        <div class="form-group">
+                                            <%= f.submit class: "btn btn-primary btn-lg btn-x pull-right-md", value: 'POST' %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

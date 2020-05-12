@@ -1,0 +1,9 @@
+if($('.player_profile_edit_page').length > 0){
+  <% if @total_blocked < 1%>
+    $('.blocked_users').html("<%= escape_javascript render(:partial => 'profile/profile/no_blocked') %>");
+  <% else %>
+    $('.block'+ '<%= @block_id%>').remove();
+  <% end %>
+}else{
+  location.reload();
+}

@@ -1,0 +1,3 @@
+$('#players-list').append("<%= escape_javascript(render :partial => 'player', collection: @players, as: :player)%>");
+$('.pagination').replaceWith('<%= escape_javascript(paginate(@players) )%>');
+updateRatingStars(); //update start on PSA

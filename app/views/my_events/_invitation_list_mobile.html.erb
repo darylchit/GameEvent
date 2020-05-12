@@ -1,0 +1,111 @@
+
+<div class="row event_card_mobile">
+  <div class="row-fluid mt20">
+    <div class="inner-box">
+      <div class="image">
+        <div class="player-card-mobile col-xs-12">
+          <div class="event_data">
+            <div class="card-head text-center">
+              <h6 class="title_wrap cursor_pointer"> <b> <%= event.game.present? ? event.game.title : "N/A" %></b></h6>
+              <div class="title_wrap cursor_pointer text-uppercase"><%= event.title %></div>
+              <div class="title_wrap cursor_pointer">Date:  <%= event.start_at.strftime("%b-%-d")%>&nbsp;&nbsp;|&nbsp;&nbsp;Time: <%= event.start_at.strftime("%l:%M%P") %></div>
+            </div>
+            <div class="card-content">
+              <div class="left-part">
+                <%= image_tag(event.game.game_cover, :class=> 'avatad_img', data: {toggle:"tooltip", placement:"top", title: event.game.title }) %>
+              </div>
+              <div class="right-parts">
+                <div class="left-text">
+                  <p class="title_wrap">
+                    <% if event.recurring_event? %>
+                      Clan: <span><%= event.clan.name %></span>
+                    <% else %>
+                       Host:
+                      <span><%= event.user.username.present? ? event.user.username.titleize : "" %></span>
+                    <% end %>
+                  </p>
+                  <p>
+                    <% if event.recurring_event? %>
+                     Play Type: <span><%= event.play_type %></span>
+                    <% else %>
+                      Host PSR:
+                      <span class="psr_thump_up text-white">
+                        <%= event.user.user_setting.total_psr %>
+                        <!--<i class="fa fa-circle-thin circle-main" aria-hidden="true"></i>-->
+                        <i class="fa fa-thumbs-up thump-pos1" aria-hidden="true"></i>
+                      </span>
+                    <% end %>
+                  </p>
+                  <p>
+                    <% if event.recurring_event? %>
+                      Invites: <span><%= event.clan.users.count %></span>
+                    <% else %>
+                      Host Exp: <span><%= event.user.event_experience %></span>
+                    <% end %>
+                  </p>
+                  <p>
+                    <%if event.recurring_event? %>
+                      Founder:
+                      <span><%= event.user.username %></span>
+                    <% else %>
+                      Host CR: <span><%= event.user.event_cancellation_rate %>%</span>
+                    <% end %>
+                  </p>
+                </div>
+
+                <div class="right-text">
+                  <p>
+                    Type:
+                    <span>
+                    <%if event.recurring_event? %>
+                      Recurring
+                    <% else %>
+                     <%= event.event_type.titleize.split(' ')[0] %>
+                    <% end %>
+                    </span>
+                  </p>
+                  <p>System: <span><%= event.game_system.abbreviation.present? ? event.game_system.abbreviation.upcase : "" %></span></p>
+                  <p>Ages: <span><%= event.minimum_age.present? ?  event.minimum_age.to_s : "13" %>
+                    <%= " - " + ( event.maximum_age.present? ? event.maximum_age.to_s : "99" ) %>
+                  </span></p>
+                  <p>Spots: <span><%= event.players > event.maximum_size ? event.maximum_size : event.players %> of <%=  event.maximum_size  %></span></p>
+                </div>
+              </div>
+
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="overlay-box">
+          <div class="overlay-inner">
+            <div class="content">
+              <h3><%= link_to 'View', get_event_show_path(event)%></h3>
+
+              <h3>
+                <% link_string, link_path, method = get_link_for_invite(event) %>
+                <%= link_to link_string, link_path, method: method, remote: (current_user.present? ? true : false) %>
+              </h3>
+              <%if invitation %>
+                <%invite = Invite.find_by_user_id_and_event_id(current_user.id, event.id) %>
+                <h3>
+                  <%= link_to 'Decline', leave_invite_path(event, invite), method: 'put', remote: (current_user.present? ? true : false) %>
+                </h3>
+               <% end %>
+
+               <% if (current_user.present?  && !event.cancelled? && !event.completed?)  %>
+                 <% if (event.user_id == current_user.id) || (event.clan_event? && event.clan.host_id == current_user.id) %>
+                   <h3><%= link_to :Cancel, cancel_game_roster_path(event), method: :put, remote: true %></h3>
+                 <% end %>
+               <% end %>
+
+              <h3>
+               <%= link_to 'Share', share_game_roster_path(event), remote: true %>
+             </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

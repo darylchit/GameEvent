@@ -1,0 +1,2 @@
+$('#clan_events').html("<%= j render(partial: 'shared/event_card', collection: @events, as: :event) %>");
+$('#clan_events_paginator').html("<%= j paginate(@events, :remote => true) %>");

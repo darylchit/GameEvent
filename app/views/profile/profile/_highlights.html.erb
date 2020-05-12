@@ -1,0 +1,32 @@
+<h2>Videos</h2>
+<div class="row">
+  <% if resource.twitch_video_url.present? %>
+  <div class="col-md-6">
+        <h3 class="mt0"><span class="fa fa-twitch"></span> Twitch</h3>
+        <!-- <div class="embed-responsive embed-responsive-16by9">
+             <object bgcolor="#000000" data="https://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" height="378" id="clip_embed_player_flash" type="application/x-shockwave-flash" width="620">
+             <param name="movie" value="https://www-cdn.jtvnw.net/swflibs/TwitchPlayer.swf" />
+             <param name="allowScriptAccess" value="always" />
+             <param name="allowNetworking" value="all" />
+             <param name="allowFullScreen" value="true" />
+             <param name="flashvars" value="<%#%>= twitch_flash_vars resource.twitch_video_url %>" />
+             </object>
+             </div> -->
+        <% if @twitch_stream %>
+            <%= render 'shared/twitch_feed', channel: @twitch_stream.channel.name %>
+        <% else %>
+            User is not currently streaming
+        <% end %>
+    </div>
+  <% end %>
+  <% if resource.youtube_video_url.present? %>
+    <div class="col-md-6">
+      <div class="container-box">
+        <h3 class="mt0"><span class="fa fa-youtube"></span> Youtube</h3>
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe width="560" height="315" src="<%= youtube_embed_url resource.youtube_video_url %>" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

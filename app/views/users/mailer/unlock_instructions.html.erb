@@ -1,0 +1,7 @@
+<h2 style="font-family: helvetica, arial, sans-serif;">Hello <%= @resource.email %>!</h2>
+
+<p style="font-family: helvetica, arial, sans-serif;">Your account has been locked due to an excessive number of unsuccessful sign in attempts.</p>
+
+<p style="font-family: helvetica, arial, sans-serif;">Click the link below to unlock your account:</p>
+
+<p style="font-family: helvetica, arial, sans-serif;"><%= link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token) %></p>

@@ -1,0 +1,34 @@
+<%= form_for [:admin, faq], url: faq.new_record? ? admin_faq_header_faqs_path(faq_header) : admin_faq_header_faq_path(faq_header, faq) do |f| %>
+	<div class="form-group">
+		<label>Question</label>
+		<%= f.text_field :name,  class: 'form-control'%>
+		<% if f.object.errors.try(:messages)[:name].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:name].try(:first) %>
+		<% end %>
+	</div>
+  <div class="form-group">
+		<label>Answer</label>
+		<%= f.text_field :answer,  class: 'form-control'%>
+		<% if f.object.errors.try(:messages)[:answer].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:answer].try(:first) %>
+    </div>
+		<% end %>
+  <div class="form-group">
+		<label>Dispaly rank</label>
+		<%= f.text_field :rank,  class: 'form-control'%>
+		<% if f.object.errors.try(:messages)[:rank].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:rank].try(:first) %>
+		<% end %>
+	</div>
+	<div class="form-group">
+		<%= f.label :active %>
+		<%= f.select :active, options_for_select([['Active', true],['Inactive', false]], faq.active), {} , {class: 'form-control'}%>
+		<% if f.object.errors.try(:messages)[:active].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:active].try(:first) %>
+		<% end %>
+	</div>
+  <hr>
+  <div class="clearfix form-group">
+    <%= f.submit class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+  </div>
+<% end %>

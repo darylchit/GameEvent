@@ -1,0 +1,229 @@
+.contract-details {
+	.game-item {
+		label, .clan-wrapper {
+			margin-top: .5em;
+			color: #fff;
+		}
+	}
+	li.message .message-content {
+		@media screen and (max-width: $screen-sm-max) {
+			margin: 0;
+			padding: 0;
+		}
+		&:after {
+			display: none;
+		}
+	}
+}
+.contract-meta > li {
+    display: inline-block;
+    @media screen and (max-width: $screen-sm-max) {
+    	display: block;
+    	margin-bottom: 10px;
+    }
+    padding-left: 32px;
+    position: relative;
+    padding-right: 15px;
+    vertical-align: top;
+    line-height:1.2em;
+    strong {
+		color: $brand-primary;
+		font-weight: bold;
+		font-size: 1.25em;
+		display: block;
+    }
+	&:before {
+		content: ' ';
+		margin-left: -32px;
+		background-size: 100%;
+		position: absolute;
+		height: 24px;
+		width: 24px;
+		background-repeat: no-repeat;
+		font-family: "FontAwesome";
+		text-align: center;
+		font-size: 20px;
+		color: #ddaf3b;
+		-webkit-font-smoothing: antialiased;
+	}
+	&.contract-game:before {
+		background-image: image-url("contract-game@2x.png");
+		background-position: 50% 8px;
+	}
+	&.contract-cal:before {
+	  content: '';
+	}
+	&.contract-length:before {
+	  content: '';
+	}
+	&.contract-clock:before {
+	  content: '';
+	}
+	&.contract-status:before {
+	  content: '';
+	}
+	&.contract-pay:before {
+	  content: ' ';
+	}
+	&.contract-will-play:before {
+		background-image: image-url("contract-game@2x.png");
+		background-position: 50% 2px;
+	}
+	h4 {
+		margin-top: 0;
+		margin-bottom:  0;
+	}
+}
+
+.contract-actions {
+	margin: 15px 0;
+}
+
+.contract-top {
+	li.contract-game:before {
+		background-position: 50% 2px !important;
+	}
+}
+
+.psa-col {
+	width: 130px;
+}
+
+.contract-body {
+	padding: 0;
+	form .contract-game {
+		width: 100%;
+	}
+	.game-item {
+		&:not(.clan-wrapper.clan-disabled) {
+			&:hover {
+				.game-details {
+					color: $brand-primary;
+				}
+			}
+			img {
+				&:hover {
+					cursor: pointer;
+				}
+				opacity: 1;
+			}
+		}
+		label, .clan-wrapper {
+			display: inline-block;
+			.game-details {
+				margin-top: .5em;
+				@media screen and (max-width: $screen-xs-max) {
+					font-size: .75em;
+				}
+				input {
+					display: none;
+				}
+			}
+		}
+		label:hover {
+			cursor: pointer;
+		}
+		label.selected {
+			.cover-wrap{
+				background-color: $gray-darker;
+				position: relative;
+				img {
+					opacity: 0.2;
+				}
+				&:before {
+					position: absolute;
+					z-index: 900;
+					font-family: "FontAwesome";
+					color: $brand-primary;
+					text-shadow: 0 0 5px rgba(0,0,0,0.3);
+					content: '';
+					text-align: center;
+					font-size: 60px;
+					top: 50%;
+		  			transform: translateY(-50%);
+					width: 100%;
+				}
+			}
+		}
+	}
+}
+
+.well .close, .container-box .close {
+	color: #fff;
+	text-shadow: none;
+	opacity: .5;
+	filter: alpha(opacity=50);
+	&:hover {
+		opacity: 1.0;
+		filter: alpha(opacity=100);
+	}
+}
+
+.modal-contract-footer {
+	text-align: initial;
+}
+
+.contract-padding {
+	padding-top: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+#grid_f_users_contracts_completed_to {
+	display: none;
+}
+
+#contracts_table_container {
+	.tablesaw-bar {
+		clear: none;
+	}
+}
+
+.cancellation-details {
+	.note {
+		padding-left: 10px;
+	}
+}
+
+.group-toggle {
+	.input-group-addon {
+		background: none;
+		border: none;
+		padding: 0;
+		.switch {
+			margin-top: 6px;
+			margin-right: 10px;
+		}
+	}
+	.form-control {
+		border-radius: $border-radius-base !important;
+	}
+}
+
+.post-buttons {
+	.post-bounty {
+		margin-right: 5px;
+	}
+	@media screen and (max-width: $screen-sm-max) {
+		margin-bottom: .75em;
+	}
+}
+
+table {
+	.contract-actions {
+		.btn {
+			&:not(.btn-auto) {
+				width: 91px;
+			}
+			@media screen and (min-width: 748px) {
+				margin-left: 5px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: $screen-sm-max) {
+	#filterBounty .wg-external-submit-button {
+		margin-top: .5em;
+	}
+}

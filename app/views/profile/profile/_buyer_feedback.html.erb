@@ -1,0 +1,23 @@
+<%
+# This is the block showing the feedback about the buyer
+type = c.contract_type
+%>
+<div class="feedback-block">
+  <div class="feedback-meta">
+    <div class="feedback-block">
+      <strong>Personality:</strong><br>
+      <span class="psa-rating-read-only" data-score="<%= c.buyer_personality %>"></span>
+    </div>
+    <div class="feedback-block">
+      <strong>Skill:</strong><br>
+      <span class="psa-rating-read-only" data-score="<%= c.buyer_skill %>"></span>
+    </div>
+    <div class="feedback-block">
+      <strong>Approval:</strong><br>
+      <span class="psa-rating-read-only" data-score="<%= c.buyer_approval %>"></span>
+    </div>
+  </div>
+  <div class="feedback-text">
+    <%= c.buyer_comment %>
+  </div>
+</div>

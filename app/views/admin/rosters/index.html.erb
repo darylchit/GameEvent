@@ -1,0 +1,45 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/adminnav" %>
+			</div>
+			<div class="col-md-9">
+				<div class="row">
+						<div class="col-md-12">
+								<h2 class="mt0">Rosters with No Shows</h2>
+						</div>
+				</div>
+				<p id="notice"><%= notice %></p>
+				<div class="table-responsive">
+					
+					<%= grid(@grid, show_filters: :no, hide_csv_button: true, html: {class: 'table table-responsive admin-games table-striped data-tr'}) do |g|
+			
+						g.blank_slate do
+							content_tag :div, 'No Rosters to Display', class: 'no-results'
+						end
+
+						g.column name: 'Roster Host' do | r |
+							link_to admin_user_path(r.buyer) do
+								raw "<h5> #{r.buyer.username} </h5>"
+			          end
+							
+						end
+
+						g.column name: 'Event #', attribute: 'id' do | r |
+							
+							link_to r.id, admin_user_become_path(r.buyer.id, :prev_action => roster_path(r)), method: :post
+							
+						end
+	
+						g.column name: 'Event End Date'  do | r|
+							
+							link_to (r.start_date_time+r.duration).strftime("%Y/%m/%d %I:%M%p"), admin_user_become_path(r.buyer.id, :prev_action => roster_path(r)), method: :post
+						end
+					end -%>
+		
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,26 @@
+<tr class="wow fadeInUp event_redirect all_event_row" data-link="<%= get_event_show_path(event)%>">
+	<td class="col-sm-1">
+		<%= image_tag(event.game.game_cover,class: 'avatar-md', data: {toggle:"tooltip", placement:"top", title: event.game.title }) %>
+	</td>
+	<td class="col-sm-11 set_font_size">
+	 <table>
+		 <tr>
+			 <td class="set_upcoming_td_width">
+				 <span class="gray_font"><%= event.title %></span>
+			 </td>
+		 </tr>
+		  <tr>
+		    <td class="set_upcoming_td_width"><span class="text-primary">Host: </span>
+  					<span class="gray_font"><%= event.user.username.present? ? event.user.username.titleize : "" %></span></td>
+		    <td class="set_upcoming_td_width"><span class="text-primary">Start: </span>
+  					<span class="gray_font"><%= event.start_at.strftime("%b %d | %l:%M%P")%></span></td>
+		  </tr>
+		  <tr>
+		    <td class="set_upcoming_td_width"><span class="text-primary">Status: </span>
+  					<span class="gray_font"><%= event.status.present? ? event.status.titleize : "N/A"%></span></td>
+		    <td class="set_upcoming_td_width"><span class="text-primary">Type: </span>
+  					<span class="gray_font"><%= event.event_type.titleize %></span></td>
+		  </tr>
+		</table>
+	</td>
+</tr>

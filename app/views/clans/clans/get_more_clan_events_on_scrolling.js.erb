@@ -1,0 +1,5 @@
+$('#upcoming_clan_event_desktop').append(
+  "<%= escape_javascript(render :partial => '/my_clans/upcoming_clan_event', collection: @events, as: :event, locals: { invitation: false })%>");
+$('#upcoming_clan_event_mobile').append(
+  "<%= escape_javascript(render :partial => '/my_clans/upcoming_clan_event_mobile', collection: @events, as: :event, locals: { invitation: false })%>");
+$('.pagination').replaceWith('<%= escape_javascript(paginate(@events) )%>');

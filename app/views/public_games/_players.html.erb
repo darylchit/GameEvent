@@ -1,0 +1,111 @@
+
+<tr class="<%= "remove_player#{invite.id}"%> player-row">
+  <td class="set_game_img_width set_relative">
+    <%= link_to image_tag(player.avatar_url, class: 'avatar_img'), player_path(player) %>
+  </td>
+
+
+  <td class=" width_60">
+      <h4 class="text-grey mt0"><strong><%= player.username %> | <%= event.system_abbr_with_pc_type %> IGN: <%= get_IGN(event, player) %></strong></h4>
+      <table>
+        <tr>
+          <td class="width_33">
+            <p>
+              <span class="text-primary">PSR: </span>
+              <%= player.user_setting.total_psr %>
+              <span class="psr_thump_up">
+                <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+              </span>
+            </p>
+          </td>
+          <td class="width_33">
+            <p>
+              <span class="text-primary">Experience: </span>
+              <%= player.event_experience %>
+            </p>
+          </td>
+          <td class="width_33">
+            <p>
+              <span class="text-primary">Cancellation Rate: </span>
+              <%= player.event_cancellation_rate %>%
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td class="width_33">
+            <span class="text-primary">Age: </span>
+            <%= player.age.present? ? player.age : ""%>
+          </td>
+          <td class="width_33">
+            <span class="text-primary">Time Zone: </span>
+            <%= player.timezone_abbr %>
+          </td>
+          <td class="width_33">
+            <span class="text-primary">Patience:</span>
+            <%= player.newbie_patience_level %>
+          </td>
+        </tr>
+      </table>
+  </td>
+
+
+
+  <td class="set_align width_10">
+  <% if invite.confirmed? %>
+      <% if current_user.present? %>
+        <% if current_user != player %>
+          <%= link_to "Rate", link_if_cancelled_event(rate_invite_path(event, invite)), method: method_if_cancelled_event(:get), id:"event_rate_user#{player.id}_event#{event.id}", class:"btn btn-lightgrey cancelled_event_link table_action_btn", remote: true %>
+        <% end %>
+      <% else %>
+        <%= link_to "Rate", link_if_cancelled_event(new_user_session_path ), method: method_if_cancelled_event(''), id:"event_rate_user#{player.id}_event#{event.id}", class:"btn btn-lightgrey cancelled_event_link table_action_btn", remote:  false %>
+      <% end %>
+  <% else %>
+    <% if current_user.present? %>
+        <% if current_user != player && !player.is_blocking_user?(current_user) and !current_user.is_blocking_user?(player) %>
+          <%= link_to "Message", new_message_path(:recipient_id => player.id), remote:true , class:"btn btn-lightgrey table_action_btn cancelled_event_link" %>
+        <% end %>
+    <% else %>
+        <%= link_to "Message", new_user_session_path, class:"btn btn-lightgrey table_action_btn cancelled_event_link" %>
+    <% end %>
+  <% end %>
+  </td>
+
+  <td class="set_align width_10">
+    <% if current_user.present? && event.user_id == current_user.id && current_user.id != player.id %>
+      <%= link_to "Remove", link_if_cancelled_event(remove_invite_path(event, invite)), :method => method_if_cancelled_event('delete'), remote: true ,class: "btn btn-lightgrey table_action_btn cancelled_event_link" %>
+    <% elsif current_user.present? %>
+        <% if current_user == player %>
+            <%= link_to "Edit Profile", edit_profile_path, class: "btn btn-lightgrey table_action_btn" %>
+        <% else %>
+            <% if current_user.is_blocking_user?(player)%>
+                <%= link_to "Unblock", link_if_cancelled_event(profile_block_path(current_user.blocks.where(:blocked_user => player)[0])), :method => method_if_cancelled_event(:delete), class: "btn btn-lightgrey table_action_btn" %>
+            <% else %>
+                <%= link_to "Block", link_if_cancelled_event(profile_blocks_path(block: {blocked_user_id: player.id})), :method => method_if_cancelled_event(:post), class: "btn btn-lightgrey table_action_btn cancelled_event_link", remote: true %>
+            <% end %>
+        <% end %>
+    <% else %>
+        <%= link_to "Block", link_if_cancelled_event(new_user_session_path), :method => method_if_cancelled_event(''), class: "btn btn-lightgrey table_action_btn cancelled_event_link" %>
+    <% end %>
+  </td>
+
+  <td class="set_align width_10">
+    <% if invite.confirmed? %>
+      <% if current_user.present? %>
+          <% if current_user != player %>
+              <%= link_to "No Show", link_if_cancelled_event(not_show_invite_path(event, invite)), method: method_if_cancelled_event("put"), remote: (current_user.present? ? true : false), id: "event_not_show_user#{player.id}_event#{event.id}", class: "btn btn-lightgrey table_action_btn cancelled_event_link event_not_show_user#{player.id}_event#{event.id}"%>
+          <% end %>
+      <% else %>
+          <%= link_to "No Show", link_if_cancelled_event(not_show_invite_path(event, invite)), method: method_if_cancelled_event("put"), remote: (current_user.present? ? true : false), id: "event_not_show_user#{player.id}_event#{event.id}", class: "btn btn-lightgrey table_action_btn cancelled_event_link event_not_show_user#{player.id}_event#{event.id}"%>
+      <% end %>
+    <% else %>
+      <% if current_user.present? %>
+        <% if current_user != player %>
+          <%= link_to "View", player_path(player), class: "btn btn-lightgrey table_action_btn cancelled_event_link" %>
+        <% end %>
+      <% else %>
+          <%= link_to "View", player_path(player), class: "btn btn-lightgrey table_action_btn cancelled_event_link" %>
+      <% end %>
+    <% end %>
+  </td>
+
+</tr>

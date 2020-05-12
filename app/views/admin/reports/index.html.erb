@@ -1,0 +1,20 @@
+<%= render partial: 'reports_grid' %>
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/adminnav" %>
+			</div>
+			<div class="col-md-9">
+				<%= render 'layouts/flash' %>
+
+      	<h2 class="mt0">Manage Reported Content</span></h2>
+
+				<p id="notice"><%= notice %></p>
+				<div class="table-responsive">
+					<%= render_grid(@reports) %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

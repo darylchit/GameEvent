@@ -1,0 +1,30 @@
+<% #prerender the partial grid so that the filters can figure out what they're shooting for. dumb. %>
+<%= render partial: 'grid' %>
+
+<div class="background-block content-area">
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+			<div class="col-md-9">
+					<%= render 'layouts/flash' %>
+
+					<h3 class="mt0">All Events</h3>
+
+					<small>Filtered by:</small><br>
+					<%= form_tag view_all_events_path, method: 'get', html: {role: "form"}, class: "wice_grid_form" do %>
+						<div class="form-group">
+							<%= grid_filter @all, :status_filter %>
+						</div>
+					<% end %>
+
+					<div class="table-responsive table-saw-sans-bar">
+						<%= render_grid(@all) %>
+					</div>
+
+			</div>
+		</div>
+	</div>
+</div>

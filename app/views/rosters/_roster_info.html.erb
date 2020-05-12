@@ -1,0 +1,145 @@
+<div class="containter">
+	<div class="well">
+        <div class="row">
+            <div class="col-md-8 col-sm-6">
+                <h2 class="profile-title">Event Details</h2>
+                <div class="profile-actions">
+                  <ul class="profile-action-btns">
+                    <li>
+                        <%= link_to edit_roster_path(roster), class: "profile-action-btn" do %>
+                            <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                            <span>Edit Event</span>
+                        <% end %>
+                    </li>
+                  </ul>
+                </div><!-- Action Buttons -->
+            </div>
+            <% if roster.public? && show_sharing %>
+            <div class="col-md-4 col-sm-6 text-right-md"> 
+                <div class="sharing-buttons">
+                    <a href="https://twitter.com/intent/tweet/?text=&url=<%= URI.escape (event_url roster.id.to_s) %>&via=GameRoster" class="btn btn-twitter btn-sharing">
+                        <span class="fa fa-twitter"></span>
+                    </a>
+                    <a href="#" class="btn btn-facebook btn-sharing" data-event-id="<%= roster.id %>">
+                        <span class="fa fa-facebook"></span>
+                    </a>
+                </div>
+            </div>
+            <% end %>
+        </div>
+
+        <div class="profile-cover">
+            <div class="profile-holder">
+                <div class="profile-bg">
+                    <%= image_tag(game_photo_jumbo(roster)) %>
+                </div>
+            </div>
+            <div class="cover-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="media">
+                            <span class="media-left hidden-xs hidden-sm">
+                                <%= image_tag(game_photo_cover(roster), class: "thumbnail-small media-object") %>
+                            </span>
+                            <div class="media-body">
+                                <h2 class="mt0"><%=  roster.contract_game_game_system_joins.first.game_game_system_join.game.title %> (<%=  roster.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation %>)</h2>
+                                <h3 class="mt0 hidden-xs hidden-sm"><%= roster.title %></h3>
+                                <p class="small hidden-xs hidden-sm"><%= roster.details %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contract-details">
+            <div class="visible-sm visible-xs">
+                <h3 class="mt0"><%= roster.title %></h3>
+                <p class="small"><%= roster.details %></p>
+            </div>
+            <div>
+                <ul class="messages-list list-unstyled">
+                    <li class="message">
+                        <span class="message-avatar">
+                            <a href="<%= profiles_path() + '/' + roster.buyer.username %>"><%= image_tag roster.buyer.avatar_url%></a>
+                        </span>
+                        <div class="message-content roster-content">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12 col-sm-6">
+                                    <dl class="roster-list dl-horizontal">
+                                        <dt>Host Name:</dt>
+                                        <dd><%= link_to roster.buyer.username, profiles_path() + '/' + roster.buyer.username, "style" => "color:#fff;" %></dd>
+                                        <dt>Host IGN:</dt>
+                                        <dd>
+                                            <% if roster.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS4' || roster.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS3' %>
+
+                                                <%= roster.buyer.psn_user_name.present? ? roster.buyer.psn_user_name : 'Not Listed' %>
+                                            <% elsif roster.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB1' || roster.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB360' %>
+
+                                                <%= roster.buyer.xbox_live_user_name.present? ? roster.buyer.xbox_live_user_name : 'Not Listed' %>
+                                            <% elsif roster.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'Wii U'%>
+
+                                                <%= roster.buyer.nintendo_user_name.present? ? roster.buyer.nintendo_user_name : 'Not Listed' %>
+                                            <% elsif roster.contract_game_game_system_joins.first.game_game_system_join.game_system.title == 'PC'%>
+
+                                                <%= roster.buyer.pc_user_name.present? ? roster.buyer.pc_user_name : 'Not Listed' %>
+                                            <% end %>
+                                        </dd>
+                                        <dt>Host PSA:</dt>
+                                        <dd>
+                                            <% if roster.buyer.psa_rating == 0 %>
+                                                n/a
+                                            <% else %>
+                                                <span class="psa-rating-read-only" data-score="<%= roster.buyer.psa_rating %>"></span>
+                                            <% end %>
+                                        </dd>
+                                        <dt>Host Age</dt>
+                                        <dd>
+                                            <% if roster.buyer.public_age == true %>
+                                                <%= age_in_years(roster.buyer.date_of_birth) %>
+                                            <% else %>
+                                                n/a
+                                            <% end %>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-sm-6">
+                                    <dl class="roster-list dl-horizontal">
+                                        <dt>Start Date:</dt>
+                                        <dd><%=  roster.start_date_time.strftime("%Y/%m/%d") %></dd>
+                                        <dt>Start Time:</dt>
+                                        <dd><%=  roster.start_date_time.strftime("%I:%M%P") %></dd>
+                                        <dt>Spots Taken:</dt>
+                                        <dd><%= roster.confirmed_users_count %> / <%= roster.max_roster_size %></dd>
+                                        <dt>Game Type:</dt>
+                                        <dd><%= roster.will_play %></dd>
+                                    </dl>
+                                </div>
+
+
+                            </div>
+
+                            <% if false %>
+                                <h4>
+                                    <% if roster.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS4' || roster.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS3' %>
+                                        <span class="text-primary"><%= roster.buyer.username %>'s PSN Online ID:</span>
+                                        <%= roster.buyer.psn_user_name.present? ? roster.buyer.psn_user_name : 'Not Listed' %>
+                                    <% elsif roster.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB1' || roster.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB360' %>
+                                        <span class="text-primary"><%= roster.buyer.username %>'s Xbox Gamertag:</span>
+                                        <%= roster.buyer.xbox_live_user_name.present? ? roster.buyer.xbox_live_user_name : 'Not Listed' %>
+                                    <% elsif roster.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'Wii U'%>
+                                        <span class="text-primary"><%= roster.buyer.username %>'s Nintendo Network ID:</span>
+                                        <%= roster.buyer.nintendo_user_name.present? ? roster.buyer.nintendo_user_name : 'Not Listed' %>
+                                    <% elsif roster.contract_game_game_system_joins.first.game_game_system_join.game_system.title == 'PC'%>
+                                        <span class="text-primary"><%= roster.buyer.username %>'s PC IGNs: </span>
+                                        <%= roster.buyer.pc_user_name.present? ? roster.buyer.pc_user_name : 'Not Listed' %>
+                                    <% end %>
+                                </h4>
+                            <% end %>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div><!-- contract-details -->	
+	</div>
+</div>

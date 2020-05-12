@@ -1,0 +1,7 @@
+$('#invitations_desktop').append("<%= escape_javascript render(:partial => 'event_list_desktop', :collection => invitations, as: :event, locals: { invitation: true })%>");
+$('#invitations_mobile').append("<%= escape_javascript render(:partial => 'invitation_list_mobile', :collection => invitations, as: :event, locals: { invitation: true })%>");
+<% if invitations.last_page? %>
+  $('.invitations_load_more_link').remove();
+<% else %>
+  $('.invitations_load_more_link').attr("href",  "/my_events/my_invitations?page=<%=(params[:page].to_i + 1)%>")
+<% end %>

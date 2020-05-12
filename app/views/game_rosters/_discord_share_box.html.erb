@@ -1,0 +1,27 @@
+<div  class="modal fade" id="discord_share_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-medium">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" type="button" data-target="#game_roster_actions" aria-label="Close"><span aria-hidden="true" class="action_popup" id="">&times;</span></button>
+        <h4 class="modal-title">
+          Share Details with Discord
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-xs-12">
+            <p class="text-justify text-primary">Your event details will be copied for you to paste into your Discord servers after you select "Continue to Discord". You will need to allow pop-ups from GameRoster.com in your browser to be redirected.</p>
+            <% share_url = "#{ENV['domain']}#{get_event_show_path(event)}" %>
+            <% data = event.event_share_details %>
+            <!-- <div class="form-group">
+              <textarea class="form-control text-area-event-copy" rows="6" id="discord_event_copy_details" style="font-weight: bold ;background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url(<%#= event.game.game_jumbo_mobile.url%>); background-size: 100%; background-repeat: no-repeat;"><%#=data %> <%#= share_url %></textarea>
+            </div> -->
+            <%= link_to 'Continue to Discord', '/discordapp_me', 'data-clipboard-text' => "#{data} #{share_url}",  target: '_blank', class: 'btn btn-discord btn-full form-group discord-clipboard-btn' %>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<strong>Public Game Event Notice</strong>
+
+	<p style="margin-top: 0;">
+  You are receiving this because a public game was posted that matches your game profile and preferences. Select <%= link_to "here", edit_profile_notifications_url %> to turn off Public Game Event notices and manage your notification options.
+	</p>
+	<br>
+	<p style="margin-top: 0;">
+		<strong>Title:</strong> <%="%s (%s) " % [@roster.games.first.title, @roster.game_systems.first.abbreviation] %><br>
+		<strong>Event:</strong> <%= @roster.title %><br>
+		<strong>Play Type:</strong> <%= @roster.play_type %><br>
+		<strong>Game Type:</strong> <%= @roster.will_play %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Start Date:</strong> <%=@roster.start_date_time.in_time_zone.strftime("%m/%d ") %><br>
+		<strong>Start Time:</strong> <%=@roster.start_date_time.in_time_zone.strftime("%l:%M%p %Z") %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Host Name:</strong> <%= @roster.owner.username %><br>
+		<strong>Host Age:</strong> <%= @roster.owner.public_age ? age_in_years(@roster.owner.date_of_birth) : 'n/a' %><br>
+		<strong>Host PSA:</strong> <%= @roster.owner.psa_rating != '' ? @roster.owner.psa_rating : 'n/a' %><br>
+		<strong>Host Cancelation Rate:</strong> <%= !@roster.owner.cancellation_rate.nil? ? @roster.owner.cancellation_rate : 'n/a' %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Spots Filled/Available:</strong> <%= @roster.confirmed_users_count %>/<%= @roster.max_roster_size %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Event Details & Requirements:</strong>
+	</p>
+	<br><br>
+	<p style="margin-top: 0;">
+		<%= @roster.details %>
+	</p>
+	<br><br>
+	<p style="margin-top: 0;">
+		<strong>View or Join Roster:</strong> <%= link_to URI.escape(event_url(@roster.id)), event_url(@roster.id) %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>View or Block Host:</strong> <%= link_to URI.escape(profiles_url + '/' + @roster.owner.username), (profiles_url + '/' + @roster.owner.username) %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Disable Public Game Notices:</strong> <%= link_to URI.escape(edit_profile_notifications_url), edit_profile_notifications_url() %>
+	</p>
+	<p style="margin-top: 0;">
+		<small>Note: all times displayed are converted to your local time. </small> 
+	</p>

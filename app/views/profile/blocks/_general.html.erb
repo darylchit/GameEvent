@@ -1,0 +1,11 @@
+<div class="row block_popup set_mrg">	
+	<div class="col-sm-12">
+		Are you sure you want to block <%= user.username %>?
+	  <h3 class="mt0 modal-footer-label pull-left-md"></h3>
+	  <%= form_for @block, url: profile_blocks_path do |f| %>
+	    <%= f.hidden_field :blocked_user_id, value: @block.blocked_user_id %>
+	    <%= f.hidden_field :contract_id, value: @block.contract_id %>
+	    <%= f.submit "Block User", class:"btn btn-full btn-outline" %>
+	  <% end %>
+	</div>
+</div>

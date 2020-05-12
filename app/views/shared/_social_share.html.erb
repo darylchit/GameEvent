@@ -1,0 +1,73 @@
+<% do_with_card = true %>
+
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<p class="lead text-center">Would you like to share your event with friends on social media?</p>
+				<% if do_with_card %>
+					<div class="row share-group">
+						<div class="col-md-4">
+							<a href="https://twitter.com/intent/tweet/?text=&url=<%= URI.escape (event_url @event.id.to_s) %>&via=GameRoster" class="btn btn-twitter btn-sharing btn-block">
+								<span class="fa fa-twitter"></span> Twitter
+							</a> 
+						</div>
+						<div class="col-md-4">
+							<a href="#" class="btn btn-facebook btn-sharing btn-block" data-event-id="<%= @event.id %>">
+								<span class="fa fa-facebook"></span> Facebook
+							</a>
+						</div>
+						<div class="col-md-4">
+							<%= link_to event_path(@event), class: "btn btn-primary btn-sharing btn-block", id: "btn-skip" do %>
+								Share Later
+							<% end %>
+						</div>
+					</div>
+					<br>
+
+					<% if @event.roster? %>
+						<%= render 'events/roster_info', show_sharing: false, headline: false %>
+					<% else %>
+						<%= render 'events/contract_info' %>
+					<% end %>
+
+				<% else %>
+					<div class="social-sharing">
+
+						<h2 class="text-center">Would You Like to Share this Event?</h2>
+
+						<div class="row sharing-row">
+							<div class="col-sm-4">
+								<a href="https://twitter.com/intent/tweet/?text=&url=<%= URI.escape (event_url @event.id.to_s) %>&via=GameRoster" class="share-twitter">
+									<span class="fa fa-twitter"></span>
+									<p>Share to Twitter</p>
+								</a>
+							</div>
+							<div class="col-sm-4">
+								<a href="#" data-event-id="<%= @event.id %>" class="share-facebook">
+									<span class="fa fa-facebook"></span>
+									<p>Share to Facebook</p>
+								</a>
+							</div>
+							<div class="col-sm-4">
+								<%= link_to event_path(@event) do %>
+									<span class="fa fa-fast-forward"></span>
+									<p class="sharing-complete">Skip Sharing</p>
+								<% end %>
+							</div>
+						</div>
+					</div>
+
+				<% end %>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+

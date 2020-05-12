@@ -1,0 +1,54 @@
+<%= form_for [:admin, @charity], :html => {multipart: true } do |f| %>
+
+	<div class="form-group">
+		<label>Name</label>
+		<%= f.text_field :charity_name,  class: 'form-control'%>
+	</div>
+
+	<div class="form-group">
+		<label>About the Charity</label>
+		<%= f.text_area :charity_about,  :rows=>"6", class: "form-control" %>
+	</div>
+		
+	<div class="form-group">
+		<label>Donation URL</label>
+		<%= f.text_field :charity_url,  class: 'form-control'%>
+	</div>
+
+	<h3>Charity Logo</h3>
+
+	<div class="row">
+
+		<div class="col-md-4 ">
+			<label>Logo <small>(640px by 400px)</small></label><br>
+			<% if resource.charity_logo.present? %>
+				<div class="form-group text-center">
+					<%= link_to resource.charity_logo.url, target: "_blank" do %>
+						<%= image_tag(resource.charity_logo.url) %>
+					<% end %>
+				</div>
+				<div class="form-group">
+					<label>Replace Image</label>
+					<span class="btn btn-primary btn-file btn-block">
+					    <span class="file-label">BROWSE</span> <%= f.file_field :charity_logo, data:{filename_placement: "inside", show_upload: "false"}%>
+					</span>
+				</div>
+			<% else %>
+				<span class="btn btn-primary btn-file btn-block">
+				    <span class="file-label">BROWSE</span> <%= f.file_field :charity_logo, data:{filename_placement: "inside", show_upload: "false"}%>
+				</span>
+				<%= f.hidden_field :charity_logo_cache %>
+			<% end %>
+		</div>
+
+		</div>
+
+	<hr>
+	<div class="clearfix form-group">
+		<% if false #!resource.new_record? %>
+			<%= link_to 'Delete', admin_charities_path(resource), method: :delete, data: { confirm: 'Are you sure you want to delete this charity?' }, class: 'btn btn-danger btn-lg' %>
+		<% end %>
+		<%= f.submit class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+	</div>
+
+<% end %>

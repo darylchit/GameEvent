@@ -1,0 +1,355 @@
+<div class="set_box box_height1">
+  <%= render "layouts/topnav" %>
+  <%= render "layouts/slidenav" %>
+  <p class="notice hidden"><%= notice %></p>
+  <p class="alert hidden"><%= alert %></p>
+
+  <%= render 'clans/clans/clan_donation' if current_user.present? %>
+  <%= render 'clans/clans/clan_contact' if current_user.present? %>
+  <%= render 'clans/clans/apply' if current_user.present? %>
+  <%#= render 'clans/clan_applications/applications_modal' if current_user.present? %>
+  <%= render 'clans/clans/closed_popup' %>
+  <%= render 'clans/clans/request_pending' %>
+  <%= render 'clans/clans/pending_application_tab_popup' %>
+  <%= render 'clans/clans/reject_clan_user' %>
+  <%= render 'clans/clans/restrictions_popup' %>
+  <%= render 'clans/clans/clan_restricted_popup'%>
+
+  <div class="set_image_cover share-button">
+    <%= image_tag(clan_jumbo_url(@clan), class: "hidden-xs set_image_padding set_img_border_tab", id: 'image_cover') %>
+    <%= image_tag(clan_mobile_jumbo_url(@clan), class: "visible-xs set_image_padding set_img_border_tab", id: 'image_cover_mobile') %>
+    <%= link_to clan_share_clan_path(@clan), class: "share_btn", remote: true do %>
+      <span class='fa fa-share-alt'></span>
+    <% end %>
+  </div>
+  <% active = "specs" %>
+</div>
+  <nav class="affix_div1 set_tab_icon_index">
+    <div class="tab_icons">
+      <div class="set_width_tabs" align="center">
+        <div class="profile-actions set_tabs_width">
+          <ul class="profile-action-btns clearfix wow flipInX" role="tablist" data-wow-delay="0.5s" data-wow-duration="1s">
+            <% if current_user.present? %>
+              <%if @clan.is_host? current_user %>
+                 <li class="yyyyy  set_tabs_padding clan_li_set_color_size">
+                  <%= link_to edit_clan_path(@clan) do %>
+                    <i class="fa fa-cog set_icon_size" aria-hidden="true"></i>
+                    <span class="btn-span">Edit Clan</span>
+                  <% end %>
+                  </li>
+              <% end %>
+            <% else %>
+              <% if @clan.open? %>
+                  <li class="yyyyy set_tabs_padding clan_li_set_color_size" >
+                    <%= link_to new_user_session_path, class: "set_clan_btn_style" do %>
+                        <i class="fa fa-plus-circle set_icon_size" aria-hidden="true"></i>
+                        <span class="btn-span">Join Clan</span>
+                    <% end %>
+                  </li>
+              <% elsif @clan.recruiting? %>
+                  <li class="yyyyy set_tabs_padding clan_li_set_color_size" >
+                      <%= link_to new_user_session_path, class: "set_clan_btn_style" do %>
+                          <i class="fa fa-plus-circle set_icon_size" aria-hidden="true"></i>
+                          <span class="btn-span">Apply</span>
+                      <% end %>
+                  </li>
+              <% elsif @clan.closed? %>
+                  <li class="yyyyy set_tabs_padding clan_li_set_color_size" >
+                    <%= link_to new_user_session_path, class: "set_clan_btn_style" do %>
+                        <i class="fa fa-times-circle-o set_icon_size" aria-hidden="true"></i>
+                        <span class="btn-span">Closed</span>
+                    <% end %>
+                  </li>
+              <% elsif @clan.restricted? %>
+                  <li class="yyyyy set_tabs_padding clan_li_set_color_size">
+                    <%= link_to new_user_session_path, class: "set_clan_btn_style" do %>
+                        <i class="fa fa-plus-circle set_icon_size" aria-hidden="true"></i>
+                        <span class="btn-span">Join Clan</span>
+                    <% end %>
+                  </li>
+              <% end %>
+            <% end %>
+            <% if current_user.present? %>
+              <%if @clan.open? && @clan_member && (not @clan.is_host? current_user) %>
+                <span id="ajax_tab">
+                  <%= render 'clans/clans/leave_tab' if @clan_member %>
+                </span>
+              <%elsif @clan.open? && (not @clan.member_or_removed_member? current_user) && (not @clan.is_host? current_user) %>
+                <% if @clan_invite %>
+                  <% if @clan_invite.is_request? %>
+                    <!-- Request Pending -->
+                    <li class="yyyyy set_tabs_padding clan_li_set_color_size" >
+                      <%= link_to "#", class: "set_clan_btn_style" do %>
+                          <i class="fa fa-plus-circle set_icon_size" aria-hidden="true"></i>
+                          <span class="btn-span">Join Clan</span>
+                      <% end %>
+                    </li>
+                  <% else%>
+                    <span id="ajax_tab">
+                      <%= render 'clans/clans/join_clan_tab' %>
+                    </span>
+                  <%end%>
+                <% else%>
+                  <span id="ajax_tab">
+                    <%= render 'clans/clans/join_clan_tab' %>
+                  </span>
+                <% end %>
+
+              <%elsif @clan.open? && (@clan.member_or_removed_member? current_user) && (not @clan.is_host? current_user) && !@clan_member %>
+                  <span id="ajax_tab">
+                    <%= render 'clans/clans/join_clan_tab' %>
+                  </span>
+              <%elsif @clan.recruiting? && !@clan_member %>
+                <%if @pending_application.present? %>
+                    <!-- REQUEST PENDING-->
+                    <%= render 'clans/clans/pending_tab' %>
+                <% elsif  (!@clan.allow_reapply_application?) && @deleted_application.present? %>
+                    <!-- not done present not working...................................... -->
+                    <li class="yyyyy set_tabs_padding clan_li_set_color_size" >
+                      <%= link_to "#", class: "set_clan_btn_style", data: { toggle: "modal", target: '#rejected_clan_user_popup'}  do %>
+                        <i class="fa fa-plus-circle set_icon_size" aria-hidden="true"></i>
+                        <span class="btn-span">Apply</span>
+                      <% end %>
+                    </li>
+                <% else %>
+                    <span id="ajax_tab">
+                      <%= render 'clans/clans/apply_clan_tab' %>
+                    </span>
+                <% end %>
+              <%elsif @clan.recruiting? && @clan_member && (not @clan.is_host? current_user) %>
+                  <span id="ajax_tab">
+                    <%= render 'clans/clans/leave_tab' if @clan_member %>
+                  </span>
+              <%elsif @clan.closed? && (not @clan.member_or_removed_member? current_user) && (not @clan.is_host? current_user) %>
+                  <%= render 'clans/clans/closed_clan_tab' %>
+              <%elsif @clan.closed? && (not @clan_member) && (not @clan.is_host? current_user) %>
+                  <%= render 'clans/clans/closed_clan_tab' %>
+                  <!-- sign in -->
+              <%elsif @clan.closed? && @clan_member && (not @clan.is_host? current_user) %>
+                  <span id="ajax_tab">
+                    <%= render 'clans/clans/leave_tab' if @clan_member %>
+                  </span>
+              <%elsif @clan.restricted? && (not @clan_member) && (not @clan.is_host? current_user)  %>
+                  <span id="ajax_tab">
+                    <%= render 'clans/clans/restricted_join_tab' %>
+                  </span>
+              <%elsif @clan.restricted? && @clan_member && (not @clan.is_host? current_user) %>
+                  <span id="ajax_tab">
+                    <%= render 'clans/clans/leave_tab' if @clan_member %>
+                  </span>
+              <% end %>
+            <% else %>
+              <!-- all guest btns -->
+            <% end %>
+
+            <% @tabs.each_with_index do |tab, index| %>
+              <% index +=1%>
+              <% if tab[:id] == "clan-application" %>
+                <%if current_user.present? %>
+                  <% if (@clan.is_host? current_user) || (@clan.application_reveiewer? current_user)  %>
+                    <li class="yyyyy set_tabs_padding clan_li_set_color_size">
+                          <%= link_to "#applications_modal_tab", class: "set_clan_btn_style", data: { toggle: "tab"}  do %>
+                            <i class="fa fa-file-text set_icon_size" aria-hidden="true"></i>
+                            <span class="btn-span">Applications</span>
+                          <% end %>
+                    </li>
+                  <%end%>
+                <%else%>
+                    <li class="yyyyy set_tabs_padding clan_li_set_color_size">
+                        <%= link_to new_user_session_path, class: "set_clan_btn_style" do %>
+                            <i class="fa fa-file-text set_icon_size" aria-hidden="true"></i>
+                            <span class="btn-span">Applications</span>
+                        <% end %>
+                    </li>
+                <%end%>
+              <% else %>
+                <% if (tab[:id] != 'clan-messages')  || (current_user.present? && ((@clan.active_member?(current_user)) || @clan.is_host?(current_user)) ) %>
+                  <% if @clan.host.age < 18 && tab[:id]=="donate_popup"%>
+                    <%next%>
+                  <% end %>
+                  <li role="presentation"
+                      class="<%= active == tab[:display].downcase ? 'yyyyy set_tabs_padding' : 'yyyyy set_tabs_padding'%>" >
+                    <% tab[:data].present? ? tab_modal='modal' : tab_modal='tab' %>
+                    <% tab[:data].present? ? tab_class='' : tab_class='clan_tabs' %>
+                    <%if !current_user.present? &&  tab[:data].present? %>
+                      <% tab_href= '/users/sign_in'%>
+                    <% else %>
+                      <%if tab[:method].present?%>
+                        <% tab_href= "#{tab[:id]}"%>
+                      <%else%>
+                        <% tab_href= "##{tab[:id]}"%>
+                      <% end %>
+                    <% end %>
+                    <a href="<%= tab_href %>""
+                       aria-controls="<% tab[:display].downcase %>"
+                       role="tab"
+                       data-toggle="<%=tab_modal%>" class="<%=tab_class%>" rel="<%=tab[:rel]%>"  data-method="<%=tab[:method]%>">
+                      <i class="fa <%= tab[:icon] %>" aria-hidden="true"></i>
+                      <span><%= tab[:display] %></span>
+                    </a>
+                  </li>
+                <% end %>
+              <% end %>
+            <% end %>
+
+            <%# notice%>
+              <li class=" set_tabs_padding clan_li_set_color_size">
+                <%= link_to "#clan-notices", class: "clan_tabs", data: { toggle: "tab"}  do %>
+                  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                  <span class="btn-span">Notices</span>
+                <% end %>
+              </li>
+
+            <%# Chat %>
+              <li class="set_tabs_padding clan_li_set_color_size">
+                <%= link_to "#clan-messages", class: "clan_tabs", data: { toggle: "tab"}  do %>
+                  <i class="fa fa-comments" aria-hidden="true"></i>
+                  <span class="btn-span">Chat</span>
+                <% end %>
+              </li>
+            <%# Contact %>
+            <li class="hide set_tabs_padding clan_li_set_color_size">
+              <% current_user.present? ? user_present="#clan_contact" : user_present="/users/sign_in" %>
+              <%= link_to user_present, class: "", data: { toggle: "modal", target: user_present}  do %>
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span class="btn-span">Message</span>
+              <% end %>
+            </li>
+
+            <%# Donation%>
+            <% if @clan.host.age > 18%>
+              <li class="set_tabs_padding clan_li_set_color_size">
+                <% current_user.present? ? user_present="#donate_popup" : user_present="/users/sign_in" %>
+                <%= link_to user_present, class: "", data: { toggle: "modal", target: user_present}  do %>
+                  <i class="fa fa-dollar" aria-hidden="true"></i>
+                  <span class="btn-span">Pledge</span>
+                <% end %>
+              </li>
+            <%end%>
+
+            <%# LFG Events%>
+
+              <li class="set_tabs_padding clan_li_set_color_size">
+                <%= link_to "#clan-events", class: "clan_tabs", data: { toggle: "tab", target: ""}  do %>
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                  <span class="btn-span">LFG</span>
+                <% end %>
+              </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="set_box1 set_bg_flat clan_profile_page_main" >
+    <div class="set_margin_hidden"></div>
+    <div class="container">
+    <div class="tab-content well mt0 top_margin top_margin_mobile set_bg_flat set_box_shadow set_50_padding clan_profile_page remove_padding">
+      <% unless  @clan.host.is_premium? || current_subscription.present? %>
+      <!-- Google ads start-->
+      <div class="hidden-xs col-md-12 text-center form-group" style="margin-top: 5px;margin-bottom: 5px;">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Desktop Long Banner -->
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:970px;height:90px"
+             data-ad-client="ca-pub-7969073226896485"
+             data-ad-slot="7194419117"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+      <div class="row visible-xs">
+        <div class="row text-center" style="margin-top: 5px;margin-bottom: 5px;">
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- Mobile Banner -->
+          <ins class="adsbygoogle"
+               style="display:inline-block;width:320px;height:100px"
+               data-ad-client="ca-pub-7969073226896485"
+               data-ad-slot="4553256987"></ins>
+          <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+      </div>
+      <!-- Google ads end -->
+      <% end %>
+      <% @tabs.each do |tab| %>
+        <% unless tab[:id] == "clan-breaker" %>
+          <div role="tabpanel" class="tab-pane fade" id="<%= tab[:id] %>">
+            <%= render tab[:path] if tab[:path].present? %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <div role="tabpanel" class="tab-pane fade" id="clan-notices">
+        <%= render "/clans/clans/notices" %>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="clan-messages">
+        <%= render "/clans/clans/messages" %>
+      </div>
+
+      <div role="tabpanel" class="tab-pane fade" id="donate_popup">
+        <%= render "/clans/clans/donation" %>
+      </div>
+      <div role="tabpanel" class="tab-pane fade clan_edit_page" id="applications_modal_tab">
+        <h2 class="text-center mt0">Applications</h2>
+        <%= render 'clans/clan_applications/applications_modal' if current_user.present? %>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="clan-events">
+        <% if current_user && @clan.member(current_user) %>
+          <% if @clan.is_host?(current_user) || @clan.member(current_user) %>
+            <div class="row">
+              <div class="col-sm-4 col-sm-offset-4 col-xs-12">
+                  <% if @clan.is_host?(current_user) || @clan.can_perform?(current_user, :post_to_events) || ( @clan_member && @clan_member.clan_rank && @clan_member.clan_rank.post_events? )  %>
+                    <%= link_to 'Post', new_game_roster_path, remote: true, class: 'btn btn-lightgrey btn-block' %>
+                  <% else %>
+                    <button type="button" class="btn btn-lightgrey btn-block" data-toggle="modal" data-target="#event_restrict_popup">Post</button>
+                  <% end %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+
+        <div class="my_event_cards_page hidden-xs">
+          <div class="row">
+            <% if @events.present? %>
+              <div class="col-md-12 col-sm-12">
+                <div class="roster-invites-wrapper clearfix">
+                    <ul class="list-unstyled" id="upcoming_clan_event_desktop">
+                       <%#= render partial: 'upcoming_clan_event'%>
+                        <%= render  partial: '/my_clans/upcoming_clan_event', collection: @events, as: :event, locals: {invitation: false}%>
+                    </ul>
+                </div>
+              </div>
+              <div class="row">
+      					<div class="col-md-12 text-center">
+      						<div class="hidden">
+      							<%#= paginate @events %>
+      						</div>
+      					</div>
+      				</div>
+            <% else %>
+              <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+              <h3 class="text-center">No Events Posted</h3>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="my_event_cards_page visible-xs">
+                <% if @events.present? %>
+                  <div class="row-fluid" id="upcoming_clan_event_mobile">
+                    <%= render  partial: '/my_clans/upcoming_clan_event_mobile', collection: @events, as: :event %>
+                  </div>
+
+                 <% else %>
+                    <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+                    <h3 class="text-center">No Events Posted</h3>
+                 <% end %>
+              </div>
+      </div>
+
+    </div>
+  </div>
+  <div id='clan_applications'></div>
+  <div id='edit_popup'></div>
+</div>

@@ -1,0 +1,56 @@
+<div class="row set_gold_line clan_member_remove_<%= clan_member.id%>">
+  <div class="col-xs-3 set_xs_padding">
+    <%= link_to player_path(clan_member.user) do %>
+      <%= image_tag clan_member.user.avatar_url, :class=> 'avatar-sm set_img_height' %>
+    <% end %>
+  </div>
+  <div class="col-xs-9 set_mrg_tbl_application">
+    <div class="row">
+      <span class="col-xs-12"><span><%= clan_member.user.username %></span>
+      <button class="btn-link add-icon-top set_plus_mrg" data-toggle="modal" data-target="#view_clan_member_actions_<%= clan_member.id%>">
+        <span class="fa fa-plus"></span>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <span class="text-primary">PSR: </span>
+        <span class="psr_thump_up text-white">
+                  <%= clan_member.user.user_setting.total_psr %>
+          <!--<i class="fa fa-circle-thin circle-main" aria-hidden="true"></i>-->
+                  <i class="fa fa-thumbs-up thump-pos1" aria-hidden="true"></i>
+                </span>
+      </div>
+      <div class="col-xs-6">
+        <span class="text-primary">Banned: </span>
+        <span class="set_date_size"><%= clan_member.deleted_at.strftime('%m/%d/%y') %></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <span class="text-primary">CR: </span>
+          <%= clan_member.user.event_cancellation_rate %>%
+      </div>
+      <div class="col-xs-6">
+          <span class="text-primary">Age: </span>
+          <%= clan_member.user.public_age ? clan_member.user.age : 'N/A' %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade view_clan_member_actions_<%= clan_member.id%>" id="view_clan_member_actions_<%= clan_member.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" type="button" data-target="#view_clan_member_actions_<%= clan_member.id%>" aria-label="Close"><span aria-hidden="true" class="action_popup" id="<%= clan_member.id%>">&times;</span></button>
+        <h4 class="modal-title">
+          Action
+        </h4>
+      </div>
+      <div class="modal-body">
+        <%= link_to 'Unblock', unblock_member_clan_path(clan_member.clan_id, clan_member.id),method: :patch, remote: true, class: 'btn btn-primary set_mrg_tbl_application  btn-full', id: "view_more_applications_mobile", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Unblocking"}  %>
+    <!--     <p class='clan_member_unblock btn btn-primary btn-full' data-clan="<%= clan_member.clan_id%>" data-id="<%=clan_member.id%>" id="member_unblock_<%= clan_member.id %>"> Unblock  </p> -->
+      </div>
+    </div>
+  </div>
+</div>
+

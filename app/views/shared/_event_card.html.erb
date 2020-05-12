@@ -1,0 +1,95 @@
+<% if event.roster? %>
+  <% event = event.becomes(Roster) %>
+<% end %>
+<li class="col-third col-third-half-xs card-wrapper player-card">
+  <div class="event-cover">
+  	<div class="main-div">
+		<div class="left-child"><%= other_user_avatar event %></div>
+		<div class="right-child"><%= event.title.truncate(35, separator: '...') %></div>
+  	</div>
+    <%= link_to link_url(event, current_user) do %>
+      <div class="cover-bg">
+        <%= image_tag(game_photo_cover(event), class: 'game-photo')%>
+      </div>
+      <div class="clearfix"></div><br/>
+      <div class="img-overlay">
+      </div>
+      <div class="clearfix"></div>
+    <% end %>
+    <div class="cover-details">
+      <h4><%= event.game_title %></h4>
+      <% if event.contract_type == 'Roster' %>
+        <small><i class="fa fa-users" aria-hidden="true"></i> 
+        <%= "%s/%s" % [event.becomes(Roster).confirmed_users_count, event.max_roster_size] %></small>
+      <% end %> 
+    </div>
+  </div>
+  <button class="btn-link add-icon-top">
+    <span class="fa fa-ellipsis-v"></span>
+  </button>
+  <div class="player-add-menu">
+    <ul class="list-unstyled profile-action-btns">
+      <% unless current_page?(controller: 'bounties/bounties', action: 'index') %>
+      <%= contract_actions(event, current_user)%>
+      <% else %> 
+          <%=public_event_actions(event, current_user)%> 
+      <% end %>
+    </ul>
+  </div>
+  <div class="card-content">
+    <div class="card-pad">
+      <div class="card-info clearfix">
+        <div class="card-info-text">
+          <div class="row">
+            
+            <div class="col-md-6 col-xs-6">
+              <p class="text-gray">
+                <strong class="text-primary">Host:</strong>
+                <%=event.try(:owner).try(:username) %>
+              </p>
+              <!-- <p class="text-gray">
+                <strong class="text-primary">IGN:</strong> 
+                <%#= event_ign(event, current_user) %> 
+              </p> -->
+              <p class="text-gray">
+                <strong class="text-primary">Exp:</strong>
+                <%=event.try(:owner).try(:contracts_completed) %> 
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">PSA:</strong> 
+                <%if event.try(:owner).try(:psa_rating) == 0 %>
+                    N/A
+                <% else %>
+                  <span class="psa-rating-read-only" data-score="<%= event.try(:owner).try(:psa_rating) %>">
+                <% end %>
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Age:</strong>
+                <%= event.try(:owner).try(:age) %> 
+              </p>
+            </div>
+            <div class="col-md-6 col-xs-6">
+              <p class="text-gray">
+                <strong class="text-primary">System:</strong>
+                <%= event.try(:game_systems).present? ? event.game_systems.pluck(:title).join(',') : '' %> 
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Zone:</strong>
+                <%= short_time_zone event.try(:owner).try(:timezone) %> 
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Time:</strong>
+                <%= standard_time event.start_date_time %>
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Date:</strong>
+                <%= short_date event.start_date_time %>
+              </p>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

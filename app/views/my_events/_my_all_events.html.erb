@@ -1,0 +1,36 @@
+<div class="row wow fadeInUp event_redirect row_hover" data-link="<%= get_event_show_path(event)%>">
+	<div class="col-sm-1 all_event_img">
+		<%= image_tag(event.game.game_cover , class: 'avatar_game_img', data: {toggle:"tooltip", placement:"top", title: event.game.title }) %>
+	</div>
+
+	<div class="col-sm-11 padding_left_0 padding_right_0 mrg_btm_5 vertical-center">
+		<div class="col-xs-12 title_wrap">
+			<span class="gray_font"><%= event.title %></span>
+		</div>
+		<div class="col-sm-4 title_wrap">
+			<span class="text-primary">Host Name: </span>
+			<span class="gray_font"><%= event.user.username.present? ? event.user.username : "" %></span>
+		</div>
+		<div class="col-sm-4 title_wrap">
+			<span class="text-primary">Type: </span>
+			<span class="gray_font"><%= event.event_type.present? ? event.event_type.titleize : ""%></span>
+		</div>
+		<div class="col-sm-4 title_wrap">
+			<span class="text-primary">Start Time: </span>
+			<span class="gray_font" data-toggle="tooltip" placement="top" title="" data-original-title="<%=event.start_at.strftime('%_m/%-d/%y | %l:%M%P %Z')%>"><%= event.start_at.strftime("%_m/%-d/%y | %l:%M%P")%></span>
+		</div>
+		<div class="col-sm-4 title_wrap ">
+			<span class="text-primary ">Host IGN: </span>
+  		<span class="gray_font"><%= get_IGN(event) %></span>
+		</div>
+		<div class="col-sm-4 title_wrap">
+      <span class="text-primary">Status: </span>
+      <span class="gray_font"><%= event.status.present? ? event.status.titleize : ""%></span>
+		</div>
+		<div class="col-sm-4 title_wrap">
+			<span class="text-primary">Spots: </span>
+			<span class="gray_font" ><%= event.get_spot %></span>
+		</div>
+	</div>
+</div>
+<div class="row gray_line_break"></div>

@@ -1,0 +1,50 @@
+<% #prerender the partial grid so that the filters can figure out what they're shooting for. dumb. %>
+<%= render 'invitees_grid' %>
+
+<div class="contract-padding">
+	<%= form_tag add_invitees_path(clan_id: (@clan.id if @clan.present?)), method: 'get', remote: true, html: {role: "form"}, class: "wice_grid_form add_invitees_filter" do %>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="input-group">
+						<%= grid_filter @invitees_grid, :user_filter %>
+						<span class="input-group-btn">
+							<button class="btn btn-primary wg-external-submit-button" data-grid-name="invitees_grid"><span class="fa fa-search"></span></button>
+						</span>
+	      			</div>
+	      		</div>
+	        </div>
+	        <div class="col-sm-6 text-right">
+	         		<div class="input-group hidden">
+	         			<%= check_box_tag :search_favorites, 'no', @search_favorites, class: "switch-input" %>
+						<%= check_box_tag :search_all_users, 'yes', @search_all_users, class: "switch-input" %>
+						<% if @clan.present? %>
+							<%= check_box_tag :search_clan_users, 'yes', @search_clan_users, class: "switch-input" %>
+						<% end %>
+	         		</div>
+	         		<% if @clan.present? %>
+	         			<button id="add-all-players" class="btn btn-primary">Add All</button>
+	         		<% else %>
+		         		<div class="form-group">
+							<div class="btn-group" data-toggle="buttons-radio">
+								<button type="button" class="btn btn-primary invite-type <%= 'active' if @search_all_users != true %>" data-invite-type="favorites">Favorites</button>
+				            	<button type="button" class="btn btn-primary invite-type <%= 'active' if @search_all_users == true %>" data-invite-type="all">All Users</button>
+			      			</div>
+			      		</div>
+			      	<% end %>
+	      		</div>
+			</div>
+		</div>
+	<% end %>
+</div>
+<div class="wbmr-table-responsive" id="contracts_table_container">
+	<% if @search_all_users %>
+		<% if params[:grid].present? && params[:grid][:f].present? && params[:grid][:f][:username].present? %>
+			<%= render_grid(@invitees_grid) %>
+		<% end %>
+	<% else %>
+		<%= render_grid(@invitees_grid) %>
+	<% end %>
+</div>
+
+

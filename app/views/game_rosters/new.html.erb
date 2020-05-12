@@ -1,0 +1,7 @@
+<div class="<%= request.path.starts_with?('/twitch/') ? 'twitch-post-form-page' : 'discord-post-form-page' %>">
+  <div class="container">
+    <div class="well" id='event_discord_form'>
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>

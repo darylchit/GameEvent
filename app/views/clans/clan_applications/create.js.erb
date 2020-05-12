@@ -1,0 +1,18 @@
+<%if @clan_application %>
+	$('#apply_to_clan_modal').modal('hide');
+	<% if params[:discord_clan_join].present? && params[:discord_clan_join] == "true" %>
+		setTimeout(function(){ 
+		  location.reload();
+		}, 3000);
+
+	<% else %>
+	$('#application_pending_tab').attr("data-target",'#application_pending_popup');
+	<% end %>
+	toastr.options = {
+    "closeButton": true,
+    "timeOut": "7000",
+    "extendedTimeOut": "0",
+    "positionClass": "toast-top-center"
+	};
+toastr.success('Clan request has been sent successfully.');
+<% end %>

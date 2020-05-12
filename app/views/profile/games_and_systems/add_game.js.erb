@@ -1,0 +1,8 @@
+<% if @ign_duplicate %>
+$('.add_game_modal .ign_field').append("<%= escape_javascript "<input name='user[ign_duplicate]' type='hidden' value='#{@ign_duplicate}'>".html_safe %>")
+$("#add_game_form").addError({
+  "user[ign_duplicate]": "Duplicate IGN: This IGN is Being Used by Another Player. Please Fix Your IGN or Click Submit Again To Use This IGN."
+});
+<% else %>
+$('.add_game_modal').modal('hide');
+<% end %>

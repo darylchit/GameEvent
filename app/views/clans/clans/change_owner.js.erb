@@ -1,0 +1,22 @@
+$('#global_model').html("<%= j render(:partial => 'change_owner_clan')%>");
+<% if  params[:change_clan_owner] == "transfer".upcase %>
+  <% if @updated %>
+    $('.clan_owner_change_validate').html("");
+    $('#change_clan_owner').hide();
+    $('.modal-backdrop').hide();
+    toastr.options = {
+        "closeButton": true,
+        "timeOut": "7000",
+        "extendedTimeOut": "0",
+        "positionClass": "toast-top-center"
+    };
+    toastr.success('Transfer Complete.');
+    location.reload();
+  <% else %>
+    $('#change_clan_owner').modal('hide');
+    $('#global_model').html("<%= j render(:partial => 'transfer_fail')%>");
+    $('#transfer_fail').modal();
+  <% end %>
+<% else %>
+  $('.clan_owner_change_validate').html('Please type TRANSFER in all capital letters to Confirm.');
+<% end %>

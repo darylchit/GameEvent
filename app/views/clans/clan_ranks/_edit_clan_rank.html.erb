@@ -1,0 +1,16 @@
+<div id="rank-<%= clan_rank.id%>">
+  <%= form_for clan_rank do |f| %>
+    <h3><%= clan_rank.title %></h3><hr>
+    <div class="row clan-permissions">
+      <% ClanRank::ROLES.each do |role| %>
+        <div class="col-md-2 col-sm-6 col-xs-12">
+          <label><%= check_box_tag "clan_rank[permissions][]", role.to_s,
+                clan_rank.permissions.include?(role)%>  <%= role.to_s.humanize %></label>
+        </div>
+      <% end %>
+    </div>
+    <div class=" form-group text-right-md">
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

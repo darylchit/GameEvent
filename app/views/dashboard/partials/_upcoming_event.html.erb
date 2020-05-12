@@ -1,0 +1,33 @@
+<% if event.roster? %>
+  <% event = event.becomes(Roster) %>
+<% end %>
+
+<li class="col-fifth card-wrapper contract-card p-x-0-xs">
+  <%= link_to event.contract_type == 'Contract' ? posted_contract_path(event): roster_path(event) do %>
+	<%= image_tag(game_photo_cover(event), class: 'avatar-lg') %>
+		<div class="card-content card-pad  col-xs-12">
+			<div class="card-body">
+			  <p class="text-gray">
+			  	<strong class="text-primary">Host:</strong> <%= event.buyer.username if event.buyer %>
+			  </p>
+			  <h6 class="fixed text-ellips">
+			  	<%= event.contract_game_game_system_joins.first.game_game_system_join.game.title %>
+			  </h6>
+				<p class="small">
+	        <span class="">
+	          <%= short_date_time_spacing event.start_date_time %>
+	                &#8226;
+	          <%= d = event.duration/60; "#{d} #{"Hr".pluralize d}" %>
+	        </span>
+				</p>
+			  <% if event.roster? %>
+			  	<span class="pull-left text-primary card-roster-size">
+						<span class="fa fa-group"></span>   
+						<%= event.confirmed_users_count %>/<%= event.max_roster_size %>
+						<strong class="text-primary">Players</strong>
+					</span>
+				<% end %>
+			</div>
+		</div>
+  <% end %>
+</li>

@@ -1,0 +1,274 @@
+<div class="row" id="clan-links">
+	<ul class="list-unstyled social-links clan-media">
+		<% if resource.youtube.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.youtube)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-youtube"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">YouTube</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if resource.twitch.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.twitch)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-twitch"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Twitch</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if resource.facebook.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.facebook)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle text-center">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-facebook "></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Facebook</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if resource.google_plus.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.google_plus)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle text-center">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-google-plus"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Google+</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if resource.twitter.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.twitter)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-twitter"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Twitter</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if resource.instagram.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.instagram)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-instagram"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Instagram</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if resource.battlelog.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.battlelog)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "battlelog.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Battlelog</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if resource.patreon.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.patreon)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "patreon.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Patreon</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if resource.destiny.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.destiny)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "Guardian_Destiny_Bungie.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Destiny</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if resource.guardian_gg.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.guardian_gg)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<!-- <span class="fa-bungie"></span> -->
+								<span><%= image_tag "Guardian_Destiny_Bungie.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Guardian GG</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if resource.steam.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.steam)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-steam"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Steam</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+	
+		<% if resource.league_of_legends.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.league_of_legends)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.7em;">
+								<span><%= image_tag "legend.jpg", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">League of Legends</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if resource.overwatch.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.overwatch)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.7em;">
+								<span><%= image_tag "overwatch.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Overwatch</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if resource.world_of_warcraft.present? %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(resource.world_of_warcraft)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.7em;">
+								<span><%= image_tag "world_of_warcraft.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">World of Warcraft</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+    <% if resource.scuf.present? %>
+        <li class="col-md-3 col-xs-6">
+          <a href="<%= "#{add_http_to_link(resource.scuf)}" %>" target="_blank">
+            <div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.7em;">
+								<span><%= image_tag "scuf.png", class: "scuf" %></span>
+							</h3>
+						</span>
+              <div class="media-body media-middle">
+                <strong class="text-gray">Scuf</strong>
+              </div>
+            </div>
+          </a>
+        </li>
+    <% end %>
+    <% if resource.mixer_url.present? %>
+        <li class="col-md-3 col-xs-6">
+          <a href="<%= "#{add_http_to_link(resource.mixer_url)}" %>" target="_blank">
+            <div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.7em;">
+								<span><%= image_tag "mixer.png", class: "scuf" %></span>
+							</h3>
+						</span>
+              <div class="media-body media-middle">
+                <strong class="text-gray">Mixer</strong>
+              </div>
+            </div>
+          </a>
+        </li>
+    <% end %>
+	</ul>
+</div>
+

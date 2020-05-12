@@ -1,0 +1,902 @@
+<div class="background-block game_roster_page">
+  <div class="contaner-fluid lg hidden-xs">
+    <% if false%>
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="col-md-6 col-sm-6">
+          <h3 class="mt0 event-title hide">Event Type:   </h3>
+        </div>
+        <div class="col-md-6 col-sm-6 text-right-md text-right-sm">
+          <% if !event.cancelled? && !event.completed? %>
+            <% link_string , link_path, method = get_link_for_invite(event)%>
+            <%= link_to link_string, link_path, method: method, remote: (current_user.present? ? true : false), id: "event_action#{event.id}", class: "btn btn-primary event_btn_size cancelled_event_link event_action#{event.id}"%>
+          <% end %>
+          <% if (current_user.present? && !event.cancelled? && !event.completed?)  %>
+              <% if (event.user_id == current_user.id) || (event.clan_event? && event.clan.host_id == current_user.id) %>
+                  <button type="button" class="btn btn-primary cancelled_event_link event_btn_size share_btn" data-toggle="modal" data-target="#cancel_event_confirmation">
+                    Cancel
+                  </button>
+              <% end %>
+
+          <% end %>
+          <% if !event.cancelled? %>
+            <%= link_to 'Share', share_game_roster_path(event), remote: true, class: 'btn btn-primary cancelled_event_link event_btn_size share_btn' %>
+          <% end %>
+        </div>
+       </div>
+    </div>
+    <% end %>
+    <div class="row">
+      <div class="player-card">
+        <div class="event-image">
+          <%= image_tag(event.game.game_jumbo, :class=> '') %>
+          <div class="event-spots hide">
+            <span>Spots  Filled: <%= event.get_spot %></span>
+          </div>
+        </div>
+        <div class="row-fluid game_roster_trasperent gold-row">
+          <div class="col-sm-2 col-xs-3 padding_right_0 padding_left_0">
+            <%= link_to image_tag(event.user.avatar_url, class: 'set_user_img'), player_path(event.user) %>
+          </div>
+          <div class="col-sm-10 col-xs-9 padding_left_0 padding_right_0 roster_side_data">
+            <div class="set_box_design">
+              <h4 class="text-primary set_font_size set_mrg_top mrg_top_10 title_wrap">
+                <span class="text-primary event-title"><%= event.event_type.present? ? event.event_type.titleize : ""%> | <%= event.game.title  %> (<%= event.game_system.abbreviation.upcase   %>)</span>
+              </h4>
+              <div class="row">
+                <div class="col-md-4 col-sm-4">
+                  <div> <span class="text-primary">Starts:</span><span class=""> <%= event.start_at.strftime("%b-%d | %I:%M%p") %></span></div>
+                  <div> <span class="text-primary">Duration:</span><span class=""> <%= event.duration/60 %> Hours</span></div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                  <div>
+                    <span class="text-primary">Age Limits: </span>
+                    <span class=""><%= event.minimum_age.present? ?  event.minimum_age.to_s : "13" %>
+                      <%= " - " + ( event.maximum_age.present? ? event.maximum_age.to_s : "99" ) %></span>
+                  </div>
+                  <div>
+                    <span class="text-primary">Play Style: </span>
+                    <span class=""><%= event.play_type.present? ? event.play_type.titleize : "" %></span>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                  <div>
+                    <span class="text-primary">Spots  Filled: </span>
+                    <span><%= event.get_spot %></span>
+                  </div>
+                  <div>
+                    <span class="text-primary">Status: </span>
+                    <span class=""><%= event.status.present? ? event.status.split('_').map(&:titleize).join(' - ') : ""%></span>
+                  </div>
+                </div>
+              </div>
+              <h6 class="set_font_size set_event_title title_wrap">
+                <a data-toggle="modal" data-target="#event_title_popup" class="cursor_pointer"><span class="text-white"><%= event.title.present? ? event.title.upcase : "" %></span></a>
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="lg hidden-xs">
+      <div class="row set_top_mrg">
+        <% if event.details.present? %>
+          <div class="col-sm-12">
+            <p class="text-gray text-justify"><%= event.details %></p>
+          </div>
+        <% end %>
+      </div>
+      <%if current_subscription.nil? %>
+        <div class="col-md-12 text-center form-group">
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- Desktop Long Banner -->
+          <ins class="adsbygoogle"
+               style="display:inline-block;width:970px;height:90px"
+               data-ad-client="ca-pub-7969073226896485"
+               data-ad-slot="7194419117"></ins>
+          <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+      <% else %>
+        <div class="form-group"></div>
+      <% end %>
+
+      <% if true %>
+        <div class="col-md-12 form-group">
+          <ul class="nav nav-tabs">
+            <li class="active right hide ">
+              <a data-toggle="tab" href="#game_roster_data" class="btn-lightgrey">Game Roster</a>
+            </li>
+            <li class="right hide">
+              <a data-toggle="tab" href="#roster_chat" class="btn-lightgrey">Roster Chat</a>
+            </li>
+            <% if !event.cancelled?  %>
+              <% if !event.completed? %>
+                <li class="right">
+                  <% link_string , link_path, method = get_link_for_invite(event)%>
+                  <%= link_to link_string, link_path, method: method, remote: (current_user.present? ? true : false), id: "event_action#{event.id}", class: "btn btn-lightgrey"%>
+                </li>
+              <% else %>
+                <li class="right">
+                  <a class="btn btn-lightgrey btn-full" onClick="CustomeToastr('This Command Is Not Valid For Completed Events')">
+                    Edit Event
+                  </a>
+                </li>
+              <% end %>
+            <% end %>
+            <% if (current_user.present? && !event.cancelled? && !event.completed?)  %>
+              <% if (event.user_id == current_user.id) || (event.clan_event? && event.clan.host_id == current_user.id) %>
+                  <li class="right">
+                    <a class="btn btn-lightgrey btn-full" data-toggle="modal" data-target="#cancel_event_confirmation">
+                      Cancel
+                    </a>
+                  </li>
+              <% else %>
+                <li class="right">
+                  <a class="btn btn-lightgrey btn-full" onClick="CustomeToastr('Only The Host Can Cancel This Roster')">
+                    Cancel
+                  </a>
+                </li>
+              <% end %>
+            <% elsif !event.cancelled?  %>
+              <li class="right">
+                <a class="btn btn-lightgrey btn-full" onClick="CustomeToastr('This Command Is Not Valid For Completed Events')">
+                  Cancel
+                </a>
+              </li>
+            <% end %>
+            <% if !event.cancelled? %>
+              <li class="right">
+                <%= link_to 'Share', share_game_roster_path(event), remote: true, class: 'btn btn-lightgrey' %>
+              </li>
+            <% end %>
+          </ul>
+
+        </div>
+        <!-- <div class="col-md-12">
+          <hr class="gold_line row topmrg_20 ">
+        </div> -->
+      <% end %>
+    </div>
+
+    <div class="xs visible-xs">
+      <div class="row">
+        <div class="player-card">
+          <% if false %>
+            <button class="btn-link add-icon-top plus-btn">
+              <span class="fa fa-plus"></span>
+            </button>
+            <div class="player-add-menu">
+              <ul class="list-unstyled">
+                <% if !event.cancelled? && !event.completed? %>
+                  <%link_string , link_path, method = get_link_for_invite(event)%>
+                  <li>
+                    <%= link_to link_string, link_path, method: method, remote: (current_user.present? ? true : false), id: "event_action#{event.id}", class: "btn btn-primary event_btn_size cancelled_event_link event_action#{event.id}" %>
+                  </li>
+                <% end %>
+                <% if current_user.present? and !event.cancelled? && !event.completed? %>
+                    <% if (event.user_id == current_user.id)  || (event.clan_event? && event.clan.host_id == current_user.id) %>
+                        <li>
+                          <button type="button" class="btn btn-primary cancelled_event_link event_btn_size share_btn" data-toggle="modal" data-target="#cancel_event_confirmation">
+                            Cancel
+                          </button>
+                        </li>
+                    <% end %>
+                <% end %>
+                <li>
+                  <%= link_to 'Share', share_game_roster_path(event), remote: true, class: 'btn btn-primary cancelled_event_link event_btn_size' %>
+                </li>
+              </ul>
+            </div>
+          <% end %>
+          <div class="event-image">
+            <%= image_tag(event.game.game_jumbo_mobile, :class=> '') %>
+          </div>
+          <div class="gold-header-row game_roster_trasperent">
+            <div class="col-xs-3 padding_left_0 padding_right_0">
+              <%= link_to image_tag(event.user.avatar_url, class: 'set_user_img'), player_path(event.user) %>
+            </div>
+            <div class="col-xs-9 padding_left_0 padding_right_0 roster_side_data">
+              <div class="event-data padding_left_10">
+                <h4 class="text-primary  set_game_name title_wrap">
+                  <%= event.game.title.present? ? event.game.title : ""%>
+                </h4>
+                <div class="set_font_size">
+                  <%= event.event_type.present? ? event.event_type.titleize : ""%> <%=(event.event_type.present? && event.status.present?) ? " | " : ""%><span class="event_status"><%= event.status.present? ? event.status.split('_').map(&:titleize).join(' - ') : ""%>
+                </div>
+
+                <div class="set_font_size">
+                  Starts: <%= event.start_at.present? ? event.start_at.strftime("%b-%d | %I:%M%p" ) : 'N/A' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row event-information set_top_mrg">
+        <div class="col-xs-6">
+          <div class="span_data set_font_size">
+            <span class="text-primary">Age Limits: </span>
+            <span class="text-gray"><%= event.minimum_age.present? ?  event.minimum_age.to_s : "13" %>
+              <%= " - " + ( event.maximum_age.present? ? event.maximum_age.to_s : "99" ) %></span>
+          </div>
+        </div>
+
+        <div class="col-xs-6">
+          <div class="span_data set_font_size">
+            <span class="text-primary">System: </span>
+            <span class="text-gray"><%= event.game_system.abbreviation.present? ? event.game_system.abbreviation.upcase : "" %></span>
+          </div>
+        </div>
+
+        <div class="col-xs-6">
+          <div class="span_data set_font_size">
+            <span class="text-primary">Play Style: </span>
+            <span class="text-gray"><%= event.play_type.present? ? event.play_type.titleize : "" %></span>
+          </div>
+        </div>
+
+        <div class="col-xs-6">
+          <div class="span_data set_font_size">
+            <span class="text-primary">Host Patience: </span>
+            <span class="text-gray">
+              <% if event.recurring_event? %>
+                N/A
+              <% else %>
+                <%= event.user.newbie_patience_level %>
+              <% end %>
+            </span>
+          </div>
+        </div>
+
+        <div class="col-xs-6">
+          <div class="span_data set_font_size">
+            <span class="text-primary">Duration: </span>
+            <span class="text-gray"><%= event.duration/60 %> Hour</span>
+          </div>
+        </div>
+
+        <div class="col-xs-6">
+          <div class="span_data set_font_size">
+            <span class="text-primary">Spots Filled: </span>
+            <span class="text-gray"><%= event.get_spot%></span>
+          </div>
+        </div>
+
+        <div class="col-xs-12 mrg_top_10">
+          <div class="span_data set_font_size title_wrap">
+            <a data-toggle="modal" data-target="#event_title_popup" class="cursor_pointer"><span class="text-white"><%= event.title.present? ? event.title.upcase : "" %></span></a>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="span_data set_font_size ">
+            <p class="text-gray text-justify"><%= event.details %></p>
+          </div>
+        </div>
+      </div>
+
+      <% if current_subscription.nil? %>
+      <hr class="gold_line mrg_0"/>
+        <div class="text-center row" style="margin-top: 10px">
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- Mobile Banner -->
+          <ins class="adsbygoogle"
+               style="display:inline-block;width:320px;height:100px"
+               data-ad-client="ca-pub-7969073226896485"
+               data-ad-slot="4553256987"></ins>
+          <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+      <% else %>
+        <hr class="gold_line mt0"/>
+      <% end %>
+      <div class="form-group">
+
+
+        <% if !event.cancelled? && !event.completed? %>
+          <%link_string , link_path, method = get_link_for_invite(event)%>
+            <%= link_to link_string, link_path, method: method, remote: (current_user.present? ? true : false), id: "event_action#{event.id}", class: "btn btn-lightgrey btn-full cancelled_event_link event_action#{event.id}" %>
+        <% end %>
+        <% if current_user.present? and !event.cancelled? && !event.completed? %>
+            <% if (event.user_id == current_user.id)  || (event.clan_event? && event.clan.host_id == current_user.id) %>
+              <button type="button" class="btn btn-lightgrey btn-full cancelled_event_link" data-toggle="modal" data-target="#cancel_event_confirmation">
+                Cancel
+              </button>
+            <% end %>
+        <% end %>
+        <% if !event.cancelled? %>
+         <%= link_to 'Share', share_game_roster_path(event), remote: true, class: 'btn btn-lightgrey btn-full cancelled_event_link' %>
+        <% end %>
+
+
+      </div>
+      <% if !event.recurring_event? || players.present? || waitlisted.present? || pending_invitations.present? || no_show.present? %>
+      <div class="mobile_tabs hide">
+        <ul class="nav nav-tabs">
+          <!-- <li class="active width_50 txt_center"> -->
+          <div class="col-xs-6 " style="padding-left: 0px">
+            <a data-toggle="tab" href="#game_roster_data_mobile" class="btn-lightgrey active btn btn-full">Game Roster</a>
+          </div>
+          <div class="col-xs-6" style="padding-right: 0px">
+          <!-- </li> -->
+          <!-- <li class="width_50 txt_center"> -->
+            <a data-toggle="tab" href="#roster_chat" class="btn-lightgrey btn btn-full">Roster Chat</a>
+          </div>
+          <!-- </li> -->
+        </ul>
+      </div>
+      <!-- <hr class="gold_line mrg_btm_10"/> -->
+      <% elsif event.recurring_event? &&  %>
+        <h2 class="text-center"> No Participants On This Roster </h2>
+      <% end %>
+    </div>
+
+    <div class="tab-content1">
+      <div id="game_roster_data" class="">
+          <!-- Desktop Table -->
+          <div class="row-fluid set_top_mrg hidden-xs">
+            <table class="table game_data">
+              <thead></thead>
+
+              <% if event.recurring_event? %>
+                <% unless players.present? || waitlisted.present? || pending_invitations.present? || no_show.present? %>
+                <tr>
+                   <td class="padding_bottom_0 padding_top_0"> <h5 class="event-players-headers" colspan="9">Participants</h5></td>
+                </tr>
+                <tr class="player-row">
+                  <td class="set_game_img_width set_relative">
+                    <%= image_tag('avatars/dreamstimeextrasmall_13680895.jpg', class: 'avatar_img') %>
+                  </td>
+                  <td class="set_align width_25">
+                    <h3>Be The First To Join This Event</h3>
+                  </td>
+                </tr>
+
+                <% end %>
+              <% else %>
+                <tr>
+                   <td class="padding_bottom_0 padding_top_0"> <h5 class="event-players-headers" colspan="9">Host</h5></td>
+                </tr>
+                <%= render partial: 'public_games/players', locals: {player: event.user, invite: event.invites.first}  %>
+              <% end %>
+
+              <% if players.present? %>
+                <tr>
+                  <td colspan="9" class="padding_bottom_0" > <h5 class="event-players-headers">Players</h5></td>
+                </tr>
+
+                <% players.each do | invite | %>
+                  <%= render partial: 'public_games/players', locals: {player: invite.user, invite: invite}  %>
+                  <% unless invite.equal? players.last %>
+                    <tr>
+                      <td class="gray_line padding_top_0 padding_bottom_0" colspan="7"></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <!-- <tr>
+                <td class="padding_0" colspan="9"><hr class="gold_line"/></td>
+              </tr> -->
+
+              <% if waitlisted.present? %>
+                <tr>
+                  <td class="padding_bottom_0" > <h5 class="event-players-headers">Waitlist</h5></td>
+                </tr>
+                <% waitlisted.each do | invite | %>
+                  <%= render partial: 'public_games/players', locals: {player: invite.user, invite: invite}  %>
+                  <% unless invite.equal? waitlisted.last %>
+                    <tr>
+                      <td class="gray_line padding_top_0 padding_bottom_0" colspan="7"></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% if pending_invitations.present? %>
+                <tr>
+                  <td class="padding_bottom_0" colspan="9"> <h5 class="event-players-headers">Pending Invitations</h5></td>
+                </tr>
+                <% pending_invitations.each do | invite | %>
+                  <%= render partial: 'public_games/players', locals: {player: invite.user, invite: invite}  %>
+                  <% unless invite.equal? pending_invitations.last %>
+                    <tr>
+                      <td class="gray_line padding_top_0 padding_bottom_0" colspan="7"></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+
+              <% end %>
+
+              <% if no_show.present? %>
+                <tr>
+                  <td class="padding_bottom_0" colspan="9"><h5 class="event-players-headers">No Show</h5></td>
+                </tr>
+                <% no_show.each do | invite | %>
+                  <%= render partial: 'public_games/players', locals: {player: invite.user, invite: invite}  %>
+                  <% unless invite.equal? no_show.last %>
+                    <tr>
+                      <td class="gray_line padding_top_0 padding_bottom_0" colspan="7"></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              <% end %>
+
+              <% if false #waitlisted.present?  || pending_invitations.present? || no_show.present? %>
+                <tr>
+                  <td class="padding_0" colspan="9"><hr class="gold_line"/></td>
+                </tr>
+              <% end %>
+
+              <tr class="hide">
+                <td colspan="9"><span class="text-primary">Event Number: </span><span><%#= event.token %></span></td>
+              </tr>
+            </table>
+          </div>
+      </div>
+      <div id="game_roster_data_mobile" class="tab-pane fade in active">
+        <div class="visible-xs col-xs-12">
+          <% if event.recurring_event? %>
+          <% else %>
+            <div class="row">
+              <div class="row-fluid event-players-headers">Host</div>
+            </div>
+            <div class="row player-row">
+            <div class="col-xs-3 user-avatar">
+              <%= link_to image_tag(event.user.avatar_url, class: 'user_avatar_img'), player_path(event.user) %>
+            </div>
+            <div class="col-xs-9  player-data">
+              <div class="row">
+                <div class="col-xs-12 set_font_size">
+                  <b font-size="14px"><%= event.user.username %></b>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 set_font_size"><span class="text-primary"><%= event.system_abbr_with_pc_type %> IGN: </span><%= get_IGN(event) %></div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 set_font_size">
+                  <span class="text-primary">PSR: </span>
+                  <span class="">
+                    <%=event.user.user_setting.total_psr %>
+                    <span class="psr_thump_up">
+                      <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+                    </span>
+                   </span>
+                </div>
+                <div class="col-xs-6 set_font_size"><span class="text-primary">Exp: </span>
+                  <%= event.user.event_experience %>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 set_font_size"><span class="text-primary">Age: </span><%= event.user.age.present? ? event.user.age : ""%></div>
+                <div class="col-xs-6 set_font_size">
+                  <span class="text-primary">CR:</span>
+                  <%= event.user.event_cancellation_rate %>%
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 set_font_size"><span class="text-primary">Time Zone: </span><%= event.user.timezone_abbr %></div>
+                <div class="col-xs-6 set_font_size">
+                  <span class="text-primary">Patience: </span>
+                  <%= event.user.newbie_patience_level %>
+                </div>
+              </div>
+              <div class="set_plus_position">
+                <button class="btn-link" data-toggle="modal" data-target="#game_roster_actions_event<%= event.id %>">
+                  <span class="fa fa-bullseye"></span></button>
+              </div>
+            </div>
+          </div>
+          <% end%>
+          <% if players.present? %>
+            <div class="row">
+              <div class="row-fluid event-players-headers">Players</div>
+            </div>
+            <% players.each do | invite | %>
+              <div class='<%= "remove_player#{invite.id}"%>'>
+                <div class="row player-row">
+                  <div class="col-xs-3 user-avatar">
+                    <%= link_to image_tag(invite.user.avatar_url, class: 'user_avatar_img'), player_path(invite.user) %>
+                  </div>
+                  <div class="col-xs-9 player-data">
+                    <div class="row">
+                      <div class="col-xs-12 set_font_size">
+                        <b font-size="14px"><%= invite.user.username %></b>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 set_font_size"><span class="text-primary"><%= event.system_abbr_with_pc_type %> IGN: </span><%= get_IGN(event, invite.user) %></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">PSR: </span>
+                        <span class="">
+                          <%=invite.user.user_setting.total_psr %>
+                          <span class="psr_thump_up">
+                            <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+                          </span>
+                        </span>
+                      </div>
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">Exp: </span>
+                        <%= invite.user.event_experience %>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">Age: </span>
+                        <%= invite.user.age.present? ? invite.user.age : ""%>
+                      </div>
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">CR: </span>
+                        <%= invite.user.event_cancellation_rate %>%
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size"><span class="text-primary">Time Zone: </span><%= invite.user.timezone_abbr %></div>
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">Patience: </span>
+                        <%= invite.user.newbie_patience_level %>
+                      </div>
+                    </div>
+                    <div class="set_plus_position">
+                      <button class="btn-link" data-toggle="modal" data-target="#game_roster_actions_invite<%= invite.id %>">
+                        <span class="fa fa-bullseye"></span></button>
+                    </div>
+                  </div>
+                </div>
+                <%= render partial: "game_rosters/game_roster_actions", locals: { invite: invite } %>
+              </div>
+            <% end %>
+          <% end %>
+          <!-- <div class="row gold"></div> -->
+          <% if waitlisted.present? %>
+            <div class="row">
+              <div class="row-fluid event-players-headers">Waitlist</div>
+            </div>
+            <% waitlisted.each do | invite | %>
+              <div class='<%= "remove_player#{invite.id}"%>'>
+                <div class="row player-row">
+                  <div class="col-xs-3 user-avatar">
+                    <%= link_to image_tag(invite.user.avatar_url, class: 'user_avatar_img'), player_path(invite.user) %>
+                  </div>
+                  <div class="col-xs-9 player-data">
+                    <div class="row">
+                      <div class="col-xs-12 set_font_size">
+                        <b font-size="14px"><%= invite.user.username %></b>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 set_font_size"><span class="text-primary"><%= event.system_abbr_with_pc_type %> IGN: </span><%= get_IGN(event, invite.user) %></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">PSR:</span>
+                        <span class="">
+                          <%=invite.user.user_setting.total_psr %>
+                          <span class="psr_thump_up">
+                            <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+                          </span>
+                        </span>
+
+                      </div>
+                      <div class="col-xs-6 set_font_size"><span class="text-primary">Exp:</span>
+                        <%= invite.user.event_experience %>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">Age:</span>
+                        <%= invite.user.age.present? ? invite.user.age : ""%>
+                      </div>
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">CR:</span>
+                        <span class="">
+                          <%= invite.user.event_cancellation_rate %>%
+                        </span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size"><span class="text-primary">Time Zone: </span><%= invite.user.timezone_abbr %></div>
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">Patience: </span>
+                        <%= invite.user.newbie_patience_level %>
+                      </div>
+                    </div>
+                    <div class="set_plus_position">
+                      <button class="btn-link" data-toggle="modal" data-target="#game_roster_actions_invite<%= invite.id %>">
+                        <span class="fa fa-bullseye"></span></button>
+                    </div>
+                  </div>
+                </div>
+                <%# if current_user.present? && event.user_id == current_user.id %>
+                  <!-- <div class="row">
+                    <div class="col-xs-12">
+                      <%#= link_to "Remove", link_if_cancelled_event(remove_invite_path(event, invite)), method: method_if_cancelled_event('delete'), remote: (current_user.present? ? true : false), id: "event_action#{event.id}", class: ""  %>
+                    </div>
+                  </div> -->
+                <%# end %>
+                <%= render partial: "/game_rosters/game_roster_actions", locals: { invite: invite } %>
+              </div>
+
+            <% end %>
+
+          <% end %>
+
+          <% if pending_invitations.present? %>
+            <div class="row">
+              <div class="row-fluid event-players-headers">Pending Invitations</div>
+            </div>
+            <% pending_invitations.each do | invite | %>
+              <div class='<%= "remove_player#{invite.id}"%>'>
+                <div class="row player-row">
+                  <div class="col-xs-3 user-avatar">
+                    <%= link_to image_tag(invite.user.avatar_url, class: 'user_avatar_img'), player_path(invite.user) %>
+                  </div>
+                  <div class="col-xs-9 player-data">
+                    <div class="row">
+                      <div class="col-xs-12 set_font_size">
+                        <b font-size="14px"><%= invite.user.username %></b>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 set_font_size"><span class="text-primary"><%= event.system_abbr_with_pc_type %> IGN:</span><%= get_IGN(event, invite.user) %></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">PSR: </span>
+                        <span class="">
+
+                          <%=invite.user.user_setting.total_psr %>
+                          <span class="psr_thump_up">
+                            <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+                            </span>
+                          </span>
+
+                      </div>
+                      <div class="col-xs-6 set_font_size"><span class="text-primary">Exp: </span>
+                        <%= invite.user.event_experience %>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">Age: </span>
+                        <%= invite.user.age.present? ? invite.user.age : ""%>
+                      </div>
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">CR: </span>
+                        <span class="">
+                          <%= invite.user.event_cancellation_rate %>%
+                        </span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size"><span class="text-primary">Time Zone: </span><%= invite.user.timezone_abbr %></div>
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">Patience: </span>
+                        <%= invite.user.newbie_patience_level %>
+                      </div>
+                    </div>
+                    <div class="set_plus_position">
+                      <button class="btn-link" data-toggle="modal" data-target="#game_roster_actions_invite<%= invite.id %>">
+                        <span class="fa fa-bullseye"></span></button>
+                    </div>
+                  </div>
+                </div>
+                <%= render partial: "/game_rosters/game_roster_actions", locals: { invite: invite } %>
+              </div>
+
+            <% end %>
+
+          <% end %>
+
+          <% if no_show.present? %>
+            <div class="row ">
+              <div class="row-fluid event-players-headers">No Show</div>
+            </div>
+            <% no_show.each do | invite | %>
+              <div class='<%= "remove_player#{invite.id}"%>'>
+                <div class="row player-row">
+                  <div class="col-xs-3 user-avatar">
+                    <%= link_to image_tag(invite.user.avatar_url, class: 'user_avatar_img'), player_path(invite.user) %>
+                  </div>
+                  <div class="col-xs-9 player-data">
+                    <div class="row">
+                      <div class="col-xs-12 set_font_size">
+                        <b font-size="14px"><%= invite.user.username %></b>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 set_font_size"><span class="text-primary"><%= event.system_abbr_with_pc_type %> IGN:</span><%= get_IGN(event, invite.user) %></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">PSR: </span>
+                        <span class="">
+                          <%=invite.user.user_setting.total_psr %>
+                          <span class="psr_thump_up">
+                          <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+                          </span>
+                        </span>
+                      </div>
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">Exp: </span>
+                        <%= invite.user.event_experience %>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">Age: </span>
+                        <%= invite.user.age.present? ? invite.user.age : ""%>
+                      </div>
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">CR: </span>
+                        <span class="">
+                          <%= invite.user.event_cancellation_rate %>%</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-6 set_font_size"><span class="text-primary">Time Zone: </span><%= invite.user.timezone_abbr %></div>
+                      <div class="col-xs-6 set_font_size">
+                        <span class="text-primary">Patience: </span>
+                        <%= invite.user.newbie_patience_level %>
+                      </div>
+                    </div>
+                    <div class="set_plus_position">
+                      <button class="btn-link" data-toggle="modal" data-target="#game_roster_actions_invite<%= invite.id %>">
+                        <span class="fa fa-bullseye"></span></button>
+                    </div>
+                  </div>
+                </div>
+                <%= render partial: "/game_rosters/game_roster_actions", locals: { invite: invite } %>
+              </div>
+
+            <% end %>
+          <% end %>
+
+          <% if waitlisted.present?  || pending_invitations.present? || no_show.present? %>
+              <!-- <div class="row gold"></div> -->
+          <% end %>
+          <div class="row hide">
+            <span class="text-primary">Event Number: </span><span><%#= event.token %></span>
+          </div>
+        </div>
+      </div>
+      <div id="roster_chat" class=" ">
+        <% if event.cancelled? %>
+          <div class="row">
+            <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+            <h3 class="text-center"> This Event Has Been Cancelled. This Feature Is Not Accessible On This Roster.</h3>
+          </div>
+        <% else %>
+          <% if current_user.present? and event.invites.find_by_user_id_and_status(current_user.id, Invite.statuses[:confirmed]).present? %>
+            <div class="row topmrg_20">
+              <h3 class="text-center"><strong>Game Roster Chat</strong></h3>
+            <%= form_for event.event_messages.new, url: game_roster_event_messages_path(event), remote: true  do |f| %>
+              <div class="col-sm-10 col-xs-12 set_btm_mrg ">
+                <%= f.text_field :message, class: 'form-control resize_none', placeholder: 'Post Here To Chat About The Upcoming Event' , row: 1 %>
+              </div>
+              <div class="col-sm-2 col-xs-12">
+                <%= f.submit 'Post', class: 'btn btn-lightgrey btn-full' %>
+              </div>
+            <% end %>
+          </div>
+             <% event.event_messages.create(user: event.user, message: 'Welcome') if event.event_messages.count == 0 %>
+            <ul class="clan-messages messages-list list-unstyled", id="chat_messages">
+              <%= sync_new partial: 'event_message', resource: EventMessage.new, direction: :prepend %>
+              <div id="chat_event_messages">
+                <%= sync  partial: 'event_message', collection: event.event_messages.limit(10), as: :event_message %>
+              </div>
+            </ul>
+            <div class='event_chat_view_more' data-url="<%= game_roster_event_messages_path(event, page: params[:page].nil? ? 2 : params[:page].to_i + 1)%>">
+            </div>
+          <% end %>
+        <% end %>
+          <span class="text-primary">Event Number: </span><span><%= event.token %></span>
+      </div>
+    </div>
+  </div>
+  <% if event.invites.present? %>
+  <div class="modal fade game_roster_actions" id="game_roster_actions_event<%= event.id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" type="button" data-target="#game_roster_actions" aria-label="Close"><span aria-hidden="true" class="action_popup" id="">&times;</span></button>
+          <h4 class="modal-title">
+            Actions
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="set_mrg_tbl_application">
+
+             <div class="row botmrg_15">
+              <% if current_user.present? %>
+                  <% if current_user != event.user %>
+                    <div class="col-xs-12">
+                      <%= link_to 'Rate', link_if_cancelled_event(rate_invite_path(event, event.invites.first)), method: method_if_cancelled_event(:get), class: 'btn btn-lightgrey col-xs-12 btn-full set_font_size cancelled_event_link set_5_top_mrg', remote:  true  %>
+                    </div>
+                  <% end %>
+              <% else %>
+                <div class="col-xs-12">
+                  <%= link_to 'Rate', link_if_cancelled_event(new_user_session_path), class: 'btn btn-lightgrey col-xs-12 btn-full set_font_size cancelled_event_link set_5_top_mrg'  %>
+                </div>
+              <% end %>
+
+
+            <div class="col-xs-12">
+              <% if current_user.present? %>
+                  <% if current_user == event.user %>
+                      <%= link_to "Edit Profile", edit_profile_path, class: "btn btn-lightgrey btn-full set_font_size set_5_top_mrg" %>
+                  <% else %>
+                      <% if current_user.is_blocking_user?(event.user)%>
+                          <%= link_to "Unblock", link_if_cancelled_event(profile_block_path(current_user.blocks.where(:blocked_user => event.user)[0])), :method => method_if_cancelled_event(:delete), class: "btn btn-lightgrey btn-full set_font_size cancelled_event_link set_5_top_mrg lightgrey" %>
+                      <% else %>
+                          <%= link_to "Block", link_if_cancelled_event(profile_blocks_path(block: {blocked_user_id: event.user_id})), :method => method_if_cancelled_event(:post), class: "btn btn-lightgrey btn-full set_font_size cancelled_event_link set_5_top_mrg lightgrey", remote: (current_user.present? ? true : false) %>
+                      <% end %>
+                  <% end %>
+              <% else %>
+                  <%= link_to "Block", link_if_cancelled_event(new_user_session_path), :method => method_if_cancelled_event(''), class: "btn btn-lightgrey btn-full set_font_size cancelled_event_link set_5_top_mrg", remote: (current_user.present? ? true : false) %>
+              <% end %>
+            </div>
+
+              <% if current_user.present? %>
+                <% if current_user != event.user %>
+                  <div class="col-xs-12">
+                    <%= link_to "No Show", link_if_cancelled_event(not_show_invite_path(event, event.invites.first)), method: method_if_cancelled_event("put"), remote: (current_user.present? ? true : false), id: "event_not_show_user#{event.user_id}_event#{event.id}", class: "btn btn-lightgrey col-xs-12 btn-full set_font_size cancelled_event_link set_5_top_mrg event_not_show_user#{event.user_id}_event#{event.id}"  %>
+                  </div>
+                <% end %>
+              <% else %>
+                <div class="col-xs-12">
+                  <%= link_to "No Show", link_if_cancelled_event(not_show_invite_path(event, event.invites.first)), method: method_if_cancelled_event("put"), remote: (current_user.present? ? true : false), id: "event_not_show_user#{event.user_id}_event#{event.id}", class: "btn btn-lightgrey col-xs-12 btn-full set_font_size cancelled_event_link set_5_top_mrg event_not_show_user#{event.user_id}_event#{event.id}"  %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<%= render 'game_rosters/cancelled_event_popup'%>
+
+<%= render 'game_rosters/cancel_event_confirmation'%>
+
+<div  class="modal fade" id="event_title_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-medium">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" type="button" data-target="#game_roster_actions" aria-label="Close"><span aria-hidden="true" class="action_popup" id="">&times;</span></button>
+        <h4 class="modal-title">
+          Event Title
+        </h4>
+      </div>
+      <div class="modal-body">
+        <%= event.title.present? ? event.title.upcase : "" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if current_user.present? && event.user_id == current_user.id %>
+  <div id="check_host"></div>
+<% end %>
+<script type="text/javascript">
+  toastr.options = {
+    "closeButton": true,
+    "timeOut": "7000",
+    "extendedTimeOut": "0",
+    "positionClass": "toast-top-center"
+  };
+  function CustomeToastr(message) {
+    toastr.success( message );
+  }
+
+</script>

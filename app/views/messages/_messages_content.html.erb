@@ -1,0 +1,13 @@
+<div class="background-block messages_page">
+  <div class="container">
+  	<div class="row text-center">
+			<%= image_tag "game_roster_1.png", :class=> 'logo wow flip'%>
+			<h1 class="">MESSAGES</h1>
+		</div>		
+    <div class="row message_data">
+      <div id="message_content">
+        <%= render partial: 'message_data', locals: {messages: messages} %>
+      </div>
+    </div>
+  </div>
+</div>

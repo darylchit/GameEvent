@@ -1,0 +1,98 @@
+<% if @blocked_users.present? %>
+	<div class="contract-details">
+		<table class="table table-hover hidden-xs blocked_users">
+			<thead></thead>
+			<% @blocked_users.each do |block| %>
+				<tr class="block<%= block.id %>">
+					<% user = block.blocked_user %>
+					<td class="col-md-2">
+						<%= link_to player_path(user) do %>
+							<%= image_tag user.avatar_url, :class => 'avatar-md' %>
+						<% end %>
+					</td>
+					<td><span class=""><%= user.username %></td>
+					<td>
+						<span class="text-primary">PSR: </span>
+            <%= user.user_setting.total_psr %>
+            <span class="psr_thump_up text-white">
+              <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+            </span>
+					</td>
+					<td>
+						<span class="text-primary">Exp: </span>
+            <span class="gray_font">
+              <%= user.event_experience %>
+            </span>
+					</td>
+					<td>
+            <span class="text-primary">CR: </span>
+            <span class="gray_font">
+              <%= user.event_cancellation_rate %>
+            </span>
+          </td>
+          <td>
+            <span class="text-primary">Age: </span>
+            <span class="gray_font">
+              <%= user.public_age ? user.age : 'N/A' %>
+            </span>
+          </td>
+          <td class="">
+            <span class="text-primary">Blocked: </span>
+            <span class="gray_font">
+              <%= block.created_at.strftime('%m/%d/%y') %>
+            </span>
+          </td>
+          <td>
+            <%= link_to 'Unblock', profile_block_path(block), method: :delete, remote: true, class: 'btn btn-primary set_mrg_tbl_application', id: "view_more_applications_mobile", data: {disable_with: "Unblock"}  %>
+          </td>
+				</tr>
+			<% end %>
+		</table>
+		<div class="visible-xs blocked_users">
+      <% @blocked_users.each do |block| %>
+        <% user = block.blocked_user %>
+        <div class="row set_gold_line block<%= block.id %>">
+          <div class="col-xs-3 set_xs_padding">
+            <%= link_to player_path(user) do %>
+            <%= image_tag user.avatar_url, :class=> 'avatar-sm set_img_height' %>
+            <% end %>
+          </div>
+          <div class="col-xs-9 set_mrg_tbl_application">
+            <div class="row">
+              <span class="col-xs-12"><span class=""><%= user.username %></span>
+                <%= link_to profile_block_path(block), method: :delete, remote: true, class: 'btn-link set_mrg_tbl_application set_plus_mrg text-white' do %>
+                    <span class="fa fa-times"></span>
+                <%end %>
+              </span>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <span class="text-primary">PSR: </span>
+								<%= user.user_setting.total_psr %>
+		            <span class="psr_thump_up text-white">
+		              <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+		            </span>
+              </div>
+              <div class="col-xs-6 remove_left_padding">
+                <span class="text-primary">Blocked: </span>
+                <span class="set_date_size"><%= block.created_at.strftime('%m/%d/%y') %></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <span class="text-primary">CR: </span>
+                  <%= user.cancellation_rate.present? ? "#{user.cancellation_rate}%" : 'N/A' %>
+              </div>
+              <div class="col-xs-6 remove_left_padding">
+                  <span class="text-primary">Age: </span>
+                  <%= user.public_age ? user.age : 'N/A' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+	</div>
+<% else %>
+  <%= render 'profile/profile/no_blocked' %>
+<% end %>

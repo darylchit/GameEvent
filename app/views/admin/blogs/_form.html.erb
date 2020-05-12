@@ -1,0 +1,60 @@
+<%= form_for [:admin, blog] do |f| %>
+
+<%  if !blog.published? %>
+	<div class="form-group">
+		<%= f.label :blog_type, 'Send To' %>
+		<%= f.select :blog_type, options_for_select(Blog.blog_types.map{|k,v| [k.titleize,k] }, blog.blog_type), {prompt: 'Select Event Type'}, class: 'form-control event-chosen-select' %>
+		<% if f.object.errors.try(:messages)[:blog_type].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:blog_type].try(:first) %>
+		<% end %>
+	</div>
+<% end %>
+
+	<div class="form-group">
+		<%= f.label :is_blog, 'Add To Blog' %>
+		<%= f.select :is_blog, options_for_select([['Yes', true],['No', false]], blog.is_blog), {} , {class: 'form-control'}%>
+		<% if f.object.errors.try(:messages)[:is_blog].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:is_blog].try(:first) %>
+		<% end %>
+	</div>
+
+	<div class="form-group">
+		<label>Title</label>
+		<%= f.text_field :title,  class: 'form-control'%>
+		<% if f.object.errors.try(:messages)[:title].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:title].try(:first) %>
+		<% end %>
+	</div>
+
+  <div class="form-group">
+		<label>Mail Body (All HTML and Style Tags Are OK)</label>
+		<%= f.text_area :value, rows: 5 , class: 'form-control'%>
+		<% if f.object.errors.try(:messages)[:value].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:value].try(:first) %>
+		<% end %>
+	</div>
+
+	<div class="form-group">
+		<label>Web and App Message Body (No Anchor Tags)</label>
+		<%= f.text_area :value2, rows: 5 , class: 'form-control'%>
+		<% if f.object.errors.try(:messages)[:value2].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:value2].try(:first) %>
+		<% end %>
+	</div>
+  <hr>
+	<div class="row clearfix form-group">
+		<div class="col-md-4">
+			<% if blog.persisted? && !blog.published? %>
+			  <%= link_to 'Publish', publish_admin_blog_path(blog), method: :post, class: 'btn btn-primary btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Publish..."} %>
+			<% end %>
+		</div>
+		<div class="col-md-4">
+			<% if blog.persisted? %>
+				<%= link_to 'Test Notice', test_mail_admin_blog_path(blog), method: :post, class: 'btn btn-primary btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Test Notice..."} %>
+			<% end %>
+		</div>
+		<div class="col-md-4">
+			<%= f.submit value: 'Save', class: "btn btn-primary btn-full" %>
+		</div>
+	</div>
+<% end %>

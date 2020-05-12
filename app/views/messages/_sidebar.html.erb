@@ -1,0 +1,203 @@
+<div class="col-md-3 col-xs-12 sidebar_menu">
+	<div class="expand-sidenav">
+		<div class="expand-sidenav-toggle hidden-xs">
+			<h3 class="mb0"><a data-toggle="collapse" data-target="#side-nav-collapsible" aria-expanded="false">Menu</a></h3>
+		</div>
+
+		<%= form_for current_user, {url: "/messages/preferences", html: { remote: true, id: 'preferences_edit_form_mobile' }, method: :put } do |f| %>
+			<div class="visible-xs">
+				<div class="row-fluid">
+					<div class="col-xs-12 text-center hide">
+						<h4>Select Inbox</h4>
+					</div>
+					<div class="col-xs-12 hide">
+			      <div class="form-group">
+			        <%= select_tag :main_option, options_for_select(["User Messages","Clan Messages" , "Event Invitations", "Roster Notices", "Recently Deleted"], action_name == 'event_notices' ? 'Roster Notices' : '' ), {class: 'form-control'} %>
+			      </div>
+			    </div>
+			    <div class="col-xs-12">
+			    	<span class="btn btn-lightgrey btn_width btn-full" data-toggle="collapse" data-target="#collapse-filters" aria-expanded="false" aria-controls="collapseExample">Filter Options</span>
+			    </div>
+
+			     <div class="col-xs-12 form-group">
+			     	<button type="button" class="btn btn-lightgrey btn-full" data-toggle="modal" data-target="#favorite_users_popup">Compose</button>
+				 	 </div>
+
+				  <div class="filter-panel collapse" id="collapse-filters">
+				  	<div class="col-xs-12 text-center">
+              <h4>User Messages</h4>
+            </div>
+				    <div class="col-xs-12 sub_menu chk-font left-right" id='message_menu'>
+							<div class="col-xs-6 left-right">
+		          	<%= f.check_box :allow_user_messages,  class: 'checkbox_li' %>
+		          	<%= f.label :allow_user_messages, 'User Messages', class: 'cursor_pointer'%>
+		          </div>
+							<div class="col-xs-6 left-right">
+			          <%= f.check_box :allow_clan_application,  class: 'checkbox_li' %>
+			          <%= f.label :allow_clan_application, 'Clan Applications', class: 'cursor_pointer'%>
+			        </div>
+							<div class="col-xs-6 left-right">
+			          <%= f.check_box :allow_clan_invitations,  class: 'checkbox_li' %>
+			          <%= f.label :allow_clan_invitations, 'Clan Invitations', class: 'cursor_pointer'%>
+							</div>
+							<div class="col-xs-6 left-right">
+			          <%= f.check_box :event_reminder,  class: 'checkbox_li' %>
+			          <%= f.label :event_reminder, 'Game Start Reminders', class: 'cursor_pointer'%>
+							</div>
+				    </div>
+
+						<div class="col-xs-12 text-center"><h4>Clan Messages</h4></div>
+				    <div class="col-xs-12 sub_menu chk-font left-right" id='clan_messages_menu'>
+			        <% my_clans.each do |clan| %>
+								<div class="col-xs-12 left-right">
+		              <%= hidden_field_tag "user[allow_clan_messages][#{clan.id}]",0, id: "h_user[allow_clan_messages][#{clan.id}]" %>
+		              <%= check_box_tag "user[allow_clan_messages][#{clan.id}]", 1, f.object.allow_clan_messages.include?(clan.id.to_s) ? false : true, class: 'checkbox_li' %>
+		              <%= label_tag "user[allow_clan_messages][#{clan.id}]", "#{ clan.name }", class: 'cursor_pointer'%>
+		            </div>
+			        <% end %>
+				    </div>
+
+						<div class="col-xs-12 text-center"><h4>Event Invitations</h4></div>
+				    <div class="col-xs-12 sub_menu chk-font left-right" id="event_invitation_menu">
+
+				    	<div class="col-xs-6 left-right">
+		          	<%= f.check_box :allow_private_game_invitations,  class: 'checkbox_li' %>
+		          	<%= f.label :allow_private_game_invitations, 'Private Games', class: 'cursor_pointer'%>
+							</div>
+
+							<div class="col-xs-6 left-right">
+		          	<%= f.check_box :allow_public_game_invitations,  class: 'checkbox_li' %>
+		          	<%= f.label :allow_public_game_invitations, 'Public Games', class: 'cursor_pointer'%>
+							</div>
+
+		        	<% my_clans.each do |clan| %>
+			          <div class="col-xs-12 left-right">
+			            <%= hidden_field_tag "user[allow_clan_game_invitations][#{clan.id}]",0, id: "h_user[allow_clan_game_invitations][#{clan.id}]" %>
+			            <%= check_box_tag "user[allow_clan_game_invitations][#{clan.id}]", 1, f.object.allow_clan_game_invitations.include?(clan.id.to_s) ? false : true, class: 'checkbox_li' %>
+			            <%= label_tag "user[allow_clan_game_invitations][#{clan.id}]", "#{ clan.name }", class: 'cursor_pointer'%>
+			          </div>
+		        	<% end %>
+				    </div>
+
+				    <div class="col-xs-12 text-center"><h4>Roster Notices</h4></div>
+				    <div class="col-xs-12 sub_menu chk-font left-right" id="roster_notice_menu">
+				      <div class="col-xs-6 left-right">
+			          <%= f.check_box :allow_event_modified,  class: 'checkbox_li' %>
+			          <%= f.label :allow_event_modified, 'Event Modified', class: 'cursor_pointer'%>
+							</div>
+							<div class="col-xs-6 left-right">
+			          <%= f.check_box :allow_event_cancelled,  class: 'checkbox_li' %>
+			          <%= f.label :allow_event_cancelled, 'Event Cancelled', class: 'cursor_pointer'%>
+							</div>
+							<div class="col-xs-6 left-right">
+			          <%= f.check_box :allow_user_joins_roster,  class: 'checkbox_li' %>
+			          <%= f.label :allow_user_joins_roster, 'User Joins Roster', class: 'cursor_pointer'%>
+							</div>
+							<div class="col-xs-6 left-right">
+			          <%= f.check_box :allow_user_leaves_roster,  class: 'checkbox_li' %>
+			          <%= f.label :allow_user_leaves_roster, 'User Leaves Roster', class: 'cursor_pointer'%>
+							</div>
+				    </div>
+			    </div>
+				</div>
+			</div>
+		<%end%>
+
+		<%= form_for current_user, {url: "/messages/preferences", html: { remote: true, id: 'preferences_edit_form_desktop' }, method: :put } do |f| %>
+			<div class="side-nav-container collapse in hidden-xs" id="side-nav-collapsible">
+				<ul class="nav side-nav">
+
+					<li class="messages receipt-destroy col-md-12">
+						<h4 class="text-primary">User Messages</h4>
+					</li>
+					<li class="">
+	          <%= f.check_box :allow_user_messages,  class: 'checkbox_li'%>
+	          <%= f.label :allow_user_messages, 'User Messages', class: 'cursor_pointer'%>
+					</li>
+					<li class="">
+	          <%= f.check_box :allow_clan_application,  class: 'checkbox_li' %>
+	          <%= f.label :allow_clan_application, 'Clan Applications', class: 'cursor_pointer'%>
+					</li>
+					<li class="">
+	          <%= f.check_box :allow_clan_invitations,  class: 'checkbox_li' %>
+	          <%= f.label :allow_clan_invitations, 'Clan Invitations', class: 'cursor_pointer'%>
+					</li>
+
+	        <% if  my_clans.present? %>
+	          <li class="clan_messages receipt-destroy col-md-12">
+	             <h4 class="text-primary">Clan Messages</h4>
+	          </li>
+	          <% my_clans.each do |clan| %>
+	              <li class="">
+	                <%= hidden_field_tag "user[allow_clan_messages][#{clan.id}]",0, id: "h_user[allow_clan_messages][#{clan.id}]" %>
+	                <%= check_box_tag "user[allow_clan_messages][#{clan.id}]", 1, f.object.allow_clan_messages.include?(clan.id.to_s) ? false : true, class: 'checkbox_li' %>
+	                <%= label_tag "user[allow_clan_messages][#{clan.id}]", "#{ clan.name }", class: 'cursor_pointer'%>
+	              </li>
+	          <% end %>
+	        <% end %>
+
+					<!-- Event invitaions -->
+					<li class="event_invitation receipt-destroy col-md-12">
+						<h4 class="text-primary">Event Invitations</h4>
+					</li>
+					<li>
+	          <%= f.check_box :allow_private_game_invitations,  class: 'checkbox_li' %>
+	          <%= f.label :allow_private_game_invitations, 'Private Games', class: 'cursor_pointer'%>
+					</li>
+					<li>
+	          <%= f.check_box :allow_public_game_invitations,  class: 'checkbox_li' %>
+	          <%= f.label :aallow_public_game_invitations, 'Public Games', class: 'cursor_pointer'%>
+					</li>
+
+	        <% my_clans.each do |clan| %>
+	          <li>
+	            <%= hidden_field_tag "user[allow_clan_game_invitations][#{clan.id}]",0, id: "h_user[allow_clan_game_invitations][#{clan.id}]" %>
+	            <%= check_box_tag "user[allow_clan_game_invitations][#{clan.id}]", 1, f.object.allow_clan_game_invitations.include?(clan.id.to_s) ? false : true, class: 'checkbox_li' %>
+	            <%= label_tag "user[allow_clan_game_invitations][#{clan.id}]", "#{ clan.name }", class: 'cursor_pointer'%>
+	          </li>
+	        <% end %>
+
+					<!-- Roster Notices -->
+					<li class="event_notice receipt-destroy col-md-12">
+						<h4 class="text-primary">Roster Notices</h4>
+					</li>
+					<li class="">
+	          <%= f.check_box :allow_event_modified,  class: 'checkbox_li' %>
+	          <%= f.label :allow_event_modified, 'Event Modified', class: 'cursor_pointer'%>
+					</li>
+					<li class="">
+	          <%= f.check_box :allow_event_cancelled,  class: 'checkbox_li' %>
+	          <%= f.label :allow_event_cancelled, 'Event Cancelled', class: 'cursor_pointer'%>
+					</li>
+					<li class="">
+	          <%= f.check_box :allow_user_joins_roster,  class: 'checkbox_li' %>
+	          <%= f.label :allow_user_joins_roster, 'User Joins Roster', class: 'cursor_pointer'%>
+					</li>
+					<li class="">
+	          <%= f.check_box :allow_user_leaves_roster,  class: 'checkbox_li' %>
+	          <%= f.label :allow_user_leaves_roster, 'User Leaves Roster', class: 'cursor_pointer'%>
+					</li>
+					<li class="">
+	          <%= f.check_box :event_reminder,  class: 'checkbox_li' %>
+	          <%= f.label :event_reminder, 'Game Start Reminders', class: 'cursor_pointer'%>
+					</li>
+
+					<!-- Recently Deleted -->
+					<li class="inbox-li receipt-destroy <%= @box_type == 'Inbox' ? 'active' : '' %>" id= "recently_deleted">
+						<%= link_to messages_path, remote: true, class: '', data: { disable_with: "<h4 class=''>Inbox <i class='fa fa-spinner fa-spin'></i></h4>"} do %>
+							<h4 class="text-primary">Inbox</h4>
+						<% end %>
+					</li>
+					<li class="recently_deleted receipt-destroy <%= @box_type == 'Recently Deleted' ? 'active' : '' %>" id= "recently_deleted">
+						<%= link_to recently_deleted_messages_path, remote: true, class: '', data: { disable_with: "<h4 class=''>Recently Deleted <i class='fa fa-spinner fa-spin'></i></h4>"} do %>
+							<h4 class="text-primary">Recently Deleted</h4>
+						<% end %>
+					</li>
+
+
+				</ul>
+			</div>
+		<% end %>
+
+	</div>
+</div>

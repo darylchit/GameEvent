@@ -1,0 +1,60 @@
+$('#global_model').html("<%= j render(:partial => 'subscription_popup')%>");
+$("#subscription_status_modal").modal();
+$('#subscription_status_modal').on('shown.bs.modal', function () {
+  $('.plan-chosen-select').chosen();
+
+  // User has payment details and they want to change the plan
+  <% if current_user.user_setting.stripe_customer.present?  || (active_subscription.present?  && active_subscription.paid?) %>
+  $('#stripe_subscription_plan_id').on('change', function(){
+    $('#subscription_plan_error').html('');
+    $('#plan_conformation').val('')
+    //$('#plan_conformation_div').addClass('hide')
+    value = $(this).val();
+
+    if(value == "<%= active_subscription.present? ? active_subscription.subscription_plan_id : :basic %>"){
+      $('#subscription_plan_error').html('Please Choose A Different Option');
+    }else if(value != ''){
+      //$('#plan_conformation_div').removeClass('hide');
+    }
+
+  })
+
+  $('#plan_conformation').on('keyup',function(){
+      $('#subscription_plan_error').html("");
+  })
+
+  $('#plan_confirm_btn').on('click', function(){
+    val = $('#plan_conformation').val();
+    plan = $('#stripe_subscription_plan_id').val()
+    if(plan != "<%= active_subscription.present? ? active_subscription.subscription_plan_id : :basic %>")
+    {
+        if (plan != ''){
+          if($.trim( val.toUpperCase()) == 'CONFIRM'){
+            $("#plan_confirm_btn").append("<i class='fa fa-spin fa-spinner'></i> ");
+            plan = $('#stripe_subscription_plan_id').val();
+            $.ajax({
+              url: '/stripe_subscriptions/'+ plan,
+              type: 'PUT',
+              dataType: 'script'
+            });
+          }else{
+            $('#plan_conformation').focus();
+            $('#subscription_plan_error').html("Please Type 'CONFIRM'");
+          }
+        }else{
+          $('#subscription_plan_error').html("Please Select A New Plan");
+        }
+    }else{
+      $('#subscription_plan_error').html('Please Choose A Different Option');
+    }
+  });
+  <% else %>
+  // HERE user has no Payment information
+  $('#stripe_subscription_plan_id').on('change', function(){
+    $('.stripe_plans').addClass('hide');
+    $('#stripe_plan_'+$(this).val()).removeClass('hide');
+    // alert($(this).val())
+  })
+
+  <% end %>
+});

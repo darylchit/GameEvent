@@ -1,0 +1,88 @@
+<div class="modal fade" id="event_join_with_game_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content modal-vertical">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Add Game And Join</h4>
+			</div>
+			<div class="modal-body contract-details">
+        <div class="row-fluid">
+          <p class="text-justify ">
+            <% if @ign_missing == true && @game_missing == true %>
+							This game is not in your library.  Enter the information below to add it to your profile and join the roster.
+						<% elsif @ign_missing == true %>
+							You are missing an IGN for this game. Enter the information below to add it to your profile and join the roster.
+						<% elsif @game_missing == true %>
+							This game is not in your library.  Would you like to add it to your profile and join the roster?
+						<% end %>
+          </p>
+        </div>
+				<div class="display_errors hide">
+					<h4 class="event_error_count"></h4>
+					<ul class="event_error_explanation"></ul>
+				</div>
+        <%= form_for event, :url => invites_path(event), remote: true, method: 'post' , html: {id: 'event_join_form_popup'} do |f| %>
+					<% if event.present? %>
+						<div class="row form-group">
+							<div class="col-md-8 col-md-offset-2">
+							  <%= image_tag event.game.game_cover.url %>
+						  </div>
+						</div>
+					<% end %>
+          <% if ['PS3', 'PS4'].include?(event.game_system.abbreviation) %>
+            <% unless current_user.psn_user_name.try(:strip).present?%>
+            <div class="form-group">
+              <%= label_tag 'user[psn_user_name]', 'PSN Online ID', class: 'required' %>
+              <%= text_field_tag 'user[psn_user_name]', nil ,class: 'form-control', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}%>
+            </div>
+            <% end %>
+          <% elsif ['XB360', 'XB1'].include?(event.game_system.abbreviation) %>
+            <% unless current_user.xbox_live_user_name.try(:strip).present?%>
+              <div class="form-group">
+                <%= label_tag 'user[xbox_live_user_name]', 'Xbox Gamertag', class: 'required' %>
+                <%= text_field_tag 'user[xbox_live_user_name]', nil ,class: 'form-control', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}%>
+              </div>
+            <% end %>
+          <% elsif ['NSW', 'WU'].include?(event.game_system.abbreviation) %>
+            <% unless current_user.nintendo_user_name.try(:strip).present? %>
+              <div class="form-group">
+                <%= label_tag 'user[nintendo_user_name]', 'Nintendo ID', class: 'required' %>
+                <%= text_field_tag 'user[nintendo_user_name]', nil ,class: 'form-control', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}%>
+              </div>
+            <% end %>
+					<% elsif ['PC'].include?(event.game_system.abbreviation) %>
+						<% if event.pc_type == 'battletag' && !current_user.battle_user_name.try(:strip).present? %>
+							<div class="form-group">
+								<%= label_tag 'user[battle_user_name]', 'Battletag', class: 'required' %>
+								<%= text_field_tag 'user[battle_user_name]', nil ,class: 'form-control', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}%>
+							</div>
+						<% elsif event.pc_type == 'origin' && !current_user.origins_user_name.try(:strip).present? %>
+							<div class="form-group">
+								<%= label_tag 'user[origins_user_name]', 'Origin ID', class: 'required' %>
+								<%= text_field_tag 'user[origins_user_name]', nil ,class: 'form-control', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}%>
+							</div>
+						<% elsif event.pc_type == 'steam' && !current_user.steam_user_name.try(:strip).present? %>
+							<div class="form-group">
+								<%= label_tag 'user[steam_user_name]', 'Steam ID', class: 'required' %>
+								<%= text_field_tag 'user[steam_user_name]', nil ,class: 'form-control', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}%>
+							</div>
+						<% end %>
+          <% end %>
+          <%= hidden_field_tag 'user[game]', event.game.title %>
+          <%= hidden_field_tag 'user[game_id]', event.game.id %>
+
+          <div class="row topmrg_20">
+						<div class="col-md-2">
+						</div>
+            <div class="col-md-8">
+							<%= f.button "Add To Library".html_safe, class: 'btn btn-lightgrey btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Saving..."} %>
+              <%#= f.submit 'Submit', class: 'btn btn-primary btn-full'%>
+            </div>
+						<div class="col-md-12">
+						</div>
+          </div>
+        <% end %>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,84 @@
+.modal-dialog {
+	@media screen and (min-width: $screen-lg-min) {
+		width: 992px;
+	}
+	@media screen and (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+		width: 800px;
+	}
+	@media screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+		width: 720px;
+	}
+
+}
+
+.modal-content {
+	background-color: rgb(25,25,25);
+	.modal-header {
+		border-bottom: 1px solid $gray-light;
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		padding: 7px;
+		.close {
+			margin-top: 5px;
+			color: black;
+			text-shadow: none;
+			opacity: 0.9;
+		}
+      background-color: #ddaf3b;
+      color: black;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+	}
+	.modal-subhead {
+		font-size: 1.4em;
+		letter-spacing: .05em;
+	}
+	.modal-footer-label {
+		margin-top: 9px;
+	}
+	.modal-footer {
+		border-top: 1px solid $gray-light;
+		&.modal-footer-center {
+			text-align: center;
+		}
+		@media screen and (max-width: $screen-sm-max) {
+			.btn {
+				display: block;
+	    		width: 100%;
+	    	}
+		}
+	}
+	.modal-body-scroll {
+		max-height: 75vh;
+		overflow-y: scroll;
+	}
+  border: 2px solid #ddaf3b;
+  border-radius: 10px;
+}
+
+
+
+// popover css override
+.popover-title{
+  background-color: #ddaf3b;
+  color: black;
+  border-bottom: none;
+}
+.popover-content{
+  background-color: #191919;
+  border: 2px solid #ddaf3b;
+}
+.popover{
+  background-color: #ddaf3b;
+}
+.popover.top > .arrow:after {
+  border-top-color: #ddaf3b;
+}
+.golden
+{
+	color: #DDAF3B;
+}
+.white
+{
+	color: #fff;
+}

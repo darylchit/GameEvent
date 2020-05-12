@@ -1,0 +1,33 @@
+ <div class="profile-actions">
+  <ul class="profile-action-btns clearfix">
+    <li class="<%= active == 'members' ? 'active' : ''%>"><a href=<%= "#{clan_clan_members_path(@clan)}" %>>
+        <i class="fa fa-users" aria-hidden="true"></i>
+        <span>Members</span>
+      </a>
+    </li>
+    <li class="<%= active == 'events' ? 'active' : ''%>"><a class="profile-action-btn" href=<%= "#{clan_clan_events_path(@clan)}" %>>
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+        <span>Events</span>
+      </a>
+    </li>
+    <% if @clan.member current_user %>
+      <li class="<%= active == 'messages' ? 'active' : ''%>"><a class="profile-action-btn" href=<%= "#{clan_clan_messages_path(@clan)}" %>>
+          <i class="fa fa-comments" aria-hidden="true"></i>
+          <span>Messages</span>
+        </a>
+      </li>
+    <% end %>
+    <% if @clan.can_perform?(current_user, :edit_ranks) %>
+    <li class="<%= active == 'ranks' ? 'active' : ''%>"><a class="profile-action-btn" href=<%= "#{clan_clan_ranks_path(@clan)}" %>>
+        <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+        <span>Ranks</span>
+      </a>
+    </li>
+    <% end %>
+     <li class="<%= active == 'links' ? 'active' : ''%>"><a class="profile-action-btn" href=<%= "#{clan_clan_links_path(@clan)}" %>>
+        <i class="fa fa-link" aria-hidden="true"></i>
+        <span>Links</span>
+      </a>
+    </li>
+  </ul>
+</div><!-- Action Buttons -->

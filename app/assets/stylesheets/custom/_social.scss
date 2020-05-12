@@ -1,0 +1,82 @@
+$twitter-brand: #00ACED;
+$facebook-brand: #3B5998;
+
+.btn-sharing {
+	color: #fff;
+	border-radius: 0;
+	border: none;
+}
+
+.btn-twitter {
+	background-color: $twitter-brand;
+	&:hover, &:active, &:focus {
+		background-color: darken($twitter-brand, 10%);
+		color: lighten($twitter-brand, 45%);
+	}
+}
+
+.btn-facebook {
+	background-color: $facebook-brand;
+	&:hover, &:active, &:focus {
+		background-color: darken($facebook-brand, 10%);
+		color: lighten($facebook-brand, 45%);
+	}
+}
+
+.sharing-buttons {
+	.btn {
+		.fa {
+			font-size: 32px;
+			margin: 0;
+		}
+		padding: 10px 5px;
+		width: 58px;
+		display: inline-block;
+		text-align: center;
+	}
+}
+
+.share-group .btn {
+	font-size: 1.33em;
+	@media screen and (max-width: $screen-sm-max) {
+		margin-bottom: 1.25em;
+	}
+}
+
+.social-sharing {
+	h2 {
+		margin-bottom: 32px;
+	}
+	.sharing-row {
+		div[class^="col"] {
+			padding: 32px 24px;
+			text-align: center;
+			font-size: 24px;
+			a {
+				color: #bbb;
+				&:hover {
+					color: #fff;
+				}
+				&.share-twitter {
+					color: $twitter-brand;
+					&:hover {
+						color: darken($twitter-brand, 10%);
+					}
+				}
+				&.share-facebook {
+					color: $facebook-brand;
+					&:hover {
+						color: darken($facebook-brand, 10%);
+					}
+				}
+				.fa {
+					font-size: 64px;
+					padding-bottom: 10px;
+				}
+			}
+			& + div[class^="col"] {
+				border-left: 1px solid #fff;
+			}
+		}
+	}
+}

@@ -1,0 +1,40 @@
+.bounties-filters {
+  .btn-rel .badge-primary {
+    font-size: 16px;
+    position: absolute;
+    top: -9px;
+    left: -16px;
+  }
+  .btn-rel {
+    position: relative;
+  }
+  .badge.badge-primary {
+    background-color: #ddaf3b;
+    color: #333333;
+    font-weight: bold;
+  }
+  #tablesaw_toolbar {
+    margin-top: 5px;
+    padding-top: 1em;
+
+    .tablesaw-columntoggle-btnwrap {
+      margin-left: 3px;
+
+      a {
+        text-shadow: initial;
+        padding: 10px 16px;
+        font-size: 22px;
+        line-height: 1.3333333;
+      }
+    }
+    @media screen and (max-width: $screen-sm-max) {
+    padding-top: 0;
+    margin-top: 0;
+      .btn, .tablesaw-columntoggle-btnwrap {
+        display: block;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+    }
+  }
+}

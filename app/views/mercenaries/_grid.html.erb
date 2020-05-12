@@ -1,0 +1,68 @@
+<%= define_grid(@grid, show_filters: :yes, hide_csv_button: true, html: {class: 'wbmr table table-responsive table-striped find-mercenaries'}) do |g|
+	g.last_row do |number_of_columns|
+		'<tr><td><div class="no-results">No Results</td></tr>' if g.grid.resultset.size == 0
+	end
+
+	g.column name: 'User', attribute: 'username', :html => {'data-tablesaw-priority' => "persist"}, detach_with_id: :user_filter, auto_reload: true, class: 'wbmr-avatar' do | u |
+		link_to "#{profiles_path()}/#{u.username}" do
+			raw "<h5 class='mt0'> #{u.username} </h5>" + "#{image_tag(u.avatar_url)}"
+		end
+	end
+	g.column name: 'P.S.A', attribute: 'psa_rating',  :html => {'data-tablesaw-priority' => "1"} do | u |
+		link_to "#{profiles_path()}/#{u.username}" do
+			if u.psa_rating == 0
+				"N/A"
+			else
+				raw("<span class=\"psa-rating-read-only\" data-score=\"#{u.psa_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Personality', attribute: 'personality_rating',  :html => {'data-tablesaw-priority' => "2"} do | u |
+		link_to "#{profiles_path()}/#{u.username}" do
+			if u.personality_rating == 0
+				"N/A"
+			else
+				raw("<span class=\"psa-rating-read-only\" data-score=\"#{u.personality_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Skill', attribute: 'skill_rating',  :html => {'data-tablesaw-priority' => "3"} do | u |
+		link_to "#{profiles_path()}/#{u.username}" do
+			if u.skill_rating == 0
+				"N/A"
+			else
+				raw("<span class=\"psa-rating-read-only\" data-score=\"#{u.skill_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Approval', attribute: 'approval_rating', :html => {'data-tablesaw-priority' => "4"} do | u |
+		link_to "#{profiles_path()}/#{u.username}" do
+			if u.approval_rating == 0
+				"N/A"
+			else
+				raw("<span class=\"psa-rating-read-only\" data-score=\"#{u.approval_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Will Play', attribute: 'will_play', :html => {'data-tablesaw-priority' => "5"}, custom_filter: ['Player vs. Player', 'Player vs. Enemy', 'All Types'], detach_with_id: :will_play_filter do | u |
+		link_to "#{profiles_path()}/#{u.username}" do
+			if u.will_play == 'Player vs. Player'
+				'PvP'
+			elsif u.will_play == 'Player vs. Enemy'
+				'PvE'
+			else
+				u.will_play
+			end
+		end
+	end
+	g.column name: 'Newb Patience', attribute: 'newbie_patience_level', :html => {'data-tablesaw-priority' => "6"},  custom_filter: ['High', 'Low'], detach_with_id: :newb_patience_filter do | u |
+		link_to "#{profiles_path()}/#{u.username}" do
+			u.newbie_patience_level
+		end
+	end
+	g.column name: 'Experience', attribute: 'contracts_completed',  :html => {'data-tablesaw-priority' => "7"}, detach_with_id: :contracts_completed_filter, filter_type: :range do | u |
+		link_to "#{profiles_path()}/#{u.username}" do
+			"#{u.contracts_completed}"
+		end
+	end
+end -%>

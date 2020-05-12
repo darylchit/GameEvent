@@ -1,0 +1,224 @@
+<%
+	if other_user c
+		if is_mine
+			if c.bounty?
+				display_user = c.seller
+			elsif c.contract?
+				display_user = c.buyer
+			else
+				display_user = c.owner
+			end
+		else
+			display_user = c.owner
+		end
+	else
+		display_user = current_user
+	end
+%>
+
+
+<div class="roster-invite-card">
+	<div class="container-box">
+			<div class="card-heading">
+				<p class="small">
+					<span class="badge badge-outline">
+						<%= short_date_time_spacing c.start_date_time %>
+						&#8226;
+						 <%= d = c.duration/60
+						  	"#{d} #{"Hr".pluralize d}"%>
+					</span>
+					<span class="pull-right text-primary card-roster-size">
+						<% if c.contract? || c.bounty? %>
+							<span class="fa fa-group"></span>
+							<% if (c.contract? && c.buyer.present?) || (c.bounty? && c.seller.present?) %>
+								2
+							<% else  %>
+								1
+							<% end %>
+							/2
+						<% else %>
+							<% c = c.becomes(Roster) %>
+							<span class="fa fa-group"></span> <%= c.confirmed_users_count %>/<%= c.max_roster_size %>
+						<% end %>
+					</span>
+				</p>
+
+			</div>
+			<%= link_to link_url do %>
+			<div class="card-content">
+				<div class="card-avatar">
+					<%= image_tag(display_user.avatar_url, class: 'avatar-xs') %>
+				</div>
+				<div class="card-body">
+					<h4><%= c.contract_game_game_system_joins.first.game_game_system_join.game.title %> (<%=  c.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation %>)</h4>
+					<h4 class="text-gray"><%= !c.title? ? 'n/a' : c.title %></h4>
+					<p class="text-gray"><strong class="text-primary"><%= c.roster? ? 'Host:' : 'Other User:' %></strong> <%= display_user.username %></p>
+					<p class="text-gray"><strong class="text-primary">Play Type:</strong> <%= c.play_type %></p>
+					<p class="text-gray"><strong class="text-primary">Game Type:</strong>
+						<% if c.will_play == 'Player vs. Enemy' %>
+							PvE
+						<% elsif c.will_play == 'Player vs. Player' %>
+							PvP
+						<% else %>
+							All Types
+						<% end %>
+					</p>
+				</div>
+
+			</div>
+		<% end %>
+		<div class="card-actions">
+
+			<% if c.contract? %>
+				<% if c.status == 'Open' %>
+					<div class="row">
+						<div class="col-xs-6">
+							<%= link_to 'Cancel', (is_mine ? posted_contract_cancel_path(c) : claimed_contract_cancel_path(c)), class: 'btn btn-danger btn-block' %>
+						</div>
+						<div class="col-xs-6">
+							<%= link_to 'Edit', edit_posted_contract_path(c), class: 'btn btn-primary btn-block' if is_mine %>
+						</div>
+					</div>
+				<% elsif c.status == "Claimed" %>
+					<div class="row">
+						<div class="col-xs-6">
+							<%= link_to 'Cancel', (is_mine ? posted_contract_cancel_path(c) : claimed_contract_cancel_path(c)), class: 'btn btn-danger btn-block' %>
+						</div>
+						<div class="col-xs-6">
+							<%= link_to "View", link_url, class: 'btn btn-info btn-block'%>
+						</div>
+					</div>
+				<% elsif c.status == 'Invoiced' %>
+					<% if !is_mine %>
+						<div class="row">
+							<div class="col-xs-6">
+								<%= link_to 'Donate', contract_payment_request_path(c), :method => "POST", class: 'btn btn-success btn-block' %>
+							</div>
+							<div class="col-xs-6">
+					<% end %>
+								<% if is_mine && !c.buyer_feedback_date_time.nil? %>
+									<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+								<% elsif !is_mine && !c.seller_feedback_date_time.nil? %>
+									<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+								<% end %>
+					<% if is_mine %>
+							</div>
+						</div>
+					<% end %>
+				<% end %>
+			  	<% if c.is_closed? && !c.is_closed_by_poster? && c.status != 'Expired' %>
+			  		<% if is_mine %>
+			  			<% if c.buyer_feedback_date_time.nil? %>
+				  			<div class="row">
+								<div class="col-xs-6">
+					  				<%= link_to 'Rate', posted_contract_path(c), class: 'btn btn-success btn-block' %>
+								</div>
+								<div class="col-xs-6">
+					  				<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+								</div>
+							</div>
+			  			<% else %>
+			  				<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+			  			<% end %>
+			  		<% else %>
+			  			<% if c.seller_feedback_date_time.nil? %>
+				  			<div class="row">
+								<div class="col-xs-6">
+					  				<%= link_to 'Rate', claimed_contract_path(c) + '#event-rating', class: 'btn btn-success btn-block' %>
+								</div>
+								<div class="col-xs-6">
+					  				<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+								</div>
+							</div>
+			  			<% else %>
+			  				<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+			  			<% end %>
+			  		<% end %>
+				<% end %>
+			<% elsif c.bounty?  %>
+				<% if c.status == 'Open' %>
+					<div class="row">
+						<div class="col-xs-6">
+							<%= link_to 'Cancel', (is_mine ? posted_bounty_cancel_path(c) : claimed_bounty_cancel_path(c)), class: 'btn btn-danger btn-block' %>
+						</div>
+						<div class="col-xs-6">
+							<%= link_to 'Edit', edit_posted_bounty_path(c), class: 'btn btn-primary btn-block' if is_mine %>
+						</div>
+					</div>
+				<% elsif c.status == "Claimed" %>
+					<div class="row">
+						<div class="col-xs-6">
+							<%= link_to 'Cancel', (is_mine ? posted_bounty_cancel_path(c) : claimed_bounty_cancel_path(c)), class: 'btn btn-danger' %>
+						</div>
+						<div class="col-xs-6">
+							<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+						</div>
+					</div>
+				<% elsif c.status == 'Invoiced' %>
+					<% if is_mine %>
+						<div class="row">
+							<div class="col-xs-6">
+								<%= link_to 'Donate', bounty_payment_request_path(c), :method => "POST", class: 'btn btn-success btn-block' %>
+							</div>
+						<div class="col-xs-6">
+					<% end %>
+							<% if is_mine && !c.buyer_feedback_date_time.nil? %>
+								<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+							<% elsif !is_mine && !c.seller_feedback_date_time.nil? %>
+								<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+							<% end %>
+					<% if is_mine %>
+						</div>
+					</div>
+					<% end %>
+				<% end %>
+				<% if c.is_closed? && !c.is_closed_by_poster? && c.status != 'Expired' %>
+					<% if is_mine %>
+							<% if c.seller_feedback_date_time.nil? %>
+								<div class="row">
+									<div class="col-xs-6">
+										<%= link_to 'Rate', posted_bounty_path(c) + '#event-rating', class: 'btn btn-success btn-block' %>
+									</div>
+									<div class="col-xs-6">
+										<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+									</div>
+								</div>
+							<% else %>
+								<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+							<% end %>
+					<% else %>
+						<% if c.buyer_feedback_date_time.nil? %>
+							<% if !is_mine %>
+								<div class="row">
+									<div class="col-xs-6">
+										<%= link_to 'Rate', claimed_bounty_path(c) + '#event-rating', class: 'btn btn-success btn-block' %>
+									</div>
+									<div class="col-xs-6">
+										<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+									</div>
+								</div>
+							<% end %>
+						<% else %>
+							<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+						<% end %>
+					<% end %>
+	            <% end %>
+	         <% else # c.roster? %>
+				<% if c.status == 'Open' && is_mine %>
+					<div class="row">
+						<div class="col-xs-6">
+							<%= link_to 'Cancel', cancel_roster_path(c), class: 'btn btn-danger btn-block' %>
+						</div>
+						<div class="col-xs-6">
+		          			<%= link_to 'Edit', edit_roster_path(c), class: 'btn btn-primary btn-block' %>
+		          		</div>
+		          	</div>
+	          	<% else %>
+	          		<%= link_to "View", link_url, class: 'btn btn-info btn-block' %>
+	        	<% end %>
+
+	     	<% end %>
+
+		</div>
+	</div>
+</div>

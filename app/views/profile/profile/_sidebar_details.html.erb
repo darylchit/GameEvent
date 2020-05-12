@@ -1,0 +1,140 @@
+<div class="">
+  <% if resource.psn_user_name.present? %>
+      <div class="information">
+        <div class="text-primary">PlayStation ID</div>
+        <span> <%= resource.psn_user_name %></span>
+      </div>
+  <% end %>
+  <% if resource.xbox_live_user_name.present? %>
+      <div class="information">
+        <div class="text-primary">Xbox Gamertag</div>
+        <span> <%= resource.xbox_live_user_name %></span>
+      </div>
+  <% end %>
+  <% if resource.nintendo_user_name.present? %>
+      <div class="information">
+        <div class="text-primary">Nintendo ID</div>
+        <span> <%= resource.nintendo_user_name %></span>
+      </div>
+  <% end %>
+  <% if resource.steam_user_name.present? %>
+      <div class="information">
+        <div class="text-primary">Steam ID</div>
+        <span> <%= resource.steam_user_name %></span>
+      </div>
+  <% end %>
+  <% if resource.battle_user_name.present? %>
+      <div class="information">
+        <div class="text-primary">Battletag</div>
+        <span> <%= resource.battle_user_name %></span>
+      </div>
+  <% end %>
+  <% if resource.origins_user_name.present? %>
+      <div class="information">
+        <div class="text-primary">Origin ID</div>
+        <span> <%= resource.origins_user_name %></span>
+      </div>
+  <% end %>
+
+	<div class="information topmrg_20">
+		<div class="text-primary">Personality:</div>
+    <div >
+      <%=resource.user_setting.total_personality %>
+      <span class="">
+        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+      </span>
+    </div>
+	</div>
+	<div class="information">
+		<div class="text-primary">Skill: </div>
+    <div >
+      <%=resource.user_setting.total_skill %>
+      <span class="">
+        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+      </span>
+    </div>
+	</div>
+	<div class="information">
+		<div class="text-primary">Respect: </div>
+    <div >
+      <%= resource.user_setting.total_respect %>
+      <span class="">
+        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+      </span>
+    </div>
+	</div>
+
+	<%= link_to "See Reviews", profiles_path + '/' + resource.username + '/feedback', class: 'text-white' %>
+
+  <div class="information topmrg_20">
+    <span class="text-primary">Current Events: </span>
+    <span><%= @grid.try(:count) %></span>
+  </div>
+
+  <div class="information topmrg_20">
+    <span class="text-primary">Systems: </span>
+    <span>
+      <% systems = resource.game_systems.pluck(:abbreviation).uniq %>
+      <%if systems.count == @game_systems_size %>
+        <a tabindex="0" class="text-white cursor_pointer" data-toggle="popover" data-trigger="focus"  data-placement="top" title="All Systems" data-content="<%= systems.join(', ')%>">All Systems</a>
+      <% elsif systems.count > 2 %>
+        <%= systems[0..1].join(', ')%>,
+          <a tabindex="0" class="text-white cursor_pointer" data-toggle="popover" data-trigger="focus"  data-placement="top" title="All Systems" data-content="<%= systems.join(', ')%>">More</a>
+      <% else %>
+        <%= systems.join(', ')%>
+      <% end %>
+    </span>
+  </div>
+  <div class="information">
+   <span class="text-primary">Experience: </span>
+    <span> <%= resource.event_experience  %></span>
+  </div>
+  <div class="information">
+    <span class="text-primary">Cancelation Rate: </span>
+    <span> <%= resource.event_cancellation_rate %>%</span>
+  </div>
+
+
+  <div class="information topmrg_20">
+    <span class="text-primary"> Country: </span>
+    <span> <%= resource.country %></span>
+  </div>
+  <div class="information">
+    <span class="text-primary"> Time Zone: </span>
+    <span> <%= resource.timezone_abbr %></span>
+  </div>
+
+
+  <div class="information topmrg_20">
+    <span class="text-primary"> Most Active Days: </span>
+    <span> <%= resource.most_active_days %></span>
+  </div>
+  <div class="information">
+    <span class="text-primary"> Most Active Time: </span>
+    <span> <%= resource.most_active_time %></span>
+  </div>
+
+
+  <div class="information topmrg_20">
+    <span class="text-primary"> Age: </span>
+    <span> <%= resource.public_age == true ? resource.age : 'n/a' %></span>
+  </div>
+  <div class="information">
+    <span class="text-primary"> Language: </span>
+    <span> <%= resource.language %></span>
+  </div>
+  
+
+  <div class="information topmrg_20">
+    <span class="text-primary"> Play Style: </span>
+    <span> <%= resource.game_style %></span>
+  </div>
+  <div class="information">
+    <span class="text-primary"> Prefer to Play: </span>
+    <span> <%= resource.will_play %></span>
+  </div>
+  <div class="information">
+    <span class="text-primary">Patience: </span>
+    <span> <%= resource.newbie_patience_level %></span>
+  </div>
+</div>

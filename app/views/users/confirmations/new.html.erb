@@ -1,0 +1,32 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+				<div class="devise-block">
+					<h1 class="text-center">Resend Confirmation Instructions</h1>
+					<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+					<%#= devise_error_messages! %>
+           <%if resource.present? && resource.errors.present?%>
+              <ul>
+                <% resource.errors.full_messages.each do |message|%>
+                    <% if message == 'Email was already confirmed, please try signing in'%>
+                        <li>This email has already been confirmed. Please try <%= link_to 'signing in', new_user_session_path%> or reset your password.</li>
+                      <% next %>
+                    <% end %>
+                  <li><%= message%></li>
+                <% end %>
+              </ul>
+            <% end %>
+					<div class="form-group clearfix">
+						<label>Enter your email</label>
+						<%= f.email_field :email, autofocus: true, class: "form-control" %>
+					</div>
+					<div class="form group text-center-md">
+						<%= f.submit "Resend Confirmation", class: "btn btn-primary btn-x" %>
+					</div>
+
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

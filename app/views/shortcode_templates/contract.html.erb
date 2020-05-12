@@ -1,0 +1,109 @@
+<%
+current_user = @attributes[:current_user]
+
+is_email = @attributes[:email]
+resource = Contract.find @attributes[:id]
+resource = Bounty.find resource.id if resource.contract_type == 'Bounty'
+
+
+is_bounty = resource.contract_type == 'Bounty'
+display_user = current_user.id == resource.seller_id ? resource.buyer : resource.seller
+display_user = current_user if display_user.nil?
+profile_url = Rails.application.routes.default_url_options[:host] + (profiles_path() + '/' + display_user.username) if display_user.present?
+posted_at = resource.created_at.strftime "%m/%d/%Y %I:%M%P"
+
+%>
+
+<% if !is_email %>
+	<div class="well">
+		<div class="row">
+			<div class="col-md-5">
+				<% if display_user.present? %>
+					<ul class="mss-list clearfix">
+						<li class="mss">
+							<a href="<%= profile_url %>"><%= image_tag resource.buyer.avatar_url.starts_with?("http") ?  resource.buyer.avatar_url : ActionController::Base.helpers.asset_path(display_user.avatar_url, :digest => Rails.env.production?) %></a>
+							<div class="mss-details">
+								<h4><a href="<%= profile_url %>"><%= display_user.username %></a></h4>
+								<strong>PSA: </strong>
+								<span class="psa-rating-read-only" data-score="<%=  display_user.psa_rating %>"></span>
+								<br />
+								<strong>Experience: </strong><%= display_user.contracts_completed %>
+							</div>
+						</li>
+					</ul>
+				<% end %>
+			</div>
+			<div class="col-md-7">
+				<div>
+					<h4>Contract #<%= resource.id %></h4>
+					<ul class="list-unstyled contract-meta">
+
+						<li class="contract-clock"><%= resource.contract_type %> Posted:
+							<br><%= posted_at %>
+						</li>
+					</ul>
+					<div>
+						<% if resource.selected_game_game_system_join.present? %>
+							<ul class="list-unstyled contract-meta">
+								<li class="contract-game"><%= resource.selected_game_game_system_join.game.title %>&mdash; <%= resource.selected_game_game_system_join.game_system.title %>
+									<%= image_tag resource.selected_game_game_system_join.game.game_cover, :class => "notification-game-cover" %>
+								</li>
+							</ul>
+						<% end %>
+					</div>
+				</div>
+	      <% if resource.contract_type == 'Bounty' %>
+	        <% if display_user == resource.seller || resource.seller.nil? %>
+				     <%= link_to "View All Details", posted_bounty_path(resource) %>
+	         <% else %>
+	           <%= link_to "View All Details", claimed_bounty_path(resource) %>
+	         <% end %>
+	      <% else %>
+	        <% if display_user == resource.buyer || resource.buyer.nil? %>
+	          <%= link_to "View All Details", posted_contract_path(resource) %>
+	        <% else %>
+	          <%= link_to "View All Details", claimed_contract_path(resource) %>
+	        <% end %>
+	      <% end %>
+			</div>
+		</div>
+	</div>
+
+<% else %>
+
+	<p style="margin-top: 0;">
+		<strong>Title:</strong> <%="%s (%s) " % [resource.selected_game_game_system_join.game.title, resource.selected_game_game_system_join.game_system.abbreviation] %><br>
+		<strong>Game Type:</strong> <%= resource.will_play %><br>
+		<strong>Play Type:</strong> <%= resource.play_type %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Start Date:</strong> <%=resource.start_date_time.strftime("%m/%d ") %><br>
+		<strong>Start Time:</strong> <%=resource.start_date_time.strftime("%l:%M%p ") %><br>
+		<strong>Duration:</strong> <%= resource.duration_hours %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Host Name:</strong> <%= resource.buyer.username %><br>
+		<strong>Host Age:</strong> <%= resource.buyer.public_age ? (Time.now.to_s(:number).to_i - resource.owner.date_of_birth.to_time.to_s(:number).to_i)/10e9.to_i : 'n/a' %><br>
+		<strong>Host PSA:</strong> <%= resource.buyer.psa_rating != '' ? resource.owner.psa_rating : 'n/a' %><br>
+		<strong>Host Cancelation Rate:</strong> <%= resource.buyer.cancellation_rate.present? ? "#{resource.buyer.cancellation_rate}%" : 'n/a' %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>GM Name:</strong> <%= resource.seller.username %><br>
+		<strong>GM Age:</strong> <%= resource.seller.public_age ? (Time.now.to_s(:number).to_i - resource.owner.date_of_birth.to_time.to_s(:number).to_i)/10e9.to_i : 'n/a' %><br>
+		<strong>GM PSA:</strong> <%= resource.seller.psa_rating != '' ? resource.owner.psa_rating : 'n/a' %><br>
+		<strong>GM Cancelation Rate:</strong> <%= resource.seller.cancellation_rate.present? ? "#{resource.seller.cancellation_rate}%" : 'n/a' %>
+	</p>
+	<br><br>
+	<p style="margin-top: 0;">
+		<strong>View My Upcoming Events:</strong> <%= link_to URI.escape(events_url), events_url %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Manage Game Notices:</strong>
+	</p>
+	<p style="margin-top: 0;">
+		<small>Note: all times displayed are converted to your local time.  The host listed above should invite the player at the designated start time.  Detailed instructions can be found at <%= link_to URI.escape(how_to_url), how_to_url %>.</small>
+	</p>
+
+
+
+<% end %>

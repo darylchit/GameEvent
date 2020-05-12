@@ -1,0 +1,9 @@
+<% if @games.last_page? %>
+  $('#all_games_add_more').remove();
+<% else %>
+  $('#all_games_add_more').prop('href', '<%= games_games_and_systems_path(page: params[:page].nil? ? 2 : params[:page].to_i + 1)%>')
+<% end %>
+
+<% if @games.count > 0%>
+  $('.profile_all_games').append("<%= j render partial: 'game_card', collection: @games, as: :game %>")
+<% end %>

@@ -1,0 +1,47 @@
+<li class="message-list-item">                     
+    <% if n.has_attribute?(:type) %>
+        <%= link_to(n.type == 'ClanNotice' ? clan_notice_path(n) : system_notice_path(n)) do %>
+            <div class="message-wrapper">   
+                <div class="message-avatar">
+                    <% if n.type == 'ClanNotice' %>
+                        <%= image_tag(n.clan.cover, class: "avatar-xs media-object") %>
+                    <% else %>
+                        <%= image_tag('logo_avatar.png', class: "avatar-xs media-object") %>
+                    <% end %>
+                </div>
+                <div class="message-content">
+                    <div class="clearfix">
+                        <strong><%= n.type == 'ClanNotice' ? 'Clan: ' + n.clan.name : n.type.underscore.humanize.titleize %></strong>
+                        
+                        <span class="pull-right"><%= dynamic_time_format(n.created_at) %></span>
+                    </div>
+                     <p class="text-gray">
+                        <%= n.body.present? ? n.body : "&mdash;".html_safe %>
+                    </p>
+                </div>
+            </div>
+        <% end %>
+    <% else %>
+        <%= link_to(message_path(n)) do %>
+            <div class="message-wrapper">
+                <div class="message-avatar">
+                    <% unless n.originator.present? %>
+                      [deleted]
+                    <% else %>
+                        <%= image_tag(get_recipient(n).avatar_url, :class=> 'avatar-xs') %>  
+                    <% end %>
+                </div>
+                <div class="message-content">
+                    <div class="clearfix">
+                        <strong><%= get_recipient(n).username %></strong>
+                        
+                        <span class="pull-right"><%= dynamic_time_format(n.receipts.last.message.created_at) %></span>
+                    </div>
+                     <p class="text-gray">
+                        <%= (n.receipts.last.message.body.gsub(/\[[^\]]*\]/, '')).present? ? truncate(n.receipts.last.message.body.gsub(/\[[^\]]*\]/, ''), :length => 40) : "&mdash;".html_safe %>
+                    </p>
+                </div>
+            </div>
+        <% end %>
+    <% end %>
+</li>

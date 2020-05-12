@@ -1,0 +1,55 @@
+<% if receipt.message.notified_object.is_a?(Blog) %>
+	<% title = receipt.message.notified_object.title %>
+	<% body = receipt.message.notified_object.value2 %>
+<% elsif receipt.message.notified_object.is_a?(AdminConfig) %>
+		<% admin_config = receipt.message.notified_object %>
+		<% if admin_config.name == 'user_create_email' %>
+			<% title = AdminConfig.user_create_subject.value %>
+			<% body = AdminConfig.user_create_email.value2 %>
+		<% elsif admin_config.name == 'clan_create_email' %>
+			<% title = AdminConfig.clan_create_subject.value %>
+			<% body = AdminConfig.clan_create_email.value2 %>
+		<% end %>
+<% end %>
+
+<div class="row box_border">
+	<%= link_to site_notice_receipt_path(receipt), remote: true do %>
+		<div class="col-sm-2 col-xs-3 receipt_img">
+			<span class="clan_avatar">
+				<%= image_tag('admin-notice.png', class: 'message_avatar') %>
+			</span>
+		</div>
+	<% end %>
+
+	<div class="col-sm-10 col-xs-9 content_text receipt_data">
+		<div class="row">
+			<div class="col-xs-12 pdl5">
+				<%= link_to site_notice_receipt_path(receipt), remote: true do %>
+				<span class="pull-left msg-title">
+					<b>Game Roster Support</b>
+				</span>
+				<% end %>
+				<span class="pull-right msg-text">
+					<%= link_to site_notice_receipt_path(receipt), remote: true do %>
+					<%= receipt.is_read? ? '' : "<i class='fa fa-dot-circle-o message-read-#{receipt.message_id}' id='receipt_read_#{receipt.id}' aria-hidden='true'></i>".html_safe %>
+					<span class="" data-toggle="tooltip" data-placement="top" data-title="<%= receipt.created_at.strftime('%b/%d/%Y - %l:%M%P')%>"> <%= receipt.created_at.present? ? receipt.created_at.strftime('%b-%-d') : "" %></span>
+					<% end %>
+					<span class="hidden-xs"><%= check_box_tag 'checkbox_receipt[]', receipt.id, false, class: 'checkbox_action' %></span>
+				</span>
+			</div>
+
+		</div>
+		<%= link_to site_notice_receipt_path(receipt), remote: true do %>
+			<div class="row msg-text">
+				<div class="col-sm-12 pdl5 ">
+					<%= title %>
+	      </div>
+	      <div class="col-sm-12 wrap2line pdl5">
+	        <span><%= body.try(:html_safe) %> </span>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</div>
+
+<%= render partial: 'message_action_menu_popup', locals: {receipt: receipt} %>

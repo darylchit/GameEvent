@@ -1,0 +1,202 @@
+<div class="about_page ">
+<div class="page-wrapper">
+<div class="lfg-page">
+  <%= image_tag game.game_jumbo, :class=>'form-group'%>
+  <div class="container">
+    <div class="row text-center gold-header-row sec-title">
+
+      <h2 class="text-center hidden-xs "><%= game.title %> LFG </h2>
+      <h3 class="text-center visible-xs"><strong> <%= game.title %> LFG</strong>  </h3>
+    </div>
+    <div class="row mrg_top_50 form-group">
+      <div class="col-lg-6 ">
+        <h3 class="mt0 hidden-xs text-center">Looking For Groups (LFG)</h3>
+        <h3 class="mt0 visible-xs text-center"><strong>Looking For Groups (LFG)</strong></h3>
+        <p data-wow-delay="0.1s" class="wow fadeInUp text-justify" style="font-size: 17px;">
+          Our <%= game.title %> LFG helps you find reliable players and communities based on Skill, Personality, Patience, Cancellation Rates, Experience, Location, Play Style, Activity Level, and lots of other criteria.  Use player preferences to find better LFG posts or join <%= game.title %> clans to build lasting communities that go beyond the limits of any one game.
+        </p>
+        <%= link_to 'View LFG Posts', public_games_path, class: 'col-sm-6  col-sm-offset-3 hidden-xs btn btn-lightgrey text-center wow pulse', data: { 'wow-duration' => '4s', 'wow-iteration' => 100 } %>
+        <%= link_to 'View LFG Posts', public_games_path, class: 'col-lg-4 visible-xs btn-full btn btn-lightgrey text-center wow pulse', data: { 'wow-duration' => '4s', 'wow-iteration' => 100 } %>
+      </div>
+      <br class="visible-xs">
+      <div class="col-lg-6 col-xs-12 form-group">
+        <h3 class="mt0 hidden-xs text-center">Looking For Clans (LFC)</h3>
+        <h3 class="mt0 visible-xs text-center"><strong>Looking For Clans (LFC)</strong></h3>
+        <p style="font-size: 17px;" data-wow-delay="0.4s" class="wow fadeInUp text-justify">Game Roster helps you find, promote, and build stronger gaming communities with clan hosting,  Discord Bots, a clan LFG, recruitment applications, customizable permissions, and many other clan tools.  Find the right clan for you with advanced filters and play within tightly knit communities that share your passion. Join as many clans as you want.</p>
+
+        <%= link_to 'Find Clans', clans_path, class: 'col-sm-6  col-sm-offset-3 hidden-xs btn btn-lightgrey text-center wow pulse', data: { 'wow-duration' => '4s', 'wow-iteration' => 100 } %>
+        <%= link_to 'Find Clans', clans_path, class: 'col-lg-6 visible-xs btn-full btn btn-lightgrey text-center wow pulse', data: { 'wow-duration' => '4s', 'wow-iteration' => 100 } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Call To Action Two-->
+<section class="call-to-action-two destiny-image ">
+	<div class="auto-container how-is-game">
+    	<h2>How Is Game Roster Different?</h2>
+        <br>
+        <p class="text-justify">LFGs and matchmaking are great tools that quickly set you up with other players.  However, they are random encounters and in our opinion games are more fun when played with friends in tightly knit groups.  Our tools help you build communities so you have an endless number of reliable players across all your games. We help you create bonds that carry into new games and reduce your need for any LFG.
+        </p>
+        <br>
+        <% if current_user.present? %>
+          <a href="/clans" class="theme-btn btn-style-three">Join Clans</a>
+        <% else %>
+          <a href="/users/sign_up" class="theme-btn btn-style-three">Sign Up</a>
+        <% end %>
+
+    </div>
+</section>
+<!--End Call To Action Two-->
+</div>
+</div>
+
+<% if false %>
+<section id="about-2" class="about-features" style="padding: 50px 0px;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <h2 class="hidden-xs">Key Features</h2>
+        <h3 class="visible-xs"><strong>Key Features</strong></h3>
+        <p class=" fade fadeInDown wow" data-wow-delay="1s">Something For Everyone</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-users"></i>
+          <h4> Clan Hosting </h4>
+          <p>Build Communities </br>
+            Connect and Organize</p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-simplybuilt"></i>
+          <h4> Discord Bot</h4>
+          <p>Add LFG to Server </br>
+            Shares Clan Events</p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-filter"></i>
+          <h4> Advanced Filters </h4>
+          <p>Find Ideal Players </br>
+            Join the Right Clan </p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-gg-circle"></i>
+          <h4> Community LFG </h4>
+          <p>Build Your Own LFG </br>
+            Get Reliable Players</p>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-comments"></i>
+          <h4> Messaging </h4>
+          <p>Cross Platform </br>
+            Discord | Curse | Slack</p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-check-square"></i>
+          <h4> Recruitment </h4>
+          <p>Post Applications </br>
+            Send Invitations </p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-lock"></i>
+          <h4> Access Codes </h4>
+          <p>Restrict Clan Access</br>
+            Reward Followers</p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-arrow-up"></i>
+          <i class="fa fa-arrow-down"></i>
+          <h4> Custom Ranks </h4>
+          <p>Set Clan Permissions  </br>
+            Limit Member Access</p>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-cogs"></i>
+          <h4> Interactive Rosters </h4>
+          <p>Quickly Organize Games</br>
+            Live Notices & Updates</p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-steam"></i>
+          <h4> Integration </h4>
+          <p>Share Important Links</br>
+            Add Sponsorship Sites</p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-usd"></i>
+          <h4> Support </h4>
+          <p>Collect Donations </br>
+            Optional Annual Dues</p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-twitch"></i>
+          <h4> Videos </h4>
+          <p>Build an Audience </br>
+            Twitch and YouTube</p>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-user-secret"></i>
+          <h4> Private Games </h4>
+          <p>Invite Friends </br>
+            Schedule In Advance</p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-thumbs-up"></i>
+          <h4> Social Sharing </h4>
+          <p>Promote Your Events </br>
+            Grow Your Community </p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-ban"></i>
+          <h4> Player Preferences </h4>
+          <p>Set Requirements  </br>
+            Automatically Block</p>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="features">
+          <i class="fa fa-star-half-o"></i>
+          <h4> Profiles </h4>
+          <p>Stats and Tracking  </br>
+            Ratings and Links</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<% end %>
+<%= render template: 'pages/about_new'%>

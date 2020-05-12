@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <%= link_to 'New Notice', new_system_notice_path, class: 'btn btn-primary pull-right' %>
+    </div>
+    <div class="row">
+        <h1 class="text-center"><%= @header %></h1>
+    </div>
+    <% if @notices.empty? %>
+        <div class="row">
+            <p class="text-center">
+                There are currently no system notices.
+            </p>
+        </div>
+    <% else %>
+        <% @notices.each do |n| %>
+            <div class="row">
+                <h3 class="mt0">
+                    <%= link_to n.title, system_notice_path(n) %>
+                </h3>
+                <p><small><%= short_date_time(n.updated_at) %></small></p>
+                <p>
+                    <%= n.body %>
+                </p>
+                <hr />
+            </div>
+        <% end %>
+    <% end %>
+</div>

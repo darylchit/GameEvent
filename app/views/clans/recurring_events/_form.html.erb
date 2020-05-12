@@ -1,0 +1,112 @@
+<div class="topmrg_20">
+	<% if recurring_event.present? && recurring_event.new_record? %>
+		<div class="recurring_event_display_errors hide">
+			<h4 class="recurring_event_error_count"></h4>
+			<ul class="recurring_event_error_explanation"></ul>
+		</div>
+	<% end %>
+	<%= form_for recurring_event, :url => clan_recurring_events_path(clan), remote: true, html: {id: recurring_event.new_record? ? 'recurring_event_form' : 'recurring_event_list'} do |f| %>
+		<div class="form-group">
+			<%= f.label :title, 'Event Title', class: 'required' %>
+			<%= f.text_field :title, class: 'form-control', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}%>
+		</div>
+	  <div class="row">
+	    <div class="col-md-4 ">
+	      <div class="form-group">
+	        <%= f.label :frequency, 'Frequency', class: 'required' %>
+	        <%= f.select :frequency, RecurringEvent.frequencies.map{|k,v| [k.titleize,k] }, {}, class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+	      </div>
+	    </div>
+			<div class="col-md-4 ">
+				<div class="form-group">
+					<%= f.label :start_time, 'Start Time', class: 'required'%>
+					<% start =  f.object.start_time.present? ? f.object.start_time.strftime("%I:%M %p") : Time.now.strftime("%I:%M %p")%>
+					<%= f.text_field :start_time, value: start , class: 'form-control date-time-picker-time', id: 'recurring_event_start_time', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+				</div>
+			</div>
+			<div class="col-md-4 ">
+				<div class="form-group">
+					<%= f.label :duration, 'Duration' %>
+					<%= f.select :duration, Event::DURATIONS, {}, :class => "form-control event-chosen-select", data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+				</div>
+			</div>
+	  </div>
+
+	  <div class="row">
+			<div class="col-md-4 ">
+	      <div class="form-group">
+	        <%= f.label :game_game_system_join_id, 'Game', class: 'required' %>
+					<% if recurring_event.present? && recurring_event.new_record?  %>
+						<%= f.select :game_game_system_join_id, user_games,{prompt: 'Select A Game'},class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+					<% else %>
+						<%= f.select :game_game_system_join_id, user_games,{prompt: 'Select A Game'},class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}, id: 'game_recurring' %>
+					<% end %>
+	      </div>
+	    </div>
+			<% if recurring_event.present? && recurring_event.new_record? %>
+				<div class="form-group ign-field-recurring-event hide">
+					<%= f.hidden_field :pc_type %>
+				</div>
+			<% end %>
+			<div class="col-md-4 ">
+				<div class="form-group">
+					<%= f.label :game_type, 'Game Type' %>
+					<%= f.select :game_type, User::GAME_TYPE, {}, class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+				</div>
+			</div>
+			<div class="col-md-4 ">
+				<div class="form-group">
+					<%= f.label :play_type, 'Play Type' %>
+					<%= f.select :play_type, User::GAME_STYLE, {}, class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+				</div>
+			</div>
+		</div>
+
+	  <div class="row">
+			<div class="col-md-4 ">
+	      <div class="form-group">
+	        <%= f.label :maximum_size, 'Maximum Roster Size', class: 'required' %>
+					<%= f.number_field :maximum_size, class: 'form-control', min: 2, step: 1, data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+	      </div>
+	    </div>
+			<div class="col-md-4 ">
+	      <div class="form-group">
+					<%= f.label :minimum_age, 'Minimum Age' %>
+					<%= f.select :minimum_age, options_for_select((13..99).map{|v| [v,v]}, selected: recurring_event.minimum_age), { prompt: 'None', :selected => recurring_event.minimum_age}, {:class => 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}} %>
+	      </div>
+	    </div>
+			<div class="col-md-4 ">
+	      <div class="form-group">
+					<%= f.label :maximum_age, 'Maximum Age' %>
+					<%= f.select :maximum_age, options_for_select((13..99).map{|v| [v,v]}, selected: recurring_event.maximum_age), {prompt: 'None', :selected => recurring_event.maximum_age}, {:class => 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}} %>
+	      </div>
+	    </div>
+	  </div>
+
+		<div class="row">
+			<div class="col-md-4 ">
+				<div class="form-group">
+					<%= f.label :always_display, 'Always Display', class: 'required' %>
+					<%= f.select :always_display, RecurringEvent.always_displays.map{|k,v| [k.titleize,k] }, {}, class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+				</div>
+			</div>
+			<div class="col-md-4 ">
+				<div class="form-group">
+					<%= f.label :add_founder, 'Automatically Add Founder To All Events' %>
+					<%= f.select :add_founder, [['Yes', true],['No', false]], {}, class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+				</div>
+			</div>
+			<div class=" col-md-4 ">
+				<div class="form-group">
+				  <label class='hidden-xs'>&nbsp;</label>
+					<% if recurring_event.present? && recurring_event.persisted? %>
+						<%= link_to 'Remove', clan_recurring_event_path(@clan, recurring_event), method: :delete, class: 'btn btn-blue btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Removing..."}%>
+					<% else %>
+			    	<%= f.button "Create".html_safe, class: 'btn btn-lightgrey btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Creating..."} %>
+					<% end %>
+		 		</div>
+		 	</div>
+		</div>
+		<div class="gold-header-row"></div>
+	<% end %>
+</div>

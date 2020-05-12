@@ -1,0 +1,68 @@
+<div class="background-block player_games_page">
+  <div class="container">
+    <div class="">
+      <div class="row text-center">
+        <%= image_tag "game_roster_1.png", :class=> 'logo wow flip '%>
+        <h1 class="strong hidden-xs">GAME LIBRARY</h1>
+        <h2 class="mt8 strong visible-xs">GAME LIBRARY</h2>
+        <div class="col-md-12 col-xs-12 gold_line_3"></div>
+      </div>
+      <% if @new_releases.present? %>
+      <div class="row topmrg_13"></div>
+          <!-- <div class="row topmrg_20"></div> -->
+      <h2>New Releases</h2>
+      <div class="row-fluid">
+        <ul class="mss-list clearfix text-center new_releases">
+          <%= render :partial => "game_card", :collection => @new_releases, :as => :game %>
+        </ul>
+      </div>
+      <div class="row topmrg_20"></div>
+      <div class="row topmrg_20"></div>
+      <hr class="gold_row">
+      <% end %>
+
+      <% if @trending_games.present? %>
+      <div class="row topmrg_13"></div>
+      <h2>Trending</h2>
+          <div class="row-fluid">
+            <ul class="mss-list clearfix text-center trending_games">
+              <%= render :partial => "game_card", :collection => @trending_games, :as => :game %>
+            </ul>
+          </div>
+      <div class="row topmrg_20"></div>
+      <div class="row topmrg_20"></div>
+      <hr class="gold_row">
+      <% end %>
+
+      <% if @my_games.present? %>
+      <div class="row topmrg_13"></div>
+      <h2 class="my_games_header">My Games<small class="hidden-xs">(<%= link_to 'Edit', edit_profile_path%>)</small></h2>
+      <div class="row-fluid">
+        <ul class="mss-list clearfix text-center profile_my_games">
+          <%= render :partial => "game_card", :collection => @my_games, :as => :game %>
+        </ul>
+      </div>
+
+
+      <div class="row visible-xs">
+        <div class="col-md-12">
+          <%= link_to 'Edit', edit_profile_path, class: 'btn-full btn btn-primary pull-right' %>
+        </div>
+      </div>
+
+      <div class="row topmrg_20"></div>
+      <div class="row topmrg_20"></div>
+      <hr class="gold_row">
+      <% end %>
+      <div class="row topmrg_13"></div>
+      <h2>All Games</h2>
+
+      <div class="row-fluid">
+        <ul class="mss-list clearfix text-center profile_all_games">
+          <%= render :partial => "game_card", :collection => @games, :as => :game %>
+        </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>

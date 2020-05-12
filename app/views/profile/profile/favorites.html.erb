@@ -1,0 +1,50 @@
+<div class="background-block content-area favorites">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-sm-6">
+						<h3 class="mt0">Favorites</h3>
+					</div>
+
+				</div>
+
+				<div class="table-responsive">
+					<%= grid(@grid, show_filters: :no, hide_csv_button: true, html: {class: 'table table-responsive favorites-grid admin-games table-striped data-tr'}) do |g|
+
+						g.blank_slate do
+							content_tag :div, 'You have not added any favorites yet', class: 'no-results'
+						end
+
+
+
+						g.column name: '' do | f |
+							link_to "#{profiles_path() + '/' + f.favorited_user.username}" do
+								raw("#{image_tag(f.favorited_user.avatar_url, class: 'media-object avatar-sm')}")
+							end
+						end
+
+						g.column name: 'User' do | f |
+							link_to "#{profiles_path() + '/' + f.favorited_user.username}" do
+								raw("<h4>#{f.favorited_user.username}</h4>")
+							end
+						end
+
+			            g.column name: '', class: 'contract-actions text-right-md' do | f |
+			              capture do
+			                concat link_to 'Message', new_message_path(:recipient_id => resource.id), class: 'btn btn-sm btn-primary message-button'
+			                concat link_to 'Remove', profile_favorite_path(f), :method => 'delete', class: 'btn btn-sm btn-danger', data: { :confirm => "Are you sure you want to remove #{f.favorited_user.username} from your favorites?"}
+			              end
+						end
+
+					end -%>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

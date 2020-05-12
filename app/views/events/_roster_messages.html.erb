@@ -1,0 +1,36 @@
+<div class='row'>
+  <div class= 'col-md-12'>
+    
+     <h3 class="mt0">Roster Chat</h3>
+
+  </div>
+</div>
+
+<% unless @event.roster_messages.empty? %>
+  <ul class="roster-messages messages-list list-unstyled">
+    <% @event.roster_messages.each do |r| %>
+    <li class="message message-self">
+      <div class ='message-container'>
+         <small class='success' style='display:none'>Message Updated.</small>
+         <div class='errors'></div>
+
+          <span class="message-avatar message-self">
+              <a href="<%= profiles_path() + '/' + r.user.username %>"><%= image_tag r.user.avatar_url, :class=>'avatar-sm'%></a>
+          </span>
+          <div class="message-content">
+            <h4><span class="text-primary">From: </span><%=r.user.username%><span class="pull-right"><small>
+              <%=r.created_at.strftime("%m/%d %I:%M%p %Z ") %>&nbsp;
+            </small></span></h4>
+            <div class="message-body">
+              <p>
+                <%=r.message%>
+              </p>
+            </div>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No Messages.</p>
+<% end %>

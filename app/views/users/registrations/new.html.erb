@@ -1,0 +1,78 @@
+<div class="background-block content-area" id='signup'>
+	<%#= video_tag "video1.mp4", autoplay: :autoplay, loop: :loop, mute: :mute, class: "bg-video" %>
+	<div class="container">
+		<div class="row-fluid topmrg_20">
+			<div class="col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 box">
+        <div class="row"><h1 class="text-center text-primary set_box_header">Sign Up</h1></div>
+				<div class="devise-block">
+
+          <%= form_for(resource, url: registration_path(resource_name), remote: true, html: {id: 'user_sign_up'}) do |f| %>
+
+					<% if resource.errors.any? %>
+						<div class="error-list">
+						  <ul>
+						  <% resource.errors.full_messages.each do |message| %>
+							<li><%= message %></li>
+						  <% end %>
+						  </ul>
+						</div>
+					<% end %>
+					<div>
+            <div class="form-group topmrg_20">
+              <%= f.text_field :username, hide_label: :true, class: 'form-control', :placeholder=>"Username", 'data-validation' => '[NOTEMPTY,MIXED,L>=4, L<=32]', 'data-validation-message' => 'Username must be 4 to 32 characters long and contain only lowercase characters, uppercase characters, numbers, dashes, and underscores.'  %>
+            </div>
+            <small class="help-block">Choose Wisely...This Cannot Be Changed.</small>
+
+            <div class="form-group " data-validation="required">
+              <%= f.email_field :email, autofocus: false, hide_label: :true, class: 'form-control', :placeholder=>"Email", 'data-validation' => '[EMAIL]', 'data-validation-message' => "Email Is Not Valid." %>
+            </div>
+            <div class="form-group">
+              <%= f.email_field :email_confirmation, hide_label: true, class: 'form-control', :placeholder=>'Confirm Email', 'data-validation' => '[V==user[email]]', 'data-validation-message' => "Email Confirmation Does Not Match." %>
+            </div>
+
+
+            <div class="form-group ">
+              <%= f.password_field :password, hide_label: :true, class: 'form-control', :placeholder=>"Password (8 to 32 Characters)", 'data-validation' => '[L>=8, L<=32]', 'data-validation-message' => "Password Must Be 8 to 32 Characters."  %>
+            </div>
+            <div class="form-group">
+              <%#= f.number_field :age, hide_label: :true, class: 'form-control', :placeholder=>"Age", 'data-validation' => '[NOTEMPTY,INTEGER]', 'data-validation-message' => "You Must Be At Least 13 To Use This Service.", min: 13, max: 99  %>
+              <%= f.select :age, options_for_select((13..115).map{|v| [v,v]}, resource.age), { prompt: 'Age'}, {:class => 'form-control', 'data-validation' => '[NOTEMPTY]', 'data-validation-message' => "Required" } %>
+            </div>
+
+              <div class="checkbox text-center">
+                <label for="termsAgreed">
+                <input id="termsAgreed" name="signup_v2[agree]" data-validation="[NOTEMPTY]" data-validation-message="You must read and agree to the Terms of Use before you can Sign Up." type="checkbox">
+                I Agree With the  <%= link_to 'Terms of Service', '#', data: { toggle: "modal", target: "#tos_popup"}%>
+                </label>
+              </div>
+
+            <div class="row set_margin">
+              <div class="col-md-12 text-center set_margin topmrg_20">
+                  <%#= button_tag '',               class: '', , data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Saving..."} %>
+									<%= f.submit "Sign Up".html_safe, class: 'btn btn-lightgrey btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Sign Up"}, id: 'sign_up_btn_div' %>
+              </div>
+            </div>
+            <div class="text-center set_margin">Have an Account? <%= link_to "Log In", new_user_session_path %> </div>
+					 </div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%= render 'tos_popup' %>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		// pr0m0
+		if(window.location.hash) {
+			var hashLink = btoa((window.location.hash).substring(1));
+
+			if (hashLink == 'ZnJlZTJwbGF5') {
+				$('#promotional_code').val(atob(hashLink));
+			}
+		}
+
+	});
+</script>

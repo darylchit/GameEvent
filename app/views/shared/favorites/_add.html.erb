@@ -1,0 +1,4 @@
+<%= form_for Favorite.new, url: profile_favorites_path, remote: true do |f| %>
+	<%= f.hidden_field :favorited_user_id, value: player.id %>
+	<button type="submit" class="btn-link">Add Favorite</button>
+<% end %>

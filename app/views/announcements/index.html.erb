@@ -1,0 +1,23 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="devise-block">
+					<h2 class="mt0 text-center">Announcements</h2>
+	                <% if current_announcement.exists? %>
+	                 	<p class="lead"><%= current_announcement.body.html_safe %></p>
+	                <% else %>
+	                   <p class="lead">Stay Tuned</p>
+	                <% end %>
+	                <div class="row">
+						<div class="col-md-6 col-md-offset-3">
+			                <div class="form-group">
+			                	<%= link_to 'CONTINUE', announcements_read_path, :method => 'post', :class=> 'btn btn-primary btn-block' %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

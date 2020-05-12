@@ -1,0 +1,26 @@
+<div class="modal fade" id="discord_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-medium">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title text-center" id="myModalLabel"> Invite your Discord™ server to join Event</h4>
+      </div>
+      <div class="modal-body contract-details text-center">
+
+        <%= form_tag(discord_game_roster_path(params[:id]), method: 'put', remote: true) do %>
+            <% @channels.each do |channel| %>
+              <div class="checkbox">
+                <label>
+                  <%= check_box_tag "channels[]", channel  %> <%= channel %>
+                </label>
+              </div>
+
+            <% end %>
+            <%= hidden_field_tag :url, "#{Rails.application.routes.default_url_options[:host] || "https://www.gameroster.com"}#{get_event_show_path(@event)}"%>
+            <%= button_tag 'Send Invite', class: 'btn btn-primary',  data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Send Invite"} %>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>

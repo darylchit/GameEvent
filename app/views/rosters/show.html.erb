@@ -1,0 +1,29 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+		    <%= render 'layouts/flash' %>
+                        <% if @roster.status == 'Cancelled' %>
+                            <%= render 'shared/cancelled', event: resource, new_path: new_roster_path %>
+                        <% end %>
+	            <%= render 'roster_info', roster: resource, show_sharing: true %>
+
+	        <br>
+
+	        <%= render 'roster_actions.html.erb' %>
+	        <br>
+
+			<ul class="nav nav-tabs nav-tabs-gray" role="tablist">
+			    <li role="presentation" class="active"><a href="#roster-users" aria-controls="home" role="tab" data-toggle="tab">Game Roster <span class="hidden-xs badge <%= resource.confirmed_users_count >= resource.max_roster_size ? "badge-danger" : "badge-success" %>"><%= @roster.confirmed_users_count %> / <%= resource.max_roster_size %></span></a></li>
+			    <li role="presentation" class=""><a href="#roster-messages" aria-controls="profile" role="tab" data-toggle="tab">Roster Chat <span class="hidden-xs badge"><%= @roster.roster_messages.count %></span></a></li>
+			</ul>
+
+
+			<div class="tab-content container-box">
+				<div role="tabpanel" class="tab-pane fade in active" id="roster-users"><%= render 'users.html.erb' %></div>
+				<div role="tabpanel" class="tab-pane fade" id="roster-messages"><%= render 'roster_message_board.html.erb'%></div>
+			</div>
+
+		</div>
+	</div>
+</div>
+

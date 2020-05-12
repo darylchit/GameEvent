@@ -1,0 +1,6 @@
+$("#upcoming_clan_event_desktop").append("<%= escape_javascript render(:partial => '/my_clans/upcoming_clan_event', :collection => @events.offset(@offset).limit(3), as: :event, locals: {invitation: false}) %>");
+$("#upcoming_clan_event_mobile").append("<%= escape_javascript render(:partial => '/my_clans/upcoming_clan_event_mobile', :collection => @events.offset(@offset).limit(3), as: :event, locals: {invitation: false}) %>");
+$(".view_more_events").attr("href", "/my_clans/get_upcoming_events?offset=<%=@offset_add%>&total_events=<%=@total%>");
+<%if @show_button %>
+	$(".view_more_events").hide();
+<% end %>

@@ -1,0 +1,7 @@
+
+<% if @subscription.nil? %>
+ $('.group-subscription-error').html('Plese check your card details.');
+<% elsif @subscription.persisted? %>
+  $('#new_subscription_modal').modal('hide');
+  location.reload();
+<% end %>

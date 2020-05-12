@@ -1,0 +1,23 @@
+<% if @blocked_members.present? %>
+  <div class="contract-details blocked_clan_members_table">
+    <table class="table table-hover pending_application_desktop blocked_clan_members sortable" id="blocked_clan_members_desktop">
+      <thead></thead>
+       <%= render  partial: 'clans/clans/blocked_clan_members_row', collection: @blocked_members.limit(@set_offset), as: :clan_member %>
+    </table>
+    <% blocked_members_count = @blocked_members.count %>
+    <% if blocked_members_count >= @set_offset %>
+       <%= link_to 'View More', get_blocked_clan_members_clan_path(@clan, offset: @set_offset, total_blocked: blocked_members_count), remote: true, class: 'btn btn-primary set_view_more_btn hidden-xs', id: "view_more_blocked_users", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> View More"}  %>
+    <% end %>
+    <div class="pending_application_mobile blocked_clan_members set_banned_users_tbl_mrg" id="blocked_clan_members_mobile">
+      <%= render  partial: 'clans/clans/blocked_clan_members_mobile', collection: @blocked_members.limit(@set_offset), as: :clan_member %>
+    </div>
+    <% if blocked_members_count >= @set_offset %>
+      <%= link_to 'View More', get_blocked_clan_members_clan_path(@clan, offset: @set_offset, total_blocked: blocked_members_count), remote: true, class: 'btn btn-primary btn-full visible-xs set_mrg_tbl_application', id: "view_more_blocked_users_mobile", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> View More"}  %>
+    <% end %>
+</div>
+<% else %>
+  <div class="row">
+    <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+    <h3 class="text-center">No Banned Users</h3>
+  </div>
+<% end %>

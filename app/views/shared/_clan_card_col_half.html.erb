@@ -1,0 +1,80 @@
+<li class=" col-half  card-wrapper player-card p-x-0-xs set_grey_border_card wow fadeInUp ">
+  <%= link_to clan_path(clan.slug) do %>
+      <div class="cover-details text-gray">
+        <div>	<!-- <div> class="card-wrapper" -->
+          <h4 class="font_color_white clans_set_font_size_name" align="center" ><%= clan.name %></h4>
+          <h5 class="clans_set_font_size_motto" align="center">"<%= clan.motto %>"</h5>
+        </div>
+      </div>
+      <div class="event-cover set_image_animation_box">
+        <div class="clans_cover_bg set_image_animation">
+          <%= image_tag(clan_mobile_jumbo_url(clan)) %>
+          <div class="set_absolute active_games text-center mb5">
+            <div class="col-xs-12 text-center mb5 mt5">
+              <span class="black-color bold">Activity Level: </span><br>
+              <small class="text-center information_star small-psa-star">
+
+                <% activity_level = clan.calcuate_activity_level_rating%>
+                <% if activity_level > 0%>
+                    <% clan.calcuate_activity_level_rating.times do |i| %>
+                        <i class="fa fa-star text-lightgrey" aria-hidden="true"></i>
+                        <%#= image_tag('star-off.png')%>
+                    <% end %>
+                <% else %>
+                    <span class="black-color">TBD </span>
+                <% end %>
+                
+
+              </small>
+            </div>
+            <div class="col-xs-12 black-color">
+						<span class="bold">
+							Active Games
+						</span>
+            </div>
+            <% clan.games.each do |game| %>
+                <div class="col-xs-12">
+							<span class="black-color">
+								<span class="title_wrap" style="font-size: 10px;"><%= game.title %></span>
+							</span>
+                </div>
+            <% end %>
+  					</div>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="card-pad">
+          <div class="row">
+            <div class="col-xs-6">
+              <p class="text-gray">
+                <strong class="text-primary">Members:</strong> <%= clan.clan_members.count %>
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Average Age:</strong> <%= clan.calculate_average_age %>
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Minimum Age:</strong> <%= clan.minimum_age.present? ? clan.minimum_age : 'N/A' %>
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Events:</strong> <%= clan.events.upcoming_events.count %>
+              </p>
+            </div>
+            <div class="col-xs-6">
+              <p class="text-gray">
+                <strong class="text-primary">Status:</strong><span class="" data-toggle="tooltip" placement="top" title="<%= clan.status.titleize%>" > <%= clan.status.titleize %>
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Active Times:</strong> <%= clan.most_active.present? ? clan.most_active : 'N/A' %>
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Active Days:</strong> <%= clan.most_active_days.present? ? clan.most_active_days : 'N/A' %>
+              </p>
+              <p class="text-gray">
+                <strong class="text-primary">Systems:</strong> <%= clan.top_3_systems.any? ? clan_pop_systems_truncated(clan) : 'N/A' %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</li>

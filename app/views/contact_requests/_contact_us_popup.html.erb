@@ -1,0 +1,48 @@
+<div class="modal fade mrg_top_50" id="contact_us_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-medium">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Contact Us</h4>
+      </div>
+      <%= form_tag('/contact', remote: true, id: 'contact_us_id') do |f| %>
+        <div class="modal-body contract-details" id="contact_us_body">
+        	<div class="form-group">
+            <%= label_tag :name, 'User Name: ' %>
+            <% if current_user.present? %>
+            	<%= current_user.name %>
+            <% else %>
+          		<%= text_field_tag :name, nil, class: "form-control", 'data-validation'=> '[NOTEMPTY]', 'data-validation-message' => 'User Name is Required.' %>
+          	<% end %>
+          </div>
+          <div class="form-group">
+          	<%= label_tag :email, 'My Email Address: ' %>
+            <% if current_user.present? %>
+                <%= current_user.email %>
+            <% else %>
+              <%= text_field_tag :email, nil, class: "form-control", 'data-validation' => '[NOTEMPTY, EMAIL]', 'data-validation-message' => 'Email is Required.' %>
+          	<% end %>
+          </div>
+        	<div class="form-group">
+            <%= label_tag :contact_type, 'Contact Type: ' %>
+          	<%= select_tag :contact_type, options_for_select([ "Suggestions", "Technical Help","Request New Game Titles", "Report Clan", "Report Player", "Other" ], "Suggestions"), class: "form-control" %>
+          </div>
+
+          <div class="form-group">
+          	<%= label_tag :message, 'Contact Message: ' %>
+          	<%= text_area_tag :message, nil, class: "form-control", 'data-validation' => '[NOTEMPTY]', 'data-validation-message' => 'Message is Required.' %>
+          </div>
+
+        	<div class="row">
+      			<div class="col-sm-3 col-sm-offset-3 col-xs-12 ">
+      				<%= submit_tag 'Submit', class: 'btn btn-primary btn-full' %>
+        		</div>
+        		<div class="col-sm-3 col-xs-12">
+        			<button type="button" class="btn btn-primary btn-full" data-dismiss="modal" aria-label="Close">Cancel</button>
+        		</div>
+        	</div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

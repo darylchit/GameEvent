@@ -1,0 +1,21 @@
+<% if @clan.open? %>
+	$('#ajax_tab').html("<%= j render(:partial => 'clans/clans/join_clan_tab')%>");
+<% elsif @clan.recruiting?%>
+	$('#ajax_tab').html("<%= j render(:partial => 'clans/clans/apply_clan_tab')%>");
+<% elsif @clan.closed?%>
+	$('#ajax_tab').html("<%= j render(:partial => 'clans/clans/closed_clan_tab')%>");
+<% elsif @clan.restricted?%>
+	$('#ajax_tab').html("<%= j render(:partial => 'clans/clans/restricted_join_tab')%>");
+<% end %>
+$("#clan-members").html("<%= j render :partial => '/clans/clans/members' %>");
+
+toastr.options = {
+    "closeButton": true,
+    "timeOut": "7000",
+    "extendedTimeOut": "0",
+    "positionClass": "toast-top-center"
+};
+toastr.success('You Are No Longer A Member of <%= @clan.name %>.');
+setTimeout(function(){
+	location.reload();
+},6000);

@@ -1,0 +1,59 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+
+			<div class="col-md-9">
+        <h3 class="mt0">Subscription</h3>
+        <%= render 'layouts/flash' %>
+        <div class="container-box">
+          <% if current_user.active_subscription.present? %>
+             Your subscription will renew on <%= short_date current_user.active_subscription.ends_on %>
+          <% else %>
+            <% if resource.trial_expiration.present? %>
+              <% if resource.has_subscription_expired? %>
+                Your trial expired on <%= short_date resource.trial_expiration %>
+              <% else %>
+                Your trial will expire on <%= short_date resource.trial_expiration %>
+              <% end %>
+            <% else %>
+              You have a lifetime free membership
+            <% end %>
+          <% end %>
+					<% if current_user.active_ios_subscription.present? %>
+						<br /><br />
+						Your mobile app subscription will renew on <%= short_date current_user.active_ios_subscription.ends_on %>.
+					<% end %>
+        </div>
+
+        <% if !current_user.active_subscription.present? %>
+        	<br>
+          <p class="lead text-justify">Upgrade your account with a premium subscription for $0.99/month or $4.99/year to host a clan, collect donations, and upload a custom avatar on the website*.</p>
+					<p class="lead text-justify small"><small>* Note: Due to restrictions set by Apple, a separate subscription is required to access these features in the iOS mobile application.</small></p>
+        <% end %>
+
+        <div class="row">
+
+          <% @subscription_plans.active.each do | sub | %>
+            <div class="col-sm-6">
+              <div class="pricingBloc text-center">
+                <h2><%= sub.name %></h2>
+                <h3 class="mt0">$<%= sub.price %> per <%= sub.monthly? ? "month" : "year"%></h3>
+                <p>
+                <% unless current_user.has_subscription?(sub) %>
+                  <%= link_to "Subscribe", new_subscription_plan_subscription_path(sub), class: "btn btn-primary btn-xl" unless current_user.active_subscription %>
+                <% else %>
+                  <%= link_to "Cancel", current_user.active_subscription, method: :delete, data: { confirm: "Are you sure?" },  class: "btn btn-danger btn-xl" %>
+                <% end %>
+                </p>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+	    </div>
+    </div>
+  </div>
+</div>

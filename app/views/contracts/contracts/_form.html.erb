@@ -1,0 +1,268 @@
+
+		<%= form_tag contracts_path, method: 'get', html: {role: "form"}, class: "wice_grid_form" do %>
+		<div class="row">
+			<div class="col-md-4">
+			    <div class="form-group">
+			        <label>Title</label>
+					<%= grid_filter @contracts_grid, :game_filter %>
+			    </div>
+			</div>
+			<div class="col-md-4">
+			    <div class="form-group">
+			        <label>System</label>
+			        <div class="chosen99">
+						<%= grid_filter @contracts_grid, :game_system_filter %>
+					</div>
+			    </div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label>Game Type</label>
+					<%= grid_filter @contracts_grid, :will_play_filter %>
+				</div>
+			</div>
+		</div>
+
+		<div class="collapse" id="filterBounty">
+
+			<div class="container-box">
+				<div class="hidden-lg hidden-md clearfix">
+					<a class="close" data-toggle="collapse" href="#filterBounty" aria-expanded="false" aria-controls="filterBounty" tabindex="-1">x</a>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<h3 class="mt0">Event</h3>
+
+						<div class="form-group">
+								<label>Donation</label>
+								<input type="hidden" name="grid[f][price_in_cents][fr]" value="<%= keys_present?(params, :grid, :f, :price_in_cents, :fr) ? params[:grid][:f][:price_in_cents][:fr] : '' %>" />
+								<input type="hidden" name="grid[f][price_in_cents][to]" value="<%= keys_present?(params, :grid, :f, :price_in_cents, :to) ? params[:grid][:f][:price_in_cents][:to] : '' %>" />
+								<div>
+									<div class="btn-group" data-toggle="buttons-radio">
+										<%
+											ctype = if keys_present?(params, :grid, :f, :price_in_cents, :fr) && params[:grid][:f][:price_in_cents][:fr].to_i == 0
+												'free'
+											elsif keys_present?(params, :grid, :f, :price_in_cents, :fr) && params[:grid][:f][:price_in_cents][:fr].to_i > 0
+												'paid'
+											else
+												''
+											end
+										%>
+										<% if current_user.can_create_paid_contracts? %>
+											<button type="button" class="btn btn-primary contract-type <%= 'active' if ctype == 'paid' %>" data-contract-type="paid" <%= 'aria-pressed="true"' if ctype == 'paid' %>>Yes</button>
+						            		<button type="button" class="btn btn-primary contract-type <%= 'active' if ctype == 'free' %>" data-contract-type="free" <%= 'aria-pressed="true"' if ctype == 'free' %>>No</button>
+						            	<% else %>
+											<button type="button" class="btn btn-primary contract-type <%= 'active' if ctype == 'free' || !current_user.can_create_paid_contracts? %>" <%= 'disabled' if !current_user.can_create_paid_contracts? %> data-contract-type="free" <%= 'aria-pressed="true"' if ctype == 'free' %>>No</button>
+						            	<% end %>
+				          			</div>
+								</div>
+							</div>
+
+						<div class="panel-group panel-group-clear" id="accordion1" role="tablist" aria-multiselectable="true">
+
+							<div class="panel panel-clear">
+								<div class="panel-heading" role="tab" id="headingDates">
+									<h4 class="panel-title">
+										<a class="collapsed" data-toggle="collapse" href="#collapseDates" aria-expanded="true" aria-controls="collapseDates">
+											Date
+										</a>
+									</h4>
+								</div>
+								<div id="collapseDates" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDates">
+									<div class="panel-body">
+										<div class="form-group">
+											<%= grid_filter @contracts_grid, :date_filter %>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="panel panel-clear">
+								<div class="panel-heading" role="tab" id="headingLength">
+									<h4 class="panel-title">
+										<a class="collapsed" data-toggle="collapse" href="#collapseLength" aria-expanded="false" aria-controls="collapseLength">
+											Length
+										</a>
+									</h4>
+								</div>
+								<div id="collapseLength" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingLength">
+									<div class="panel-body">
+										<%= grid_filter @contracts_grid, :length_filter %>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-clear">
+								<div class="panel-heading" role="tab" id="headingPlayType">
+									<h4 class="panel-title">
+										<a class="collapsed" data-toggle="collapse" href="#collapsePlayType" aria-expanded="false" aria-controls="collapsePlayType">
+											Play Type
+										</a>
+									</h4>
+								</div>
+								<div id="collapsePlayType" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPlayType">
+									<div class="panel-body">
+										<%= grid_filter @contracts_grid, :play_type_filter %>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-clear">
+								<div class="panel-heading" role="tab" id="headingDesc">
+									<h4 class="panel-title">
+										<a class="collapsed" data-toggle="collapse" href="#collapseDesc" aria-expanded="false" aria-controls="collapseDesc">
+											Description Search
+										</a>
+									</h4>
+								</div>
+								<div id="collapseDesc" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingDesc">
+									<div class="panel-body">
+										<%= grid_filter @contracts_grid, :details_filter %>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<h3 class="mt0">Mercenary</h3>
+
+						<div class="panel-group panel-group-clear" id="accordion" role="tablist" aria-multiselectable="true">
+							<div class="panel panel-clear">
+								<div class="panel-heading" role="tab" id="headingUser">
+									<h4 class="panel-title">
+										<a class="collapsed" data-toggle="collapse" href="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
+											User Search
+										</a>
+									</h4>
+								</div>
+								<div id="collapseUser" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingUser">
+									<div class="panel-body">
+										<%= grid_filter @contracts_grid, :user_filter %>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-clear">
+								<div class="panel panel-clear">
+									<div class="panel-heading" role="tab" id="headingNewb">
+										<h4 class="panel-title">
+											<a class="collapsed" data-toggle="collapse" href="#collapseNewb" aria-expanded="true" aria-controls="collapseNewb">
+												Patience
+											</a>
+										</h4>
+									</div>
+									<div id="collapseNewb" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNewb">
+										<div class="panel-body">
+											<%= grid_filter @contracts_grid, :newb_patience_filter %>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel panel-clear">
+									<div class="panel-heading" role="tab" id="headingContracts">
+										<h4 class="panel-title">
+											<a class="collapsed" data-toggle="collapse" href="#collapseContracts" aria-expanded="true" aria-controls="collapseContracts">
+												Experience
+											</a>
+										</h4>
+									</div>
+									<div id="collapseContracts" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingContracts">
+										<div class="panel-body">
+											<div class="form-group">
+												<label>Minimum Experience</label>
+												<%= grid_filter @contracts_grid, :contracts_completed_filter %>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="panel panel-clear">
+									<div class="panel-heading" role="tab" id="headingAge">
+										<h4 class="panel-title">
+											<a class="collapsed" data-toggle="collapse" href="#collapseAge" aria-expanded="true" aria-controls="collapseAge">
+												Age
+											</a>
+										</h4>
+									</div>
+									<div id="collapseAge" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingAge">
+										<div class="panel-body">
+											<div class="form-group">
+												<label>Age Range</label>
+												<%= grid_filter @contracts_grid, :player_age_filter %>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+								<% if true %>
+									<div class="panel panel-clear">
+										<div class="panel-heading" role="tab" id="headingRatings">
+											<h4 class="panel-title">
+												<a class="collapsed" data-toggle="collapse" href="#collapseRatings" aria-expanded="true" aria-controls="collapseContracts">
+													Ratings
+												</a>
+											</h4>
+										</div>
+										<div id="collapseRatings" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingRatings">
+											<div class="panel-body">
+												<div class="form-group">
+													<label>Minimum Generosity Rating</label><br>
+													<span class="psa-rating" data-score="1"></span>
+													<div class="hidden">
+														<%= grid_filter @contracts_grid, :generosity_filter %>
+													</div>
+												</div>
+												<div class="form-group">
+													<label>Minimum Personality Rating</label><br>
+													<span class="psa-rating" data-score="1"></span>
+													<div class="hidden">
+														<%= grid_filter @contracts_grid, :personality_filter %>
+													</div>
+												</div>
+												<div class="form-group">
+													<label>Minimum Skill Rating</label><br>
+													<span class="psa-rating" data-score="1"></span>
+													<div class="hidden">
+														<%= grid_filter @contracts_grid, :skill_filter %>
+													</div>
+												</div>
+												<div class="form-group">
+													<label>Minimum Approval Rating</label><br>
+													<span class="psa-rating" data-score="1"></span>
+													<div class="hidden">
+														<%= grid_filter @contracts_grid, :approval_filter %>
+													</div>
+												</div>
+												<div class="form-group">
+													<label>Minimum PSA Rating</label><br>
+													<span class="psa-rating" data-score=""></span>
+													<div class="hidden">
+														<%= grid_filter @contracts_grid, :psa_filter %>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								<% end %>
+							</div>
+						</div>
+
+						<hr>
+						<div class="row">
+							<div class="col-md-6">
+								<%= link_to "Reset", contracts_path, class: "btn btn-danger btn-block" %>
+							</div>
+							<div class="col-md-6">
+								<button class="btn btn-primary btn-block wg-external-submit-button" data-grid-name="grid">Submit</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<br>
+			<% end %>
+		</div>
+
+<div class="tablesaw-bar mode-columntoggle util-bar"></div>

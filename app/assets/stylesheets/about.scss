@@ -1,0 +1,58 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require jquery.datetimepicker
+ */
+
+
+// Vendor (With variable override for bootstrap)
+@import "custom/_variables";
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "compass";
+
+@import "custom/_mixins.scss";
+@import "vendor/font-awesome/font-awesome";
+@import "vendor/bootstrap-slider.min";
+@import "vendor/chosen/bootstrap-chosen-variables";
+@import "vendor/chosen/chosen";
+@import "vendor/fullcalendar";
+@import "vendor/tablesaw.bare";
+@import "vendor/simple-toggle";
+@import "vendor/toastr.min";
+@import "vendor/mobiscroll.custom-3.2.4.min";
+
+@import 'vendor/revolution/jquery-ui';
+@import 'vendor/revolution/jquery.fancybox';
+@import 'vendor/revolution/owl';
+@import 'vendor/revolution/ionicons';
+@import 'vendor/revolution/elegend-icons-style';
+
+@import "vendor/revolution/navigation";
+@import "vendor/revolution/animate";
+@import "vendor/revolution/features";
+@import "vendor/revolution/font-awesome";
+@import "vendor/revolution/layers";
+@import "vendor/revolution/settings";
+@import "vendor/revolution/style";
+@import "vendor/revolution/responsive";
+
+// Game Mercenaries
+@import "custom/_globals";
+@import "custom/_mixins";
+@import "custom/_typography";
+
+@import "custom/_side-nav";
+@import "custom/_slidenav";
+@import "custom/_top-nav";
+@import "custom/_footer";

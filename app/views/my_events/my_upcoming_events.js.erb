@@ -1,0 +1,7 @@
+$('#upcoming_events_desktop').append("<%= escape_javascript render(:partial => 'event_list_desktop', :collection => upcoming_events, as: :event, locals: { invitation: false })%>");
+$('#upcoming_events_mobile').append("<%= escape_javascript render(:partial => 'invitation_list_mobile', :collection => upcoming_events, as: :event, locals: { invitation: false })%>");
+<% if upcoming_events.last_page? %>
+  $('.upcoming_events_load_more_link').remove();
+<% else %>
+  $('.upcoming_events_load_more_link').attr("href",  "/my_events/my_upcoming_events?page=<%=(params[:page].to_i + 1)%>")
+<% end %>

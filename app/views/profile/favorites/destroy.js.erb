@@ -1,0 +1,9 @@
+if($('.player_profile_edit_page').length > 0){
+  <% if @total_favorites < 1%>
+    $('.favorite_user').html("<%= escape_javascript render(:partial => 'profile/profile/no_favorites') %>");
+  <% else %>
+    $('.favorite'+ '<%= @favorite.id%>').remove();
+  <% end %>
+}else{
+  location.reload();
+}

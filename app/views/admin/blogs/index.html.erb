@@ -1,0 +1,37 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+        <div class="col-md-3">
+  				<%= render "layouts/adminnav" %>
+  			</div>
+        <div class="col-md-9">
+  				<div class="row">
+            <div class="col-md-6">
+              <h2 class="mt0">Notices</h2>
+            </div>
+            <div class="col-md-6">
+            	<%= link_to 'Add Notice', new_admin_blog_path, class: "btn btn-primary pull-right-md" %>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <%= grid(blogs_grid, show_filters: :no, hide_csv_button: true, html: {class: 'table table-responsive admin-game table-striped data-tr'}) do |g|
+							g.column name: 'ID' do |f|
+								link_to f.id, edit_admin_blog_path(f)
+							end
+							g.column name: 'Publish' do |f|
+								link_to f.published? ? "Published" : "Pending", edit_admin_blog_path(f)
+							end
+							g.column name: 'Send To' do |f|
+								link_to f.blog_type.titleize, edit_admin_blog_path(f)
+							end
+							g.column name: 'title' do | f |
+								link_to f.title.try(:html_safe), edit_admin_blog_path(f)
+							end
+						end -%>
+					</div>
+  			</div>
+  		</div>
+  	</div>
+  </div>
+</div>

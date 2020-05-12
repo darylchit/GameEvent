@@ -1,0 +1,4 @@
+<%if @channels.present? %>
+  $('#social_model').html("<%= j render 'discor_channels' %>");
+  $('#discord_modal').modal()
+<% end %>

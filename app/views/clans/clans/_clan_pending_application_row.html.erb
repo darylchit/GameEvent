@@ -1,0 +1,60 @@
+<tr class="app-<%= application.id %> ">
+  <td class="col-md-2">
+    <%= link_to player_path(application.user) do %>
+      <%= image_tag application.user.avatar_url, :class=> 'avatar-md' %>
+    <% end %>
+  </td>
+  <td><span><%= application.user.username %></span></td>
+
+  <td>
+    <span class="text-primary">PSR: </span>
+
+     <span class="psr_thump_up gray_font">
+                  <%= application.user.user_setting.total_psr %>
+       <!--<i class="fa fa-circle-thin circle-main" aria-hidden="true"></i>-->
+                  <i class="fa fa-thumbs-up thump-pos1" aria-hidden="true"></i>
+     </span>
+
+  </td>
+
+  <td>
+    <span class="text-primary">Exp: </span>
+    <span class="gray_font">
+      <%= application.user.event_experience %>
+    </span>
+  </td>
+  <td>
+    <span class="text-primary">CR: </span>
+    <span class="gray_font">
+      <%= application.user.event_cancellation_rate %>%
+    </span>
+  </td>
+  <td>
+    <span class="text-primary">Age: </span>
+    <span class="gray_font">
+      <%= application.user.public_age ? application.user.age : 'N/A' %>
+    </span> 
+  </td>
+
+  <td>
+    <span class="text-primary">Applied: </span>
+    <span class="gray_font">
+      <%= application.created_at.strftime('%m/%d/%y') %>
+    </span>
+  </td>
+
+  <td class="col-sm-1"><%= link_to 'Accept', accept_clan_clan_application_path(@clan, application), method: 'patch', remote: true, class: 'btn btn-lightgrey  btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Accept"}  %></td>
+  <td class="col-sm-1"><button class="btn btn-lightgrey btn-full" data-toggle="collapse" data-target="#view_application_<%= application.id%>">View</button></td>
+  <td class="col-sm-1"><%= link_to 'Reject', clan_clan_application_path(@clan, application), method: 'delete', remote: true, class: 'btn btn-lightgrey btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Reject"}  %></td>
+  
+</tr>
+<tr id="view_application_<%= application.id %>" class="collapse">
+  <td colspan="12">
+    <% application.answers.each do |answer| %>
+      <div class="set_alignment_pending_app_text mrg_top_10">
+        <div class='text-primary'><%= answer.question.name %></div>
+        <div class="text_justify"><%= answer.answer %></div>
+      </div>
+    <% end %>
+  </td>
+</tr>

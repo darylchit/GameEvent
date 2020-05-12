@@ -1,0 +1,47 @@
+<% if current_user && @clan.member(current_user) %>
+  <% if @clan.is_host?(current_user) || @clan.member(current_user) %>
+    <div class="row botmrg_15">
+      <div class="col-sm-4 col-sm-offset-4 col-xs-12 separate">
+          <% if @clan.is_host?(current_user) || @clan.can_perform?(current_user, :post_to_events) || ( @clan_member && @clan_member.clan_rank && @clan_member.clan_rank.post_events? )  %>
+            <%= link_to 'Post', new_game_roster_path, remote: true, class: 'btn btn-primary btn-block' %>
+          <% else %>
+            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#event_restrict_popup">Post message</button>
+          <% end %>
+      </div>
+    </div>
+    <% if @events %>
+      <div class="my_event_cards_page hidden-xs">
+        <div class="row">
+
+          <% if @events.present? %>
+            <div class="col-md-12 col-sm-12">
+              <div class="roster-invites-wrapper clearfix">
+                  <ul class="list-unstyled" id="upcoming_clan_event_desktop">
+                     <%#= render partial: 'upcoming_clan_event'%>
+                      <%= render  partial: '/my_clans/upcoming_clan_event', collection: @events.limit(@set_offset), as: :event%>
+                 </ul>
+              </div>
+            </div>
+            <div class="row">
+    					<div class="col-md-12 text-center">
+    						<div class="hidden">
+    							<%= paginate @events %>
+    						</div>
+    					</div>
+    				</div>
+          <% else %>
+            <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+            <h3 class="text-center">No Events Posted</h3>
+          <% end %>
+        </div>
+      </div>
+
+
+    <% end %>
+  <% end %>
+<%else%>
+  <div class="row"></div>
+  <br/>
+  <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+  <h3 align="center">You must be a member to see this page.</h3>
+<%end%>

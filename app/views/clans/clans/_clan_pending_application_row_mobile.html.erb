@@ -1,0 +1,73 @@
+<div class="row set_gold_line app-<%= application.id %>">
+  <div class="col-xs-3 set_xs_padding">
+    <%= link_to player_path(application.user) do %>
+      <%= image_tag application.user.avatar_url, :class=> 'avatar-sm set_img_height' %>
+    <% end %>
+  </div>
+  <div class="col-xs-9 set_mrg_tbl_application set_font_size">
+    <div class="row">
+      <span class="col-xs-12"><span><%= application.user.username %></span>
+      <button class="btn-link add-icon-top set_plus_mrg" data-toggle="modal" data-target="#view_application_actions_popup_<%= application.id%>">
+        <span class="fa fa-plus"></span>
+      </button>
+    </div>
+    <div class="row">
+      <div class="col-xs-6 pdr0">
+        <span class="text-primary">Applied: </span>
+        <span class="set_date_size"><%= application.created_at.strftime('%m/%d/%y') %></span>
+      </div>
+      <div class="col-xs-6" >
+        <span class="text-primary">PSR: </span>
+        <span class="psr_thump_up text-white">
+          <%= application.user.user_setting.total_psr %>
+          <i class="fa fa-thumbs-up thump-pos1" aria-hidden="true"></i>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <span class="text-primary">CR: </span>
+          <%= application.user.event_cancellation_rate %>%
+      </div>
+      <div class="col-xs-6">
+          <span class="text-primary">Age: </span>
+          <%= application.user.public_age ? application.user.age : 'N/A' %>
+      </div>
+    </div>
+  </div>
+  <div id="view_application_actions_popup_<%= application.id%>" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close application_modal" data-dismiss="modal" id="<%= application.id%>" >&times;</span></button>
+          <h4 class="modal-title">
+           Actions
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row-fluid">
+            <div id="view_application_mobile<%= application.id %>" class="collapse-demo">
+                <% application.answers.each do |answer| %>
+                  <div class="text-center mrg_top_10 ">
+                    <div class='text-primary'><%= answer.question.name %></div>
+                    <div class=""><%= answer.answer %></div>
+                  </div>
+                <% end %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <%= link_to 'Accept', accept_clan_clan_application_path(@clan, application), method: 'patch', remote: true, class: 'btn btn-lightgrey col-xs-12 btn-full' %>
+            </div>
+            <div class="col-xs-12">
+              <%= link_to 'View Profile', player_path(application.user), class: 'btn btn-lightgrey col-xs-12 btn-full' %>
+            </div>
+            <div class="col-xs-12">
+              <%= link_to 'Reject', clan_clan_application_path(@clan, application), method: 'delete', remote: true, class: 'btn btn-lightgrey col-xs-12 btn-full botmrg_15' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

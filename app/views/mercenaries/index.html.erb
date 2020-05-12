@@ -1,0 +1,44 @@
+<% #prerender the partial grid so that the filters can figure out what they're shooting for. dumb. %>
+<%= render partial: 'grid' %>
+
+
+
+<section class="content-block mini-hero game-hero no-image">
+	<div class="mini-hero-logo text-center">
+		<div class="game-title">
+			<h1>Find User</h1>
+		</div>
+	</div>
+</section>
+
+<div class="container container-block">
+	<p id="notice"><%= notice %></p>
+
+	<h2 class="mt0 text-center">Users</h2>
+
+	<%= render "form" %>
+	<% if params[:grid].present? && params[:grid][:f].present? && params[:grid][:f][:username].present? %>
+		<div class="wbmr-table-responsive" id="contracts_table_container">
+			<%= render_grid(@grid) %>
+		</div>
+	<% else %>
+		<div class="row search-mercenaries">
+			<div class="col-md-12">
+
+			</div>
+		</div>
+	<% end %>
+</div>
+
+<% if params[:grid].present? and params[:grid][:f].present? %>
+	<div id="filter_description">
+	<%= contract_filter_text params[:grid][:f] %>
+	</div>
+	<script type="text/javascript">
+		(function() {
+			var $fd = $('#filter_description'),
+					$grid_title = $('#grid_title');
+			$grid_title.after($fd);
+		})();
+	</script>
+<% end %>

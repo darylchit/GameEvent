@@ -1,0 +1,10 @@
+$('.clan_members_table').html('<%= j render "clan_members" %>');
+$('.blocked_clan_members_table').html('<%= j render "blocked_clan_members"%>')
+
+
+$(document).ready(function(){
+  //Fro Clan members
+  Clans.MemberRank.bindChangeOnClanRank();
+  Clans.MemberUnblock.bindOnClickOnUnblock();
+  Clans.MemberRemove.bindOnClickRemove();
+});

@@ -1,0 +1,341 @@
+$animation-start: -40px;
+$animation-mid: -55px;
+$animation-start-xs: 0;
+$animation-mid-xs: -20px;
+
+
+.breadcrumb {
+	background-color: #1B1B1B;
+}
+
+.boolean-console-games .form-group {
+	margin-bottom: 0;
+}
+
+#signup{
+  .box{border: 1px solid #ddaf3b;border-radius: 15px; background: black;}
+  .set_margin{margin-bottom: 20px;}
+  .set_box_header{border: 1px solid #ddaf3b;background: #ddaf3b;color: black; border-top-left-radius: 12px;border-top-right-radius: 12px; margin-top: 0;}
+  .sign_up_btn{
+    width: 60%;
+  }
+}
+
+
+@media screen and (min-width: $screen-md-max) {
+	.content-block.pur-block {
+		padding: 72px 0;
+	}
+}
+
+@media screen and (max-width: $screen-sm-max) {
+	.content-block.pur-block {
+		padding: 2.5em 0;
+	}
+	.hero-block + .content-block.pur-block {
+		padding-top: 0;
+	}
+	.gm-logo-bump {
+		margin-bottom: 1.5em;
+	}
+}
+
+.landing-cta {
+	margin-top: 50px;
+	position:relative;
+	display: block;
+	width: 100%;
+	color: #fff;
+	transition: color 300ms ease-in-out;
+	h2 {
+		font-size: 42px;
+	}
+	@media screen and (max-width: $screen-sm-max) {
+		padding-left: 20px;
+		padding-right: 20px;
+		h2 {
+			font-size: 32px;
+		}
+		p.lead {
+			font-size: 20px !important;
+		}
+	}
+	strong {
+		color: #EE2E24;
+		text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+		transition: color 300ms ease-in-out;
+	}
+	&:after, &:before {
+		transition: color 300ms ease-in-out;
+		content: '';
+		font-family: "FontAwesome";
+		font-size: 56px;
+		@include vert-center();
+		position:absolute;
+		color: #EE2E24;
+	}
+	&:before {
+		content: '';
+		left: $animation-start;
+		-webkit-animation: cta-pointer-l 2s ease-in-out infinite;
+		-moz-animation:    cta-pointer-l 2s ease-in-out infinite;
+		-o-animation:      cta-pointer-l 2s ease-in-out infinite;
+		animation:        cta-pointer-l 2s ease-in-out infinite;
+		@media screen and (max-width: $screen-xs-max) {
+			left: $animation-start-xs;
+			-webkit-animation: cta-pointer-l-xs 2s ease-in-out infinite;
+			-moz-animation:    cta-pointer-l-xs 2s ease-in-out infinite;
+			-o-animation:      cta-pointer-l-xs 2s ease-in-out infinite;
+			animation:        cta-pointer-l-xs 2s ease-in-out infinite;
+		}
+	}
+	&:after {
+		content: '';
+		right: $animation-start;
+		-webkit-animation: cta-pointer-r 2s ease-in-out infinite;
+		-moz-animation:    cta-pointer-r 2s ease-in-out infinite;
+		-o-animation:      cta-pointer-r 2s ease-in-out infinite;
+		animation:        cta-pointer-r 2s ease-in-out infinite;
+		@media screen and (max-width: $screen-xs-max) {
+			right: $animation-start-xs;
+			-webkit-animation: cta-pointer-r-xs 2s ease-in-out infinite;
+			-moz-animation:    cta-pointer-r-xs 2s ease-in-out infinite;
+			-o-animation:      cta-pointer-r-xs 2s ease-in-out infinite;
+			animation:        cta-pointer-r-xs 2s ease-in-out infinite;
+		}
+	}
+	&:hover {
+		color: #acacac;
+		strong {
+			color: darken(#EE2E24, 18%);
+		}
+		&:before, &:after {
+			color: darken(#EE2E24, 18%);
+		}
+	}
+	&:active, &:focus {
+		text-decoration: none !important;
+		color: #acacac;
+		strong {
+			color: darken(#EE2E24, 18%);
+		}
+		&:before, &:after {
+			color: darken(#EE2E24, 18%);
+		}
+	}
+}
+#user_sign_up{
+  .error-list{
+    ul{
+      padding: 0px;
+      li{
+        list-style: none;
+        color: #ddaf3b;
+      }
+    }
+  }
+  .help-block{
+    margin-top: -15px;
+  }
+}
+#sign_up {
+	.steps {
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			li {
+				display: block;
+				float: left;
+				width: 33%;
+
+				&.first {
+					a {
+						margin-left: 0;
+					}
+				}
+
+				&.current {
+					a {
+						background-color: $brand-primary;
+						color: #FFF;
+					}
+				}
+
+				a {
+					padding: .5em .75em;
+					display: block;
+					width: auto;
+					margin: 0 .5em .5em;
+					border-radius: 5px;
+					font-size: 1.2em;
+					text-align: center;
+
+					span {
+						&.audible {
+							position: absolute;
+							left: -999em;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.content {
+		h2 {
+			display: none;
+		}
+
+		> div {
+			display: none;
+
+			&.current {
+				display: block;
+			}
+		}
+	}
+
+	.actions {
+		position: relative;
+    display: block;
+    text-align: right;
+    width: 100%;
+
+		ul {
+			list-style: none;
+			display: block;
+			text-align: right;
+
+			li {
+				float: right;
+
+				&:first-child {
+					float: left;
+				}
+
+				&:nth-child(2) {
+					border: 2px solid $brand-primary;
+				}
+
+				&.disabled {
+					a {
+						color: $gray;
+					}
+				}
+
+				&:last-child {
+					float: right;
+					&.disabled a{
+						cursor: $cursor-disabled;
+					}
+					a {
+						color: #FFF;
+					}
+				}
+			}
+
+			@media screen and (max-width: $screen-xs-max) {
+				padding-left: 0;
+
+				li {
+					padding-left: 20px;
+					padding-right: 20px;
+				}
+			}
+		}
+	}
+
+	.age {
+		.form-group {
+			margin-bottom: 0;
+		}
+	}
+}
+
+	@-webkit-keyframes cta-pointer-l {
+	  0%   { left: $animation-start; }
+	  50% { left: $animation-mid; }
+	  100%   { left: $animation-start; }
+	}
+	@-moz-keyframes cta-pointer-l{
+	  0%   { left: $animation-start; }
+	  50% { left: $animation-mid; }
+	  100%   { left: $animation-start; }
+	}
+	@-o-keyframes cta-pointer-l {
+	  0%   { left: $animation-start; }
+	  50% { left: $animation-mid; }
+	  100%   { left: $animation-start; }
+	}
+	@keyframes cta-pointer-l{
+	  0%   { left: $animation-start; }
+	  50% { left: $animation-mid; }
+	  100%   { left: $animation-start; }
+	}
+
+	@-webkit-keyframes cta-pointer-r {
+	  0%   { right: $animation-start; }
+	  50% { right: $animation-mid; }
+	  100%   { right: $animation-start; }
+	}
+	@-moz-keyframes cta-pointer-r {
+	  0%   { right: $animation-start; }
+	  50% { right: $animation-mid; }
+	  100%   { right: $animation-start; }
+	}
+	@-o-keyframes cta-pointer-r {
+	  0%   { right: $animation-start; }
+	  50% { right: $animation-mid; }
+	  100%   { right: $animation-start; }
+	}
+	@keyframes cta-pointer-r {
+	  0%   { right: $animation-start; }
+	  50% { right: $animation-mid; }
+	  100%   { right: $animation-start; }
+	}
+
+
+
+	@-webkit-keyframes cta-pointer-l-xs {
+	  0%   { left: $animation-start-xs; }
+	  50% { left: $animation-mid-xs; }
+	  100%   { left: $animation-start-xs; }
+	}
+	@-moz-keyframes cta-pointer-l-xs {
+	  0%   { left: $animation-start-xs; }
+	  50% { left: $animation-mid-xs; }
+	  100%   { left: $animation-start-xs; }
+	}
+	@-o-keyframes cta-pointer-l-xs {
+	  0%   { left: $animation-start-xs; }
+	  50% { left: $animation-mid-xs; }
+	  100%   { left: $animation-start-xs; }
+	}
+	@keyframes cta-pointer-l-xs {
+	  0%   { left: $animation-start-xs; }
+	  50% { left: $animation-mid-xs; }
+	  100%   { left: $animation-start-xs; }
+	}
+
+	@-webkit-keyframes cta-pointer-r-xs {
+	  0%   { right: $animation-start-xs; }
+	  50% { right: $animation-mid-xs; }
+	  100%   { right: $animation-start-xs; }
+	}
+	@-moz-keyframes cta-pointer-r-xs {
+	  0%   { right: $animation-start-xs; }
+	  50% { right: $animation-mid-xs; }
+	  100%   { right: $animation-start-xs; }
+	}
+	@-o-keyframes cta-pointer-r-xs {
+	  0%   { right: $animation-start-xs; }
+	  50% { right: $animation-mid-xs; }
+	  100%   { right: $animation-start-xs; }
+	}
+	@keyframes cta-pointer-r-xs {
+	  0%   { right: $animation-start-xs; }
+	  50% { right: $animation-mid-xs; }
+	  100%   { right: $animation-start-xs; }
+	}

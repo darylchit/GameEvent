@@ -1,0 +1,153 @@
+<%= form_for [:admin, @game], :html => {multipart: true } do |f| %>
+
+		<div class="form-group">
+			<label>Title</label>
+			<%= f.text_field :title,  class: 'form-control'%>
+		</div>
+			
+		<div class="form-group">
+			<label>Systems</label>
+			<%= f.collection_select :game_system_ids, GameSystem.all, :id, :title, {include_blank: true}, {:class => "form-control chosen-select", :multiple => true} %>
+		</div>
+    <div class="form-group">
+      <%= f.label :affiliate_network_link, 'Affiliate Network Link' %>
+      <%= f.text_field :affiliate_network_link,  class: 'form-control'%>
+    </div>
+    <div class="form-group">
+      <%= f.label :active %>
+      <%= f.select :active, options_for_select([['Active', true],['Inactive', false]], @game.active), {} , {class: 'form-control'}%>
+    </div>
+
+                <h3>Release Date</h3>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>Month</label>
+                            <select id="game_release_month" class="form-control">
+                                <% [*1..12].each do |m| %>
+                                    <option value="<%=m%>"<%= 'selected' if m == game_release_month %>><%=m%></option>
+                                <% end %>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Day</label>
+                            <select id="game_release_day" class="form-control">
+                                <% [*1..31].each do |d| %>
+                                    <option value="<%=d%>"<%= 'selected' if d == game_release_day %>><%=d%></option>
+                                <% end %>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Year</label>
+                            <select id="game_release_year" class="form-control">
+                                <% game_release_year_range.each do |y| %>
+                                    <option value="<%=y%>"<%= 'selected' if y == game_release_year %>><%=y%></option>
+                                <% end %>
+                            </select>
+                        </div>
+                        <input id="compiled_release_date" name="game[release_date]" type="hidden" value=""/>
+                    </div>
+                </div>
+		
+		<h3>Title Images</h3>
+
+		<div class="row">
+			<div class="col-md-3 ">
+				<label>Cover<br><small>(400px square)</small></label><br>
+				<% if resource.game_cover.present? %>
+					<div class="form-group text-center">
+						<%= link_to resource.game_cover.url, target: "_blank" do %>
+							<%= image_tag(resource.game_cover.url) %>
+						<% end %>
+					</div>
+					<div class="form-group">
+						<label>Replace Image</label>
+						<span class="btn btn-primary btn-file btn-block">
+						    <span class="file-label">BROWSE</span> <%= f.file_field :game_cover, data:{filename_placement: "inside", show_upload: "false"}%>
+						</span>
+					</div>
+				<% else %>
+					<span class="btn btn-primary btn-file btn-block">
+					    <span class="file-label">BROWSE</span> <%= f.file_field :game_cover, data:{filename_placement: "inside", show_upload: "false"}%>
+					</span>
+					<%= f.hidden_field :game_cover_cache %>
+				<% end %>
+			</div>
+
+			<div class="col-md-3 ">
+				<label>Jumbo<br><small>(2200px by 1000px)</small></label><br>
+				<% if resource.game_jumbo.present? %>
+					<div class="form-group text-center">
+						<%= link_to resource.game_jumbo.url, target: "_blank" do %>
+							<%= image_tag(resource.game_jumbo.url) %>
+						<% end %>
+					</div>
+					<div class="form-group">
+						<label>Replace Image</label>
+						<span class="btn btn-primary btn-file btn-block">
+						    <span class="file-label">BROWSE</span> <%= f.file_field :game_jumbo, data:{filename_placement: "inside", show_upload: "false"}%>
+						</span>
+					</div>
+				<% else %>
+					<span class="btn btn-primary btn-file btn-block">
+					    <span class="file-label">BROWSE</span> <%= f.file_field :game_jumbo, data:{filename_placement: "inside", show_upload: "false"}%>
+					</span>
+					<%= f.hidden_field :game_jumbo_cache %>
+				<% end %>
+			</div>
+
+			<div class="col-md-3 ">
+				<label>Mobile Jumbo<br><small>(768px by 380px)</small></label><br>
+				<% if resource.game_jumbo_mobile.present? %>
+					<div class="form-group text-center">
+						<%= link_to resource.game_jumbo_mobile.url, target: "_blank" do %>
+							<%= image_tag(resource.game_jumbo_mobile.url) %>
+						<% end %>
+					</div>
+					<div class="form-group">
+						<label>Replace Image</label>
+						<span class="btn btn-primary btn-file btn-block">
+						    <span class="file-label">BROWSE</span> <%= f.file_field :game_jumbo_mobile, data:{filename_placement: "inside", show_upload: "false"}%>
+						</span>
+					</div>
+				<% else %>
+					<span class="btn btn-primary btn-file btn-block">
+					    <span class="file-label">BROWSE</span> <%= f.file_field :game_jumbo_mobile, data:{filename_placement: "inside", show_upload: "false"}%>
+					</span>
+					<%= f.hidden_field :game_jumbo_mobile_cache %>
+				<% end %>
+			</div>
+
+			<div class="col-md-3 ">
+				<label>Logo<br><small>(500px horizontal)</small></label><br>
+				<% if resource.game_logo.present? %>
+					<div class="form-group text-center">
+						<%= link_to resource.game_logo.url, target: "_blank" do %>
+							<%= image_tag(resource.game_logo.url) %>
+						<% end %>
+					</div>
+					<div class="form-group">
+						<label>Replace Image</label>
+						<span class="btn btn-primary btn-file btn-block">
+						    <span class="file-label">BROWSE</span> <%= f.file_field :game_logo, data:{filename_placement: "inside", show_upload: "false"}%>
+						</span>
+					</div>
+				<% else %>
+					<span class="btn btn-primary btn-file btn-block">
+					    <span class="file-label">BROWSE</span> <%= f.file_field :game_logo, data:{filename_placement: "inside", show_upload: "false"}%>
+					</span>
+					<%= f.hidden_field :game_logo_cache %>
+				<% end %>
+			</div>
+   		</div>
+
+		<hr>
+		<div class="clearfix form-group">
+			<% if false #!resource.new_record? %>
+				<%= link_to 'Delete', admin_game_path(resource), method: :delete, data: { confirm: 'Are you sure you want to delete this game?' }, class: 'btn btn-danger btn-lg' %>
+			<% end %>
+			<%= f.submit class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+		</div>
+
+
+<% end %>

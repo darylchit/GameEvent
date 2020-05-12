@@ -1,0 +1,94 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/adminnav" %>
+			</div>
+			<div class="col-md-9">
+				<%= render 'layouts/flash' %>
+
+      	<h2 class="mt0">Reported <%= resource.reportable_type_name %></span></h2>
+
+				<p id="notice"><%= notice %></p>
+
+        <div class="container-box">
+          <%
+          case resource.reportable
+          when User
+          %>
+            <%= render 'user_snippet', user: resource.reportable %>
+          <% when Roster %>
+            <%= render '/rosters/roster_info', roster: resource.reportable, show_sharing: false %>
+          <% when Bounty %>
+            <%= render '/bounties/bounties/bounty_snippet', bounty: resource.reportable %>
+          <% when Contract %>
+            <h4>User: <%= resource.reportable.seller.username %></h4>
+            <%= render '/contracts/posted_contracts/contract_snippet', contract: resource.reportable %>
+          <% else %>
+          <% end %>
+        </div>
+
+        <h3 class="mt0">Reported By</h3>
+				<div class="container-box">
+					<div class="form-group">
+						<label>Username:</label>
+						<%= resource.user.username %>
+					</div>
+					<div class="form-group">
+						<label>Reports Sent:</label>
+						<%= Report.created_by_user(resource.user).count %>
+					</div>
+          <div class="form-group">
+            <label>Comment:</label>
+            <%= resource.comment %>
+          </div>
+				</div>
+
+        <h3 class="mt0">Admin Actions</h3>
+        <div class="container-box">
+          <%
+          case resource.reportable
+          when User
+          %>
+          <div class='row'>
+            <div class ='col-md-3'><%= link_to "Edit User Account", admin_user_account_path(resource.reportable.id), class: "btn btn-primary" %></div>
+            <div class = 'col-md-3'><%= link_to "Edit User Profile", admin_user_become_path(resource.reportable.id, prev_action: '/profile/edit'), method: :post,
+              class: "btn btn-primary" %></div>
+            <div class ='col-md-3'><%= button_to "Delete User Account", admin_user_path(resource.reportable.id), method: :delete, class: "btn btn-danger" %></div>
+          </div>
+          <% when Roster %>
+            <%= link_to 'Edit Roster', admin_user_become_path(resource.reportable.buyer.id, prev_action: edit_roster_path(resource.reportable)), method: :post, class: "btn btn-primary" %>
+          <% when Bounty %>
+            <%= link_to 'Edit Bounty', admin_user_become_path(resource.reportable.buyer.id, prev_action: edit_bounty_path(resource.reportable)), method: :post, class: "btn btn-primary" %>
+          <% when Contract %>
+            <%= link_to 'Edit Availability', admin_user_become_path(resource.reportable.seller.id, prev_action: edit_posted_contract_path(resource.reportable)), method: :post, class: "btn btn-primary" %>
+          <% else %>
+          <% end %>
+          <br />
+          <% if resource.admin.present? %>
+            <br />
+            <div class="form-group">
+              <label>Handled By:</label>
+              <%= resource.admin.email %>
+            </div>
+            <div class="form-group">
+              <label>Handled On:</label>
+              <%= long_date_time(resource.handled_at) %>
+            </div>
+            <div class="form-group">
+              <label>Comment:</label>
+              <%= resource.admin_comment %>
+            </div>
+          <% else %>
+            <%= bootstrap_form_for resource, :url => admin_report_path(resource) do | f | %>
+              <%= f.text_area :admin_comment %>
+              <%= f.submit value: 'Close Report', class: "btn btn-primary" %>
+            <% end %>
+          <% end %>
+        </div>
+        </div>
+
+			</div>
+		</div>
+	</div>
+</div>

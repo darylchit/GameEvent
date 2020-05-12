@@ -1,0 +1,77 @@
+<div class="background-block content-area">
+	<div class="container p-x-0-xs">
+		<div class="well">
+			<div class="row">
+				<div class="col-md-10 col-sm-8">
+					<h2>Titles</h2>
+				</div>
+				<div class="col-md-2 col-sm-4 text-right-md text-right-sm">
+					<!-- Filter Button Goes Here -->
+				</div>
+			</div>
+			<br>
+			<% if @is_bounties %>
+				<p>We only support bounties for Destiny right now but others will be coming soon.</p>
+			<% end %>
+			<h2>My Titles</h2>
+			<% if @my_games.count > 0 %>
+				<ul class="game-list game-list-full clearfix">
+					<% @my_games.each do | g |  %>
+						<li class="thumbnail game-item col-fifth">
+							<% if @is_bounties %>
+								<%= link_to bounties_path(:grid => {:f => {"games.id" => [g.id], "game_systems.id" => @game_game_systems[g.id]}}) do %>
+									<%= game_cover_html g %>
+									<div class="game-details">
+										<h5 class=""><%= g.title%></h5>
+									</div>
+								<% end %>
+							<% else %>
+								<%= link_to contracts_path(:grid => {:f => {"games.id" => [g.id], "game_systems.id" => @game_game_systems[g.id]}}) do %>
+									<%= game_cover_html g %>
+									<div class="game-details">
+										<h5 class=""><%= g.title%></h5>
+									</div>
+								<% end %>
+							<% end %>
+						</li>
+					<% end %>
+				</ul>
+			<% else %>
+				<p>
+					<% if @is_bounties %>
+						You Have Not Added Destiny to Your <%= link_to "My Titles", edit_games_and_systems_path %> Page.
+					<% else %>
+						You Have Not Added Any Games to Your <%= link_to "My Titles", edit_games_and_systems_path %> Page.
+					<% end %>
+				</p>
+			<% end %>
+
+			<% unless @is_bounties && @my_games.count > 0 %>
+				<h2>Other Games</h2>
+					<% if @games.count > 0 %>
+						<ul class="game-list game-list-full clearfix">
+							<% @games.each do | g |  %>
+								<li class="thumbnail game-item col-fifth">
+									<% if @is_bounties %>
+										<%= link_to bounties_path(:grid => {:f => {"games.id" => [g.id]}}) do %>
+											<%= game_cover_html g %>
+											<div class="game-details">
+												<h5 class=""><%= g.title%></h5>
+											</div>
+										<% end %>
+									<% else %>
+										<%= link_to contracts_path(:grid => {:f => {"games.id" => [g.id]}}) do %>
+											<%= game_cover_html g %>
+											<div class="game-details">
+												<h5 class=""><%= g.title%></h5>
+											</div>
+										<% end %>
+									<% end %>
+								</li>
+							<% end %>
+						</ul>
+					<% end %>
+				<% end %>
+		</div>
+	</div>
+</div>

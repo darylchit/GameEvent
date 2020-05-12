@@ -1,0 +1,416 @@
+<% links_empty =  true%>
+<div class="row">
+	<ul class="list-unstyled social-links clan-media">
+		<% if clan.youtube.present? %>
+        <% links_empty = false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.youtube)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-youtube"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">YouTube</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.google.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.google)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle text-center">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-google-plus"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Google+</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.facebook.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.facebook)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle text-center">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-facebook "></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Facebook</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.twitter.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.twitter)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-twitter"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Twitter</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.twitch.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.twitch)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-twitch"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Twitch</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.instagram.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.instagram)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-instagram"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Instagram</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.discord_invitation.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.discord_invitation)}" %>" target="_`ank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "discord.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Discord Invitation</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.discord.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.discord)}" %>" target="_`ank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "discord.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Discord</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.scuf.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.scuf)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "scuf.png", class: "scuf"%></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Scuf</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+    <% if clan.mixer_url.present? %>
+        <% links_empty =  false %>
+        <li class="col-md-3 col-xs-6">
+          <a href="<%= "#{add_http_to_link(clan.mixer_url)}" %>" target="_blank">
+            <div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "mixer.png", class: "scuf"%></span>
+							</h3>
+						</span>
+              <div class="media-body media-middle">
+                <strong class="text-gray">Mixer</strong>
+              </div>
+            </div>
+          </a>
+        </li>
+    <% end %>
+		<% if clan.curse.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.curse)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "curse.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Curse</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.patreon.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.patreon)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "patreon.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Patreon</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.wargaming.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.wargaming)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "wargaming.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Wargaming</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.steam.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.steam)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-steam"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Steam</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.battle.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.battle)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<!-- <span class="fa-bungie"></span> -->
+								<span><%= image_tag "battle_net.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Battle.net</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.mlg.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.mlg)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-gamepad"></span></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">MLG</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.reddit.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.reddit)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-reddit"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Reddit</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.bungie.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.bungie)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "Guardian_Destiny_Bungie.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Bungie</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.slack.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.slack)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 media-object text-center" style="width:1.5em;">
+								<span class="fa fa-slack"></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Slack</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.battlelog.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.battlelog)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.5em;">
+								<span><%= image_tag "battlelog.png", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">Battlelog</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+
+		<% if clan.legend.present? %>
+        <% links_empty =  false %>
+			<li class="col-md-3 col-xs-6">
+				<a href="<%= "#{add_http_to_link(clan.legend)}" %>" target="_blank">
+					<div class="media">
+						<span class="media-left media-middle">
+							<h3 class="mt0 mb0 circle_logo media-object text-center" style="width:1.7em;">
+								<span><%= image_tag "legend.jpg", class: "" %></span>
+							</h3>
+						</span>
+						<div class="media-body media-middle">
+							<strong class="text-gray">League of Legends</strong>
+						</div>
+					</div>
+				</a>
+			</li>
+		<% end %>
+		<% if clan.links.present? %>
+        <% links_empty =  false %>
+			<% @clan.links.each do |link| %>
+
+				<li class="col-md-3 col-xs-6">
+					<a href="#" data-toggle="modal" data-target="#custom_link_<%= link.id%>">
+						<div class="media">
+							<span class="media-left media-middle">
+								<h3 class="mt0 mb0 media-object text-center" style="width:1.7em;">
+									<span class="fa fa-share-alt"></span>
+								</h3>
+							</span>
+							<div class="media-body media-middle">
+								<strong class="text-gray"><%= link.name %></strong>
+							</div>
+						</div>
+					</a>
+				</li>
+			<% end %>
+			<% @clan.links.each do |link| %>
+	      <div class="modal fade" id="custom_link_<%= link.id%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	        <div class="modal-dialog" role="document">
+	          <div class="modal-content">
+
+	              <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">
+	                  Custom Link
+	                </h4>
+	              </div>
+	              <div class="modal-body contract-details">
+	                <p class='text-justify lead'> This link will send you to another site and should only be used   if you trust the link address below and accept our TOU. </p>
+	                <%= link.url %>
+	                <div class='clearfix'></div>
+	              </div>
+	              <div class="modal-footer">
+	                <div class="modal-footer-button-container">
+	                  <%= link_to 'Proceed', add_http_to_link(link.url), class: 'btn btn-primary custom-link-buttons'%>
+	                  <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
+	                </div>
+	              </div>
+	          </div>
+	        </div>
+	      </div>
+	    <% end %>
+		<% end %>
+	</ul>
+</div>
+<% if links_empty == true %>
+    <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+    <h3 class="text-center">No Links</h3>
+<% end %>
+
+

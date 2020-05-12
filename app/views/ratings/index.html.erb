@@ -1,0 +1,38 @@
+<div class="background-block player_games_page player_rating_page">
+  <div class="container">
+    <div class="row well">
+      <h2>Needs Feedback</h2>
+      <% if rateable_users.present? %>
+        <% rateable_users.each do | u | %>
+          <div id="rating_form_<%= u.id %>">
+          <hr class="gold_line">
+          <%= form_for(Rating.new, url: profile_ratings_path(u.id), remote: true) do |f| %>
+            <%= render :partial => 'form_data', :locals => {u: u, f: f} %>
+            <%#= f.submit 'Submit', class: 'btn btn-primary pull-right' %>
+          <% end %>
+          </div>
+        <% end %>
+
+      <% else %>
+        <p class="text-center">All Ratings Are Up To Date - No Feedback Needed</p>
+      <% end %>
+    </div>
+    <div class="row well">
+      <h2>My Ratings</h2>
+      <% if rated_users.present? %>
+        <% rated_users.each do | u | %>
+          <div id="rating_form_<%= u.id %>">
+          <hr class="gold_line">
+            <% rating = current_user.ratings.find_by(rated_user_id: u.id) || Rating.new( rated_user: u ) %>
+            <%= form_for(rating, url: rating.new_record? ? profile_ratings_path(rating.rated_user) : rating_path(rating), remote: true) do |f| %>
+              <%= render :partial => 'form_data', :locals => {u: u, f: f} %>
+            <% end %>
+          </div>
+        <% end %>
+
+      <% else %>
+        <p class="text-center">No Ratings Available</p>
+      <% end %>
+    </div>
+  </div>
+</div>

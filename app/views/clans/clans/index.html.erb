@@ -1,0 +1,250 @@
+<div class="background-block content-area clans_page">
+  <div class="container">
+    <div class="row text-center">
+      <%= image_tag "game_roster_1.png", :class=>'logo wow flip'%>
+      <h1 class="strong hidden-xs">ALL CLANS</h1>
+      <h2 class="mt8 strong visible-xs">ALL CLANS</h2>
+    </div>
+    <%= form_tag '', :method => :get do %>
+      <div class="clearfix">
+        <div class="row">
+          <div class="col-md-9 col-sm-9">
+                <div class="form-group">
+                 <%= text_field_tag "filter[name]", @filter_params[:name], {class: 'form-control', placeholder: 'Search Clan Name'}  %>
+                </div>
+          </div>
+          <div class="col-md-3 col-sm-3 text-right-md text-right-sm clans_btn_mrg">
+            <span class="btn btn-lightgrey btn-block-xs btn_width" data-toggle="collapse" data-target="#collapse-filters" aria-expanded="false" aria-controls="collapseExample">Filter Options</span>
+
+
+            <%if current_user.present? && current_user.own_clan %>
+              <%= link_to "Edit Clan&nbsp;".html_safe, edit_clan_path(current_user.own_clan), class: "btn btn-lightgrey btn-block-xs btn_width" %>
+            <% else %>
+                <% if current_user %>
+                  <% if current_user.is_premium? %>
+                    <%= link_to "Create Clan&nbsp;".html_safe, new_clan_path, class: "btn btn-lightgrey btn-block-xs btn_width" %>
+                  <% else%>
+                    <a tabindex="0" data-toggle="popover" data-trigger="hover" data-placement="top" title="Subscription Required" data-content="This feature is for Elite subscribers. Learn More on About Page." href='/profile/subscription'>
+                    <span class="btn btn-lightgrey btn-block-xs btn_width">Create Clan</span></a>
+                  <% end%>
+                <% else %>
+                  <%= link_to "Create Clan&nbsp;".html_safe, new_user_session_path, class: "btn btn-lightgrey btn-block-xs btn_width" %>
+                <% end%>
+            <% end%>
+          </div>
+          <div class="col-xs-12 gold_row"></div>
+        </div>
+        <div class="filter-panel collapse" id="collapse-filters">
+          <%#= form_tag '', :method => :get do %>
+            <div class="row topmrg_20">
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Games</label>
+                  <%= select_tag "select_filter[game]",
+                  options_from_collection_for_select(@sorted_games, 'id', 'title',
+                  @select_params[:game]), {class: 'form-control chosen-select', prompt: 'Select Games'} %>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>System</label>
+                  <div class="chosen99">
+                    <%= select_tag "select_filter[game_system]",
+                    options_from_collection_for_select(@sorted_systems, 'id', 'title', @select_params[:game_system]), {class: 'form-control chosen-select', prompt: 'Select Systems'} %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Status</label>
+                  <a href="#user_hide_profile" data-toggle="tooltip" data-placement="top" data-html="true" title="<p style='text-align: justify;'>Open allows anyone to join. Closed blocks new users from joining. Recruiting allows you to accept applications and requires you to provide application questions below. Restricted allows users to join after they enter an Access Code.</p>">?</a>
+                  <%= select_tag "select_filter[status]",options_for_select(Clan::STATUSES, @select_params[:status]), {class: 'form-control chosen-select', prompt: 'Select Status'} %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Most Active Days</label>
+                  <%= select_tag "in_filter[most_active_days]",
+                      options_for_select(User::MOST_ACTIVE_DAYS_FILTER, @in_params[:most_active_days].present? ? @in_params[:most_active_days].join(',') : nil), { class: 'form-control chosen-select' } %>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Most Active Times</label>
+                  <%= select_tag "in_filter[most_active]",
+                      options_for_select(User::MOST_ACTIVE_TIMES_FILTER, @in_params[:most_active].present? ? @in_params[:most_active].join(',') : nil), { class: 'form-control chosen-select' } %>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Activity Level</label>
+                  <%= select_tag "in_filter[activity_level]",
+                      options_for_select(Clan::ACTIVITY_LEVEL_FILTER , @in_params[:activity_level].present? ? @in_params[:activity_level].join(',') : nil), { class: 'form-control chosen-select' } %>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Clan Type</label>
+                   <%= select_tag "in_filter[game_type]",
+                      options_for_select(User::GAME_TYPE_FILTER, @in_params[:game_type].present? ? @in_params[:game_type].join(',') : nil), {class: 'form-control chosen-select'} %>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Play Style</label>
+                  <%= select_tag "in_filter[play_style]",
+                   options_for_select(User::GAME_STYLE_FILTER, @in_params[:play_style].present? ? @in_params[:play_style].join(',') : nil), {class: 'form-control chosen-select'} %>
+
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Profanity</label>
+                  <%= select_tag 'select_filter[family_friendly]', options_for_select(Clan::PROFANITY, @select_params[:family_friendly]),{class: 'form-control chosen-select', prompt: 'Select Profanity'} %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Average Age</label>
+                  <%= select_tag "range_filter[average_age]", options_for_select(Clan::AGE_RANGES, integer_range_to_string(@range_params[:average_age])), {class: 'form-control chosen-select', prompt: 'All Ages'} %>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Minumum Age</label>
+                  <%= select_tag "select_filter[minimum_age]", options_for_select(13..99, @select_params[:minimum_age]), {class: 'form-control chosen-select', prompt: 'None'} %>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Clan Size (Members)</label>
+                  <%= select_tag "range_filter[members]", options_for_select(Clan::MEMBER_RANGES, integer_range_to_string(@range_params[:members])), {class: 'form-control chosen-select', prompt: 'All Sizes'} %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Country</label>
+                  <%= select_tag "select_filter[country]",
+                   options_for_select(countries_list, @select_params[:country]), {class: 'form-control chosen-select', prompt: 'Select Country'} %>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Time Zone</label>
+                  <%= select_tag "select_filter[timezone]", options_for_select(ActiveSupport::TimeZone.all.sort.map{|a|a.name}, @select_params[:timezone]), {class: 'form-control chosen-select', prompt: 'Select Time Zone'} %>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Language</label>
+                  <%= select_tag "select_filter[languages]",
+                      options_for_select(User.available_languages, @select_params[:languages]), {class: 'form-control chosen-select', prompt: 'Select Language'} %>
+                </div>
+              </div>
+            </div>
+
+          <!--  <div class="row">
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Popular Times</label>
+                  <%#= select_tag "select_filter[most_active]",
+                      options_for_select(Clan::POPULAR_TIMES, @select_params[:most_active]), {class: 'form-control chosen-select', prompt: 'Select a Popular Time'} %>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="row">
+              <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                  <label>Sort By</label>
+                    <%= select_tag "sort_filter", options_for_select(Clan::ALPHABETICAL, params[:sort_filter] ? params[:sort_filter] : nil),{class: 'form-control chosen-select'} %>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12 mrg_top_32">
+                <div class="form-group">
+                  <%= link_to "Reset", clans_path, class: "btn btn-primary btn-block" %>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12 mrg_top_32">
+                <div class="form-group">
+                  <%= submit_tag 'Submit', class: "btn btn-primary btn-block wg-external-submit-button"%>
+                </div>
+              </div>
+            </div>
+          <div class="row gold_row"></div>
+        </div>
+        <% if current_subscription.nil? %>
+          <div class="row text-center hidden-xs" style="margin-top: 15px;">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- Desktop Long Banner -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:970px;height:90px"
+                 data-ad-client="ca-pub-7969073226896485"
+                 data-ad-slot="7194419117"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
+          <div class="row text-center visible-xs" style="margin-top: 15px;">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- Mobile Banner -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:320px;height:100px"
+                 data-ad-client="ca-pub-7969073226896485"
+                 data-ad-slot="4553256987"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
+        <% end %>
+        <div class="roster-invites-wrapper topmrg_20">
+            <ul class="list-unstyled" id='clans-list'>
+               <%= render :partial => 'shared/clan_card', collection: @clans, as: :clan %>
+           </ul>
+           <% if !@clans.present? %>
+            <div class="row text-center">
+              <%= image_tag "game_roster_1.png", :class=>'logo wow flip'%>
+              <h1 class="strong hidden-xs">No Clans Found</h1>
+              <h2 class="mt8 strong visible-xs">No Clans Found</h2>
+            </div>
+            <h3 class="text-center">There are currently no clans that meet your criteria.</h3>
+
+              <div class="text-center" id="clans_no_found">
+              <% if current_user %>
+                  <% if current_user.own_clan %>
+                      <%= link_to "Edit Clan", edit_clan_path(current_user.own_clan), class: "btn btn-xl btn-outline" %>
+                  <% elsif current_user.is_premium? %>
+                      <%= link_to "Create Clan", new_clan_path, class: "btn btn-xl btn-outline" %>
+                  <% else%>
+                      <%= link_to "Create Clan", '#clans_no_found', class: "btn btn-xl btn-outline", data: {toggle: "popover", trigger: "hover", placement: "top", title: "Subscription Required", content: "This feature is for Elite subscribers. Learn more on the About page."} %>
+                  <% end%>
+              <% else %>
+                  <%= link_to "Create Clan", new_user_session_path, class: "btn btn-xl btn-outline" %>
+              <% end%>
+              </div>
+           <% end %>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class='hidden'>
+              <%= paginate @clans %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

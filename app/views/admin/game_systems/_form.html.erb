@@ -1,0 +1,25 @@
+<%= form_for [:admin, @game_system], :html => {multipart: true } do |f| %>
+		<div class="form-group">
+			<label>System Title</label>
+			<%= f.text_field :title,  class: 'form-control'%>
+		</div>
+			
+		<div class="form-group">
+			<label>System Abbreviation</label>
+			<%= f.text_field :abbreviation,  class: 'form-control'%>
+		</div>
+    <div class="form-group">
+      <label>Display Order</label>
+      <%= f.number_field :display_rank,  class: 'form-control'%><br />
+    </div>
+			
+		<hr>
+
+		<div class="form-group clearfix">
+			<% if false #!resource.new_record? %>
+				 <%= link_to 'Delete', admin_game_system_path(resource), method: :delete, data: { confirm: 'Are you sure you want to delete this system?' }, class: 'btn btn-danger' %>
+			<% end %>
+			 <%= f.submit class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+		</div>
+
+<% end %>

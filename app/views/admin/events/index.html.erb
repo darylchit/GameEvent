@@ -1,0 +1,31 @@
+<%= render partial: 'events_grid' %>
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/adminnav" %>
+			</div>
+			<div class="col-md-9">
+				<%= render 'layouts/flash' %>
+      	<h2 class="mt0">View Events <span class="pull-right"><a class="btn btn-primary" id="export_csv" data-grid-name="events" href="events?events%5Bexport%5D=csv">Export To CSV</a></span></h2>
+        <script type="text/javascript">
+          $(function() {
+            var $a = $('#export_csv');
+            $a.click(function(e) {
+              e.preventDefault();
+              var url = location.href;
+              if (url.indexOf('?') === -1) url += '?'
+              url += '&events%5Bexport%5D=csv';
+              location.href = url;
+            });
+          });
+        </script>
+				<p id="notice"><%= notice %></p>
+				<div class="table-responsive">
+		      <%= render "grid_form" %>
+					<%= render_grid(@events) %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

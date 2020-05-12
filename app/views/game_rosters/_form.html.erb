@@ -1,0 +1,299 @@
+<% if current_user.present? && clan.present? %>
+  <% unless clan.member_or_removed_member? current_user %>
+    <% if clan.open? %>
+      <div class="row-fluid">
+        <h3 class="text-center text-uppercase">
+          You must join this clan before you can post an event.  Your rank and permissions are assigned by the clan founder.
+        </h3>
+        <div class="row text-center">
+          <%= form_for [clan, ClanMember.new], remote: true do |f| %>
+  	        <%= f.hidden_field(:user_id, :value => current_user.id) %>
+            <%= f.hidden_field(:clan_id, :value => clan.id) %>
+            <%= f.hidden_field(:invite_id, :value => current_user.id) %>
+            <%= hidden_field_tag :discord_clan_join, true %>
+            <div class="col-md-3 col-md-offset-3">
+              <%= link_to 'View Clan', clan_path(clan), class: 'btn btn-success btn-full' %>
+            </div>
+            <div class="col-md-3">
+              <%= button_tag 'Join Now', class: 'btn btn-success btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Join Now"} %>
+            </div>
+  	      <% end %>
+        </div>
+      </div>
+      <hr class="gold-header-row">
+    <% elsif clan.restricted? %>
+      <div class="row-fluid">
+        <h3 class="text-center text-uppercase">
+          You must join this clan before you can post an event.  This clan requires a clan access code.  Enter the code below to join.
+        </h3>
+        <div class="row text-center">
+          <div class='col-md-3 col-md-offset-3'>
+            <%= link_to 'View Clan', clan_path(clan), class: 'btn btn-success btn-full' %>
+          </div>
+          <div class='col-md-3'>
+            <button class="btn btn-success btn-full" data-toggle='modal' data-target="#restricted_popup">Submit Code</button>
+          </div>
+        </div>
+      </div>
+      <hr class="gold-header-row">
+
+      <div class="modal fade" id="restricted_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content modal-medium">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">An Access Code Is Required To Join This Clan</h4>
+            </div>
+            <%= form_tag restricted_join_clan_clan_members_path(clan), remote: true, id: 'restricted_popup_form' do |f| %>
+              <div class="modal-body contract-details">
+                <%= hidden_field_tag :discord_clan_join, true %>
+              	<div class="form-group">
+                  <%= label_tag :access_code, 'Access Code' %>
+                  <%= text_field_tag "access_code", "", :class => 'form-control','data-validation'=> '[NOTEMPTY]', 'data-validation-message' => 'Enter the access code.'  %>
+                  <span class="text-primary join_string_validate"></span>
+                </div>
+
+              	<div class="row">
+            			<div class="col-sm-4 col-sm-offset-2 col-xs-12 ">
+            				<%= submit_tag 'Submit', class: 'btn btn-success btn-full' %>
+              		</div>
+              		<div class="col-sm-4 col-xs-12">
+              			<button type="button" class="btn btn-success btn-full" data-dismiss="modal" aria-label="Close">Cancel</button>
+              		</div>
+              	</div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% elsif clan.recruiting? %>
+      <div class="row-fluid">
+        <h3 class="text-center text-uppercase">
+         You must join this clan before you can post an event. This clan is accepting new members through applications.
+       </h3>
+        <div class="row text-center">
+          <div class="col-sm-3 col-sm-offset-3">
+           <%= link_to 'View Clan', clan_path(clan), class: 'btn btn-success btn-full' %>
+          </div>
+          <% if pending_clan_application.present? %>
+            <div class="col-sm-3">
+              <button class="btn btn-success btn-full" data-toggle='modal' data-target="#application_pending_popup">Apply</button>
+            </div>
+            <div class="text-left">
+             <%= render '/clans/clans/pending_application_tab_popup'%>
+            </div>
+         <% elsif (!clan.allow_reapply_application?) && rejected_clan_application.present? %>
+            <div class="col-sm-3">
+              <button class="btn btn-success btn-full" data-toggle='modal' data-target="#rejected_clan_user_popup">Apply</button>
+            </div>
+            <div class="text-left">
+              <%= render '/clans/clans/reject_clan_user'%>
+            </div>
+          <% else %>
+            <div class="col-sm-3">
+              <button class="btn btn-success btn-full" data-toggle='modal' data-target="#apply_to_clan_modal">Apply</button>
+            </div>
+            <div class="modal fade" id="apply_to_clan_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog text-left" role="document">
+                <div class="modal-content">
+                  <%= form_for clan.clan_applications.build, url: clan_clan_applications_path(clan), remote: true do |f|%>
+                    <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">
+                        Requirment Questions
+                      </h4>
+                    </div>
+                    <div class="modal-body contract-details global_validation">
+                      <%= f.hidden_field :clan_id%>
+                      <%= f.hidden_field :user_id, value: current_user.id %>
+                      <%= hidden_field_tag :discord_clan_join, true %>
+                      <% clan.questions.each do|question|%>
+                      <input value="<%= current_user.id%>" name="clan_application[answers_attributes][<%=question.id%>][user_id]" type="hidden">
+                      <input value="<%= question.id%>" name="clan_application[answers_attributes][<%=question.id%>][question_id]" type="hidden">
+                      <input value="<%= clan.id%>" name="clan_application[answers_attributes][<%=question.id%>][clan_id]" type="hidden">
+                        <div class='row'>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="question<%=clan.id%><%= question.id%>"><%= question.name %></label>
+                              <input class="form-control" type="text" name="clan_application[answers_attributes][<%=question.id%>][answer]" id="question<%=clan.id%><%= question.id%>" data-validation='[NOTEMPTY]' data-validation-message='Enter Answer'>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="modal-footer">
+                      <div class="modal-footer-button-container">
+                        <div class="col-sm-4 col-sm-offset-2">
+                          <%= f.submit class: 'btn btn-success btn-full', value: 'Apply' %>
+                        </div>
+                        <div class="col-sm-4">
+                          <button type="button" class="btn btn-success btn-full" data-dismiss="modal" aria-label="Close">Cancel</button>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <% end%>
+          </div>
+        </div>
+        <hr class="gold-header-row">
+    <% elsif clan.closed? %>
+      <div class="row-fluid ">
+        <h3 class="text-center text-uppercase">
+         You must join this clan before you can post an event.  However, this clan is not currently accepting new members.
+       </h3>
+        <div class="row text-center">
+          <div class="col-md-4 col-md-offset-4">
+            <%= link_to 'View Clan', clan_path(clan), class: 'btn btn-success btn-full' %>
+          </div>
+        </div>
+      </div>
+        <hr class="gold-header-row">
+    <% end %>
+  <% end %>
+<% end %>
+
+<%if event.persisted? %>
+  <div class="row-fluid">
+    <p class="text-justify ">
+      You can edit any of the items below but changing the Event Title, Start Time, or Game will reset the roster and require participants to reconfirm.   You can cancel your event on the event's game roster page.
+    </p>
+  </div>
+<% end %>
+
+<div class="display_errors hide">
+  <h4 class="event_error_count"></h4>
+  <ul class="event_error_explanation"></ul>
+</div>
+<%= form_for event, :url => event.new_record? ? game_rosters_path : game_roster_path(event), remote: true, html: {id: 'event_form_discord'} do |f| %>
+
+  <div class="form-group">
+    <%= f.label :title, 'Event Title', class: 'required' %>
+    <%= f.text_field :title, class: 'form-control', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}%>
+  </div>
+
+  <%= hidden_field_tag :bot, :discord %>
+
+  <%if event.new_record? %>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :maximum_size, 'Maximum Roster Size', class: 'required' %>
+          <%= f.number_field :maximum_size, class: 'form-control', min: 2, step: 1, data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :event_type, 'Event Type', class: 'required' %>
+          <%= f.select :event_type, options_for_select(Event.event_types.map{|k,v| [k.titleize,k] }, params[:clan_id].present? ? 'clan_event' : ''), {prompt: 'Select Event Type'}, class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+          <div class="event-note hide">
+            Requires Premium Membership But Any Invited User Can Join <%=link_to "(Learn More)", about_path %>.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group <%= params[:clan_id].present? ? '' : 'hide'%>" id="clan_select">
+      <%= f.label :clan_id, 'Select Clan', class: 'required' %>
+      <%= f.select :clan_id, options_for_select(user_clans.map{|c|[c.name, c.id]}, clan.try(:id) ), {prompt: ''}, class: 'form-control event-chosen-select' %>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :game_game_system_join_id, 'Game', class: 'required' %><%= link_to ' (Add Games to Library)', '/profile/edit#my_games', id: "edit_profile_my_games"%>
+    <% if user_games.present? %>
+      <%= f.select :game_game_system_join_id, user_games,{prompt: 'Select A Game'}, class: 'form-control event-chosen-select', id: 'game_game_system_discord', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+    <% else %>
+      <%= f.select :game_game_system_join_id, {},{:prompt => "You Must Add Titles To Your Game Library To Post"},class: 'form-control event-chosen-select' %>
+    <% end %>
+  </div>
+
+  <div class="form-group ign-field-discord hide">
+    <% if current_user.present? %>
+      <%= hidden_field_tag :psn_user_name, current_user.psn_user_name %>
+      <%= hidden_field_tag :xbox_live_user_name, current_user.xbox_live_user_name %>
+      <%= hidden_field_tag :nintendo_user_name, current_user.nintendo_user_name %>
+      <%= hidden_field_tag :battle_user_name, current_user.battle_user_name %>
+      <%= hidden_field_tag :origins_user_name,  current_user.origins_user_name %>
+      <%= hidden_field_tag :steam_user_name, current_user.steam_user_name %>
+      <%= f.hidden_field :pc_type %>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :start_at, 'Time and Date', class: 'required'%>
+        <% start =  (f.object.start_at || Time.now.advance(hours: 1)).strftime("%m/%d/%Y %I:%M %p") # if Time.now form sometimes can't submit %>
+        <%= f.text_field :start_at, value: start, class: 'form-control',
+                           data: (event.new_record? ? {start_date: start} : {start_date: start,  toggle:'tooltip', placement:'top'}),
+                           title: 'Upating the time will send out new invites to all invitees', :help => 'Your Events cannot be claimed after this start date/time.', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :duration, 'Event Duration' %>
+        <%= f.select :duration, Event::DURATIONS, {}, :class => "form-control event-chosen-select" , data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="text-center text-primary gold-header-row">OPTIONAL ITEMS</h3>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :game_type, 'Game Type' %>
+        <%= f.select :game_type, User::GAME_TYPE, {}, class: 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :play_type, 'Play Type' %>
+        <%= f.select :play_type, User::GAME_STYLE, {}, class: 'form-control event-chosen-select' , data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'} %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :minimum_age, 'Minimum Age' %>
+        <%= f.select :minimum_age, options_for_select((13..99).map{|v| [v,v]}, selected: event.minimum_age), { prompt: 'None', :selected => event.minimum_age}, {:class => 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}} %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= f.label :maximum_age, 'Maximum Age' %>
+        <%= f.select :maximum_age, options_for_select((13..99).map{|v| [v,v]}, selected: event.maximum_age), {prompt: 'None', :selected => event.maximum_age}, {:class => 'form-control event-chosen-select', data: {validation: '[NOTEMPTY]', 'validation-message'=> 'Required'}} %>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+
+    <%= f.label :private_invite_ids, 'Invite My Favorite Players' %><%= link_to ' (Edit)', edit_profile_path(step: 4)%>
+    <%= f.select :private_invite_ids, users.collect{|u| [u.favorited_user.username, u.favorited_user.id]}, {include_blank: false}, class: 'form-control event-chosen-select', :multiple => true %>
+  </div>
+
+  <div class="form-group hide">
+    <%= f.label :details, 'Details & Requirements' %>
+    <%= f.text_area :details, placeholder: 'None', class: 'form-control' %>
+  </div>
+
+  <div class="row topmrg_20">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6">
+      <% if current_user.present? %>
+        <%= f.button "Submit".html_safe, class: 'btn btn-success btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Saving..."} %>
+      <%#= f.submit 'Submit', class: 'btn btn-primary btn-full'%>
+      <% end %>
+    </div>
+    <div class="col-md-12">
+    </div>
+  </div>
+<% end %>
+<%= render 'users/shared/login_popup' unless current_user.present?%>

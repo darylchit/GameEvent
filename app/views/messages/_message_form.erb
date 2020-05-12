@@ -1,0 +1,21 @@
+<li class="message message-self">
+	<span class="message-avatar">
+		<a href="<%= profiles_path() + '/' + current_user.username %>"><%= image_tag current_user.avatar_url, :class=>'avatar-sm'%></a>
+	</span>
+	<%= form_tag messages_path(), :action => 'create' do  | f |%>
+		<% if @conversation.present? %>
+			<%= hidden_field_tag :conversation_id, @conversation.id %>
+		<% end %>
+		<% if params[:recipient_id].present? %>
+			<%= hidden_field_tag :recipient_id, params[:recipient_id] %>
+		<% end %>
+		<div class="message-content">
+			<div class="form-group">
+				<%= text_area_tag :message, '', class: 'form-control', placeholder: 'Type a reply...', rows: '5' %>
+			</div>
+			<div class="text-right-md">
+				<%= submit_tag @conversation.present? ? 'Reply' : 'Send',  :class=> "btn btn-primary btn-x", data: { disable_with: "..." } %>
+			</div>
+		</div>
+	<% end %>
+</li>

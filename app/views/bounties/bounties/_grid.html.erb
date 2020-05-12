@@ -1,0 +1,154 @@
+<%= define_grid(@bounties_grid, show_filters: :yes, hide_csv_button: true, html: {class: 'wbmr wbmr-cards table table-responsive table-striped tablesaw tablesaw-stack', 'data-tablesaw-mode' => "columntoggle"}) do |g|
+	g.last_row do |number_of_columns|
+		if g.grid.resultset.size == 0
+			#'<tr><td><div class="no-results">'+link_to("Post a game", new_roster_path)+' to alert thousands of gamers that match your profile.</td></tr>'
+            '<tr><td><div class="no-results">No results found. ' + link_to("Create a new roster", new_roster_path)+'</td></tr>'
+		end
+	end
+
+	g.column name: 'User', attribute: 'username', model: "User", :html => {'data-tablesaw-priority' => "persist"}, detach_with_id: :user_filter, auto_reload: true, class: 'hidden-sm hidden-xs wbmr-avatar' do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			raw "<h5 class='mt0 hidden-sm hidden-xs'> #{c.buyer.username} </h5>" + "#{image_tag(c.buyer.avatar_url)} <h5 class='mt0 hidden-lg hidden-md'>#{c.buyer.username} </h5>"
+		end
+	end
+	g.column name: 'Generosity', attribute: 'generosity_rating', model: 'User', :html => {'data-tablesaw-priority' => "0"}, detach_with_id: :generosity_filter, filter_type: :range, class: "hidden-sm hidden-xs psa-col tablesaw-cell-hidden" do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			if c.buyer.generosity_rating == 0
+				raw("<span class=\"hidden-lg hidden-md\" >Generosity:&nbsp;</span> N/A")
+			else
+				raw("<span class=\"hidden-lg hidden-md\" >Generosity:&nbsp;</span><span class=\"generosity-rating-read-only\" data-score=\"#{c.buyer.generosity_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'P.S.A', attribute: 'psa_rating', model: 'User', :html => {'data-tablesaw-priority' => "1"}, detach_with_id: :psa_filter, filter_type: :range,  class: "hidden-sm hidden-xs psa-col" do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			if c.buyer.psa_rating == 0
+				raw("<span class=\"hidden-lg hidden-md\" >PSA:&nbsp;</span> N/A")
+			else
+				raw("<span class=\"hidden-lg hidden-md\" >PSA:&nbsp;</span><span class=\"psa-rating-read-only\" data-score=\"#{c.buyer.psa_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Personality', attribute: 'personality_rating', model: 'User', :html => {'data-tablesaw-priority' => "2"}, detach_with_id: :personality_filter, filter_type: :range, class: "hidden-sm hidden-xs tablesaw-cell-hidden psa-col" do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			if c.buyer.personality_rating == 0
+				raw("<span class=\"hidden-lg hidden-md\" >Personality:&nbsp;</span> N/A")
+			else
+				raw("<span class=\"hidden-lg hidden-md\" >Personality:&nbsp;</span><span class=\"psa-rating-read-only\" data-score=\"#{c.buyer.personality_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Skill', attribute: 'skill_rating',  model: 'User', :html => {'data-tablesaw-priority' => "3"}, detach_with_id: :skill_filter, filter_type: :range, class: "hidden-sm hidden-xs tablesaw-cell-hidden psa-col" do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			if c.buyer.skill_rating == 0
+				raw("<span class=\"hidden-lg hidden-md\" >Skill:&nbsp;</span> N/A")
+			else
+				raw("<span class=\"hidden-lg hidden-md\" >Skill:&nbsp;</span><span class=\"psa-rating-read-only\" data-score=\"#{c.buyer.skill_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Approval', attribute: 'approval_rating', model: 'User', :html => {'data-tablesaw-priority' => "4"}, detach_with_id: :approval_filter, filter_type: :range, class: "hidden-sm hidden-xs tablesaw-cell-hidden psa-col" do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			if c.buyer.approval_rating == 0
+				raw("<span class=\"hidden-lg hidden-md\" >Approval:&nbsp;</span> N/A")
+			else
+				raw("<span class=\"hidden-lg hidden-md\" >Approval:&nbsp;</span><span class=\"psa-rating-read-only\" data-score=\"#{c.buyer.approval_rating}\"></span>")
+			end
+		end
+	end
+	g.column name: 'Game Type', attribute: 'will_play', class: "hidden-sm hidden-xs", :html => {'data-tablesaw-priority' => "5"}, custom_filter: [['Player vs. Player', 'Player vs. Player'], ['Player vs. Enemy', 'Player vs. Enemy'], ['All Types', 'not null']], detach_with_id: :will_play_filter do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			if c.will_play == 'Player vs. Player'
+				raw("<span class=\"hidden-lg hidden-md\" >Game Type:&nbsp;</span> PvP")
+			elsif c.will_play == 'Player vs. Enemy'
+				raw("<span class=\"hidden-lg hidden-md\" >Game Type:&nbsp;</span> PvE")
+			else
+				raw("<span class=\"hidden-lg hidden-md\" >Game Type:&nbsp;</span> #{c.will_play}")
+			end
+		end
+	end
+	g.column name: 'Play Type', attribute: 'play_type', class: "hidden-sm hidden-xs", :html => {'data-tablesaw-priority' => "8"}, custom_filter: ['Casual', 'Serious'], detach_with_id: :play_type_filter do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			c.play_type
+		end
+	end
+	g.column name: 'Newb Patience', attribute: 'newbie_patience_level', model: "User", :html => {'data-tablesaw-priority' => "6"}, class: " hidden-sm hidden-xstablesaw-cell-hidden", custom_filter: ['High', 'Low'], detach_with_id: :newb_patience_filter do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			raw("<span class=\"hidden-lg hidden-md\" >Patience:&nbsp;</span> #{c.buyer.newbie_patience_level}")
+		end
+	end
+	g.column name: 'Experience', attribute: 'contracts_completed', class: "hidden-sm hidden-xs", model: 'User', :html => {'data-tablesaw-priority' => "7"}, detach_with_id: :contracts_completed_filter, filter_type: :range do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			raw("<span class=\"hidden-lg hidden-md\" >Experience:&nbsp;</span> #{c.buyer.contracts_completed}")
+		end
+	end
+	g.column name: 'Player Age', attribute: 'date_of_birth', model: 'User', :html => {'data-tablesaw-priority' => "6"}, detach_with_id: :player_age_filter, filter_type: :date, class: "tablesaw-cell-hidden hidden-sm hidden-xs" do | c |
+		if c.buyer.public_age
+			age_in_years(c.buyer.date_of_birth)
+		else
+			raw("n/a")
+		end
+	end
+	g.column name: 'Details', attribute: 'details', class: "hidden-sm hidden-xs", detach_with_id: :details_filter, auto_reload: true do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			html = raw "<h4 class='mb0 mt0'>#{c.contract_game_game_system_joins.first.game_game_system_join.game.title} (#{ c.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation })</h4>"
+			html +=  raw "<p class='description-text'>#{truncate(c.details, :length => 140)}</p>"
+		end
+	end
+	g.column name: 'Size', :html => {'data-tablesaw-priority' => "8"}, class: "hidden-sm hidden-xs tablesaw-inline" do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			raw "#{c.confirmed_users_count }" + "/" + "#{c.max_roster_size}" rescue nil
+		end
+	end
+	g.column name: 'Start', :html => {'data-tablesaw-priority' => "8"}, class: "hidden-sm hidden-xs tablesaw-inline", attribute: 'start_date_time', detach_with_id: :date_filter, filter_type: :datetime do | c |
+		link_to "#{profiles_path()}/#{c.buyer.username}" do
+			"#{compact_date c.start_date_time} #{standard_time c.start_date_time}"
+		end
+	end
+	g.column name: '', attribute: 'id', class: "hidden", model: 'GameSystem', :html => {'data-tablesaw-priority' => "persist"}, detach_with_id: :game_system_filter,
+		custom_filter: @sorted_systems.map{
+			|game_system| [game_system.title, game_system.id]
+		}, allow_multiple_selection: true do |c|
+		""
+	end
+	g.column name: '', attribute: 'id', class: "hidden", model: 'Title', :html => {'data-tablesaw-priority' => "persist"}, detach_with_id: :game_filter,
+		custom_filter: @sorted_games.map{
+			|game| [game.title, game.id]
+		}, allow_multiple_selection: true do |c|
+		""
+	end
+	g.column name: '', class: 'contract-actions roster-actions hidden-sm hidden-xs' do |c|
+
+		capture do
+			concat link_to "More Info", roster_path(c.id), class: "btn btn-sm btn-info"
+			# Check if user already got an invite
+			if current_user.invites.where('contract_id' => c.id).exists?
+				invite = current_user.invites.where('contract_id' => c.id).first
+				concat link_to "Join", claim_invite_path(invite), method: :patch, class: "btn btn-sm btn-primary" if invite.claimable?
+				concat link_to "Waitlist", waitlist_invite_path(invite), method: :patch, class: "btn btn-sm btn-primary" if invite.waitlistable?
+			elsif c.can_be_claimed_by_user?(current_user)
+				if c.slots_available?
+					concat link_to "Join", roster_invites_path(c), method: :post, class: "btn btn-sm btn-primary"
+				elsif c.waitlist
+					concat link_to "Waitlist", roster_path(c.id), method: :post, class: "btn btn-sm btn-primary"
+				end
+
+			end
+		end
+	end
+
+	g.column name: '', class: ' clearfix hidden-lg hidden-md' do | c |
+		raw render 'card', c: c
+	end
+	#g.column name: 'Date', attribute: 'start_date_time' do | c |
+	#	link_to c.start_date_time, show_resource_path(c)
+	#end
+	#g.column name: 'Duration', attribute: 'duration' do | c |
+	#	link_to c.start_date_time, show_resource_path(c)
+	#end
+end -%>
+
+
+<input type="text" name="grid[f][users_from_age]" id="grid_f_users_from_age" value="<%= @from_age %>" class="form-control" style="display: none;">
+
+<input type="text" name="grid[f][users_to_age]" id="grid_f_users_to_age" value="<%= @to_age %>" class="form-control" style="display: none;">

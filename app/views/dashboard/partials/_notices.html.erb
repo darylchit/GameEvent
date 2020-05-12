@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-md-10 col-sm-8">
+        <h2 class="mt0">Messages</h2>
+    </div>
+    <div class="col-md-2 col-sm-4 text-right-md text-right-sm">
+        <%= link_to 'VIEW ALL', messages_path, class: "btn btn-primary btn-block hidden-xs" %>
+    </div>
+</div>
+<div class="invites">
+    <div class="roster-invites-wrapper">
+        <ul class="list-unstyled <%= !browser.device.mobile? ? 'roster-invites' : '' %>">
+            <% notices.each do |n| %>
+                <% if browser.device.mobile? %>
+                    <%= render "dashboard/partials/notice_mobile", n: n %>
+                <% else %>
+                    <%= render "dashboard/partials/notice", n: n %>
+                <% end %>
+            <% end %>
+        </ul>
+        <%# link_to 'VIEW ALL', system_notices_path, class: "btn btn-primary btn-block visible-xs" if path == 'system' %>
+    </div>
+</div>
+
+<%= link_to 'VIEW ALL', messages_path, class: "btn btn-primary btn-block visible-xs" %>

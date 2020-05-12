@@ -1,0 +1,35 @@
+<%= render partial: 'bounty_snippet', bounty: resource %>
+
+<%= form_for resource, url: bounty_claim_path(resource), :method => "POST", :remote => true do |f | %>
+	<div class="contract-padding">
+		<h2 class="mt0 text-center">Select A Title</h2>
+		<ul class="list-unstyled clearfix games-list">
+			<% resource.game_game_system_joins.each do | ggs | %>
+				<li class="game-item col-fifth">
+					<label>
+						<div class="cover-wrap">
+							<%= game_cover_html(ggs.game) %>
+						</div>
+						<div class="game-details">
+							<%=  f.radio_button :selected_game_game_system_join_id, ggs.id %> <%=  ggs.game_system_name_label %> </h5>
+						</div>
+					</label>
+				</li>
+			<% end %>
+		</ul>
+	</div>
+	<div class="modal-footer modal-contract-footer bounty-padding">
+				<h3 class="mt0 modal-footer-label pull-left-md"></h3>
+				<% if resource.can_be_claimed_by_user?(current_user) %>
+					<% if resource.price_in_cents != 0 && !current_user.can_create_paid_contracts? %>
+				<% else %>
+					<%= f.submit "Claim", class: "disabled btn btn-lg btn-outline pull-right-md", 'data-toggle' => "tooltip", 'data-placement' => "top", 'title' => "Select a title to continue", data: { disable_with: "..." }  %>
+					<% end %>
+				<% end %>
+		</div>
+	</div>
+<% end %>
+
+<div class="pay-pal-form-container"></div>
+<script src="https://www.paypalobjects.com/js/external/dg.js">
+</script>

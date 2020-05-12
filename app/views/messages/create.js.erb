@@ -1,0 +1,23 @@
+<% if @bloked %>
+	$('#compose_favorite_user_form').addError({
+		"recipient_id": "You Cannot Message This Player"
+	});
+<% else %>
+$('#profile_message_contact').hide();
+
+if($('#favorite_users_popup').length >0 ){
+	$('.favorites_user_list').val('');
+	$('.tesx_message_box').val('');
+	$('#favorite_users_popup').hide();
+}
+$('.modal-backdrop').remove();
+
+toastr.options = {
+		"closeButton": true,
+		"timeOut": "7000",
+		"extendedTimeOut": "0",
+		"positionClass": "toast-top-center"
+};
+toastr.success('Message sent');
+location.reload();
+<% end %>

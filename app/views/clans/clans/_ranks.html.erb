@@ -1,0 +1,17 @@
+
+<h2 class="profile-title">Clan Ranks</h2>
+<% if current_user.present? && (@clan.can_perform? current_user, :edit_ranks) %>
+  <p class="lead">Edit the actions that can be performed by the different ranks inside of your clan.</p>
+<% end %>
+
+<div class="clan-rank">
+  <ul class="list-unstyled">
+	<% if current_user.present? %>
+	    <% if @clan.can_perform? current_user, :edit_ranks %>
+	      <%= render :partial => 'clans/clan_ranks/edit_clan_rank', collection: @clan.clan_ranks, as: :clan_rank %>
+	    <% else %>
+	      <%= render partial: 'clans/clan_ranks/clan_rank', collection: @clan.clan_ranks, as: :clan_rank %>
+	    <% end %>
+	<% end %>  
+  </ul>
+</div>

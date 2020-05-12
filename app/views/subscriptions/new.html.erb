@@ -1,0 +1,29 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+				<div class="devise-block">
+					<h1 class="text-center"> Please Confirm Your Subscription</h1>
+          <%= render 'layouts/flash' %>
+					<%= bootstrap_form_for(@subscription, url: subscription_plan_subscriptions_path(@subscription_plan), html: { method: :post }) do |f| %>
+            <%= f.error_summary %>
+            <%= f.hidden_field :token  %>
+            <%= f.hidden_field :payer_id  %>
+
+						<div class="form group text-center-md">
+              <div class="pricingBloc"> 
+                <h2><%= @subscription_plan.name %></h2> 
+                <h3 class="mt0">$<%= @subscription_plan.price %> per <%= @subscription_plan.monthly? ? "month" : "year"%></h3> 
+                <br>
+                <p>
+                <%= f.submit "Confirm", class: "btn btn-primary btn-x" %>
+                </p> 
+              </div> 
+            </div> 
+          <% end %>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

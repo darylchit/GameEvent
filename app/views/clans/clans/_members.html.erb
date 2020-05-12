@@ -1,0 +1,41 @@
+<% if false %>
+<div class="row">
+  <!-- View Host -->
+  <%= render "clans/clan_members/clan_host" %>
+  <!-- View 5 Clan Members -->
+  <div class="col-md-12 topmrg_20">
+    <ul class="list-unstyled">
+      <div id="clan_members">
+         <% @clan.clan_ranks.each do |rank| %>
+          <% if rank.users.present? %>
+           <div class='clear row'>
+             <div class="row-fluid">
+               <div class="gold-header-row row-fluid"></div>
+               <div class="col-md-12 lightgrey-bg gold-header-row">
+                 <h2 class='text center'> <%= rank.title.try(:upcase) %> </h2>
+               </div>
+             </div>
+             <div class="col-md-12 topmrg_20">
+               <%= render :partial => 'players/players/player', collection: rank.users.limit(10), as: :player %>
+             </div>
+           </div>
+          <% end %>
+         <% end %>
+      </div>
+    </ul>
+  </div>
+</div>
+<div class="">
+  <div class="col-md-12">
+    <div id="clan_members_paginator">
+      <!-- AJAX REQUEST IS MADE TO FILL IN -->
+    </div>
+  </div>
+</div>
+  <!-- View all Clan Members -->
+<div class="row">
+  <div class="col-md-12">
+    <%= link_to "View All", clan_clan_members_path(@clan), class: "btn btn-primary btn-block", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> View All.."}%>
+  </div>
+</div>
+<% end %>

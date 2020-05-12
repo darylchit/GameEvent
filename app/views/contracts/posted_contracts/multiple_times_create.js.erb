@@ -1,0 +1,28 @@
+<% if @errors.present? %>
+	$('.alert').remove();
+	<% @errors.each do |e| %>
+		$("<%= e[:selector] %>").append('<div class="alert alert-danger"><%= e[:message] %></div>');
+	<% end %>
+<% else %>
+		<% if @schedules.empty? %>
+			$('.alert').remove();
+			$(".time-entries").append('<div class="alert alert-danger">Could not generate multiple dates/times.  Please make sure you have selected days and times that would occur between your start date and end date.</div>');
+		<% else %>
+			$('.duration').hide();
+			$('.start-date-time').hide();
+			$('.start-date-times').html('<div class="form-group"><label>Multiple Event Times</label><br><%= link_to 'REDO SCHEDULE', multiple_times_new_path(), class: 'btn btn-outline btn-xl btn-lg', :remote => true %></div>');
+			<%  @schedules.each_with_index do |s, k| %>
+				$('.start-date-times').append('<%= j render 'multiple_times_slot', :s => s, :k => k %>');
+			<% end %>
+			$('.well .close').click(function(){
+				$(this).closest('.time-slot').remove();
+				if($('.start-date-times .well').length == 0){
+					$('.duration').show();
+					$('.start-date-time').show();
+					$('.start-date-times').html('');
+				}
+			});
+			$('.modal').modal('hide');
+			
+		<% end %>
+<% end %>

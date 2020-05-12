@@ -1,0 +1,18 @@
+<%= define_grid(@reports, show_filters: false, hide_csv_button: true, html: {class: 'table table-responsive admin-users table-striped data-tr'}) do |g|
+	g.column name: 'Type', attribute: 'reportable_type' do | r |
+		link_to r.reportable_type_name, admin_report_path(r)
+	end
+
+	g.column name: 'Reported At', attribute: 'created_at' do | r |
+		link_to long_date_time(r.created_at), admin_report_path(r)
+	end
+
+	g.column name: 'Handled At', attribute: 'handled_at' do | r |
+		link_to long_date_time(r.handled_at), admin_report_path(r) if r.handled_at.present?
+	end
+
+	g.column name: 'Handled By', attribute: 'admin_id' do | r |
+		link_to r.admin.email, admin_report_path(r) if r.admin.present?
+	end
+
+end -%>

@@ -1,0 +1,46 @@
+<div class="background-block content-area clan_edit_page">
+  <div class="row text-center">
+    <%= image_tag "game_roster_1.png", :class=> 'logo avatar-md2 wow flip'%>
+    <h1 class="">Create Clan</h1>
+    <div class="container">
+      <hr class="gold-row">
+    </div>
+
+  </div>
+
+	<p class="lead text-primary" align="center">
+		This page is optimized for desktop use and is not recommended for mobile browsers.
+	</p>
+	<div class="topmrg_20" align="center">
+		Clan Images and Text Must Comply With Our Terms of Use. Offensive Content Is Not <Permitted>    </Permitted>.
+	</div>
+	<div class="container">
+		<div class="">
+			<div class="row">
+				<div class="col-md-12">
+					 	<% if @clan.errors.any? %>
+					      <div id="error_explanation" class='text-primary'>
+					        <h2><%= pluralize(@clan.errors.count, "error") %> prohibited this clan from being saved:</h2>
+					        <ul>
+					          <% @clan.errors.messages.each do |message| %>
+					              <% next if message == 'Video urls is invalid'%>
+					              <% if message == 'Video urls url Please only submit YouTube and Twitch videos.'%>
+					                  <li class="text-primary">Video ULR must be from YouTube or Twitch</li>
+					                  <% next%>
+					              <% end %>
+					              <li><%= message[1].join %></li>
+					          <% end %>
+					        </ul>
+					      </div>
+				  		<% end %>
+					<%= render 'form' %>
+				</div>
+			</div>
+		</div>
+		<!-- <%= link_to 'Back', clans_path %> -->
+	</div>
+</div>
+
+<% if current_user.active_subscription.present? && current_user.active_subscription.promotional? && request.get?%>
+  <%= render 'promotional_notice'%>
+<% end %>

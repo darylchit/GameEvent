@@ -1,0 +1,2 @@
+$('#clans-list').append("<%= escape_javascript(render :partial => 'shared/clan_card', collection: @clans, as: :clan)%>");
+$('.pagination').replaceWith('<%= escape_javascript(paginate(@clans) )%>');

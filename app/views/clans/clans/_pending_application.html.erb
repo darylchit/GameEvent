@@ -1,0 +1,22 @@
+<% if @clan_applications.present? %>
+  <div class="contract-details">
+    <table class="table table-hover pending_application_desktop", id ="pending_applications">
+      <thead></thead>
+      <%= render  partial: 'clans/clans/clan_pending_application_row', collection: @clan_applications.limit(@set_offset), as: :application %>
+    </table>
+    <% if @clan_applications_count > @set_offset %>
+       <%= link_to 'View More', get_pending_clan_applications_clan_path(@clan, offset: @set_offset, total_applications: @clan_applications_count), remote: true, class: 'btn btn-primary set_view_more_btn hidden-xs view_more_applications', id: "view_more_applications", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> View More"}  %>
+    <% end %>
+    <div class="pending_application_mobile" id="pending_application_mobile">
+      <%= render  partial: 'clans/clans/clan_pending_application_row_mobile', collection: @clan_applications.limit(@set_offset), as: :application %>
+    </div>
+    <% if @clan_applications_count > @set_offset %>
+      <%= link_to 'View More', get_pending_clan_applications_clan_path(@clan, offset: @set_offset, total_applications: @clan_applications_count), remote: true, class: 'btn btn-primary btn-full visible-xs set_mrg_tbl_application view_more_applications', id: "view_more_applications_mobile", data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> View More"}%>
+    <% end %>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+    <h3 class="text-center">No Pending Applications</h3>
+  </div>
+<% end %>

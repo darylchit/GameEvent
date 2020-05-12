@@ -1,0 +1,11 @@
+<h2 class="dashboard-user-header text-center">
+	<span class="user-header-avatar">
+		<%= image_tag(current_user.avatar_url, class: 'avatar-sm') %>
+	</span>
+	<span class="user-header-text">
+		<span class="user-header-name">
+			<%= current_user.username %>
+		</span><br>
+		<%= link_to "Edit Profile", edit_profile_path, class: "user-header-link" %>
+	</span>
+</h2>

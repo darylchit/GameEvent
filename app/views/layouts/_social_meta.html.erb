@@ -1,0 +1,62 @@
+<meta property="fb:app_id" content="1171498722875446">
+<% if defined? @public_event %>
+	<% if @public_event =='availability' %>
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:site" content="@GameRoster">
+		<meta name="twitter:url" property="og:url" content="<%= request.original_url %>">
+		<meta name="twitter:title" property="og:title" content="<%= @event.seller.username %>'s Availability on Game Roster">
+		<meta name="twitter:description" property="og:description" content="<%= short_date_time(@event.start_date_time) %> - <%= @event.details %>">
+		<meta name="twitter:image" property="og:image" content="<%= (root_url + asset_path(@event.seller.avatar_url)).gsub('//a', '/a') %>">
+	<% elsif @public_event == 'roster' %>
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:site" content="@GameRoster">
+		<meta name="twitter:url" property="og:url" content="<%= request.original_url%>">
+		<meta name="twitter:title" property="og:title" content="<%= @event.buyer.username %>'s Event on Game Roster">
+		<meta name="twitter:description" property="og:description" content="<%= short_date_time(@event.start_date_time) %> - <%= @event.details %>">
+		<meta name="twitter:image" property="og:image" content="<%= (root_url + asset_path(@event.buyer.avatar_url)).gsub('//a', '/a') %>">
+	<% end %>
+<% elsif controller_name == 'game_rosters' && action_name == 'show' %>
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@GameRoster">
+	<meta name="twitter:url" property="og:url" content="<%= request.original_url %>">
+	<meta name="twitter:title" property="og:title" content="<%= event.game.title %> (<%= event.game_system.abbreviation %>)">
+  <% if current_user.present? %>
+		<meta name="twitter:description" property="og:description" content="<%= event.start_at.strftime('%b-%e | %l:%M%p %Z').gsub('EDT', 'ET').gsub('EST', 'ET').gsub('MST','MT').gsub('PST', 'PT').gsub('CST','CT') %>">
+	<% else %>
+	  <meta name="twitter:description" property="og:description" content="<%= event.start_at.in_time_zone('Eastern Time (US & Canada)').strftime('%b-%e | %l:%M%p %Z').gsub('EDT', 'ET').gsub('EST', 'ET').gsub('MST','MT').gsub('PST', 'PT').gsub('CST','CT') %>">
+	<% end %>
+	<meta name="twitter:image" property="og:image" content="<%= event.game.game_cover.url %>">
+<% elsif controller_name == 'clans' && action_name == 'show' && @clan.present? && @clan.is_a?(Clan) %>
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@GameRoster">
+	<meta name="twitter:url" property="og:url" content="<%= request.original_url %>">
+	<meta name="twitter:title" property="og:title" content="<%= @clan.try(:name) %>">
+	<meta name="twitter:description" property="og:description" content="<%= @clan.try(:motto) %>">
+	<% if @clan.cover_url_with_domain.starts_with?('http') %>
+		<meta name="twitter:image" property="og:image" content="<%= image_path @clan.cover_url_with_domain %>">
+	<% else %>
+		<meta name="twitter:image" property="og:image" content="<%= "#{ENV['domain']}#{image_path @clan.cover_url_with_domain}" %>">
+	<% end %>
+<% elsif controller_name == 'game_rosters' && action_name == 'discord_post'%>
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@GameRoster">
+	<meta name="twitter:url" property="og:url" content="<%= request.original_url %>">
+	<meta name="twitter:title" property="og:title" content="Game Roster Discord Bot">
+	<meta name="twitter:description" property="og:description" content="Post Clan and LFG Events">
+	<% if clan.present? %>
+		<% if clan.cover_url_with_domain.starts_with?('http') %>
+			<meta name="twitter:image" property="og:image" content="<%= image_path clan.cover_url_with_domain %>">
+		<% else %>
+			<meta name="twitter:image" property="og:image" content="<%= "#{ENV['domain']}#{image_path clan.cover_url_with_domain}" %>">
+		<% end %>
+	<% else %>
+	  <meta name="twitter:image" property="og:image" content="<%= (root_url + asset_path('meta-logo.png')).gsub('//a', '/a') %>">
+	<% end %>
+<% else %>
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@GameRoster">
+	<meta name="twitter:url" property="og:url" content="<%= request.original_url %>">
+	<meta name="twitter:title" property="og:title" content="Game Roster">
+	<meta name="twitter:description" property="og:description" content="Clans - Players - Games | Limitless Communities">
+	<meta name="twitter:image" property="og:image" content="<%= (root_url + asset_path('meta-logo.png')).gsub('//a', '/a') %>">
+<% end %>

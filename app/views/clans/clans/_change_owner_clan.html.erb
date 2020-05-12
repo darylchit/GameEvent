@@ -1,0 +1,57 @@
+<div class="modal fade" id="change_clan_owner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-vertical">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">
+          Transfer Clan Ownership
+        </h4>
+      </div>
+      <div class="modal-body contract-details">
+          <%if @favorite_users.present?%>
+            <% if @clan.id.present?%>
+              <%= form_for(@clan, url: change_owner_clan_path(@clan), remote: true) do |f| %>
+                  <div class="mrg_btm_10 row-fluid text-primary text-justify">
+                    You Can Only Transfer Ownership To A User That Is On Your Favorites List. Your Recipient Cannot Be Listed As A Founder Of Another Clan To Receive This Transfer.
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <%= f.label :host_id, "Transfer Ownership To:" %>
+                        <%= f.select :host_id, options_for_select(@favorite_users.map{|member|[member.favorited_user.username, member.favorited_user.id]}, @clan.host_id), {include_blank: false}, {:class => 'form-control chosen-select'} %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class='row'>
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <%= label_tag :change_clan_owner, 'Type "TRANSFER" To Confirm' %>
+                        <%= text_field_tag "change_clan_owner", "", :class => 'form-control' %>
+                      </div>
+                      <div class="clan_owner_change_validate">
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class='row'>
+                    <div class="col-sm-12">
+                      <div class="form-group text-center">
+                        <%= f.submit :class => 'btn btn-primary width_100', value: 'Change Owner' %>
+                      </div>
+                    </div>
+                  </div>
+              <% end %>
+            <% end %>
+          <% else %>
+            <div class='row'>
+              <div class="col-sm-12">
+                <span class="">You can only transfer ownership to a user with Elite status that is on you Favorites list. Your recipient cannot be listed as a founder of another clan to receive this transfer.</span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,245 @@
+<%= define_grid(@all, show_filters: :yes, hide_csv_button: true, html: {class: 'table table-striped wbmr-cards my-events data-tr my-events'}) do |g|
+	link_url = ''
+	is_mine = false
+
+	g.blank_slate do
+    	content_tag :div, 'You have no events', class: 'no-results'
+	end
+
+	g.column name: '', class: 'hidden-sm hidden-xs' do | c |
+		if ((c.bounty? && c.seller.present?) || (c.contract? && c.buyer.present?)) || c.is_closed?
+			if c.bounty?
+				if c.buyer == current_user
+					link_url = posted_bounty_path c
+				else
+					link_url = claimed_bounty_path c
+				end
+      		elsif c.contract?
+				if c.seller == current_user
+					link_url = posted_contract_path c
+				else
+					link_url = claimed_contract_path c
+       		end
+      	else c.roster?
+		    link_url = roster_path c
+			end
+		else
+			if c.bounty?
+				if c.buyer == current_user
+					link_url = edit_posted_bounty_path c
+				else
+					link_url = posted_bounty_path c
+				end
+			elsif c.contract_type == 'Contract'
+				if c.seller == current_user
+					link_url = edit_posted_contract_path c
+				else
+					link_url = posted_contract_path c
+				end
+			else
+		    	link_url = roster_path c
+			end
+
+		end
+		is_mine = c.owner.eql?(current_user)
+		other_user_avatar c
+	end
+
+	g.column name: 'Other User', class: 'hidden-sm hidden-xs' do | c |
+
+		link_to_other_user c
+	end
+
+
+	g.column name: 'IGN', class: 'hidden-sm hidden-xs' do | c |
+		if other_user c
+			if is_mine
+				if c.bounty? && c.seller.present?
+					link_to "#{profiles_path()}/#{c.seller.username}" do
+						if c.selected_game_game_system_join.game_system.abbreviation == 'PS4' || c.selected_game_game_system_join.game_system.abbreviation == 'PS3'
+							raw("<h5>#{c.seller.psn_user_name.present? ? c.seller.psn_user_name : 'Not Listed'}</h5>")
+				    	elsif c.selected_game_game_system_join.game_system.abbreviation == 'XB1' || c.selected_game_game_system_join.game_system.abbreviation == 'XB360'
+							raw("<h5>#{c.seller.xbox_live_user_name.present? ? c.seller.xbox_live_user_name : 'Not Listed'}</h5>")
+						elsif c.selected_game_game_system_join.game_system.abbreviation == 'Wii U'
+							raw("<h5>#{c.seller.nintendo_user_name.present? ? c.seller.nintendo_user_name : 'Not Listed'}</h5>")
+						elsif c.selected_game_game_system_join.game_system.title == 'PC'
+							raw("<h5>#{c.seller.pc_user_name.present? ? c.seller.pc_user_name : 'Not Listed'}</h5>")
+				    	end
+					end
+				elsif c.contract? && c.buyer.present?
+					link_to "#{profiles_path()}/#{c.buyer.username}" do
+						if c.selected_game_game_system_join.game_system.abbreviation == 'PS4' || c.selected_game_game_system_join.game_system.abbreviation == 'PS3'
+							raw("<h5>#{c.buyer.psn_user_name.present? ? c.buyer.psn_user_name : 'Not Listed'}</h5>")
+				    	elsif c.selected_game_game_system_join.game_system.abbreviation == 'XB1' || c.selected_game_game_system_join.game_system.abbreviation == 'XB360'
+							raw("<h5>#{c.buyer.xbox_live_user_name.present? ? c.buyer.xbox_live_user_name : 'Not Listed'}</h5>")
+						elsif c.selected_game_game_system_join.game_system.abbreviation == 'Wii U'
+							raw("<h5>#{c.buyer.nintendo_user_name.present? ? c.buyer.nintendo_user_name : 'Not Listed'}</h5>")
+						elsif c.selected_game_game_system_join.game_system.title == 'PC'
+							raw("<h5>#{c.buyer.pc_user_name.present? ? c.buyer.pc_user_name : 'Not Listed'}</h5>")
+				    	end
+					end
+				end
+			else
+				if c.bounty? && c.buyer.present?
+					link_to "#{profiles_path()}/#{c.buyer.username}" do
+						if c.selected_game_game_system_join.game_system.abbreviation == 'PS4' || c.selected_game_game_system_join.game_system.abbreviation == 'PS3'
+							raw("<h5>#{c.buyer.psn_user_name.present? ? c.buyer.psn_user_name : 'Not Listed'}</h5>")
+				    	elsif c.selected_game_game_system_join.game_system.abbreviation == 'XB1' || c.selected_game_game_system_join.game_system.abbreviation == 'XB360'
+							raw("<h5>#{c.buyer.xbox_live_user_name.present? ? c.buyer.xbox_live_user_name : 'Not Listed'}</h5>")
+						elsif c.selected_game_game_system_join.game_system.abbreviation == 'Wii U'
+							raw("<h5>#{c.buyer.nintendo_user_name.present? ? c.buyer.nintendo_user_name : 'Not Listed'}</h5>")
+						elsif c.selected_game_game_system_join.game_system.title == 'PC'
+							raw("<h5>#{c.buyer.pc_user_name.present? ? c.buyer.pc_user_name : 'Not Listed'}</h5>")
+				    	end
+					end
+				elsif c.contract? && c.seller.present?
+					link_to "#{profiles_path()}/#{c.seller.username}" do
+						if c.selected_game_game_system_join.game_system.abbreviation == 'PS4' || c.selected_game_game_system_join.game_system.abbreviation == 'PS3'
+							raw("<h5>#{c.seller.psn_user_name.present? ? c.seller.psn_user_name : 'Not Listed'}</h5>")
+				    	elsif c.selected_game_game_system_join.game_system.abbreviation == 'XB1' || c.selected_game_game_system_join.game_system.abbreviation == 'XB360'
+							raw("<h5>#{c.seller.xbox_live_user_name.present? ? c.seller.xbox_live_user_name : 'Not Listed'}</h5>")
+						elsif c.selected_game_game_system_join.game_system.abbreviation == 'Wii U'
+							raw("<h5>#{c.seller.nintendo_user_name.present? ? c.seller.nintendo_user_name : 'Not Listed'}</h5>")
+						elsif c.selected_game_game_system_join.game_system.title == 'PC'
+							raw("<h5>#{c.seller.pc_user_name.present? ? c.seller.pc_user_name : 'Not Listed'}</h5>")
+				    	end
+					end
+				elsif c.contract_type == 'Roster' && c.buyer.present?
+					link_to "#{profiles_path()}/#{c.buyer.username}" do
+						if c.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS4' || c.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS3'
+							raw("<h5>#{c.buyer.psn_user_name.present? ? c.buyer.psn_user_name : 'Not Listed'}</h5>")
+				    	elsif c.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB1' || c.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB360'
+							raw("<h5>#{c.buyer.xbox_live_user_name.present? ? c.buyer.xbox_live_user_name : 'Not Listed'}</h5>")
+						elsif c.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'Wii U'
+							raw("<h5>#{c.buyer.nintendo_user_name.present? ? c.buyer.nintendo_user_name : 'Not Listed'}</h5>")
+						elsif c.contract_game_game_system_joins.first.game_game_system_join.game_system.title == 'PC'
+							raw("<h5>#{c.buyer.pc_user_name.present? ? c.buyer.pc_user_name : 'Not Listed'}</h5>")
+				    	end
+					end
+				end
+			end
+		else
+			raw "&mdash;"
+		end
+	end
+
+	g.column name: 'Type', attribute: 'contract_type', class: 'hidden-sm hidden-xs'  do | c |
+		link_to c.display_contract_type, link_url
+	end
+
+	g.column name: 'Roster', class: 'hidden-sm hidden-xs' do |c|
+		link_to link_url do
+			if c.contract? || c.bounty?
+				if (other_user c)
+					"2/2"
+				else
+					"1/2"
+				end
+			elsif c.roster?
+				# Gain access to the roster methods for size
+				c = c.becomes(Roster)
+				raw "#{c.confirmed_users_count}/#{c.max_roster_size}"
+			end
+		end
+	end
+
+	g.column name: 'Event Time', attribute: 'start_date_time', class: 'hidden-sm hidden-xs' do | c |
+		link_to short_date_time_spacing(c.start_date_time), link_url
+	end
+
+	# g.column name: 'Duration', attribute: 'duration' do | c |
+	# 	if c.buyer.present? or c.is_closed?
+	# 		link_to c.duration.to_s + ' Hrs', posted_contract_path(c)
+	# 	else
+	# 		link_to c.duration.to_s + ' Hrs', edit_posted_contract_path(c)
+	# 	end
+	# end
+
+	g.column name: 'Status', attribute: 'status', detach_with_id: :status_filter, custom_filter: :auto, allow_multiple_selection: false, class: 'hidden-sm hidden-xs' do | c |
+		status = (c.is_closed_by_poster? ? 'Cancelled' : c.status)
+		link_to status || "???", link_url
+	end
+
+	g.column :class => 'contract-actions text-right-md hidden-sm hidden-xs' do | c |
+		html = ''
+		if c.contract?
+			if c.status == 'Open'
+				html += link_to 'Cancel', (is_mine ? posted_contract_cancel_path(c) : claimed_contract_cancel_path(c)), class: 'btn btn-danger'
+				html += link_to 'Edit', edit_posted_contract_path(c), class: 'btn btn-primary' if is_mine
+			elsif c.status == "Claimed"
+				html += link_to 'Cancel', (is_mine ? posted_contract_cancel_path(c) : claimed_contract_cancel_path(c)), class: 'btn btn-danger'
+				html += link_to "View", link_url, class: 'btn btn-info'
+			elsif c.status == 'Invoiced'
+				html += link_to 'Donate', contract_payment_request_path(c), :method => "POST", class: 'btn btn-success' unless is_mine
+				if is_mine && !c.buyer_feedback_date_time.nil?
+					html += link_to "View", link_url, class: 'btn btn-info'
+				elsif !is_mine && !c.seller_feedback_date_time.nil?
+					html += link_to "View", link_url, class: 'btn btn-info'
+				end
+			end
+		  	if c.is_closed? && !c.is_closed_by_poster? && c.status != 'Expired'
+		  		if is_mine
+		  			if c.buyer_feedback_date_time.nil?
+		  				html += link_to 'Rate', posted_contract_path(c), class: 'btn btn-success'
+		  				html += link_to "View", link_url, class: 'btn btn-info'
+		  			else
+		  				html += link_to "View", link_url, class: 'btn btn-info'
+		  			end
+		  		else
+		  			if c.seller_feedback_date_time.nil?
+		  				html += link_to 'Rate', claimed_contract_path(c), class: 'btn btn-success'
+		  				html += link_to "View", link_url, class: 'btn btn-info'
+		  			else
+		  				html += link_to "View", link_url, class: 'btn btn-info'
+		  			end
+		  		end
+				end
+		elsif c.bounty?
+			if c.status == 'Open'
+				html += link_to 'Cancel', (is_mine ? posted_bounty_cancel_path(c) : claimed_bounty_cancel_path(c)), class: 'btn btn-danger'
+				html += link_to 'Edit', edit_posted_bounty_path(c), class: 'btn btn-primary' if is_mine
+			elsif c.status == "Claimed"
+				html += link_to 'Cancel', (is_mine ? posted_bounty_cancel_path(c) : claimed_bounty_cancel_path(c)), class: 'btn btn-danger'
+				html += link_to "View", link_url, class: 'btn btn-info'
+			elsif c.status == 'Invoiced'
+				html += link_to 'Donate', bounty_payment_request_path(c), :method => "POST", class: 'btn btn-success' if is_mine
+				if is_mine && !c.buyer_feedback_date_time.nil?
+					html += link_to "View", link_url, class: 'btn btn-info'
+				elsif !is_mine && !c.seller_feedback_date_time.nil?
+					html += link_to "View", link_url, class: 'btn btn-info'
+				end
+			end
+			if c.is_closed? && !c.is_closed_by_poster? && c.status != 'Expired'
+				if is_mine
+					if c.seller_feedback_date_time.nil?
+						html += link_to 'Rate', posted_bounty_path(c), class: 'btn btn-success'
+						html += link_to "View", link_url, class: 'btn btn-info'
+					else
+						html += link_to "View", link_url, class: 'btn btn-info'
+					end
+				else
+					if c.buyer_feedback_date_time.nil?
+						html += link_to 'Rate', claimed_bounty_path(c), class: 'btn btn-success' unless is_mine
+						html += link_to "View", link_url, class: 'btn btn-info'
+					else
+						html += link_to "View", link_url, class: 'btn btn-info'
+					end
+				end
+            end
+        else # c.roster?
+			if c.status == 'Open' && is_mine
+				html += link_to 'Cancel', cancel_roster_path(c), class: 'btn btn-danger'
+          		html += link_to 'Edit', edit_roster_path(c), class: 'btn btn-primary'
+          	else
+          		html += link_to "View", link_url, class: 'btn btn-info'
+        	end
+     	end
+
+		html.html_safe
+	end
+
+	g.column name: '', class: 'hidden-lg hidden-md' do | c |
+		raw render 'card', c: c, is_mine: is_mine, link_url: link_url
+	end
+
+end -%>

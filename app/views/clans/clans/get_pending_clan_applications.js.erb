@@ -1,0 +1,7 @@
+$("#pending_applications").append("<%= escape_javascript render(:partial => 'clans/clans/clan_pending_application_row', :collection => @clan.clan_applications.offset(@offset).limit(10), :as => :application) %>");
+$("#pending_application_mobile").append("<%= escape_javascript render(:partial => 'clans/clans/clan_pending_application_row_mobile', :collection => @clan.clan_applications.offset(@offset).limit(10), :as => :application) %>");
+$("#view_more_applications").attr("href", "/clans/<%=@clan_id%>/get_pending_clan_applications?offset=<%=@offset_add%>&total_applications=<%=@total%>");
+$("#view_more_applications_mobile").attr("href", "/clans/<%=@clan_id%>/get_pending_clan_applications?offset=<%=@offset_add%>&total_applications=<%=@total%>");
+<%if @show_button %>
+	$(".view_more_applications").remove();
+<% end %>

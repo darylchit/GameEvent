@@ -1,0 +1,14 @@
+<% if params[:discord_clan_join].present? && params[:discord_clan_join] == "true" %>
+  setTimeout(function(){ location.reload(); }, 7000);
+<% else %>
+  $('#ajax_tab').html("<%= j render(:partial => 'clans/clans/leave_tab')%>");
+  $("#clan-members").html("<%= j render :partial => '/clans/clans/members' %>");
+<% end %>
+toastr.options = {
+    "closeButton": true,
+    "timeOut": "7000",
+    "extendedTimeOut": "0",
+    "positionClass": "toast-top-center"
+};
+toastr.success('Welcome To <%= @clan.name %>. You Are Now A Rank 3 Member.');
+setTimeout(function(){ location.reload(); }, 7000);

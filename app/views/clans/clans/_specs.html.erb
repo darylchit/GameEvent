@@ -1,0 +1,257 @@
+<div class="clan-stats clan-specs clan_spec_tab">
+  <%= render "clans/clan_header", active: 'profile' %>
+  <hr>
+  <div class="row visible-xs">
+    <div class="col-xs-7">
+      <dl class="roster-list dl-horizontal">
+        <dt>Systems:</dt>
+        <dd>
+           <% if @clan.game_systems.any? %>
+            <% clan_systems = @clan.game_systems.pluck(:abbreviation).uniq %>
+            <%if clan_systems.count == @total_game_systems %>
+              <a tabindex="0" class="cursor_pointer" data-toggle="popover" data-trigger="focus" data-placement="top" title="All Systems" data-content="<%= clan_systems.join(', ') %>"><span class="text-white">All Systems</span></a>
+            <%else%>
+              <span tabindex="0" class="title_wrap cursor_pointer" data-toggle="popover" data-trigger="focus" data-placement="top" title="Systems" data-content="<%= clan_systems.join(', ') %>"><%= @clan.game_systems.pluck(:abbreviation).uniq.join(", ") %></span>
+            <%end%>
+          <% else %>
+            N/A
+          <% end %>
+        </dd>
+        <dt>Country:</dt>
+        <dd><%= @clan.country.present? ? countries_list.key(@clan.country) : 'N/A'  %></dd>
+        <dt>Time Zone:</dt>
+        <dd><%= @clan.timezone.present? ? short_time_zone(@clan.timezone) : ' &mdash;'.html_safe %></dd>
+        <dt>Language:</dt>
+        <dd><%= @clan.languages.present? ? @clan.languages : 'N/A' %></dd>
+        <dt>Status:</dt>
+        <dd><%= @clan.status.try(:capitalize) %></dd>
+        <dt>Annual Dues:</dt>
+        <dd>
+          <% if @clan.annual_dues == 0 %>
+            None
+          <% elsif @clan.annual_dues == 1 %>
+            Optional
+          <% else %>
+            $ <%= @clan.annual_dues_amount%>
+          <% end %>
+        </dd>
+        <dt>Active: </dt>
+        <dd><%= @clan.most_active_days.present? ? @clan.most_active_days : '&mdash;'.html_safe %></dd>
+        <dt>Activity:</dt>
+        <dd>
+          <% activity_level = @clan.calcuate_activity_level_rating%>
+          <% if activity_level > 0%>
+            <span class="text-grey">
+              <span class="psa-rating-read-only" data-score="<%= @clan.calcuate_activity_level_rating %>"></span>
+            </span>
+          <% else %>
+              <span class="black-color">TBD </span>
+          <% end %>
+        </dd>
+      </dl>
+    </div>
+
+    <div class="col-xs-5">
+      <dl class="roster-list dl-horizontal">
+        <dt>Members:</dt>
+        <dd><%= @clan.users.count %></dd>
+        <dt>Average Age:</dt>
+        <dd><%=  @clan.calculate_average_age %></dd>
+        <dt>Minimum Age:</dt>
+        <dd><%= @clan.minimum_age %></dd>
+        <dt>Type:</dt>
+        <dd><%= @clan.try(:game_type).present? ? short_game_type(@clan.game_type) == 'AT' ? 'All Types' : short_game_type(@clan.game_type) : '' %></dd>
+        <dt>Style:</dt>
+        <dd><%= @clan.play_style %></dd>
+        <dt>Profanity:</dt>
+        <dd><%= @clan.family_friendly ? 'Yes' : 'No' %></dd>
+        <dt>Active:</dt>
+        <dd><%= @clan.most_active.present? ? @clan.most_active : '&mdash;'.html_safe %></dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="row hidden-xs">
+    <div class="col-sm-4">
+      <div class="three_column">
+        <ul class="roster-list list-unstyled">
+
+        <li>
+          <span class="text-primary">Systems:</span>
+          <% if @clan.game_systems.any? %>
+            <% clan_systems = @clan.game_systems.pluck(:abbreviation).uniq %>
+            <%if clan_systems.count == @total_game_systems %>
+              <a tabindex="0" class="cursor_pointer" data-toggle="popover" data-trigger="focus" data-placement="top" title="All Systems" data-content="<%= clan_systems.join(', ') %>"><span class="text-white">All Systems</span></a>
+            <%else%>
+              <span tabindex="0" class="title_wrap cursor_pointer" data-toggle="popover" data-trigger="focus" data-placement="top" title="Systems" data-content="<%= clan_systems.join(', ') %>"><%= @clan.game_systems.pluck(:abbreviation).uniq.join(", ") %></span>
+            <%end%>
+          <% else %>
+            N/A
+          <% end %>
+        </li>
+
+        <li>
+          <span class="text-primary">Members:</span>
+          <span class="text-grey"><%= @clan.users.count %></span>
+        </li>
+        <li>
+          <span class="text-primary">Country:</span>
+          <span class="text-grey"><%= @clan.country.present? ? countries_list.key(@clan.country) : 'N/A' %></span>
+        </li>
+        <li>
+          <span class="text-primary">Profanity:</span>
+          <span class="text-grey"><%= @clan.family_friendly ? 'Yes' : 'No' %></span>
+        </li>
+        <li>
+          <span class="text-primary">Activity:</span>
+          <span class="text-grey">
+            <% activity_level = @clan.calcuate_activity_level_rating%>
+            <% if activity_level > 0%>
+              <span class="text-grey">
+                <span class="psa-rating-read-only" data-score="<%= @clan.calcuate_activity_level_rating %>"></span>
+              </span>
+            <% else %>
+                <span class="black-color">TBD </span>
+            <% end %>
+          </span>
+        </li>
+      </ul>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="three_column">
+        <ul class="roster-list list-unstyled">
+          <li>
+            <span class="text-primary">Clan Type:</span>
+            <span class="text-grey"><%= @clan.game_type.present? ? @clan.game_type : '' %></span>
+          </li>
+          <li>
+            <span class="text-primary">Average Age:</span>
+            <span class="text-grey"><%=  @clan.calculate_average_age  %></span>
+          </li>
+          <li>
+            <span class="text-primary">Time Zone:</span>
+            <span class="text-grey"><%= @clan.timezone.present? ? short_time_zone(@clan.timezone) : ' &mdash;'.html_safe %></span>
+          </li>
+          <li>
+            <span class="text-primary">Annual Dues:</span>
+            <span class="text-grey">
+              <% if @clan.annual_dues == 0 %>
+                None
+              <% elsif @clan.annual_dues == 1 %>
+                Optional
+              <% else %>
+              $ <%= @clan.annual_dues_amount%>
+              <% end %>
+            </span>
+          </li>
+          <li>
+            <span class="text-primary">Most Active:</span>
+            <span class="text-grey"><%= @clan.most_active_days.present? ? @clan.most_active_days : '&mdash;'.html_safe %></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="three_column">
+        <ul class="roster-list list-unstyled">
+        <li>
+          <span class="text-primary">Play Style:</span>
+          <span class="text-grey"><%= @clan.play_style %></span>
+        </li>
+        <li>
+          <span class="text-primary">Minimum Age:</span>
+          <span class="text-grey"><%= @clan.minimum_age %></span>
+        </li>
+        <li>
+          <span class="text-primary">Language:</span>
+          <span class="text-grey"><%= @clan.languages.present? ? @clan.languages : 'N/A' %></span>
+        </li>
+        <li>
+          <span class="text-primary">Status:</span>
+          <span class="text-grey"><%= @clan.status.try(:capitalize) %></span>
+        </li>
+        <li>
+          <span class="text-primary">Most Active:</span>
+          <span class="text-grey"><%= @clan.most_active.present? ? @clan.most_active : '&mdash;'.html_safe %></span>
+        </li>
+      </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row hide">
+  <div class="col-sm-4 text-center">
+    <h4 class="text-primary text-center">Activity</h4>
+    <% activity_level = @clan.calcuate_activity_level_rating%>
+    <% if activity_level > 0%>
+      <span class="text-grey">
+        <span class="psa-rating-read-only" data-score="<%= @clan.calcuate_activity_level_rating %>"></span>
+      </span>
+    <% else %>
+        <span class="black-color">TBD </span>
+    <% end %>
+  </div>
+  <div class="col-sm-4 text-center">
+    <h4 class="text-primary text-center"> Most Active Days<h4>
+    <%= @clan.most_active_days.present? ? @clan.most_active_days : '&mdash;'.html_safe %>
+  </div>
+  <div class="col-sm-4 text-center">
+    <h4 class="text-primary text-center">Most Active Times<h4>
+    <%= @clan.most_active.present? ? @clan.most_active : '&mdash;'.html_safe %>
+  </div>
+</div>
+<%= render "/clans/clans/about" %>
+<hr>
+<% if @clan.games.present?%>
+<section class="content-block dash-block">
+  <div class="p-x-0-xs">
+    <div class="block-grid">
+      <div class="block-grid-header">
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <h2 class="mt0 hidden-xs">Active Games</h2>
+            <h2 class="mt0 visible-xs", align="center">Active Games</h2>
+          </div>
+        </div>
+        <ul class="mss-list clearfix hide">
+            <li class="mss">
+              <%= image_tag(@clan.games.first.game_cover) %>
+              <div class="mss-details">
+                  <h4 class="mb0"><%= @clan.games.first.title %></h4>
+                  <h5 class="mt0">Release Date: <%= @clan.games.first.release_date.present? ? short_date(@clan.games.first.release_date) : '&mdash;'.html_safe %></h5>
+              </div>
+            </li>
+        </ul>
+        <ul class="mss-list clearfix">
+          <% @clan.games.each do |game| %>
+            <li class="mss col-md-3 col-xs-6">
+              <%= image_tag(game.game_cover) %>
+              <div class="mss-details">
+                <h4><%= game.title %></h4>
+                <span class="hidden-xs">Release Date: <%= game.release_date.present? ? short_date(game.release_date) : '&mdash;'.html_safe %></span>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<% end %>
+
+<% if @clan.top_3_games.length > 0 %>
+  <h2 class="mt0 hidden-xs">Popular Title</h2>
+  <h2 class="mt0 visible-xs", align="center">Popular Title</h2>
+  <ul class="mss-list clearfix">
+    <li class="mss">
+      <%= image_tag(@clan.top_3_games.first.game_jumbo) %>
+
+      <div class="mss-details">
+        <h4><%= @clan.top_3_games.first.title %></h4>
+      </div>
+    </li>
+  </ul>
+<% end %>

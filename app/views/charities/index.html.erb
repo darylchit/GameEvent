@@ -1,0 +1,39 @@
+<div class="background-block content-area">
+	<div class="container">
+		<h2 class="mt0">Charity</h2>
+
+		<ul class="list-unstyled clearfix">
+			<% @charity.each do | c |  %>
+				<li class="charity-item col-third">
+					<div class="container-box">
+						<%= link_to c do %>
+							<%= image_tag(c.charity_logo) %>
+						<% end %>
+						<h3>
+							<%= link_to c do %>
+								<%= c.charity_name %>
+							<% end %>
+						</h3>
+			            <div class="caption">
+			            	<p>
+			            		<%= link_to charity_path(c) + '#supporting-mercenaries' do %>
+			            			<span class="fa fa-users"></span><% #number of users associated with this charity
+			            	%> <%= #@users.where(:charity => c.charity_name).count 
+			            	%>
+			            	<%= @users.where(:charity_id => c.id).count %>
+			            		<% end %>
+			            	</p>
+			                <%= truncate c.charity_about, :length   => 150, :separator => /\w/,
+                               :omission => " ..." %></p>
+			                <p> 
+			                	<%= link_to "Learn More", charity_path(c), class: "btn btn-primary" %>
+								<%= link_to "Donate", c.charity_url, class: "btn btn-default" %>
+							</p>
+			            </div>
+		        	</div>
+				</li>
+			<% end %>
+		</ul>
+
+	</div>
+</div>

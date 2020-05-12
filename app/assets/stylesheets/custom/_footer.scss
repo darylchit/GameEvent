@@ -1,0 +1,77 @@
+footer.bottom {
+  @media screen and (min-width: $screen-sm-min) {
+    bottom: 0;
+    height: auto;
+    margin-top: 30px;
+  }
+  @media screen and (min-width: $screen-sm-min) and (max-width: $screen-md-max) {
+    height: 320px;
+  }
+  @media screen and (max-width: $screen-xs-max) {
+    margin-top: 90px;
+  }
+  .app-icon{
+    width: 95%;
+  }
+  color: #efefef;
+  padding: 2em 0 2em;
+  width: 100%;
+  background-color: #111;
+  border-top: solid 3px #ddaf3b;
+  .nav-stacked {
+    li a {
+      padding: 4px 0;
+      font-size: 15px;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+  .nav.navbar-nav {
+    display: block;
+    width: 100%;
+    padding-left: 0;
+    @media screen and (min-width:$screen-md-min) {
+      display: inline-block;
+      float: none;
+      width: auto;
+    }
+    @media screen and (min-width: $screen-md-min) {
+      li:first-child a {
+        padding-left: 0;
+      }
+    }
+    li a:hover {
+      background-color: transparent;
+      color: #fff
+    }
+  }
+  p small, p small a {
+    color: $gray-light;
+  }
+  .list-block {
+
+    li {
+      padding: 6px;
+      display: inline-block;
+      a {
+        .fa {
+          font-size: 1.25em;
+          width: 1.75em;
+          text-align: center;
+          line-height: 1.75em;
+          background: $brand-primary;
+          color: $gray-darker;
+          border-radius: 0.9em;
+        }
+        &:hover .fa {
+          background-color: darken($brand-primary, 12%);
+        }
+      }
+    }
+  }
+  .subfooter {
+    font-size: .8em;
+    color: $gray;
+  }
+}

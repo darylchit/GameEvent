@@ -1,0 +1,31 @@
+var notice = $('#rating_container_<%= @rating.rated_user_id %>').find('.rating-notice');
+<% unless @rating.errors.any? %>
+	notice.html('<div class="alert alert-success">' + 'User has been successfully rated.' + '</div>');
+	notice.show().delay(1200).show(0, function() {
+		if ($('.feedback-list').length > 0) {
+			$('#feedback-<%= @rating.rated_user_id %>').addClass('user-rated').slideUp(300, function() {
+				if ($('.feedback-list.rate-players > li:not(.user-rated)').length < 1) {
+					$('.feedback-list.rate-players').append('<li class="all-users-rated" style="display: none">All users have been rated.</li>');
+					$('.all-users-rated').fadeIn();
+				}
+			});
+		} else if ($('#rating_container_<%= @rating.rated_user_id %>').parent().parent().parent('.collapsed').length) {
+			notice.fadeOut(500, function() {
+				$('#rating_container_<%= @rating.rated_user_id %>').parent().parent().parent('.collapsed').collapse('hide');
+			});
+		}
+	});
+
+   toastr.options = {
+        "closeButton": true,
+        "timeOut": "7000",
+        "extendedTimeOut": "0",
+        "positionClass": "toast-top-center"
+    };
+    toastr.success('Rating Complete.');
+<% else %>
+	notice.html('<div class="alert alert-danger">' + 'An error occured.' + <%=j @rating.errors.full_messages.join(',') %> + '</div>');
+	notice.show().delay(2500).fadeOut(500);
+<% end %>
+
+window.location.reload();

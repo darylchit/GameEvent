@@ -1,0 +1,36 @@
+<h3>Recruitment Questions - Required If Recruiting</h3>
+<div class="clan_questions">
+  <% question_n = 0 %>
+  <%= f.fields_for :questions do |question| %>
+    <div class="row questions">
+      <div class="col-md-11">
+        <div class="form-group">
+          <%if question.object.id.present? %>
+            <% question_n = question_n + 1 %>
+            <div class="text-primary">Question <%= question_n%></div>
+            <div class="topmrg_20"></div>
+            <%= question.object.name %>
+          <% else %>
+            <%= question.label :name, 'Question' %>
+            <%= question.text_field :name, class: "form-control", placeholder: 'Question' %>
+          <% end %>
+          <% if question.object.errors.try(:messages)[:name].try(:first).present?%>
+            <p class='text-primary'>Information Required</p>
+            <!-- <p class='text-primary'><%#= question.object.errors.try(:messages)[:name].try(:first)%></p> -->
+
+          <% end %>
+        </div>
+      </div>
+      <div class="col-md-1 <%= question.object.errors.try(:messages)[:name].try(:first).present? ? 'set_close_btn_with_error' : 'set_close_btn' %>">
+        <div class="remove_question">
+          <%= question.hidden_field :_destroy, class: "question_destroy remove_link" %>
+          <i class="fa fa-times set_curson_pointer"></i>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<div class="question_add_button">
+  <a href="javascript:;" > <i class="fa fa-plus-circle "></i> Add Question </a>
+</div>
+

@@ -1,0 +1,27 @@
+<% if recurring_event.present? && recurring_event.persisted? %>
+  toastr.options = {
+      "closeButton": true,
+      "timeOut": "7000",
+      "extendedTimeOut": "0",
+      "positionClass": "toast-top-center"
+  };
+  toastr.success('Recurring Event Posted');
+  location.href = '<%= edit_clan_path(clan) %>#clan_recurring_event'
+  setTimeout(function(){
+    location.reload();
+  }, 7000);
+
+<% else %>
+  $('.recurring_event_display_errors').removeClass('hide')
+  $('.recurring_event_error_count').html("<%= pluralize(recurring_event.errors.count, 'Error') %> Prohibited This Event From Being Saved:")
+  $('.recurring_event_error_explanation').empty()
+  <% recurring_event.errors.full_messages.each do |msg| %>
+    $('.recurring_event_error_explanation').append("<li><%= msg.titleize %></li>")
+  <% end %>
+  $("#recurring_event_form").addError({
+    <% recurring_event.errors.each do |field, message|%>
+        "recurring_event[<%= field.to_s %>]": "<%= message %>",
+    <% end %>
+  });
+  $('#recurring_event_form button').attr('disabled', false);
+<% end %>

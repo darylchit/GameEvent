@@ -1,0 +1,23 @@
+<div class="container p-x-0-xs">
+  <div class="well clan-well">
+    <%= render "clans/clan_header", active: 'events' %>
+
+    <h3>Upcoming Events</h3>
+		<% if @events.any? %>
+			<ul class="list-unstyled clearfix">
+				<% @events.each do |event|%>
+					<% if event.roster? %>
+						<% event = event.becomes(Roster) %>
+					<% end %>
+					<%= render "shared/event_card", event: event %>
+				<% end %>
+			</ul>
+		<% else %>
+			<div class="text-center">
+				<h3>No upcoming events are currently posted</h3>
+			</div>
+		<% end %>
+		     
+  </div>
+</div>
+

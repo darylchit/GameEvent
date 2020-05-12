@@ -1,0 +1,4 @@
+$('#global_model').html("<%= j render(:partial => 'block_user')%>")
+$('.block_user_title').html('Block User -  <%= @blocked_user.username %>');
+$('.block_user_body').html('<%= j render "general", :user => @blocked_user %>').addClass('contract-body');
+$("#block_user_popup").modal();

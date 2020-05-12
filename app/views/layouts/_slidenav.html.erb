@@ -1,0 +1,146 @@
+<div class="slidenav">
+  <ul class="nav">
+    <% if current_user.present? || current_admin.present? %>
+      <!-- <li><%#= link_to "Search", mercenaries_path %></li> -->
+      <% if current_user %>
+
+        <!--<li class="text-center"><%#= link_to 'Post', new_roster_path() %></li>-->
+        <li class="text-center"><%= link_to 'Post', new_game_roster_path, remote: true %></li>
+        <li class="dropdown text-center">
+          <a href="#" class="dropdown-toggle action-button" data-toggle="dropdown" role="button" aria-expanded="false">
+            <span>Clans</span>
+            <% if clan_events.present? && clan_events != 'None'%>
+            <span class="notifications-badge">
+                <span class="badge"><%= clan_events %></span>
+            </span>
+            <% end %>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="text-center"><%= link_to "All Clans", clans_path %></li>
+            <li class="text-center">
+              <%= link_to my_clans_path do %>
+                <span>My Clans</span>
+                <% if clan_events.present? && clan_events != 'None' %>
+                <span class="notifications-badge">
+                  <span class="badge"><%= clan_events %></span>
+                </span>
+                <% end %>
+            <% end %>
+            </li>
+            <li class="text-center">
+              <% if current_user %>
+                <%if current_user.own_clan %>
+                      <%= link_to 'Edit Clan', edit_clan_path(current_user.own_clan) %>
+                <% elsif current_user#is_premium? %>
+                  <%= link_to "Create Clan", new_clan_path %>
+                <% else%>
+                  <a tabindex="0" data-toggle="popover" data-trigger="hover" data-placement="top" title="Subscription Required" data-content="This feature is for Elite subscribers. Learn more on the About page." href='/profile/subscription'>
+                  <span>Create Clan</span></a>
+                <% end%>
+              <% else %>
+                <%= link_to "Create/Manage Clan", new_user_session_path %>
+              <% end%>
+            </li>
+            <% if current_user %>
+              <% current_user.clans.each do |clan|%>
+                <li class="text-center"><%= link_to clan.name, clan_path(clan) %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </li>
+        <li class="dropdown text-center">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Players</a>
+          <ul class="dropdown-menu account-dropdown" role="menu">
+            <li class="text-center"><%= link_to 'View Players', '/players' %></li>
+            <li class="text-center">
+              <%= link_to "Rate Players", (current_user.present? ? (ratings_path) : new_user_session_path) %>
+              <%#= link_to "Rate Players", (current_user.present? ? (profiles_path + '/' + current_user.username + '/blocks-and-feedback') : new_user_session_path) %>
+            </li>
+            <li class="text-center"><%= link_to 'Favorites', edit_profile_path(step: 4) %></li>
+          </ul>
+        </li>
+        <li class="text-center"><%= link_to "Public Games", public_games_path %></li>
+        <li class="text-center"><%= link_to 'Game Library', games_and_systems_path %></li>
+        <li class="clearfix text-center">
+          <% if current_user %>
+            <%= link_to messages_path, class: "clearfix" do %>
+              <span>Messages</span>
+              <%if message_count.present? && message_count != 'None'%>
+              <span class="notifications-badge">
+                <span class="badge"><%= message_count %></span>
+              </span>
+              <% end %>
+              <% if false #current_user.mailbox.inbox(read: false).count > 0 %>
+                <span class="notifications-badge">
+                  <span class="badge"><%= current_user.mailbox.inbox(read: false).count < 9 ? current_user.mailbox.inbox(read: false).count : '9+'  %></span>
+                </span>
+              <% end %>
+            <% end %>
+          <% end %>
+        </li>
+        <li class="text-center">
+          <%= link_to my_events_path do %>
+            <span>My Events</span>
+            <% if current_user && ( invitations.present? || upcoming_events.present? )%>
+              <span class="notifications-badge">
+                <span class="badge"><%= invitations.count.to_i + upcoming_events.count.to_i %></span>
+              </span>
+            <% end %>
+          <% end %>
+        </li>
+        <!-- <li class=""> -->
+          <%#= link_to "My Titles", games_and_systems_path %>
+        <!-- </li> -->
+        <li class="text-center"><%= link_to "My Profile", player_path(current_user) %></li>
+        <li class="text-center"><%= link_to "My Account", edit_profile_path %></li>
+
+        <!-- <li class=""> -->
+          <%#= link_to "Notification Options", edit_profile_notifications_path %>
+        <!-- </li> -->
+        <% if current_admin %>
+          <li class="text-center"><%= link_to "Stop Become", admin_user_stop_become_path(current_user), method: :delete %></li>
+        <% else %>
+          <li class="text-center"><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
+        <% end %>
+       <% else %>
+        <li class="text-center"><%= link_to 'Manage Cancellations', admin_cancellations_path %></li>
+        <li class="text-center"><%= link_to "Manage Systems", admin_game_systems_path %></li>
+        <li class="text-center"><%= link_to "Manage Games", admin_games_path %></li>
+        <li class="text-center"><%= link_to 'Manage Users', admin_users_path %></li>
+        <li class="text-center"><%= link_to 'Manage Reported Content', admin_reports_path %></li>
+      <% end %>
+    <% else %>
+      <li class="text-center">
+        <%= link_to "Login", new_user_session_path, class: 'action-button' %>
+      </li>
+      <li class="text-center">
+        <%= link_to "Sign Up", new_user_registration_path, class: 'action-button' %>
+      </li>
+
+      <li class="text-center">
+        <%= link_to "About", about_path, class: 'action-button' %>
+      </li>
+      <li class="text-center">
+        <%= link_to "FAQ", faq_path, class: 'action-button' %>
+      </li>
+      <li class="text-center">
+        <%= link_to "Clans", clans_path, class: 'action-button' %>
+      </li>
+      <li class="text-center">
+        <%= link_to "Players", players_path, class: 'action-button' %>
+      </li>
+      <li class="text-center">
+        <%= link_to "Public Games", public_games_path, class: 'action-button' %>
+      </li>
+      <li class="text-center">
+        <%= link_to "Game Library", games_and_systems_path, class: 'action-button' %>
+      </li>
+
+      <!-- <li class="visible-xs"><%#= link_to 'Players', '/players' %></li> -->
+      <!-- <li class="visible-xs"><%#= link_to 'Clans', clans_path %></li> -->
+      <!-- <li class="visible-xs"><%#= link_to 'Public Games', public_games_path %></li> -->
+      <!-- <li class="visible-xs"><%#= link_to 'Paid 2 Play', '/looking-for-players' %></li> -->
+      <!-- <li class="visible-xs"><%#= link_to 'My Events', my_events_path %></li> -->
+    <% end %>
+  </ul>
+</div>

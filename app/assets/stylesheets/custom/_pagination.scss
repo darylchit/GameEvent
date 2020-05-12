@@ -1,0 +1,77 @@
+//== Post WiceGrid Pagination
+//
+//##
+
+.pagination {
+	span {
+	    position: relative;
+	    float: left;
+	    line-height: 1.6;
+	    text-decoration: none;
+	    padding: 6px 12px;
+	    margin-left: -1px;
+	    a {
+	    	color: #B7B5B7;
+	    }
+	}
+	.current {
+	    z-index: 2;
+	    color: #eee;
+	    background-color: rgba(222,176,43,0.20);
+	    border: solid 2px #ddaf3b;
+	    border-radius: 4px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-left: 8px;
+        margin-right: 8px;
+	    cursor: default;
+	}
+
+	.gap {
+		margin-right: .5em;
+		background-color: none;
+		color: #777777;
+	}
+
+	.next, .prev, .last, .first {
+		margin-right: .5em;
+		margin-right: .5em;
+		border: 2px solid #ddaf3b;
+		border-radius: 4px;
+		background-color: transparent;
+		a {
+			color: #eee;	
+		}
+	}
+	@media screen and (max-width: 634px) {
+		.first, .last {
+			display: none;
+		}
+	}
+	@media screen and (max-width: 480px) {
+		.page {
+			display: none;
+		}
+		.page.current {
+		    display: initial;
+		}
+		.next, .prev {
+			padding-right: 24px;
+		    padding-left: 24px;
+		    font-size: 1.1em;
+		}
+		.prev {
+			margin-right: 1em;
+		}
+		.next {
+			margin-left: 1em;
+		}
+	}
+}
+
+
+
+
+
+
+

@@ -1,0 +1,102 @@
+<% if @favorites.present? %>
+  <div class="contract-details">
+    <table class="table table-hover hidden-xs favorite_user">
+      <thead></thead>
+      <% @favorites.each do |fav| %>
+        <tr class="favorite<%= fav.id%>" >
+          <% user = fav.favorited_user %>
+          <td class="col-md-2">
+            <%= link_to player_path(user) do %>
+                <%= image_tag user.avatar_url, :class=> 'avatar-md' %>
+            <% end %>
+          </td>
+          <td><span><%= user.username %></span></td>
+
+          <td>
+            <span class="text-primary">PSR: </span>
+            <%= user.user_setting.total_psr %>
+            <span class="psr_thump_up text-white">
+              <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+            </span>
+
+          </td>
+          <td>
+            <span class="text-primary">Exp: </span>
+            <span class="gray_font">
+              <%= user.event_experience %>
+            </span>
+          </td>
+          <td class="">
+            <span class="text-primary">CR: </span>
+            <span class="gray_font">
+              <%= user.event_cancellation_rate %>%
+            </span>
+          </td>
+          <td>
+            <span class="text-primary">Age: </span>
+            <span class="gray_font">
+              <%= user.public_age ? user.age : 'N/A' %>
+            </span>
+          </td>
+          <td class="">
+            <span class="text-primary">Added: </span>
+            <span class="gray_font">
+              <%= fav.created_at.strftime('%m/%d/%y') %>
+            </span>
+          </td>
+          <td>
+            <%= link_to 'Remove', profile_favorite_path(fav), remote: true, method: :delete, class: 'btn btn-primary set_mrg_tbl_application', id: "view_more_applications_mobile", data: {disable_with: "Remove"}  %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+    <div class="visible-xs favorite_user">
+      <% @favorites.each do |fav| %>
+        <% user = fav.favorited_user %>
+        <div class="row set_gold_line favorite<%= fav.id%>">
+          <div class="col-xs-3 set_xs_padding">
+          <%= link_to player_path(user) do %>
+          <%= image_tag user.avatar_url, :class=> 'avatar-sm set_img_height' %>
+          <% end %>
+          </div>
+          <div class="col-xs-9 set_mrg_tbl_application">
+            <div class="row">
+              <span class="col-xs-12"><span><%= user.username %></span>
+                <%= link_to profile_favorite_path(fav), remote: true, method: :delete, class: 'btn-link set_mrg_tbl_application set_plus_mrg text-white' do %>
+                    <span class="fa fa-times"></span>
+                <%end%>
+              </span>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <span class="text-primary">PSR: </span>
+                <%= user.user_setting.total_psr %>
+                <span class="psr_thump_up text-white">
+                  <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+                </span>
+
+
+              </div>
+              <div class="col-xs-6 remove_left_padding">
+                <span class="text-primary">Added: </span>
+                <span class="set_date_size"><%= fav.created_at.strftime('%m/%d/%y') %></span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-6">
+                <span class="text-primary">CR: </span>
+                  <%= user.cancellation_rate.present? ? "#{user.cancellation_rate}%" : 'N/A' %>
+              </div>
+              <div class="col-xs-6 remove_left_padding">
+                  <span class="text-primary">Age: </span>
+                  <%= user.public_age ? user.age : 'N/A' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <%= render 'profile/profile/no_favorites'%>
+<% end %>

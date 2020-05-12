@@ -1,0 +1,83 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require jquery.datetimepicker
+ */
+
+
+// Vendor (With variable override for bootstrap)
+@import "custom/_variables";
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "compass";
+
+@import "custom/_mixins.scss";
+@import "vendor/font-awesome/font-awesome";
+@import "vendor/bootstrap-slider.min";
+@import "vendor/chosen/bootstrap-chosen-variables";
+@import "vendor/chosen/chosen";
+@import "vendor/fullcalendar";
+@import "vendor/tablesaw.bare";
+@import "vendor/simple-toggle";
+@import "vendor/toastr.min";
+@import "vendor/mobiscroll.custom-3.2.4.min";
+
+// Game Mercenaries
+@import "custom/_globals";
+@import "custom/_mixins";
+@import "custom/_typography";
+
+// Views
+@import "custom/_messages";
+@import "custom/_feedback";
+@import "custom/_sign-up";
+@import "custom/_roster";
+
+// Partials
+@import "custom/_wicegrid";
+@import "custom/_side-nav";
+@import "custom/_slidenav";
+@import "custom/_top-nav";
+@import "custom/_footer";
+@import "custom/_profile";
+@import "custom/_mss";
+@import "custom/_game";
+@import "custom/_wbmr";
+@import "custom/_modal";
+@import "custom/_contract";
+@import "custom/_charities";
+@import "custom/_bounty";
+@import "custom/find-mercenaries";
+@import "custom/events";
+@import "custom/_number-spinner";
+@import "custom/_forms";
+@import "custom/_social";
+@import "custom/_clans";
+@import "custom/_players";
+@import "custom/_pagination";
+@import "custom/_about";
+
+// Shortcodes
+@import "custom/_content-blocks";
+@import "custom/_full-cal";
+
+@import "wice_grid";
+@import "vendor/jquery.raty";
+
+@import "custom/_mobile-app";
+@import "clans";
+@import "animate.min";
+@import "custom/_sign_in";
+@import "custom/_event";
+@import "custom/_public_game.scss";
+@import "social-share-button";

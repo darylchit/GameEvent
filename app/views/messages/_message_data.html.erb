@@ -1,0 +1,63 @@
+
+<div class="col-md-12 hidden-xs">
+  <div class="row form-group">
+    <div class="col-md-3">
+      <button type="button" class="btn btn-lightgrey btn-full" data-toggle="modal" data-target="#favorite_users_popup">Compose</button>
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-lightgrey btn-full mark-btn" id= "mark_read">Mark Read</button>
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-lightgrey btn-full delete-btn" id= "delete_selected">Delete</button>
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-lightgrey btn-full select-all-btn checkbox_li select_all_messages select_all_chk" id="select_all_messages" data-toggle="button" aria-pressed="false" autocomplete="off">Select All</button>
+    </div>
+    <%if messages.present? %>
+      <%#= check_box_tag 'select_all_messages', nil, false, class: 'checkbox_li select_all_messages select_all_chk'%>
+      <span class="hide">Select All</span>
+    <% end %>
+  </div>
+</div>
+
+
+<div class="row-fluid ">
+  <!-- <div class="gold-header-row"></div> -->
+  <div class="clearfix"></div>
+  <div class="message-filter-and-data col-md-12">
+  <%= render 'sidebar' %>
+  <%if messages.present? %>
+    <div class="col-md-9 col-xs-12 messages_rows">
+      <% messages.each do |message|%>
+        <% if message.message_type == 'user_messages' %>
+          <%= render partial: 'messages/user_messages', locals: {receipt: message} %>
+        <% elsif message.message_type == 'clan_messages' %>
+          <%= render partial: 'messages/clan_messages', locals: {receipt: message} %>
+        <% elsif message.message_type == 'clan_applications' %>
+          <%= render partial: 'messages/clan_application', locals: {receipt: message} %>
+        <% elsif message.message_type == 'clan_invitations' %>
+          <%= render partial: 'messages/clan_invitations', locals: {receipt: message} %>
+        <% elsif ['public_game_invitations','private_game_invitations','clan_game_invitations'].include?(message.message_type) %>
+          <%= render partial: 'messages/event_invitation', locals: {receipt: message} %>
+        <% elsif message.message_type == 'event_cancelled' %>
+          <%= render partial: 'messages/event_cancelled', locals: {receipt: message} %>
+        <% elsif message.message_type == 'event_modified' %>
+          <%= render partial: 'messages/event_modified', locals: {receipt: message} %>
+        <% elsif message.message_type == 'user_joins_roster' %>
+          <%= render partial: 'messages/user_joins_roster', locals: {receipt: message} %>
+        <% elsif message.message_type == 'user_leaves_roster' %>
+          <%= render partial: 'messages/user_leaves_roster', locals: {receipt: message} %>
+        <% elsif message.message_type == 'site_notice' %>
+          <%= render partial: 'messages/site_notice', locals: {receipt: message} %>
+        <% elsif message.message_type == 'event_reminder' %>
+          <%= render partial: 'messages/event_reminder', locals: {receipt: message} %>
+        <% end %>
+      <% end %>
+      <div id='clan_application_notification'></div>
+    </div>
+  <% else %>
+    <p>No Record Found.</p>
+  <% end %>
+  </div>
+</div>
+<%= render 'favorite_user_popup'%>

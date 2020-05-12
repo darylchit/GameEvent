@@ -1,0 +1,104 @@
+EventPost = {};
+EventPost.Validation = {
+	validateForm: function(){
+		 if($('#event_form_popup').length > 0){
+			var url = $('#event_form_popup').attr('action');
+			$("#event_form_popup").validate({
+				submit: {
+					callback: {
+						onSubmit:function(){
+							$.post(url,$("#event_form_popup").serialize(),function(){},"script")
+						}
+					}
+				}
+			});
+		 }
+	}
+}
+
+EventPost.Validation.validateForm();
+<% if event.present? && event.errors.present? %>
+
+	$('.display_errors').removeClass('hide')
+	$('.event_error_count').html("<%= pluralize(event.errors.count, 'Error') %> Prohibited This Event From Being Saved:")
+	$('.event_error_explanation').empty()
+	<% event.errors.full_messages.each do |msg| %>
+	<%
+	 if msg == "Title Required"
+      msg = "Event Title Required"
+	 end
+	 if msg == "Game game system join Required"
+		 msg = "Game Required"
+	 end
+	 if msg == "Clan Your Rank In This Clan Has Not Permitted You To Post Events For This Clan"
+	   msg = 'Your Rank In This Clan Has Not Permitted You To Post Events For This Clan'
+	 end
+	 if msg == "Maximum age Maximum Age Must Be Greater Than Minimum Age"
+	   msg = 'Maximum Age Must Be Greater Than Minimum Age'
+	 end
+	 if msg == "Minimum age Minimum Age Must Be Less Than Maximum Age"
+	   msg = 'Minimum Age Must Be Less Than Maximum Age'
+	 end
+   if msg == "Event type Private Events Require a Pro or Elite Subscription"
+     msg = 'Private Events Require A Pro Or Elite Subscription'
+   end
+	 if msg == 'Start at Event Time Listed Has Already Passed'
+		 msg = 'Start Time Has Already Passed'
+	 end
+	%>
+
+  $('.event_error_explanation').append("<li><%= msg.titleize %></li>")
+	<% end %>
+
+	<% if params[:bot] == 'discord' %>
+		$("#event_form_discord").addError({
+			<% event.errors.each do |field, message|%>
+					"event[<%= field.to_s %>]": "<%= message %>",
+			<% end %>
+		});
+    $('#event_form_discord button').attr('disabled', false);
+	  document.body.scrollTop = 0;
+	<% else %>
+	  $("#event_form_popup").addError({
+	    <% event.errors.each do |field, message|%>
+	        "event[<%= field.to_s %>]": "<%= message %>",
+	    <% end %>
+	  });
+		$('#event_form_popup button').attr('disabled', false);
+		$("#event_model").animate({ scrollTop: 0 }, "fast");
+  <% end %>
+
+<% else %>
+	<% if params[:bot] == 'discord' %>
+		toastr.options = {
+				"closeButton": true,
+				"timeOut": "7000",
+				"extendedTimeOut": "0",
+				"positionClass": "toast-top-center"
+		};
+		toastr.success('Event Posted');
+		location.href = '/'
+	<% else %>
+		$('#event_model .modal-title').empty().append('Event Posted - Share Event');
+		$('#event_model .modal-body').empty().append("<%= j render(:partial => 'game_rosters/social_share')%>");
+		$('#social_model').empty().append("<%= j render(partial: 'game_rosters/discord_share_box')%>");
+		$('#event_model').scrollTop(0);
+		$("#event_model .modal-medium").removeClass('modal-medium')
+		Event.DiscordShare.onClickOnContinueWithDiscord();
+	  Event.CopyText.onClickOnCopyDetails("<%=event.token%>");
+		// $('#event_model .event-view-url').removeClass('hide');
+		// $('#event_model .event-copy-data').addClass('hide');
+		// $('#event_model .event-copy-data').addClass('hide');
+		// $('#event_model .dicord-social-share').addClass('hide');
+		$("#event_model").on('hidden.bs.modal', function(e) {
+
+		  if(location.pathname.indexOf('/clans/') == -1)
+		  {
+		    location.reload();
+		  }else{
+		    //    todo clan events reloads
+		  }
+
+		})
+  <% end %>
+<% end %>

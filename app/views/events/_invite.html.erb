@@ -1,0 +1,28 @@
+<li class="roster-invite-card">
+  <%= link_to roster_path(invite) do %>
+    <div class="container-box">
+      <p class="small">
+        <span class="badge badge-outline">
+          <%= short_date_time_spacing invite.start_date_time %>
+          &#8226;
+           <%= d = invite.duration/60
+              "#{d} #{"Hr".pluralize d}"%>
+        </span>
+        <span class="pull-right text-primary card-roster-size">
+          <span class="fa fa-group"></span> <%= invite.confirmed_users_count %>/<%= invite.max_roster_size %>
+        </span>
+      </p>
+
+      <div class="card-content">
+        <div class="card-avatar">
+          <%= image_tag(invite.buyer.avatar_url, class: 'avatar-xs') %>
+        </div>
+        <div class="card-body">
+          <h4><%=  invite.contract_game_game_system_joins.first.game_game_system_join.game.title %> (<%=  invite.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation %>)</h4>
+          <p class="text-gray"><%= !invite.title? ? 'n/a' : invite.title %></p>
+          <p class="text-gray"><strong class="text-primary">Host:</strong> <%= invite.buyer.username %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</li>

@@ -1,0 +1,325 @@
+<div class="background-block content-area player_profile_page padding">
+	<div class="container">
+	<div class="row hidden-xs">
+      <div class="col-md-3 padding_zero">
+        <div class="account-nav profile-nav">
+          <div class="side-nav-avatar image-container profile_image_box">
+            <% if current_user.present? and (resource.id == current_user.id) %>
+              <%= link_to profile_path do %>
+                <%= image_tag(current_user.avatar_url) %>
+              <% end %>
+            <% else %>
+              <%= image_tag(resource.avatar_url) %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9 desktop_username">
+        <h1 class="mt0 text-center username">
+          <%= resource.username %>
+        </h1>
+        <%if resource.motto %>
+          <h3 class="mt0 text-center">
+          "<%= resource.motto %>"
+          </h3>
+        <% end %>
+        <ul class="list-unstyled profile-links text-center hidden-xs">
+          <% if current_user.present? and (resource.id == current_user.id) %>
+            <li>
+              <%= link_to edit_profile_path, class: "btn btn-lg btn-outline" do %>
+                <span class="fa fa-gear"></span>Edit Profile
+              <% end %>
+            </li>
+          <% end %>
+          <% if current_user.present? && current_user != resource %>
+            <% if !resource.is_blocking_user?(current_user) and !current_user.is_blocking_user?(resource) %>
+              <li>
+                <%= link_to new_message_path(:recipient_id => resource.id), remote:true, class: "btn btn-lg btn-outline" do %>
+                  <span class="fa fa-envelope"></span>Message
+                <% end %>
+              </li>
+              <% if current_user.present? %>
+                <li>
+                  <% if current_user.is_favoriting_user?(resource) %>
+                    <%= link_to profile_favorite_path(@favorite.id), :method => 'delete', remote: true , class: 'btn btn-lg btn-outline' do %>
+                      <span class="fa fa-check"></span>Favorited
+                    <% end %>
+                  <% else %>
+                    <%= form_for @favorite, url: profile_favorites_path, remote: true do |f| %>
+                        <%= f.hidden_field :favorited_user_id, value: resource.id %>
+                        <button type="submit" class="btn btn-lg btn-outline"><span class="fa fa-heart"></span>Favorite</button>
+                    <% end %>
+                  <% end %>
+                </li>
+              <% end %>
+              <% unless resource.age < 18 %>
+                <li>
+                  <%= link_to new_profile_donation_path(resource.username), remote: true, class: "btn btn-lg btn-outline" do %>
+                  <%#= link_to '#', data: {toggle: "modal", target: '#user_donate_popup'} , class: "btn btn-lg btn-outline" do %>
+                    <span class="fa fa-paypal"></span>Donate
+                  <% end %>
+                 </li>
+              <% end %>
+              <li>
+                <%= link_to profile_blocks_path(block: {blocked_user_id: resource.id}), class: "btn btn-lg btn-outline", method: :post ,remote: true  do %>
+                  <span class="fa fa-ban"></span>Block User
+                <% end %>
+              </li>
+            <% elsif current_user.is_blocking_user?(resource) %>
+              <li>
+                <%= link_to profile_block_path(current_user.blocks.where(:blocked_user => resource)[0]), :method => 'delete', remote: true, class: "btn btn-lg btn-outline set_width_100" do %>
+                  <span class="fa fa-ban"></span>Unblock User
+                <% end %>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+        <% if current_user.present? and (resource.id == current_user.id) %>
+          <% if is_psn_user_name || is_xbox_live_user_name || is_nintendo_user_name||  is_battle_user_name || is_origins_user_name || is_steam_user_name %>
+            <div class="col-sm-12 text-center">
+              <span class="text-primary">One Of Your IGNs Is Being Used By Another Player. Please Fix 
+                Your IGN or Contact Us.</span>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="row hidden-xs column-eq topmrg_20">
+      <div class="gold-header-row"></div>
+      <div class="row-fluid topmrg_20 row-eq-height">
+
+            <div class="col-md-3 side-nav-container container-box">
+              <%= render 'profile/profile/sidebar_details' %>
+            </div>
+
+            <div class="col-md-9">
+              <% if resource.check_links_present? %>
+                <h2 class="text-center">Links</h2>
+                <%= render 'profile/profile/links' %>
+              <% end %>
+
+              <% if resource.bio.present?%>
+                <div class="topmrg_20">
+                  <span class="text-justify "><%= simple_format(resource.bio) %></span>
+                </div>
+                <div class="row topmrg_20 topmrg_13"></div>
+                <hr class="gold_row">
+              <% end %>
+              <% if @games.count > 0 %>
+                <h2 class="text-center">Game Library</h2>
+                <%= render 'profile/profile/user_games' %>
+                <div class="row topmrg_20"></div>
+                <hr class="gold_row">
+              <% end %>
+
+
+              <% if resource.clans.count > 0 %>
+                <h2 class="text-center">Clan Affiliations </h2>
+                <%= render 'profile/profile/clans' %>
+                <div class="row topmrg_20"></div>
+                <hr class="gold_row">
+              <% else %>
+                <!--<div class="row">-->
+                  <!--<div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>-->
+                  <!--<h3 class="text-center">No Clan Found.</h3>-->
+                <!--</div>-->
+              <% end %>
+
+
+
+              <% if ( current_user.present? || current_admin.present? ) && @events.present? %>
+
+                <%= render 'profile/profile/events' %>
+                  <hr class="gold_row ">
+
+              <% else %>
+                <!--<div class="row">-->
+                  <!--<div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>-->
+                  <!--<h3 class="text-center">No Events Found.</h3>-->
+                <!--</div>-->
+              <% end %>
+
+              <% if resource.video_urls.present? %>
+                  <h2 class="text-center">Videos</h2>
+                <div class="row">
+                  <%= render 'profile/profile/video'  %>
+                </div>
+              <% else %>
+                <!--<div class="row">-->
+                  <!--<div class="video_icon topmrg_20 topmrg_13"><i class="fa fa-frown-o" aria-hidden="true"></i></div>-->
+                  <!--<h3 class="text-center">No Videos Found.</h3>-->
+                <!--</div>-->
+              <% end %>
+              <%# if resource.twitch_video_url.present? || resource.youtube_video_url.present? %>
+                <%#= render 'profile/profile/highlights' %>
+              <%# end %>
+
+              <% if (!( @games.count > 0)) && (!(resource.clans.count > 0)) && (!(( current_user.present? || current_admin.present? ) && @events.present?)) && (!resource.video_urls.present?) %>
+
+                  <div class="row text-center topmrg_20">
+                    <%= image_tag "game_roster_1.png", :class=> 'logo avatar-md2 wow flip'%>
+                  </div>
+
+              <% end %>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="visible-xs">
+    <div class="row">
+      <div class="account-nav profile-nav">
+        <div class="side-nav-avatar image-container profile_image_box player-card">
+          <% if current_user.present? %>
+            <button class="btn-link add-icon-top player_plus plus_bg">
+              <span class="fa fa-plus"></span>
+            </button>
+            <div class="player-add-menu">
+              <ul class="list-unstyled">
+                <% if resource.id == current_user.id %>
+                  <li><%= link_to edit_profile_path, class: "btn btn-lg btn-outline" do %>
+                        <span class="fa fa-gear"></span>Edit Profile
+                    <% end %></li>
+                <% elsif current_user != resource %>
+
+                  <% if !resource.is_blocking_user?(current_user) and !current_user.is_blocking_user?(resource) %>
+                      <li>
+                        <%= link_to new_message_path(:recipient_id => resource.id), remote:true, class: "btn btn-lg btn-outline" do %>
+                          <span class="fa fa-envelope"></span>Message
+                        <% end %>
+                      </li>
+                      <% if current_user.present? %>
+                          <li>
+                            <% if current_user.is_favoriting_user?(resource) %>
+                                <%= link_to profile_favorite_path(@favorite.id), :method => 'delete', remote: true, class: 'btn btn-lg btn-outline' do %>
+                                    <span class="fa fa-check"></span>Favorited
+                                <% end %>
+                            <% else %>
+                                <%= form_for @favorite, url: profile_favorites_path, remote: true do |f| %>
+                                    <%= f.hidden_field :favorited_user_id, value: resource.id %>
+                                    <button type="submit" class="btn btn-lg btn-outline"><span class="fa fa-heart"></span>Favorite</button>
+                                <% end %>
+                            <% end %>
+                          </li>
+                      <% end %>
+                      <% unless resource.age < 18 %>
+                        <li>
+                          <%#= link_to new_profile_donation_path(resource.username), class: "btn btn-lg btn-outline" do %>
+                          <%= link_to new_profile_donation_path(resource.username), remote:true, class: "btn btn-lg btn-outline" do %>
+                              <span class="fa fa-paypal"></span>Donate
+                          <% end %>
+                        </li>
+                      <% end %>
+                      <li>
+                        <%= link_to profile_blocks_path(block: {blocked_user_id: resource.id}), class: "btn btn-lg btn-outline", method: :post, remote: true  do %>
+                            <span class="fa fa-ban"></span>Block User
+                        <% end %>
+                      </li>
+                  <% elsif current_user.is_blocking_user?(resource) %>
+                      <li>
+                        <%= link_to profile_block_path(current_user.blocks.where(:blocked_user => resource)[0]), :method => 'delete', remote: true, class: "btn btn-lg btn-outline" do %>
+                            <span class="fa fa-ban"></span>Unblock User
+                        <% end %>
+                      </li>
+                  <% end %>
+
+
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <%= image_tag(resource.avatar_url) %>
+        </div>
+      </div>
+    </div>
+    <div class="row topmrg_20">
+      <h1 class="mt0 text-center username">
+        <%= resource.username %>
+      </h1>
+      <%if resource.motto %>
+        <h5 class="mt0 text-center">
+            "<%= resource.motto %>"
+        </h5>
+      <% end %>
+      <% if current_user.present? and (resource.id == current_user.id) %>
+        <% if is_psn_user_name || is_xbox_live_user_name || is_nintendo_user_name ||  is_battle_user_name || is_origins_user_name || is_steam_user_name %>
+          <div class="col-sm-12 text-center">
+            <span class="text-primary">One Of Your IGNs Is Being Used By Another Player. Please Fix 
+              Your IGN or Contact Us.</span>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="row">
+      <ul class="nav nav-tabs topmrg_20 first_tabs">
+        <li class="active about-page"><a class="remove_border_radius" data-toggle="tab" href="#player-about">About</a></li>
+        <li><a class="remove_border_radius" data-toggle="tab" href="#popular-links">Links</a></li>
+        <li><a class="remove_border_radius" data-toggle="tab" href="#player-clans">Clans</a></li>
+        <li><a class="remove_border_radius" data-toggle="tab" href="#" id="first_tab">More</a></li>
+      </ul>
+
+      <ul class="nav nav-tabs topmrg_20 second_tabs">
+        <li class="active game-page"><a class="remove_border_radius" data-toggle="tab" href="#player-games">Games</a></li>
+        <li><a class="remove_border_radius" data-toggle="tab" href="#player-video">Videos</a></li>
+        <li><a class="remove_border_radius" data-toggle="tab" href="#player-events">Events</a></li>
+        <li><a class="remove_border_radius" data-toggle="tab" href="#" id="second_tab">More</a></li>
+      </ul>
+      <div class="tab-content topmrg_20 tab-data">
+        <div id="player-about" class="tab-pane fade in active">
+          <%= render 'profile/profile/player_about_details' %>
+        </div>
+        <div id="popular-links" class="tab-pane fade">
+          <% if resource.check_links_present? %>
+               <%= render 'profile/profile/links' %>
+          <% else %>
+            <div class="row">
+              <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+              <h3 class="text-center">No Links</h3>
+            </div>
+          <% end %>
+        </div>
+        <div id="player-clans" class="tab-pane fade">
+          <% if resource.clans.count > 0 %>
+              <%= render 'profile/profile/clans' %>
+          <% else %>
+            <div class="row">
+              <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+              <h3 class="text-center">No Clans</h3>
+            </div>
+          <% end %>
+        </div>
+        <div id="player-video" class="tab-pane fade">
+          <!-- <h2 class="text-center">Video</h2> -->
+          <%= render 'profile/profile/video_mobile' %>
+        </div>
+        <div id="player-events" class="tab-pane fade">
+  				<% if @events.present? %>
+  						<table class="table table-hover events_table">
+  			      <thead>
+  			        <tr>
+  			          <th class="">Game Title</th>
+  			          <th class="text-center">Type</th>
+  			          <th class="text-center">Status</th>
+  			          <th class="text-center">Start Time</th>
+  			        </tr>
+  			      </thead>
+  			      <tbody>
+  			        <%= render :partial => "event_mobile", :collection => @events, :as => :event %>
+  			      </tbody>
+  			      </table>
+  				<% else %>
+  				<div class="row">
+            <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+            <h3 class="text-center">No Events</h3>
+          </div>
+  				<% end %>
+        </div>
+        <div id="player-games" class="tab-pane fade">
+          <%= render 'profile/profile/user_games' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%#= render 'clans/clans/clan_contact' if current_user.present? %>

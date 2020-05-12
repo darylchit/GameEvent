@@ -1,0 +1,98 @@
+<div class='row'>
+    <% if current_user.present? && @clan.active_member?(current_user) %>
+        <%= link_to "Post", "#", class: "btn btn-lightgrey xs_notice_box col-sm-4 col-sm-offset-4 col-xs-12 mrg_top_15", data: { toggle: "modal", target: '#notice_popup'}  if @clan.active_member?(current_user) %>
+    <% end %>
+</div>
+
+<div class="row"></div>
+<br/>
+<% if current_user.present? && @clan.active_member?(current_user) %>
+  <%#if @clan.is_host?(current_user) || (@clan_member.clan_rank && @clan_member.clan_rank.post_notices? ) %>
+  <%if @clan.is_host?(current_user) || @clan.active_member?(current_user) %>
+    <% unless @clan_notices.empty? %>
+        <ul class="clan-messages messages-list list-unstyled">
+            <% @clan_notices.each do |r| %>
+                <li id="<%= r.id %>" class="message message-self" >
+                    <div class ='message-container'>
+                       <!--  <span class="message-avatar message-self">
+                            <a href="<%#= profiles_path() + '/' + r.user.username %>">
+                                <%#= image_tag r.user.avatar_url, :class=>'avatar-sm'%>
+                            </a>
+                        </span> -->
+                        <div class="message-content wow flipInX message_body xs_notice_box clan_notice_box notice_page_radius">
+                            <h4 class="notice_box_mrg">
+                              <!--<small class="pull-left set-subject-bold">-->
+                                <!--<%#=r.created_at.strftime("%m/%d %I:%M%p %Z ") %>-->
+                              <!--</small>-->
+                              <br>
+                              <span class="text-primary set-subject-bold"><%= r.title.capitalize %></span>
+                              </br>
+                               <!--  <span class="text-primary">Posted By: </span><%= r.user.username %> -->
+                            <div class="message-body helper-text ">
+                                <p>
+                                    <%= r.body %>
+                                </p>
+                            </div>
+                                <span class="text-right">
+                                    <small>
+                                        <% if r.user == current_user %>
+                                        <!--     <a href="#" class="dropdown" data-target="actions" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                                                <span class="fa fa-chevron-down"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel"> -->
+                                                <li class="notice_tab_buttons">
+                                                    <%=link_to 'Edit',edit_clan_clan_notice_path(@clan, r), remote: true, class: 'btn btn-lightgrey button-size-notice button-edit-delete' %>
+
+                                                     <%= link_to('Delete', '#', class: 'btn btn-lightgrey button-size-notice  button-edit-delete', :'data-toggle' => 'modal', :'data-target' => '#delete_notice_confirmation_popup') %>
+                                                </li>
+                                            <!-- </ul> -->
+                                        <% end %>
+                                    </small>
+                                </span>
+                            </h4>
+                        </div>
+                    </div>
+                </li>
+                <div class="modal fade" id="delete_notice_confirmation_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content modal-medium">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">
+                            Delete Notice Confirmation
+                          </h4>
+                        </div>
+                        <div class="modal-body contract-details">
+                          Are you sure want to delete this notice?
+                          <div class="form-group">
+                            <div class="row topmrg_20">
+                              <div class="col-sm-3 col-xs-12 pull-right">
+                                <button type="button" class="btn btn-primary btn-full" data-dismiss="modal" aria-label="Close">Cancel</button>
+                              </div>
+                              <div class="col-sm-3 col-xs-12 pull-right">
+                                <%=link_to 'Delete', clan_clan_notice_path(:clan_id=>@clan, id: r), method: :delete, :remote => true, :class => 'btn btn-primary btn-full' %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            <% end %>
+        </ul>
+    <% else %>
+      <div class="video_icon set_mrg_top"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+      <h3 align="center">No Notices</h3>
+    <% end %>
+  <%else %>
+    <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+    <h3 align="center">Your Rank Is Not Permitted To Post A Notice</h3>
+  <% end %>
+<%else%>
+  <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+  <h3 align="center">You must be a member to see this page.</h3>
+<% end %>
+<%= render 'clans/clans/post_notice' if current_user.present? %>
+
+
+

@@ -1,0 +1,17 @@
+$('.modal-body .contract-padding').first().html('<h2 class="text-center">Rank has been updated</h2><br>');
+$('.modal-footer').hide();
+setTimeout(function(){
+  $('.modal-body .alert').remove();
+  $('.add-menu-show').removeClass('add-menu-show');
+  $('.modal').modal('toggle');
+}, 1200);
+
+(function() {
+$(document)
+  .on ('ajax:success',  function(e, data, status, xhr){
+    $("#player-<%= @clan_member.user_id %>").find(".clan-rank").html("<%= @clan_member.clan_rank.title %>");
+  })
+  .on ("ajax:error", function(e, xhr, status, error) {
+  });
+})();
+

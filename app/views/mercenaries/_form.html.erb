@@ -1,0 +1,15 @@
+<%= form_tag mercenaries_path, method: 'get', html: {role: "form"}, class: "wice_grid_form" do %>
+
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<div class="form-group">
+			<div class="input-group">
+				<%= grid_filter @grid, :user_filter %>
+				<span class="input-group-btn">
+					<button class="btn btn-primary" data-grid-name="grid"><span class="fa fa-search"></span></button>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+<% end %>

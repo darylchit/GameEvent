@@ -1,0 +1,42 @@
+$('.modal-title').html('Multiple Times');
+$('.modal-body').html('<%= j render 'multiple_times_form' %>');
+//$('.modal-footer').html('<%= j render 'multiple_times_form' %>');
+
+$('.time-picker').datetimepicker({
+		datepicker: false,
+		format: 'g:ia',
+		formatTime: 'g:ia'
+});
+
+$('.date-picker').each(function(){
+	$(this).datetimepicker({
+		timepicker: false,
+		format: 'm/d/Y',
+		startDate: $(this).attr('data-start-date'),
+		scrollInput: false
+	});
+});
+$('#add_time').click(function(){
+	if ($('.time-entries .time-entry').length > 0 ) {
+		time_entry = $('.time-entry').first().clone();
+		$('.time-entries').append(time_entry);
+		$('.time-picker').datetimepicker({
+			datepicker: false,
+			format: 'g:ia',
+			formatTime: 'g:ia'
+		});
+	}
+	else {
+		console.log($('.time-entries .time-entry').length);
+		$('.time-entries').append('<%= j render 'time_entry' %>');
+		$('.time-picker').datetimepicker({
+			datepicker: false,
+			format: 'g:ia',
+			formatTime: 'g:ia'
+		});
+	}
+});
+$('.modal').on('click', '.time-entry .close', function(){
+	$(this).closest('.time-entry').remove();
+});
+$('.modal').modal('show');

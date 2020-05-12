@@ -1,0 +1,83 @@
+<footer class="bottom footer_css">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center-md hidden-xs">
+				<ul class="nav navbar-nav">
+					<li><%= link_to "About", about_path %></li>
+					<li class="set_mrg_top"> | </li>
+					<!-- <li><%#= link_to "Blog", blogs_path %></li> -->
+					<!-- <li class="set_mrg_top"> | </li> -->
+					<li><%= link_to "FAQ", faq_path %></li>
+					<li class="set_mrg_top"> | </li>
+					<li><%= link_to "Contact Us", contact_requests_path, remote: true %></li>
+					<li class="set_mrg_top"> | </li>
+					<li><%= link_to "Privacy Policy", privacy_path %></li>
+					<li class="set_mrg_top"> | </li>
+					<li><%= link_to "Terms of Service", tos_path %></li>
+          <li class="set_mrg_top"> | </li>
+          <li><%= link_to "Download Game Roster Images", zip_images_path %></li>
+				</ul>
+			</div>
+			<div class="col-md-8 text-center visible-xs">
+				<div class="col-md-1">
+					<%= link_to "About", about_path %>
+					<span class="set_mrg_top"> | </span>
+					<%= link_to "FAQ", faq_path %>
+				</div>
+				<div class="col-md-2">
+					<%= link_to "Privacy Policy", privacy_path %>
+					<span class="set_mrg_top"> | </span>
+					<%= link_to "Terms of Service", tos_path %>
+				</div>
+				<div class="col-md-2">
+					<!-- <%= link_to "Blog", '#' %> -->
+					<!-- <span class="set_mrg_top"> | </span> -->
+					<%= link_to "Contact Us", contact_requests_path, remote: true %>
+				</div>
+
+        <div class="col-md-2">
+          <%= link_to "Download Game Roster Images", zip_images_path %>
+        </div>
+			</div>
+
+			<div class="col-md-12">
+				<ul class="list-unstyled list-block text-center">
+					<li><a href="https://twitter.com/GameRoster" target="_blank"><span class="fa fa-twitter"></span></a></li>
+					<li><a href="https://www.facebook.com/gameroster" target="_blank"><span class="fa fa-facebook"></span></a></li>
+					<li><a href="https://www.youtube.com/channel/UCZiG67W805kws0EEtue3ArQ" target="_blank"><span class="fa fa-youtube"></span></a></li>
+					<li><a href="mailto:admin@gameroster.com"><span class="fa fa-envelope"></span></a></li>
+				</ul>
+			</div>
+		</div>
+    <div class="row">
+			<div class="col-md-12">
+				<div class='col-sm-2 col-sm-offset-4 col-xs-6 pd0'><a href="https://itunes.apple.com/us/app/game-roster/id1084852919?mt=8" target="_blank"><%= image_tag 'ios.png', class: 'app-icon' %></a></div>
+				<div class='col-sm-2 col-xs-6 pd0'><a href="https://play.google.com/store/apps/details?id=com.gameroster&hl=en" target="_blank"><%= image_tag 'droid.png', class: 'app-icon' %></a></div>
+			</div>
+			<div class="clearfix"></div>
+      <div class="col-md-12">
+        <h2 class="text-center">
+          Patent Pending
+        </h2>
+        <p class="text-center"><small>©2016 CloudMash LLC</small></p>
+      </div>
+    </div>
+		<div class="subfooter text-center">
+			Any video game product names, logos, brands, and other trademarks or images featured or referred to within this website are the property of their respective trademark holders. These trademark holders are not affiliated with CloudMash LLC, our services, or our websites. They do not sponsor or endorse CloudMash LLC or any of our online services.
+		</div>
+	</div>
+</footer>
+<% if Rails.env.production? && (!request.domain.include?('vnocapps'))%>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63613569-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<% end %>
+</body>
+</html>

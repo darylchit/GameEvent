@@ -1,0 +1,7 @@
+$('.modal-title').html('Invite User to Roster');
+
+$('.modal-body').html('<%= j render "rosters/invite_user_form" %>').addClass('contract-body');
+
+$('.modal-footer:not(".modal-contract-footer")').hide();
+$('.modal').modal('show');
+

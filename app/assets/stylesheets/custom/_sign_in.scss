@@ -1,0 +1,56 @@
+.sign-in{
+  .form-group
+  {
+    margin-bottom: 0px;
+  }
+  .box{border: 1px solid #ddaf3b;border-radius: 15px;background: black;}
+  .set_box_header{border: 1px solid #ddaf3b;background: #ddaf3b;color: black;border-top-left-radius: 12px;border-top-right-radius: 12px;margin-top: 0;}
+  .set_margin{margin-bottom: 20px;}
+  .checkbox{
+    margin-bottom: 0px;
+  }
+  .login_btn{
+    .btn{
+      width: 60%;
+    }
+  }
+}
+#login_tab{
+  .form-group
+  {
+    margin-bottom: 0px;
+  }
+}
+.bg-video {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-39%);
+  background: url(vid.jpg) no-repeat;
+  background-size: cover;
+}
+.bg-image{
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-39%);
+  background: url(vid.jpg) no-repeat;
+  background-size: cover;
+}
+.set_popup_mrg{margin-top: 90px;}
+
+@media  (min-width: 768px) and (max-width: 1200px){
+  .video {top: 42%;}
+}

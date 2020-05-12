@@ -1,0 +1,110 @@
+<div class="background-block content-area my_clans_page">
+  <div class="container">
+  	<div class="row text-center">
+      <%= image_tag "game_roster_1.png", :class=> 'logo wow flip'%>
+      <h1 class="strong hidden-xs">MY CLANS</h1>
+      <h2 class="mt8 strong visible-xs">MY CLANS</h2>
+    </div>
+    <% if false %>
+      <div class="row">
+        <div class="col-sm-12 col-xs-12">
+          <%= link_to 'Join More', clans_path,class: 'btn btn-lightgrey btn_width', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Join More"} %>
+          <% if current_user %>
+            <% if current_user.own_clan %>
+               <%= link_to "Edit Clan", edit_clan_path(current_user.own_clan), class: "btn btn-lightgrey  btn_width" %>
+            <% elsif current_user.is_premium? %>
+              <%= link_to "Create Clan", new_clan_path, class: "btn btn-lightgrey btn_width" %>
+            <% else %>
+              <a href='/profile/subscription'>
+              <span class="btn btn-lightgrey btn_width">Create Clan</span></a>
+            <% end%>
+          <% else %>
+            <%= link_to "Create Clan", new_clan_path, class: "btn btn-lightgrey btn_width" %>
+          <% end%>
+        </div>
+     </div>
+   <% end %>
+  	<div class="gold-header-row row"></div>
+		<div class="hidden-xs">
+			<div class="row bg_gray">
+				<div class="col-md-12 col-sm-12">
+          <h2 class="text-center"><%=  pluralize @events_count, 'Upcoming Clan Event'%></h2>
+      	</div>
+
+        <% if current_subscription.nil? %>
+          <div class="col-md-12 text-center form-group" style="margin-top: 15px;">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- Desktop Long Banner -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:970px;height:90px"
+                 data-ad-client="ca-pub-7969073226896485"
+                 data-ad-slot="7194419117"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
+        <% end %>
+      	<% if @events.present? %>
+	      	<div class="col-md-12 col-sm-12" style="margin-left: 10px">
+						<div class="roster-invites-wrapper clearfix">
+			          <ul class="list-unstyled" id="upcoming_clan_event_desktop">
+                  <%= render  :partial => 'upcoming_clan_event', collection: @events, as: :event, locals: {invitation: false}%>
+			         </ul>
+			      </div>
+			    </div>
+		     	<%if false #@events_count > @set_offset %>
+				    <div class="col-md-12 col-sm-12 clearfix form-group text-center">
+              <%= link_to 'Show More', get_upcoming_events_my_clans_path(offset: @set_offset, total_events: @events_count), remote: true, id: 'view_more_events', class: 'btn btn-primary  width_10 view_more_events',remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Show More"} %>
+				    </div>
+			  	<% end %>
+			  <% end %>
+			</div>
+			<div class="row clearfix gold-header-row"></div>
+
+			<div class="topmrg_20">
+      	<ul class="list-unstyled" id='clans-list'>
+           <%= render :partial => 'shared/clan_card', collection: @my_clans, as: :clan %>
+        </ul>
+			</div>
+		</div>
+
+		<div class="visible-xs">
+			<div class="row bg_gray">
+        <div class="col-xs-12">
+          <h3 class="text-center text-uppercase"><%=  pluralize @events_count, 'Upcoming Clan Event'%></h3>
+        </div>
+        <% if current_subscription.nil? %>
+          <div class="clearfix"></div>
+          <div class="row-fluid text-center">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- Mobile Banner -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:320px;height:100px"
+                 data-ad-client="ca-pub-7969073226896485"
+                 data-ad-slot="4553256987"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
+        <% end %>
+        <% if @events.present? %>
+          <div class="col-xs-12 form-group" id="upcoming_clan_event_mobile">
+            <%= render  partial: 'upcoming_clan_event_mobile', collection: @events, as: :event %>
+          </div>
+          <% if false #@events_count > @set_offset %>
+            <div class="col-xs-12 form-group">
+              <%= link_to 'Show More', get_upcoming_events_my_clans_path(offset: @set_offset, total_events: @events_count), remote: true, id: 'view_more_events', class: 'btn btn-primary btn-full view_more_events',remote: true, data: {disable_with: "<i view_more_events class='fa fa-spinner fa-spin'></i> Show More"} %>
+            </div>
+          <% end %>
+        <% end %>
+			</div>
+
+      <div class="row gold-header-row"></div>
+
+  		<ul class="list-unstyled topmrg_20" id='clans-list'>
+        <%= render :partial => 'shared/clan_card', collection: @my_clans, as: :clan %>
+      </ul>
+			<hr class="gold_line">
+		</div>
+	</div>
+</div>

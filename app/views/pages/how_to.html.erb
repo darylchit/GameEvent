@@ -1,0 +1,312 @@
+<section class="content-block">
+  <div class="container">
+    <h1>How To</h1>
+    <p class="lead text-justify">
+     We want to simplify your gaming life and are here to help you organize friends and connect with other great players.  You can create private and public game event rosters on the <%= link_to "Create Roster", new_roster_path() %> page and see all your invites and confirmed public and private event rosters on <%= link_to "My Events", events_path %>.  Search for the perfect player on the <%= link_to "Players Available", contracts_path %> page or join an upcoming game on the <%= link_to "Public Games", bounties_path %> page.  You can also post your availability to help others on the <%= link_to "Players Available", contracts_path %> page.
+    </p>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="well merc-tip" style="position: relative;">
+          <h2 class="mt0">New User Tip:</h2>
+          <h3 class="mt0 text-primary">Build experience and your reputation by joining public games or by selecting player events on the Players Available page. </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content-block how-to-block">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-sm-6">
+        <div class="text-center">
+          <span class="cta-icon">
+            <img src="<%= image_path 'howto_enlist@2x.png' %>" alt="Enlist@2x">
+          </span>
+          <h4>Create Roster</h4>
+          Start and Post a Public Game<br>
+          Send Invites To Private Games
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 about-sm-mt">
+        <div class="text-center">
+          <span class="cta-icon">
+            <img src="<%= image_path 'howto_my_rosters@2x.png' %>" alt="Enlist@2x">
+          </span>
+          <h4>My Events</h4>
+          View Private Invitations<br>
+          Check Your Game Rosters
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 about-md-mt about-sm-mt">
+        <div class="text-center">
+          <span class="cta-icon">
+            <img src="<%= image_path 'howto_find_mercenary@2x.png' %>" alt="Enlist@2x">
+          </span>
+          <h4>Players Available</h4>
+          Lists Available Players<br>
+          Post Your Availability
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 about-md-mt about-sm-mt">
+        <div class="text-center">
+          <span class="cta-icon">
+            <img src="<%= image_path 'howto_browse_games@2x.png' %>" alt="Enlist@2x">
+          </span>
+          <h4>Public Games</h4>
+          Find Games Needing Players<br>
+          Search By Title and Interests
+        </div>
+      </div>
+    </div>
+    <br>
+
+    <h2>How To:</h2>
+
+    <div class="panel-group panel-group-clear accordion-lg" id="accordion1" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-profile">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-profile" aria-expanded="true" aria-controls="collapse-profile">
+                Create A Profile
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-profile" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingprofile-">
+            <div class="panel-body">
+              Your profile is a digital storefront that should showcase your skills and personality. You can update your profile on the <%= link_to 'Account', edit_profile_path %> page and can quickly add or delete titles from your library on the <%= link_to 'My Titles', edit_games_and_systems_path %> page. You only need to post titles you want to play and not all the titles you own.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-payment">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-payment"  class="collapsed" aria-expanded="false" aria-controls="collapse-payment">
+                Payment Settings
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-payment" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-payment">
+            <div class="panel-body">
+              All paying subscribers are eligible to earn donations. Just be sure to provide your PayPal email address on the Edit Account page.  We recommend changing the primary email on your PayPal account to a unique email address without identifiable information if you want more anonymity, as PayPal will disclose this address and the name it has on file for your PayPal account.  Note that we will never share your contact email or personal information to a user.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="headingclan">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-clan"  class="collapsed" aria-expanded="false" aria-controls="collapse-clan">
+                Raise Money For Clans
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-clan" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-clan">
+            <div class="panel-body">
+              Clans may accept donations from their members directly on their clan profile pages. Clans may also benefit from their game mercenary members. Simply have every member of the clan enter the same PayPal email address. All the team’s money will go to one common account. Next, figure out how you are going to spend all that loot.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-preferences">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-preferences"  class="collapsed" aria-expanded="false" aria-controls="collapse-preferences">
+                Set Player Preferences
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-preferences" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-preferences">
+            <div class="panel-body">
+              You can set minimum thresholds for PSA ratings and cancelation rates on the <%= link_to 'edit profile page', edit_profile_path %> page. Users not meeting these requirements will not see or be able to select your events. Be aware that setting the threshold too high will limit your ability to find donors or other players.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-block">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-block"  class="collapsed" aria-expanded="false" aria-controls="collapse-block">
+                Block and Unblock a User
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-block" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-block">
+            <div class="panel-body">
+              Block a user by selecting the block icon on their profile page. This will prevent them from claiming your events or messaging you. You can unblock a user on the <%= current_user.present? ? link_to('Rate & Block Players', profiles_path + '/' + current_user.username + '/blocks-and-feedback') : 'Rate and Block Players' %> page. 
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-starting-roster">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-starting-roster"  class="collapsed" aria-expanded="false" aria-controls="collapse-starting-roster">
+                Start a Game Roster
+               </a>
+            </h4>
+          </div>
+          <div id="collapse-starting-roster" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-starting-roster">
+            <div class="panel-body">
+              Select <%= link_to "Create Roster", new_roster_path %> to create either a public or private gaming event.  Selecting private event allows you to send invitations to select users while selecting public event will post the game on a list of public games and will allow you to post your event to social media.  Private events are available to anyone you invite but your public games will not be available to users not meeting your PSA and cancelation rate preferences.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-join-roster">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-join-roster"  class="collapsed" aria-expanded="false" aria-controls="collapse-join-roster">
+                Join or Leave a Game Roster
+               </a>
+            </h4>
+          </div>
+          <div id="collapse-join-roster" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-join-roster">
+            <div class="panel-body">
+              A game roster will show up on <%= link_to "My Events", events_path %> when you join a public game or receive a private event invite.  You can check the status of the roster, post messages, accept your invitation, or leave an event on the game event’s page.  Note, that leaving a public game event that has a full roster will increase your cancelation rate.  There is no penalty for leaving a private game or any public game with an incomplete roster.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-posting">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-posting"  class="collapsed" aria-expanded="false" aria-controls="collapse-posting">
+                Share Your Availability
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-posting" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-posting">
+            <div class="panel-body">
+              Select <%= link_to "Post Availability", new_contract_path %> on the <%= link_to "Players Available", contracts_path %> page to share your availability and game preferences. We recommend using the recurring events feature to quickly add multiple dates.  You will receive a message if you are selected that will disclose the user's IGN (e.g. Xbox Gamertag).  Join the player online using the IGN at the posted time.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-change-cancel">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-change-cancel"  class="collapsed" aria-expanded="false" aria-controls="collapse-change-cancel">
+                Change or Cancel an Event
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-change-cancel" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-change-cancel">
+            <div class="panel-body">
+              You can edit your availability post before it is claimed on the <%= link_to 'My Events', events_path %> page by selecting the event.  Although you can cancel an event at anytime, we recommend users privately reschedule events with counterparts to avoid increasing their cancelation rate.
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-cancel-private">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-cancel-private"  class="collapsed" aria-expanded="false" aria-controls="collapse-cancel-private">
+                Cancel or Change a PRIVATE Game Event
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-cancel-private" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-cancel-private">
+            <div class="panel-body">
+              Hosts can edit, cancel, or remove players from private events at any time by selecting the event on My Events.  Canceling private events does not affect cancelation rates for either the host or players, which can also opt out of a game at any time without increasing their cancelation rate.  However, changing the start time will reset the roster and resend new invites.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-cancel-public">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-cancel-public"  class="collapsed" aria-expanded="false" aria-controls="collapse-cancel-public">
+                Cancel or Change a PUBLIC Game Event
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-cancel-public" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-cancel-public">
+            <div class="panel-body">
+              Hosts can only change public event details on the My Events page before players start to join the roster.  However, they can cancel an event or remove players from the roster at any time.  Cancelation penalties are only assigned to the host or player if a roster is full.  Please see our <%= link_to "Policies", policies_path %> page for more details.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-meet">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-meet"  class="collapsed" aria-expanded="false" aria-controls="collapse-meet">
+                Meet Online
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-meet" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-meet">
+            <div class="panel-body">
+              Users can find player IGNs (e.g. Xbox Gamertag) for a game event in the event’s Roster section or on the <%= link_to 'My Events', events_path %> page.  Use these IGNs on your game system to locate and join players when you are ready to start the event.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-send-receive">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-send-receive"  class="collapsed" aria-expanded="false" aria-controls="collapse-send-receive">
+                Send and Receive Donations
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-send-receive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-send-receive">
+            <div class="panel-body">
+              Users can offer or seek donations when they post events and donate to a player after gameplay on the My Events page.  Funds are sent directly to the user’s designated PayPal account.  Although donations are not mandatory they are encouraged as they help reward good players and create a stronger gaming community on the site.  Users are not permitted to seek more than $5 until they are rated.
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-create-clan">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-create-clan"  class="collapsed" aria-expanded="false" aria-controls="collapse-create-clan">
+                Create a Clan
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-create-clan" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-create-clan">
+            <div class="panel-body">
+              Paying subscribers are eligible to create one clan per subscription.
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-remove-from-clan">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-remove-from-clan"  class="collapsed" aria-expanded="false" aria-controls="collapse-remove-from-clan">
+                Remove Players from a Clan
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-remove-from-clan" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-remove-from-clan">
+            <div class="panel-body">
+              Clan hosts, and clan members with the appropriate permissions, can remove members by reviewing their roster and selecting the player(s) they wish to remove from their clan. Removals are on a clan-by-clan basis, so multi-clan hosts will need to remove the player(s) from each clan individually.
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-clear">
+          <div class="panel-heading" role="tab" id="heading-customize-clan">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse-customize-clan"  class="collapsed" aria-expanded="false" aria-controls="collapse-customize-clan">
+                Customize a Clan Page
+              </a>
+            </h4>
+          </div>
+          <div id="collapse-customize-clan" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-customize-clan">
+            <div class="panel-body">
+              Clan hosts can customize their clan pages to reflect their distinct personalities. Use your own custom avatars, banner images, and descriptions.
+            </div>
+          </div>
+        </div>
+        <!-- <div class="panel panel-clear">
+             <div class="panel-heading" role="tab" id="heading-transfer-clan">
+             <h4 class="panel-title">
+             <a data-toggle="collapse" href="#collapse-transfer-clan"  class="collapsed" aria-expanded="false" aria-controls="collapse-transfer-clan">
+             Transfer Clan Ownership
+             </a>
+             </h4>
+             </div>
+             <div id="collapse-transfer-clan" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-transfer-clan">
+             <div class="panel-body">
+             Clan hosts can transfer clan ownership to another player. The potential new host will need to have a currently active paid account and be a member of the clan they want to take over hosting duties for. The originating host will then invite that player to take over hosting duties. If the potential new host does not accept hosting duties, no changes will be made and the original host will remain. Once hosting duties have been passed on, the original host will no longer have host access for that clan, but may retain whatever rank and other access the new host assigns.
+             </div>
+             </div>
+             </div>
+           -->
+      </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+<div class="card-wrapper contract-card">
+	<%= link_to contract_path(c.id), remote: true do %>
+		<%= image_tag(c.avatar_url) %>
+		<div class="card-pad">
+			<p class="small">
+				<span class="badge badge-outline">
+					 <!-- short_date_time_spacing c.start_date_time -->
+					&#8226;
+					<!-- d = c.duration/60
+					  	"#{d} #{"Hr".pluralize d}" -->
+				</span>
+			</p>
+			<div class="card-content card-body">
+				<p class="text-gray"><strong class="text-primary">Name:</strong> <%= c.username %></p>
+				<p class="text-gray"><strong class="text-primary">PSA:</strong> <% if c.psa_rating != 0 %><span class="psa-rating-read-only" data-score="<%= c.psa_rating%>"></span><% else %> n/a <% end %></p>
+				<p class="text-gray"><strong class="text-primary">Cancellation Rate:</strong> <%= c.cancellation_rate.present? && c.cancellation_rate >= 0 ? c.cancellation_rate : 'n/a' %></p>
+				<p class="text-gray"><strong class="text-primary">Age:</strong> <%= c.public_age ? age_in_years(c.date_of_birth) : 'n/a' %>
+				</p>
+				<p class="text-gray"><strong class="text-primary">Donate:</strong><!-- c.price_in_cents != 0 ? '$' + c.price_in_dollars : 'none' -->
+				</p>
+			</div>
+			<% if true #c.can_be_claimed_by_user? current_user %>
+				<div class="card-actions">
+					<%= link_to "Select", contract_path(c.id), class: "btn btn-sm btn-primary btn-block", remote: true  %>
+				</div>
+			<% else %>
+				<div class="card-actions">
+					<%= link_to "View", contract_path(c.id), class: "btn btn-sm btn-info btn-block", remote: true  %>
+				</div>
+			<% end %>
+		</div>
+	<% end %>
+</div>

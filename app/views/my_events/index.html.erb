@@ -1,0 +1,191 @@
+<div class="background-block content-area my_events_page">
+  <div class="container">
+    <div class="row text-center">
+      <%= image_tag "game_roster_1.png", :class=> 'logo wow flip'%>
+      <h1 class="hidden-xs">MY EVENTS</h1>
+      <h2 class="mt8 visible-xs">MY EVENTS</h2>
+    </div>
+    <div class="row  gold-header-row"></div>
+		<div class="hidden-xs">
+			<div class="row bg-gray" id="my-invitation-lg">
+        <div class="col-md-12 col-sm-12">
+      	  <h2 class="mrg_btm_0 text-center text-capitalize">My Invitations</h2>
+        </div>
+        <div class="col-md-12 col-sm-12">
+          <h4 class="text-center invitations_count">
+            ( <%= invitations.total_count %> Pending )
+          </h4>
+        </div>
+      	<div class="col-md-12 col-sm-12">
+					<div class="roster-invites-wrapper clearfix">
+	          <ul class="list-unstyled" id="invitations_desktop">
+              <% if invitations.present? %>
+	             <%= render :partial => 'event_list_desktop', collection: invitations, as: :event, locals: { invitation: true }  %>
+              <% else %>
+                <!--<li>-->
+                  <!--<div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>-->
+                  <!--<h3 class="text-center"> No Invitations </h3>-->
+                <!--</li>-->
+              <% end %>
+		        </ul>
+		      </div>
+          <div class="row  gold-header-row"></div>
+		    </div>
+		    <div class="col-md-12 col-sm-12 clearfix">
+          <%= link_to 'View More', my_invitations_my_events_path(page: params[:page].nil? ? 2 : params[:page].to_i + 1), class: 'btn btn-primary pull-right set_btn_width invitations_load_more_link', remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> View More"} unless invitations.last_page? %>
+		    </div>
+        <!-- <div class="col-md-12 col-sm-12"> <div class="row gold-header-row"></div></div> -->
+			</div>
+
+    	<div class="row" id="my-upcoming-lg">
+        <div class="col-md-12 col-sm-12">
+	      	<h2 class="mrg_btm_0 text-center text-capitalize">
+            My Upcoming Events
+          </h2>
+        </div>
+        <div class="col-md-12 col-sm-12">
+          <h4 class="text-center upcoming_events_count">
+           ( <%= upcoming_events.total_count %> Pending )
+          </h4>
+        </div>
+
+      	<div class="col-md-12 col-sm-12 topmrg_20">
+					<div class="roster-invites-wrapper clearfix">
+			      <ul class="list-unstyled" id="upcoming_events_desktop">
+              <% if upcoming_events.present? %>
+			          <%= render :partial => 'event_list_desktop', collection: upcoming_events, as: :event, locals: { invitation: false } %>
+              <% else %>
+                <li>
+                  <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+                  <h3 class="text-center"> No Upcoming Events </h3>
+                </li>
+              <% end %>
+			      </ul>
+			    </div>
+		  	</div>
+        <% unless upcoming_events.last_page? %>
+  			  <div class="col-md-12 col-sm-12 clearfix text-center">
+            <div class="col-md-4 col-md-offset-4">
+            <%= link_to 'View More', my_upcoming_events_my_events_path(page: 2), class: 'btn-full btn btn-primary  upcoming_events_load_more_link', remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> View More"} %>
+            </div>
+  			  </div>
+        <% end %>
+			  <div class="col-md-12 col-sm-12 clearfix"></div>
+			</div>
+
+			<div class="row topmrg_20">
+				<div class="col-md-10 col-sm-10">
+		  		<h2 class="mt0 text-capitalize">All Events</h2>
+		  	</div>
+		  	<div class="col-md-2 col-sm-2 clearfix">
+          <%= select_tag "sort_by", options_for_select(Event::SORT_BY, ""), {class: 'btn-full pull-right set_btn_btm_mrg form-control chosen-select my-all-event-sorting', prompt: 'Sort By'} if events.present? %>
+		    </div>
+      </div>
+			<div class="contract-details">
+				<div class="my_all_event_desktop">
+          <div class="gold-header-row row"></div>
+          <div id="my-events-lg">
+            <% if events.present? %>
+                <!-- <div class="row gold-header-row"> </div> -->
+              <%= render :partial => 'my_all_events', collection: events, as: :event  %>
+            <% else %>
+              <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+              <h3 class="text-center"> Events not found </h3>
+            <% end %>
+          </div>
+          <% unless events.last_page? %>
+            <div class="row">
+              <div class="col-md-4 col-md-offset-4 topmrg_20 ">
+                <%= link_to 'View More', my_all_events_more_my_events_path(page: params[:page].nil? ? 2 : params[:page].to_i + 1), class: 'btn btn-lightgrey btn-full view-more-all-my-event', remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'> </i> View More"}  %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+			</div>
+		</div>
+
+    <!-- Mobile View -->
+		<div class="visible-xs">
+			<div class="row bg-gray" id="my-invitation-xs">
+        <div class="col-md-12 col-sm-12">
+				  <h3 class="text-center mrg_btm_0">My Invitations</h3>
+        </div>
+        <div class="col-md-12 col-sm-12">
+          <h5 class="invitations_count text-center">
+           ( <%= invitations.total_count %> Pending )
+          </h5>
+        </div>
+        <% if invitations.present? %>
+          <div class="col-xs-12 form-group" id="invitations_mobile">
+            <%= render partial:'invitation_list_mobile', collection: invitations, as: :event, locals: { invitation: true }  %>
+          </div>
+        <% end %>
+			</div>
+
+      <%= link_to 'View More', my_invitations_my_events_path(page: params[:page].nil? ? 2 : params[:page].to_i + 1), class: 'btn btn-primary btn-full', remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> View More"} unless invitations.last_page?%>
+
+      <!-- upcoming events-->
+       <div class="row gold-header-row"></div>
+      <div class="row" id="my-upcoming-xs">
+        <div class="col-md-12 col-sm-12">
+          <h3 class="text-center mrg_btm_0">My Upcoming Events</h3>
+        </div>
+        <div class="col-md-12 col-sm-12">
+          <h5 class="upcoming_events text-center">
+           ( <%= upcoming_events.total_count %> Pending )
+         </h5>
+        </div>
+      </div>
+
+      <div class="contract-details">
+
+        <% if upcoming_events.present? %>
+          <div class="row-fluid form-group" id="upcoming_events_mobile">
+            <%= render :partial => 'invitation_list_mobile', collection: upcoming_events, as: :event, locals: { invitation: false } %>
+          </div>
+        <% else %>
+        <div class="col-xs-12">
+          <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+          <h3 class="text-center"> No Upcoming Events </h3>
+        </div>
+        <% end %>
+      </div>
+      <div>
+        <%= link_to 'View More', my_upcoming_events_my_events_path(page: params[:page].nil? ? 2 : params[:page].to_i + 1), class: 'btn btn-lightgrey btn-full upcoming_events_load_more_link', remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> View More"} unless upcoming_events.last_page? %>
+      </div>
+			<!-- <div><hr class="gold_line_1"></div> -->
+			<div class="row">
+				<div class="col-md-12 col-sm-12">
+		  		<h3 class="text-center">All Events</h3>
+		  	</div>
+		  </div>
+      <% if events.present? %>
+        <div class="row">
+          <div class="col-md-12 col-sm-12 clearfix">
+           <%= select_tag "sort_by", options_for_select(Event::SORT_BY, ""), {class: 'text-gray btn-full pull-right set_btn_btm_mrg form-control chosen-select my-all-event-sorting', prompt: 'Sort By'} %>
+          </div>
+        </div>
+      <% end %>
+			<div class="contract-details">
+        <!--<div class="row gold-header-row"> </div>-->
+
+          <% if events.present? %>
+            <table class="table table-hover" id='my-events-xs'>
+					    <%= render :partial => 'my_all_events_mobile', collection: events, as: :event %>
+            </table>
+            <% unless events.last_page? %>
+                <div class="row">
+                  <div class="col-md-4 col-md-offset-4 col-xs-12 topmrg_20 ">
+                    <%= link_to 'View More', my_all_events_more_my_events_path(page: params[:page].nil? ? 2 : params[:page].to_i + 1), class: 'btn btn-lightgrey btn-full view-more-all-my-event', remote: true, data: {disable_with: "<i class='fa fa-spinner fa-spin'> </i> View More"}  %>
+                  </div>
+                </div>
+            <% end %>
+          <% else %>
+           <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+           <h3 class="text-center"> Events not found </h3>
+          <% end %>
+
+			</div>
+    </div>
+	</div>
+</div>

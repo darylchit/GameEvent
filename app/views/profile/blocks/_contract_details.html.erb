@@ -1,0 +1,49 @@
+<div class="contract-padding">
+  <h3>Related Event Details</h3>
+	<ul class="list-unstyled contract-meta">
+		<li class="contract-cal"><strong>Start Date:</strong>
+			<%=  contract.start_date_time.strftime("%Y/%m/%d") %>
+		</li>
+		<li class="contract-clock"><strong>Start Time:</strong>
+			<%=  contract.start_date_time.strftime("%I:%M%P") %>
+		</li>
+		<li class="contract-length"><strong>Length:</strong>
+			<%=  "#{contract.duration/60} #{'Hr'.pluralize(contract.duration/60)}" %>
+		</li>
+		<li class="contract-will-play"><strong>Will Play:</strong>
+			<%= contract.will_play %>
+		</li>
+	</ul>
+	<div class="modal-error"></div>
+</div>
+
+<div class="contract-padding">
+	<ul class="list-unstyled contract-meta">
+		<li class="contract-game">
+			<ul class="list-unstyled clearfix games-list">
+					<li class="game-item col-third">
+						<label>
+							<div class="cover-wrap">
+								<% if contract.selected_game_game_system_join.game.game_cover.present? %>
+			                      	<%= image_tag(contract.selected_game_game_system_join.game.game_cover.url) %>
+			                    <% else %>
+									<%= image_tag('def-cover.jpg') %>
+			                    <% end %>
+							</div>
+							<div class="game-details">
+								<%=  contract.selected_game_game_system_join.game.title %>
+							</div>
+						</label>
+					</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+<div class="modal-footer modal-contract-footer contract-padding">
+  <h3 class="mt0 modal-footer-label pull-left-md"></h3>
+  <%= form_for @block, url: profile_blocks_path do |f| %>
+    <%= f.hidden_field :blocked_user_id, value: @block.blocked_user_id %>
+    <%= f.hidden_field :contract_id, value: @block.contract_id %>
+    <%= f.submit "Block User", class:"btn btn-lg btn-outline pull-right-md" %>
+  <% end %>
+</div>

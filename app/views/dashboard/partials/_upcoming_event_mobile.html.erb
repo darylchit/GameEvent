@@ -1,0 +1,14 @@
+<% if event.roster? %>
+  <% event = event.becomes(Roster) %>
+<% end %>
+
+<li class="mss col-third-rel">
+    <%= link_to roster_path(event) do %>
+        <!-- TODO: Link to rosters grid with selected game as a query param -->
+        <%= image_tag(game_photo_cover(event)) %>
+        <div class="mss-details">
+        	<h4 class="mt0 mb0"><%= short_date_time_spacing event.start_date_time %></h4>
+            <h4><%= event.contract_game_game_system_joins.first.game_game_system_join.game.title %></h4>
+        </div>
+    <% end %>
+</li>

@@ -1,0 +1,14 @@
+<% if true #current_user.active_subscription %>
+$('#global_model').html("<%= j render(:partial => 'reactive_clan')%>")
+$('.clan-reactivation-title').html('Clan Reactivated');
+$('.clan-reactivation-message').html('Your Clan Has Been Reactivated');
+$("#clan_reactivation").modal();
+$("#clan_reactivation").on('hidden.bs.modal', function(e) {
+  location.reload();
+})
+<% else %>
+$('#global_model').html("<%= j render(:partial => 'reactive_clan')%>")
+$('.clan-reactivation-title').html('Clan Reactivation Error');
+$('.clan-reactivation-message').html('You Must Have An Elite Subscription To Reactivate Your Clan.');
+$("#clan_reactivation").modal();
+<% end %>

@@ -1,0 +1,198 @@
+<div class="">
+  <div class="row-fluid">
+    <div class="container-box">
+      <div class="row">
+        <div class="col-xs-6">
+          <%=link_to profiles_path + '/' + resource.username + '/feedback' do %>
+            <div class="text-primary">Personality:</div>
+            <div class="text-white">
+              <%=resource.user_setting.total_personality %>
+              <span class="">
+
+                <i class="fa fa-thumbs-up " aria-hidden="true"></i>
+              </span>
+            </div>
+          <% end %>
+        </div>
+        <div class="col-xs-6">
+          <div class="text-primary">Systems: </div>
+          <div>
+            <% systems = resource.game_systems.pluck(:abbreviation).uniq %>
+            <%if systems.count == @game_systems_size %>
+                <a tabindex="0" class="text-white cursor_pointer" data-toggle="popover" data-trigger="focus"  data-placement="top" title="All Systems" data-content="<%= systems.join(', ')%>">All Systems</a>
+            <% elsif systems.count > 2 %>
+                <%= systems[0..1].join(', ')%>,
+                <a tabindex="0" class="text-white cursor_pointer" data-toggle="popover" data-trigger="focus"  data-placement="top" title="All Systems" data-content="<%= systems.join(', ')%>">More</a>
+            <% else %>
+                <%= systems.join(', ')%>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="text-primary">Skill: </div>
+          <div class="text-white">
+            <%=resource.user_setting.total_skill %>
+            <span class="">
+              <i class="fa fa-thumbs-up " aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="text-primary">Most Active Days: </div>
+          <div> <%= resource.most_active_days %> </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="text-primary">Respect: </div>
+          <div class="text-white">
+            <%=resource.user_setting.total_respect %>
+            <span class="">
+
+              <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+            </span>
+        </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="text-primary">Most Active Time: </div>
+          <div> <%= resource.most_active_time %> </div>
+        </div>
+
+      </div>
+      <%#= link_to "View Reviews", profiles_path + '/' + resource.username + '/feedback'  %>
+
+     </div>
+     <hr class="gold_row">
+     <div class="profile_block">
+       <div class="row">
+        <% if resource.psn_user_name.present? %>
+          <div class="information col-xs-6">
+            <div class="text-primary">PlayStation ID</div>
+              <a tabindex="0" class="cursor_pointer" data-toggle="popover" data-trigger="focus"
+                 data-placement="top" title="" data-content="<%= resource.psn_user_name %>" data-original-title="PlayStation ID">
+                <div class="text-white title_wrap"><%= resource.psn_user_name %></div>
+              </a>
+          </div>
+        <% end %>
+        <% if resource.xbox_live_user_name.present? %>
+            <div class="information col-xs-6">
+              <div class="text-primary">Xbox Gamertag</div>
+              <a tabindex="0" class="cursor_pointer" data-toggle="popover" data-trigger="focus"
+                 data-placement="top" title="" data-content="<%= resource.xbox_live_user_name %>" data-original-title="Xbox Gamertag">
+                <div class="text-white title_wrap"><%= resource.xbox_live_user_name %></div>
+              </a>
+            </div>
+        <% end %>
+        <% if resource.nintendo_user_name.present? %>
+            <div class="information col-xs-6">
+              <div class="text-primary">Nintendo ID</div>
+              <a tabindex="0" class="cursor_pointer" data-toggle="popover" data-trigger="focus"
+                 data-placement="top" title="" data-content="<%= resource.nintendo_user_name %>" data-original-title="Nintendo ID">
+                <div class="text-white title_wrap"><%= resource.nintendo_user_name %></div>
+              </a>
+            </div>
+        <% end %>
+        <% if resource.steam_user_name.present? %>
+            <div class="information col-xs-6">
+              <div class="text-primary">Steam ID</div>
+              <a tabindex="0" class="cursor_pointer" data-toggle="popover" data-trigger="focus"
+                 data-placement="top" title="" data-content="<%= resource.steam_user_name %>" data-original-title="Steam ID">
+                <div class="text-white title_wrap"><%= resource.steam_user_name %></div>
+              </a>
+            </div>
+        <% end %>
+        <% if resource.battle_user_name.present? %>
+            <div class="information col-xs-6">
+              <div class="text-primary">Battletag</div>
+              <a tabindex="0" class="cursor_pointer" data-toggle="popover" data-trigger="focus"
+                 data-placement="top" title="" data-content="<%= resource.battle_user_name %>" data-original-title="Battletag">
+                <div class="text-white title_wrap"><%= resource.battle_user_name %></div>
+              </a>
+            </div>
+        <% end %>
+        <% if resource.origins_user_name.present? %>
+            <div class="information col-xs-6">
+              <div class="text-primary">Origin ID</div>
+              <a tabindex="0" class="cursor_pointer" data-toggle="popover" data-trigger="focus"
+                 data-placement="top" title="" data-content="<%= resource.origins_user_name %>" data-original-title="Origin ID">
+                <div class="text-white title_wrap"><%= resource.origins_user_name %></div>
+              </a>
+            </div>
+        <% end %>
+       </div>
+     </div>
+    <hr class="gold_row">
+    <div class="container-box">
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="information">
+            <span class="text-primary">Experience: </span>
+            <span> <%= resource.event_experience %></span>
+          </div>
+          <div class="information">
+            <span class="text-primary">CR: </span>
+            <span> <%= resource.event_cancellation_rate %>%</span>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="information">
+            <span class="text-primary">Country: </span>
+            <span> <%= resource.country %> </span>
+
+          </div>
+          <div class="information">
+            <span class="text-primary"> Time Zone: </span>
+            <span> <%= resource.timezone_abbr %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-xs-6">
+          <span class="text-primary">Patience: </span>
+          <span> <%= resource.newbie_patience_level %></span>
+        </div>
+        <div class="col-xs-6">
+          <span class="text-primary"> Age: </span>
+          <span> <%= resource.public_age == true ? resource.age : 'n/a' %></span>
+        </div>
+      </div>
+     <!--</div>-->
+     <!--<div class="container-box player-line-break">-->
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="information">
+            <span class="text-primary">Style: </span>
+            <span> <%= resource.game_style %></span>
+          </div>
+          <div class="information">
+
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="information">
+            <span class="text-primary"> Type: </span>
+            <span> <%= 
+              if short_game_type(resource.will_play).present? && short_game_type(resource.will_play) == 'AT'
+                'All'
+              else
+                short_game_type(resource.will_play) 
+              end
+              %>
+            </span>
+          </div>
+        </div>
+      </div>
+     </div>
+     <% if resource.bio.present? %>
+     <hr class="gold_row">
+     <div class="profile_block">
+       <div class="row-fluid">
+        <div class="bio"><%= simple_format(resource.bio) %></div>
+      </div>
+     </div>
+     <% end %>
+  </div>
+</div>

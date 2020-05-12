@@ -1,0 +1,104 @@
+.roster-list {
+	font-size: 1.2em;
+	dt {
+		font-weight: bold;
+		color: $brand-primary;
+		text-align: left;
+		@media screen and (min-width: 320px) {
+			padding-right{margin-right:10px;}
+			clear: left;
+			float:left;
+		}
+	}
+	dd {
+		@media screen and (min-width: 480px) {
+			text-align: left;
+			margin-left: 125px;
+		}
+	}
+	@media screen and (max-width: $screen-md-max) {
+		margin-bottom: 0;
+	}
+}
+.contract-details li.message .roster-content {
+	@media screen and (max-width: $screen-md-max) {
+		height: auto;
+	}
+}
+#roster-users .tablesaw-bar {
+	display: none;
+}
+.roster-users-table.table {
+	thead tr th {
+		border-bottom: 0;
+	}
+	tbody tr {
+		@media screen and (min-width: $screen-md-min) {
+			border-bottom: 0;
+		}
+	}
+	tbody tr.roster-admin {
+		border-left: 1px solid #eee;
+		border-right: 1px solid #eee;
+		border-top: 1px solid #eee;
+		border-bottom: 1px solid #eee;
+		&.roster-admin-no-rating {
+			border-bottom: 1px solid #eee;
+		}
+		background: #000;
+		td {
+			h2, h3, h5 {
+				font-weight: bold;
+			}
+			font-weight: bold;
+		}
+		& + .roster-admin {
+			border-top: none;
+			border-bottom: 1px solid #eee;
+		}
+	}
+	.contract-actions {
+		.btn {
+			&:not(.btn-auto) {
+				min-width: 108px;
+				text-align: center;
+				width: auto;
+			}
+		}
+	}
+	.roster-psa {
+		white-space: nowrap;
+		width: 115px;
+	}
+	.roster-exp {
+		width: 24px;
+	}
+	.button_to {
+		display: inline-block;
+	}
+	@media screen and (max-width: $screen-sm-max) {
+		& > tbody > tr > td {
+			padding: 0 8px;
+		}
+		& > tbody > tr > td:first-child {
+			padding-top: 8px;
+		}
+		h5 {
+			 margin: 0;
+		}
+	}
+	@media screen and (min-width: $screen-md-min) {
+		.roster-actions {
+			width: 230px;
+			display: block;
+			text-align: right;
+		}
+	}
+}
+
+.wbmr tbody  tr td.roster-actions .btn + .btn {
+	@media screen and (min-width: $screen-md-min) {
+		margin-top: 8px;
+	}
+}
+

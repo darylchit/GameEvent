@@ -1,0 +1,27 @@
+<div class="row">
+	<div class="col-md-10 col-sm-8">
+		<h2 class="mt0">My Titles</h2>
+	</div>
+	<div class="col-md-2 col-sm-4 text-right-md text-right-sm">
+		<%= link_to 'VIEW ALL', bounties_path, class: "btn btn-primary btn-block hidden-xs" %>
+	</div>
+</div>
+
+<div class="roster-invites-wrapper">
+  <% if !@my_games.nil? && @my_games.any? %>
+    <ul class="list-unstyled clearfix">
+      <% if browser.device.mobile? %>
+        <% @my_games.first(3).each do |game| %>
+          <%= render "shared/user_game_card", user_game: game %>
+        <% end %>
+      <% else %>
+        <% @my_games.first(5).each do |game| %>
+          <%= render "shared/user_game_card", user_game: game %>
+        <% end %>
+      <% end %>
+    </ul>
+    <%= link_to 'VIEW ALL', bounties_path, class: "btn btn-primary btn-block visible-xs" %>
+  <% else %>
+    <h4>You haven't selected any titles that you play yet!</h4>
+  <% end %>
+</div>

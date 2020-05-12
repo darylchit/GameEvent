@@ -1,0 +1,77 @@
+<div>
+	<p>
+		Using this tool will allow you to create a schedule of available contracts.  Please note that each date generated will create a separate contract once you have completed the contract form.
+	</p>
+</div>
+<div class="clearfix"></div>
+
+<a href="#" id="add_time" class="btn btn-outline btn-block" style="margin-bottom:10px;">Add Time Slot</a>
+
+<form action="<%= multiple_times_create_path %>" method="POST" data-remote="true">
+  
+  <div class="time-entries clearfix">
+	  <div class="well time-entry">
+		<div class="clearfix remove">
+		 	<a href="#" class="pull-right close"><span class="fa fa-remove"></span></a>
+		</div>
+		  
+		<div class="row">
+			  <div class="form-group col-md-4 day-of-week">
+				  <label class="control-label">Day of Week</label>
+				  <select name="multiple_times[day_of_week][]" class="form-control day">
+						<option>Sunday</option>
+						<option>Monday</option>
+						<option>Tuesday</option>
+						<option>Wednesday</option>
+						<option>Thursday</option>
+						<option>Friday</option>
+						<option>Saturday</option>
+				  </select>
+			  </div>
+			  <div class="form-group col-md-4 bootstrap-timepicker start-time">
+				  <label class="control-label">Starts At</label>
+				  <input type="text" name="multiple_times[starts_at][]" class="input-small form-control time-picker" />
+			  </div>
+			  <div class="form-group col-md-4 bootstrap-timepicker end-time">
+				  <label class="control-label">Duration</label>
+				  <select name="multiple_times[duration][]" class="form-control">
+					  <option value="60">1 Hour</option>
+					  <option value="120">2 Hours</option>
+					  <option value="180">3 Hours</option>
+					  <option value="240">4 Hours</option>
+					  <option value="300">5 Hours</option>
+					  <option value="360">6 Hours</option>
+					  <option value="420">7 Hours</option>
+					  <option value="480">8 Hours</option>
+					  <option value="540">9 Hours</option>
+					  <option value="600">10 Hours</option>
+					  <option value="660">11 Hours</option>
+					  <option value="720">12 Hours</option>
+				  </select>
+			  </div>
+		  	</div>
+	  </div>
+  </div>
+
+  <hr>
+  <h3>Contracts Run From</h3>
+  <hr>
+  
+	<div class="start-end-dates well">
+		<div class="form-group col-md-6">
+			<label class="control-label">Start Date</label>
+			<input type="text" name="start_date" class="input-sm datepicker form-control date-picker" />
+		</div>
+		<div class="form-group col-md-6">
+			<label class="control-label">End Date</label>
+			<input type="text" name="end_date" class="input-sm datepicker form-control date-picker" />
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="clearfix">
+		<input type="submit" value="Generate Contract Times" class="btn btn-primary pull-right" style="margin-top:10px;"/>
+	</div>
+</form>
+
+
+

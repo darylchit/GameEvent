@@ -1,0 +1,8 @@
+
+$('#user_invite_to_clan .modal-body').html('<h2 class="text-center">Player has been invited.</h2><br>')
+$('#user_invite_to_clan .modal-footer').hide();
+setTimeout(function(){
+	$('.modal-body .alert').remove();
+	$('.add-menu-show').removeClass('add-menu-show');
+	$('#user_invite_to_clan').modal('toggle');
+}, 1200);

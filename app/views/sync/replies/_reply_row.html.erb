@@ -1,0 +1,61 @@
+<div class="row chat-message">
+  <div class="col-xs-2 col-sm-1 sender-image">
+    <a href="<%= profiles_path() + '/' + reply.sender.username %>"><%= image_tag reply.sender.avatar_url, :class=>'avatar-sm' %></a>
+  </div>
+  <div class="col-xs-10 col-sm-11 message">
+    <div class='title'><b><%= reply.sender.username%> </b><small> <%=reply.created_at.strftime("%b-%d | %l:%M%p") %></small> </div>
+    <div class="text"> <%=reply.subject%></div>
+  </div>
+</div>
+<%if false %>
+<li class="message message-self">
+  <div class ='message-container'>
+    <div class="hidden-xs">
+      <span class="message-avatar message-self reduce_size">
+          <a href="<%= profiles_path() + '/' + reply.sender.username %>"><%= image_tag reply.sender.avatar_url, :class=>'avatar-sm'%></a>
+      </span>
+      <div class="message-content set_width_chat">
+        <h5 class="set_chat_text">
+          <span class="text-primary">
+            <%= reply.sender.username%>:
+            <span class="font_color_white helper-text">
+              <%=reply.subject%>
+            </span>
+          </span>
+          <span class="visible-sm-block visible-xs-block visible-md visible-lg pull-right-md">
+            <small>
+              <span class="hidden-xs">&nbsp;</span>
+
+            </small>
+          </span>
+        </h5>
+        <div class="message-body left-rect">
+        </div>
+      </div>
+    </div>
+    <div class="visible-xs">
+      <div class="message-content set_width_chat mobile_chat">
+        <span class="mobile-chat-date">
+          <%=reply.created_at.strftime("%m/%d %I:%M%p %Z ") %>&nbsp;
+        </span>
+        <h5 class="set_chat_text">
+          <span class="text-primary">
+            <%= reply.sender.username%>:
+            <span class="font_color_white helper-text">
+              <%=reply.subject%>
+            </span>
+          </span>
+          <span class="visible-sm-block visible-xs-block visible-md visible-lg pull-right-md">
+            <small>
+              <span class="hidden-xs"><%=reply.created_at.strftime("%m/%d %I:%M%p %Z ") %>&nbsp;</span>
+
+            </small>
+
+          </span>
+        </h5>
+      </div>
+    </div>
+  </div>
+
+</li>
+<% end%>

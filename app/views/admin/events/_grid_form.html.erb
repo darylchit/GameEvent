@@ -1,0 +1,38 @@
+<%= form_tag admin_events_path, method: 'get', html: {role: "form"}, class: "wice_grid_form" do %>
+  <div class="row">
+    <div class="col-md-6">
+  		<div class="form-group">
+  			<label>Type</label>
+  			<%= grid_filter @events, :type_filter %>
+  		</div>
+    </div>
+    <div class="col-md-6">
+  		<div class="form-group">
+  			<label>Private?</label>
+  			<%= grid_filter @events, :visibility_filter %>
+  		</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+  		<div class="form-group">
+  			<label>Starts At</label>
+  			<%= grid_filter @events, :start_date_filter %>
+  		</div>
+    </div>
+    <div class="col-md-6">
+  		<div class="form-group">
+  			<label>Created At</label>
+  			<%= grid_filter @events, :created_at_filter %>
+  		</div>
+    </div>
+	</div>
+  <div class="row">
+    <div class="col-md-2">
+      <div class="form-group">
+        <label>&nbsp;</label>
+        <button type="submit" class="btn btn-primary btn-sm btn-block">Search</button>
+      </div>
+    </div>
+  </div>
+<% end %>

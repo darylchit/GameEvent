@@ -1,0 +1,55 @@
+<% if true %>
+    <div class="background-block content-area public_game_page">
+      <div class="container">
+        <div class="">
+          <div class="row">
+            <h2 class="text-center">Coming Soon</h2>
+          </div>
+          <div class="row text-center">
+            <%= image_tag "game_roster_1.png", :class=> 'avatar-md1 wow flip '%>
+          </div>
+        </div>
+      </div>
+    </div>
+<% else%>
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="account-nav profile-nav">
+					<div class="side-nav-avatar image-container">
+						<% if current_user.present? and (resource.id == current_user.id) %>
+							<%= link_to profile_path do %>
+								<% image_tag(current_user.avatar_url) %>
+							<% end %>
+						<% else %>
+							<%= link_to profiles_path + '/' + resource.username do %>
+								<%= image_tag(resource.avatar_url) %>
+							<% end %>
+						<% end %>
+					</div>
+					<%= render 'profile/profile/sidebar_details' %>
+				</div>
+			</div>
+
+  		<div class="col-md-9">
+			<h2 class="mt0">Feedback for <%= resource.username %></h2>
+
+			<div class="container-box">
+				<% if @ratings.count > 0 %>
+					<ul class="media-list feedback-list">
+						<% @ratings.each do | r | %>
+							<li>
+								<%= render 'profile/profile/rating_feedback', :r => r, :displayed_user => resource %>
+							</li>
+						<% end %>
+					</ul>
+				<% else %>
+					<%= resource.username %> has not received any feedback yet
+				<% end %>
+			</div>
+  		</div>
+  	</div>
+  </div>
+</div>
+<% end %>

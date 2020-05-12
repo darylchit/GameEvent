@@ -1,0 +1,827 @@
+<div class="background-block content-area player_profile_edit_page">
+  <div class="row text-center">
+    <%= image_tag "game_roster_1.png", :class=> 'logo wow flip'%>
+    <h1 class="strong hidden-xs">MY ACCOUNT</h1>
+    <h2 class="mt8 strong visible-xs">MY ACCOUNT</h2>
+  </div>
+  <div class="container">
+    <% if resource.errors.any? %>
+        <div id="error_explanation" class='text-primary'>
+        <% cnt = resource.errors.count %>
+        	<% if resource.errors.messages[:questions].present? %>
+        		<% resource.errors.messages[:questions].first == "is invalid" ? cnt = (cnt - 1) : cnt %>
+        	<%end %>
+          <h2><%= pluralize(cnt , "error") %> prohibited this profile from being saved:</h2>
+          <ul>
+            <% resource.errors.messages.each do |message| %>
+                <% next if message == 'Video urls is invalid' %>
+                <% next if message[1] == ["is invalid"] %>
+                <% if message[1] == ["is required"]%>
+                  <% message[1] = ["Motto is required."] %>
+                <% end %>
+                <% if message[0] == :email %>
+
+                    <% if message[1] == ["can't be blank"]%>
+                        <% message[1] = [ "Email is Required" ] %>
+                    <% elsif message[1] == ['has already been taken'] %>
+                        <% message[1] = [ "This Email Is Already Being Used By Anther User" ] %>
+                    <% else %>
+                    <% end %>
+                <% end %>
+                <% if message == 'Video urls url Please only submit YouTube and Twitch videos.'%>
+                    <li class="text-primary">Video ULR must be from YouTube or Twitch</li>
+                    <% next%>
+                <% end %>
+                <li><%= message[1].join %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="topmrg_20 row clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 set_padding_0">
+        <ul class="nav nav-tabs pull-right right">
+          <li class="right"><%= link_to "View Profile",  player_path(resource) %></li>
+          <li class="<%= (params[:step].nil? || !params[:step].present?) ? 'active' : ''%>  right"><a data-toggle="tab" href="#edit_player_form">Edit Profile</a></li>
+          <li class="<%= params[:step]=='2' ? 'active' : ''%> right"><a data-toggle="tab" id="player_prefferences_tab" href="#player_prefferences_section">Preferences</a></li>
+          <li class="<%= params[:step]=='3' ? 'active' : ''%> right"><a data-toggle="tab" href="#player_account_section"> Account Info</a></li>
+          <li class="<%= params[:step]=='4' ? 'active' : ''%> right"><a data-toggle="tab" href="#player_favorites"> Favorites</a></li>
+          <li class="<%= params[:step]=='5' ? 'active' : ''%> right"><a data-toggle="tab" href="#player_blocked"> Blocked</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 set_padding_0">
+        <div class="devise-block">
+          <div class="tab-content">
+            <div id="edit_player_form" class="tab-pane set_padding_form topmrg_20 fade <%= (params[:step].nil? || !params[:step].present?) ? 'in active' : '' %>">
+              <%= form_for resource, {url: "/profile", html: { multipart: true }} do |f| %>
+              	<%= hidden_field_tag :step %>
+                <div class="row">
+                  <div class="col-md-4 col-sm-6" id="avatar_container">
+                    <h2 class="visible-xs text-center">
+                      <%= resource.username %>
+                    </h2>
+                    <div class="visible-xs">
+                      <div class="form-group">
+                        <%= f.label :motto, "Motto (40 Character Limit)", class: 'required' %>
+                        <%= f.text_field :motto, class: "form-control", id: 'mobile_user_motto' %>
+                        <% if f.object.errors.try(:messages)[:motto].try(:first).present? %>
+                          <p class='text-primary pull-left'>Required</p>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="default-avatar" >
+                      <div class="form-group text-center">
+                        <%= link_to image_url(resource.avatar_url), target: "_blank" do %>
+                          <%= image_tag(resource.avatar_url, class: "avatar-lg") %>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-8 col-sm-6 text-center">
+                    <h2 class="hidden-xs">
+                      <%= resource.username %>
+                    </h2>
+                    <div class="avatar_button hidden-xs">
+                      <div class="form-group">
+                        <%= f.label :motto, "Motto (40 Character Limit)", class: 'required' %>
+                        <%= f.text_field :motto, class: "form-control" %>
+                        <% if f.object.errors.try(:messages)[:motto].try(:first).present? %>
+                          <p class='text-primary pull-left'>Required</p>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="avatar_button topmrg_20">
+                      <div class="form-group">
+                        <%= link_to 'Select Avatar', profile_avatar_path, remote: true, class: 'btn btn-primary btn-block' %>
+                        <%= f.hidden_field :system_avatar_id %>
+                      </div>
+                      <% if resource.is_pro_or_elite? %>
+                        <div class="form-group">
+                          <span class="btn btn-primary btn-file btn-block">
+                              <span class="file-label">Upload Avatar</span> <%= f.file_field :avatar, data:{filename_placement: "inside", show_upload: "false"}%>
+                          </span>
+                          <div class="avatar_msg">Minimum Size: 400px x 400px</div>
+                          <div>File Types: jpg, jpeg, gif, png</div>
+                          <%= f.hidden_field :avatar_cache %>
+                        </div>
+                      <% else %>
+                        <% if resource.active_ios_subscription.present? %>
+                        <p>
+                          Due to restrictions set by Apple, you can only upload a custom avatar through the mobile app.
+                        </p>
+                        <% else %>
+                          <%= render 'upload_avatar_basic_user_popup'%>
+                          <p> For Premium Members </p>
+                          <p> <%= link_to 'Learn More About Premium Benefits', features_path %></p>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="player-line-break"></div>
+                  </div>
+                </div>
+                <div class="row-fluid topmrg_20">
+                  <div class="form-group">
+                    <%= f.label :bio, 'Bio (Optional)' %>
+                    <%= f.text_area :bio, :rows=>"6", class: "form-control", placeholder: "Use your bio to advertise your skills and showcase your personality.  What makes you unique?   Are you good with a sword or a sniper rifle?  What is the key to winning?" %>
+                  </div>
+                </div>
+                <div class="row topmrg_20">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= f.label :nintendo_user_name, 'Nintendo ID' %>
+                      <%= f.text_field :nintendo_user_name, class: "form-control" %>
+                      <span class="text-primary"><%= is_nintendo_user_name ? 'This IGN Is Being Used By Another Player. Please Fix Your IGN or Contact Us.' : ''%></span>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :psn_user_name, 'PSN Online ID' %>
+                      <%= f.text_field :psn_user_name, class: "form-control" %>
+                      <span class="text-primary"><%= is_psn_user_name ? 'This IGN Is Being Used By Another Player. Please Fix Your IGN or Contact Us.' : ''%></span>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :xbox_live_user_name, 'Xbox Gamertag' %>
+                      <%= f.text_field :xbox_live_user_name, class: "form-control" %>
+                      <span class="text-primary"><%= is_xbox_live_user_name ? 'This IGN Is Being Used By Another Player. Please Fix Your IGN or Contact Us.' : ''%></span>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= f.label :battle_user_name, 'Battletag' %>
+                      <%= f.text_field :battle_user_name, class: "form-control" %>
+                      <span class="text-primary"><%= is_battle_user_name ? 'This IGN Is Being Used By Another Player. Please Fix Your IGN or Contact Us.' : ''%></span>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :origins_user_name, 'Origin ID' %>
+                      <%= f.text_field :origins_user_name, class: "form-control" %>
+                      <span class="text-primary"><%= is_origins_user_name ? 'This IGN Is Being Used By Another Player. Please Fix Your IGN or Contact Us.' : ''%></span>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :steam_user_name, 'Steam ID' %>
+                      <%= f.text_field :steam_user_name, class: "form-control" %>
+                      <span class="text-primary"><%= is_steam_user_name ? 'This IGN Is Being Used By Another Player. Please Fix Your IGN or Contact Us.' : ''%></span>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-6"> -->
+                    <!-- <div class="form-group"> -->
+                      <!-- <label>PC User Names</label> -->
+                      <%#= f.text_area :pc_user_name, :rows=>"3", class: "form-control", label: "PC User Names", placeholder: "Example Account Type : Username, Steam : MySteamName" %>
+                      <!-- </div> -->
+                  <!-- </div> -->
+                </div>
+                <div class="row topmrg_20">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= f.label :country, 'Country', class: 'required' %>
+                      <%= f.select :country, countries_list, {}, {:class => 'form-control chosen-select'} %>
+
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= f.label :timezone, 'Time Zone', class: 'required'%>
+                      <%= f.select :timezone, options_for_select(ActiveSupport::TimeZone.all.sort.map{|a|a.name}, resource.timezone), {}, {:class => 'form-control chosen-select'}%>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= f.label :language, 'Language', class: 'required' %>
+                      <%= f.select :language, options_for_select(User.available_languages, resource.language), {include_blank: true}, {:class => 'form-control chosen-select'} %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= f.label :age, 'Age', class: 'required' %>
+                      <%= f.select :age, options_for_select((13..115).map{|v| [v,v]}, resource.age), {}, {:class => 'form-control chosen-select'} %>
+
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= f.label :most_active_days, 'Most Active Days', class: 'required' %>
+                      <%= f.select :most_active_days, options_for_select(User::MOST_ACTIVE_DAYS, resource.most_active_days ), {include_blank: false}, {:class => 'form-control chosen-select'} %>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= f.label :most_active_time, 'Most Active Time', class: 'required' %>
+                      <%= f.select :most_active_time, options_for_select(Clan::POPULAR_TIMES, resource.most_active_time ), {include_blank: false}, {:class => 'form-control chosen-select'} %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= f.label :will_play, 'Prefer to Play', class: 'required' %>
+                      <%= f.select(:will_play, options_for_select(User::GAME_TYPE, resource.will_play),{}, {:class => "form-control chosen-select"}) %>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= f.label :game_style, "Game Style", class: 'required' %>
+                      <%= f.select(:game_style, options_for_select(Clan::PLAY_STYLE, resource.game_style), {},  {:class => "form-control chosen-select"}) %>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= f.label :newbie_patience_level,'Patience Level', class: 'required' %>
+                      <%= f.select(:newbie_patience_level, options_for_select(["Low", "High"], resource.newbie_patience_level), {}, :class => "form-control chosen-select") %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 topmrg_20">
+                    <div class="player-line-break"></div>
+                  </div>
+                </div>
+
+                <h2 class="text-center" id="my_games">My Games</h2>
+                  <% @game_systems.each do | game_system | %>
+                    <div class="form-group">
+                      <div data-game-id="<%= game_system.id %>">
+                        <%= f.label :game_game_system_join_ids, "#{game_system.title}", value: game_system.id %>
+                        <%= f.select :game_game_system_join_ids, game_system.game_game_system_joins.joins(:game).where('games.active = ?', true).collect { | ggs | [ggs.game.title, ggs.id] }.sort, {include_blank: true, label: game_system.title}, {:class => "form-control chosen-select-games", :multiple => true, id: "user_game_game_system_join_ids_#{game_system.id}"} %>
+                      </div>
+                    </div>
+                  <% end %>
+
+                <div class="row">
+                  <div class="col-sm-12 topmrg_20">
+                    <div class="player-line-break"></div>
+                  </div>
+                </div>
+                <h2 class="text-center">Popular Links</h2>
+                <%= render 'profile/profile/popular_links', f: f %>
+
+                <div class="row">
+                  <div class="col-sm-12 topmrg_20">
+                    <div class="player-line-break"></div>
+                  </div>
+                </div>
+                <h2 class="text-center">Mixer, Twitch, or YouTube Videos</h2>
+                <div class="row-fluid video_url">
+                  <%= f.fields_for :video_urls do |video_url| %>
+                    <div class="row video set_relative">
+                      <%= video_url.hidden_field :_destroy, class: "user_video_destroy" %>
+
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <%= video_url.label :name, 'Video Name' %>
+
+                          <%= video_url.text_field :name, class: "form-control", placeholder: 'Video Name' %>
+                          <% if video_url.object.errors.try(:messages)[:name].try(:first) %>
+                            <p class='text-primary'><%= video_url.object.errors.try(:messages)[:name].try(:first)%></p>
+                          <% end %>
+                        </div>
+                      </div>
+                      <div class="col-md-7">
+                        <div class="form-group">
+                          <%= video_url.label :url, 'Mixer, Twitch, or YouTube URL' %>
+                          <%= video_url.text_field :url, class: "form-control", placeholder: 'Mixer, Twitch, or YouTube URL' %>
+                          <% if video_url.object.errors.try(:messages)[:url].try(:first) %>
+                            <p class='text-primary'><%= video_url.object.errors.try(:messages)[:url].try(:first)%></p>
+                          <% end %>
+                        </div>
+                      </div>
+                      <div class="col-md-1 video_x_btn">
+                        <div class="remove_user_video cursor_pointer">
+                          <i class="fa fa-times"></i>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="user_video_add_button clearfix">
+                  <a href="javascript:;" > <i class="fa fa-plus-circle"></i> Add Video </a>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 topmrg_20">
+                    <div class="player-line-break"></div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="row topmrg_20">
+                  <div class="col-md-12">
+                    <div class="col-md-4">
+                      <%= link_to 'Delete Profile', remove_profile_profile_path, remote: true ,class: 'btn btn-primary btn-full', data: {disable_with: "Delete Profile <i class='fa fa-spinner fa-spin'></i>"}%>
+                    </div>
+                    <div class="col-md-4">
+
+                      <% if current_user.active_subscription.present? %>
+                          <%= link_to 'Modify Subscription', profile_subscription_path, remote: true ,class: 'btn btn-primary btn-full'%>
+                      <% else %>
+
+                         <%= link_to 'Subscribe', new_stripe_subscription_path, remote: true,
+                                  class: 'btn btn-primary btn-full', data: {disable_with: "Subscribe <i class='fa fa-spinner fa-spin'></i>"} %>
+                          <%#= link_to 'Subscribe', new_authorize_subscription_path, remote: true,
+                                      class: 'btn btn-primary btn-full', data: {disable_with: "Subscribe <i class='fa fa-spinner fa-spin'></i>"} %>
+                      <% end %>
+
+
+                    </div>
+                    <div class="col-md-4">
+                      <%= f.submit "Update", class: "btn btn-primary btn-full" %>
+                     </div>
+                  </div>
+                </div>
+              <%end%>
+
+            </div>
+
+            <div id="player_prefferences_section" class="tab-pane set_padding_form fade <%= params[:step] == '2' ? 'in active' : '' %>">
+              <%= form_for resource, {url: "/profile", html: { multipart: true }} do |f| %>
+              	<%= hidden_field_tag :step, 2 %>
+                <h2 class="text-center" title="These Are Push Notices That Will Appear On Your Phone When One Of The Items Below Is Selected">Notification Options</h2>
+                <h4 class="text-center">Select Items You Want To See In Your Mailbox</h4>
+                <div class="row">
+                  <h3 class="text-center text-primary">Messages</h3>
+                  <div class="col-md-4 col-md-offset-2">
+                    <div class="checkbox">
+                      <label>
+                        <%= f.check_box :allow_user_messages %>User Messages
+                      </label>
+                    </div>
+                  </div>
+                  <% if my_clans.present? %>
+                    <% my_clans.each do |clan| %>
+                      <div class="col-md-4 col-md-offset-2">
+                        <div class="checkbox">
+                          <label>
+                            <%= hidden_field_tag "user[allow_clan_messages][#{clan.id}]" %>
+                            <%= check_box_tag "user[allow_clan_messages][#{clan.id}]", 1, f.object.allow_clan_messages.include?(clan.id.to_s) ? false : true %>Clan | <%= clan.name %>
+                          </label>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
+                  <div class="col-md-4 col-md-offset-2">
+                    <div class="checkbox">
+                      <label>
+                        <%= f.check_box :allow_clan_application %>Clan Application
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-md-offset-2">
+                    <div class="checkbox">
+                      <label>
+                        <%= f.check_box :allow_clan_invitations %>Clan Invitations <sup data-toggle="tooltip" title="Invitations Sent By Others To Join Their Clan">?</sup>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <h3 class="text-center text-primary">Event Invitations</h3>
+                  <div class="col-md-4 col-md-offset-2">
+                    <div class="checkbox">
+                      <label>
+                        <%= f.check_box :allow_private_game_invitations %>Private Games
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-md-offset-2">
+                    <div class="aaaa">
+                      <div class="checkbox">
+                        <label>
+                          <%= f.check_box :allow_public_game_invitations %>Public Games
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <% if my_clans.present? %>
+                    <% my_clans.each do |clan| %>
+                        <div class="col-md-4 col-md-offset-2">
+                          <div class="aaaa">
+                            <div class="checkbox">
+                              <label>
+                                <%= hidden_field_tag "user[allow_clan_game_invitations][#{clan.id}]" %>
+                                <%= check_box_tag "user[allow_clan_game_invitations][#{clan.id}]", 1, f.object.allow_clan_game_invitations.include?(clan.id.to_s) ? false : true %>Clan | <%= clan.name %>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                    <% end %>
+                  <% end %>
+                </div>
+                <div class="row">
+                  <h3 class="text-center text-primary"> Roster Notices</h3>
+                  <div class="col-md-4 col-md-offset-2">
+                    <div class="aaaa">
+                      <div class="checkbox">
+                        <label>
+                          <%= f.check_box :allow_event_modified %>Event Modified
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-md-offset-2">
+                    <div class="aaaa">
+                      <div class="checkbox">
+                        <label>
+                          <%= f.check_box :allow_event_cancelled %>Event Cancelled
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-md-offset-2">
+                    <div class="aaaa">
+                      <div class="checkbox">
+                        <label>
+                          <%= f.check_box :event_reminder %>Game Start Reminders
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-md-offset-2">
+                    <div class="aaaa">
+                      <div class="checkbox">
+                        <label>
+                          <%= f.check_box :allow_user_joins_roster %>User Joins Roster
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-md-offset-2">
+                    <div class="aaaa">
+                      <div class="checkbox">
+                        <label>
+                          <%= f.check_box :allow_user_leaves_roster %>User Leaves Roster
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row topmrg_20">
+                  <div class="col-md-4 col-md-offset-2 ">
+                    <div class="form-group">
+                       <h4 class="text-center"> <%=f.label :notif_email, 'Recieve Emails For Site Updates?'%></h4>
+                        <%= f.select :notif_email, options_for_select([['Yes', true], ['No', false] ], resource.notif_email), {}, :class => "form-control chosen-select" %>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                       <h4 class="text-center"> <%=f.label :remove_messages, 'Delete Messages After 6 Months'%></h4>
+                        <%= f.select :remove_messages, options_for_select([['Yes', true], ['No', false] ], resource.remove_messages), {}, :class => "form-control chosen-select" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 topmrg_20">
+                  <div class="player-line-break"></div>
+                </div>
+                <div class="clearfix"></div>
+                <h2 class="text-center">Preferences</h2>
+                <div class="row">
+                  <div class="col-md-5 col-xs-6">
+                    <div class="form-group pull-right">
+                      <%= f.label :public_age, 'Display My Age'%>
+                      <div class="form-group">
+                        <label class="switch">
+                          <%= f.check_box :public_age, :class => "switch-input", :id => "toggle-waitlist" %>
+                            <span class="switch-label" data-on="Yes" data-off="No"></span>
+                            <span class="switch-handle"></span>
+                          </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-md-offset-2 col-xs-6">
+                    <div class="form-group pull-left">
+                      <%= f.label :show_on_playerlist, 'Hide Profile'%>
+                      <a href="#user_show_on_playerlist" data-toggle="tooltip" data-placement="top" title="This toggle will remove your profile from the All Players page. However, your profile will still be visible to others in your clan and events.">?</a>
+                      <div class="form-group">
+                        <label class="switch">
+                          <%= f.check_box :show_on_playerlist, :class => "switch-input", :id => "toggle-waitlist" %>
+                            <span class="switch-label" data-on="Yes" data-off="No"></span>
+                            <span class="switch-handle"></span>
+                          </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <h2 class="text-center">Public Game Player Preferences</h2>
+                <h5 class="text-center text-primary">Block Players From Joining That Do Not Meet These Requirements</h5>
+                <div class="row text-center">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Minimum Personality</label>
+                          <div class="checkbox">
+                            <div class="form-group">
+                              <div class="radio">
+                                <label>
+                                <%= f.radio_button :required_personality_rating, 10 %>Top 10%
+                              </label>
+                          </div>
+                          <div class="radio">
+                                <label>
+                              <%= f.radio_button :required_personality_rating, 20 %>Top 20%
+                            </label>
+                          </div>
+                          <div class="radio">
+                                <label>
+                              <%= f.radio_button :required_personality_rating, 30 %> Top 30%
+                            </label>
+                          </div>
+                          <div class="radio">
+                                <label>
+                              <%= f.radio_button :required_personality_rating, 40 %>Top 40%
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <%= f.radio_button :required_personality_rating, 50 %>Top 50%
+                            </label>
+                          </div>
+                          <div class="radio">
+                                <label>
+                               <%= f.radio_button :required_personality_rating, 0 %> None
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label>Minimum Skill</label>
+                        <div class="checkbox">
+                      <div class="form-group">
+                        <div class="radio">
+                              <label>
+                            <%= f.radio_button :required_skill_rating, 10 %>Top 10%
+                          </label>
+                        </div>
+                        <div class="radio">
+                              <label>
+                            <%= f.radio_button :required_skill_rating, 20 %>Top 20%
+                          </label>
+                        </div>
+                        <div class="radio">
+                              <label>
+                              <%= f.radio_button :required_skill_rating, 30 %>Top 30%
+                          </label>
+                        </div>
+                        <div class="radio">
+                              <label>
+                            <%= f.radio_button :required_skill_rating, 40 %>Top 40%
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <%= f.radio_button :required_skill_rating, 50 %>Top 50%
+                          </label>
+                        </div>
+                        <div class="radio">
+                              <label>
+                            <%= f.radio_button :required_skill_rating, 0 %> None
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label>Minimum Respect</label>
+                        <div class="checkbox">
+                      <div class="form-group">
+                        <div class="radio">
+                              <label>
+                          <%= f.radio_button :required_approval_rating, 10 %>Top 10%
+                          </label>
+                        </div>
+                        <div class="radio">
+                              <label>
+                            <%= f.radio_button :required_approval_rating, 20 %>Top 20%
+                            </label>
+                        </div>
+                        <div class="radio">
+                              <label>
+                            <%= f.radio_button :required_approval_rating, 30 %>Top 30%
+                          </label>
+                        </div>
+                        <div class="radio">
+                              <label>
+                            <%= f.radio_button :required_approval_rating, 40 %>Top 40%
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label>
+                            <%= f.radio_button :required_approval_rating, 50 %>Top 50%
+                          </label>
+                        </div>
+                        <div class="radio">
+                              <label>
+                            <%= f.radio_button :required_approval_rating, 0 %> None
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12 input-slider-container">
+                    <div class="form-group text-center">
+                      <h4>Maximum Cancellation Rate</h4>
+                      <%= f.text_field :required_cancellation_rate, label: "Maximum Cancellation Rate", class: 'input-slider-percent', data: { :slider_min => 0, :slider_max => 100, :slider_value => f.object.required_cancellation_rate } %>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-sm-12 topmrg_20">
+                    <div class="player-line-break"></div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="row topmrg_20">
+                  <div class="col-md-12">
+                    <div class="col-md-4">
+                      <%= link_to 'Delete Profile', remove_profile_profile_path, remote: true ,class: 'btn btn-primary btn-full', data: {disable_with: "Delete Profile <i class='fa fa-spinner fa-spin'></i>"}%>
+                    </div>
+                    <div class="col-md-4">
+
+                      <% if current_user.active_subscription.present? %>
+                          <%= link_to 'Modify Subscription', profile_subscription_path, remote: true ,class: 'btn btn-primary btn-full'%>
+                      <% else %>
+
+                         <%= link_to 'Subscribe', new_stripe_subscription_path, remote: true,
+                                  class: 'btn btn-primary btn-full', data: {disable_with: "Subscribe <i class='fa fa-spinner fa-spin'></i>"} %>
+                          <%#= link_to 'Subscribe', new_authorize_subscription_path, remote: true,
+                                      class: 'btn btn-primary btn-full', data: {disable_with: "Subscribe <i class='fa fa-spinner fa-spin'></i>"} %>
+                      <% end %>
+
+
+                    </div>
+                    <div class="col-md-4">
+                      <%= f.submit "Update", class: "btn btn-primary btn-full" %>
+                     </div>
+                  </div>
+                </div>
+              <%end%>
+            </div>
+
+            <div id="player_account_section" class="tab-pane set_padding_form fade <%= params[:step] == '3' ? 'in active' : '' %>">
+              <%= form_for resource, {url: "/profile", html: { multipart: true }} do |f| %>
+              	<%= hidden_field_tag :step, 3 %>
+                <h2 class="text-center">Account Information</h2>
+                <h5 class="text-center text-primary">
+                  <%=link_to "(Learn More About Account Types and Benefits)", features_path %>
+                </h5>
+                <div class="row text-center">
+                  <% active_subscription = current_user.active_subscription %>
+                  <div class="form-group">
+                    <div class="col-md-6">
+                      <h3 class="text-primary">Account Type</h3>
+                      <h3 class="mt0"><%= active_subscription.present? && active_subscription.paid? ? '' : active_subscription.present? ? active_subscription.subscription_type_text : '' %> <%= active_subscription.present? ? active_subscription.name : 'Basic' %></h3>
+                    </div>
+                    <div class="col-md-6">
+                      <h3 class="text-primary">Renewal Date</h3>
+                      <h3 class="mt0"><%= active_subscription.nil? ? 'N/A' : active_subscription.lifetime? ? 'N/A' : short_date(active_subscription.ends_on)  %></h3>
+                    </div>
+                  </div>
+                  <% if active_subscription.present? && active_subscription.next_plan.present?%>
+                    <p> Note: Your <%= active_subscription.subscription_plan.name  %>  Subscription Will Change To <%= active_subscription.next_plan.titleize %> On Your Upcoming Renewal Date
+                  <% end %>
+                </div>
+                <div class="row">
+                  <div class="form-group">
+                    <div class="col-md-6">
+                     <h4><span class="text-primary"> Current Contact Email:</span> <%= "#{@dup_user.try(:email)}" %></h4>
+                    </div>
+                    <div class="col-md-6">
+                     <h4> <span class="text-primary">  Current PayPal Email:</span> <%= "#{@dup_user.try(:paypal_email) }" %></h4>
+                    </div>
+                  </div>
+
+                </div>
+
+                 <div class="row">
+                   <div class="col-md-6">
+                     <div class="form-group">
+                       <%= f.label :email, 'Update Contact Email' %>
+                       <%= f.text_field :email, value: nil ,class: 'form-control', wrapper: { data: { validation: 'required' } } %>
+                     </div>
+                    </div>
+                   <div class="col-md-6">
+                     <div class="form-group">
+                       <%= f.label :email_confirmation, 'Confirm Updated Email' %>
+                       <%= f.text_field :email_confirmation, value: nil, class: 'form-control' %>
+                     </div>
+                   </div>
+
+                 </div>
+
+                 <div class="row">
+                   <div class="col-md-6">
+                     <div class="form-group">
+                       <%= f.label :paypal_email, 'Update PayPal Email', title: "This is where your donations will be sent. Your notification email will be used if a PayPal email is not provided." %>
+                       <%= f.text_field :paypal_email, value: nil, class: 'form-control' %>
+                     </div>
+                   </div>
+                   <div class="col-md-6">
+                     <div class="form-group">
+                       <%= f.label :paypal_email, 'Confirm Updated PayPal Email', title: "This is where your donations will be sent. Your notification email will be used if a PayPal email is not provided." %>
+                       <%= f.text_field :paypal_email_confirmation,value: nil, class: 'form-control' %>
+                     </div>
+                   </div>
+                 </div>
+
+
+
+                 <div class="row">
+                   <div class="col-md-6">
+                     <div class="form-group">
+                       <%= f.label :password, 'Update Password' %>
+                       <%= f.password_field :password, autocomplete: "new-password", class: 'form-control', wrapper: { data: { validation: 'required' } } %>
+                       <span class="helper-text">
+                        <small>Passwords must contain at least 8 characters.</small>
+                      </span>
+                       <% if f.object.errors.try(:messages)[:password].try(:first) %>
+                           <p class='text-primary'><%= f.object.errors.try(:messages)[:password].try(:first) %></p>
+                       <% end %>
+                     </div>
+                   </div>
+                   <div class="col-md-6">
+                     <div class="form-group">
+                       <%= f.label :password_confirmation ,'Confirm Updated Password' %>
+                       <%= f.password_field :password_confirmation, class: 'form-control', autocomplete: "off", wrapper: { data: { validation: 'required' } } %>
+                       <% if f.object.errors.try(:messages)[:password_confirmation].try(:first) %>
+                           <p class='text-primary'><%= f.object.errors.try(:messages)[:password_confirmation].try(:first) %></p>
+                       <% end %>
+                     </div>
+                   </div>
+                 </div>
+
+                <div class="row">
+                  <div class="col-sm-12">
+
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-sm-12 topmrg_20">
+                    <div class="player-line-break"></div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="row topmrg_20">
+                  <div class="col-md-12">
+                    <div class="col-md-4">
+                      <%= link_to 'Delete Profile', remove_profile_profile_path, remote: true ,class: 'btn btn-primary btn-full', data: {disable_with: "Delete Profile <i class='fa fa-spinner fa-spin'></i>"}%>
+                    </div>
+                    <div class="col-md-4">
+                      <% if current_user.active_subscription.present? %>
+                          <%= link_to 'Modify Subscription', profile_subscription_path, remote: true ,class: 'btn btn-primary btn-full'%>
+                      <% else %>
+
+                         <%= link_to 'Subscribe', new_stripe_subscription_path, remote: true,
+                                  class: 'btn btn-primary btn-full', data: {disable_with: "Subscribe <i class='fa fa-spinner fa-spin'></i>"} %>
+                          <%#= link_to 'Subscribe', new_authorize_subscription_path, remote: true,
+                                      class: 'btn btn-primary btn-full', data: {disable_with: "Subscribe <i class='fa fa-spinner fa-spin'></i>"} %>
+                      <% end %>
+                    </div>
+                    <div class="col-md-4">
+                      <%= f.submit "Update", class: "btn btn-primary btn-full" %>
+                     </div>
+                  </div>
+                </div>
+              <%end%>
+
+            </div>
+            <div id="player_favorites" class="tab-pane fade <%= params[:step] == '4' ? 'in active' : '' %>">
+              <%= render 'favorites' %>
+            </div>
+            <div id="player_blocked" class="tab-pane fade <%= params[:step] == '5' ? 'in active' : '' %>">
+              <%= render 'blocked' %>
+            </div>
+
+
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render 'pc_user_name_popup' if current_user.pc_user_name.present? && current_user.new_ign_empty?%>
+
+
+<!-- show email confirmation modal box if user change email  -->
+<%= render 'email_update_modal' if params[:changed_email] == 'true'%>
+
+<% if request && request.referrer && (request.referrer.include? "game_library") %>
+  <script type="text/javascript">
+    $('html, body').animate({
+        scrollTop: $("#my_games").offset().top
+    }, 2000);
+  </script>
+<% end %>

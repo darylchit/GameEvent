@@ -1,0 +1,30 @@
+<div class="modal fade" id="delete_clan_confirmation_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog set_popup_mrg" role="document">
+    <div class="modal-content modal-medium">
+        <div class="modal-header">
+          <button type="button" class="close clan_delete_close_btn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title delete_clan_confirmation_title">
+            Remove Clan Confirmation
+          </h4>
+        </div>
+        <div class="modal-body contract-details delete_clan_confirmation_msg">
+          <p class="text-justify">Removing your clan will prevent others from accessing your clan page. Your clan information will be saved and you can transfer or reactivate your clan on this page as long as you maintain an Elite subscription on your Game Roster account. Type REMOVE below to remove your clan.</p>
+          <%= form_tag delete_clan_clan_path(@clan), :method => :put, remote: true do %>
+          <div class="row topmrg_20">
+            <div class="col-md-10">
+              <div class="form-group">
+                <%= text_field_tag "remove_string", "", :class => 'form-control' %>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <%= submit_tag 'Submit', class: 'btn btn-primary btn-full'%>
+              </div>
+            </div>
+          </div>
+          <% end %>
+          <span class="remove_string_validate"></span>
+        </div>
+    </div>
+  </div>
+</div>

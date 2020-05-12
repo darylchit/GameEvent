@@ -1,0 +1,50 @@
+<div class="modal fade" id="pc_user_name_popup" tabindex="-1" role="dialog" aria-labelledby="myUserLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-medium">
+      <div class="modal-header">
+        <h4 class="modal-title text-center" id="myModalLabel"><b>We need to update your PC IGN information. Please provide at least one IGN</b></h4>
+      </div>
+      <div class="modal-body contract-details build_player_profile">
+
+        <%= form_for(current_user, url: ign_profile_path, method: :put) do |f| %>
+            <div class="row-fluid">
+
+              <div class="form-group">
+                <%= f.label :battle_user_name, 'Battletag' %>
+                <%= f.text_field :battle_user_name, class: "form-control" %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :origins_user_name, 'Origin ID' %>
+                <%= f.text_field :origins_user_name, class: "form-control" %>
+              </div>
+
+
+              <div class="form-group">
+                <%= f.label :steam_user_name, 'Steam ID' %>
+                <%= f.text_field :steam_user_name, class: "form-control" %>
+              </div>
+
+              <% if f.object.errors.try(:messages)[:base].present? && f.object.errors.try(:messages)[:base].include?('You must provide at least one IGN') %>
+                  <p class='text-primary text-center'><%= 'You must provide at least one IGN' %></p>
+              <% end %>
+            </div>
+            <br class="hidden-xs">
+            <div class="row">
+              <div class="col-md-6">
+                <%= f.submit 'Submit', class: 'btn btn-primary btn-full', name: 'save'%>
+              </div>
+              <div class="col-md-6">
+                <%= f.submit 'Remove My PC IGNs', class: 'btn btn-primary btn-full', name: 'remove_pc_user_name'%>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#pc_user_name_popup').modal();
+  });
+</script>

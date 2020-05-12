@@ -1,0 +1,92 @@
+<div class="modal fade" id="myUser" tabindex="-1" role="dialog" aria-labelledby="myUserLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-medium">
+      <div class="modal-header">
+        <h4 class="modal-title text-center" id="myModalLabel"><b>This IGN is already taken. Please fix your IGN or select Submit Again to use this IGN.</b></h4>
+      </div>
+      <div class="modal-body contract-details build_player_profile">
+        <%= form_for(current_user, url: users_profile_path, method: :patch) do |f| %>
+            <%= f.hidden_field :buid_profile, value: true %>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :nintendo_user_name, 'Nintendo ID' %>
+                <%= f.text_field :nintendo_user_name, class: "form-control" %>
+                <% if f.object.errors.try(:messages)[:nintendo_user_name].try(:first)  %>
+                  <div class="error-list" data-error-list=""><ul><li>
+                    <%= f.object.errors.try(:messages)[:nintendo_user_name].try(:first) %>
+                  </li></ul></div>
+                <% end %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :psn_user_name, 'PSN Online ID' %>
+                <%= f.text_field :psn_user_name, class: "form-control" %>
+                <% if f.object.errors.try(:messages)[:psn_user_name].try(:first)  %>
+                    <div class="error-list" data-error-list=""><ul><li>
+                      <%= f.object.errors.try(:messages)[:psn_user_name].try(:first) %>
+                    </li></ul></div>
+                <% end %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :xbox_live_user_name, 'Xbox Gamertag' %>
+                <%= f.text_field :xbox_live_user_name, class: "form-control" %>
+                <% if f.object.errors.try(:messages)[:xbox_live_user_name].try(:first)  %>
+                    <div class="error-list" data-error-list=""><ul><li>
+                      <%= f.object.errors.try(:messages)[:xbox_live_user_name].try(:first) %>
+                    </li></ul></div>
+                <% end %>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <%= f.label :battle_user_name, 'Battletag' %>
+                <%= f.text_field :battle_user_name, class: "form-control" %>
+                <% if f.object.errors.try(:messages)[:battle_user_name].try(:first)  %>
+                    <div class="error-list" data-error-list=""><ul><li>
+                      <%= f.object.errors.try(:messages)[:battle_user_name].try(:first) %>
+                    </li></ul></div>
+                <% end %>
+              </div>
+              <div class="form-group">
+                <%= f.label :origins_user_name, 'Origin ID' %>
+                <%= f.text_field :origins_user_name, class: "form-control" %>
+                <% if f.object.errors.try(:messages)[:origins_user_name].try(:first)  %>
+                    <div class="error-list" data-error-list=""><ul><li>
+                      <%= f.object.errors.try(:messages)[:origins_user_name].try(:first) %>
+                    </li></ul></div>
+                <% end %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :steam_user_name, 'Steam ID' %>
+                <%= f.text_field :steam_user_name, class: "form-control" %>
+                <% if f.object.errors.try(:messages)[:steam_user_name].try(:first)  %>
+                    <div class="error-list" data-error-list=""><ul><li>
+                      <%= f.object.errors.try(:messages)[:steam_user_name].try(:first) %>
+                    </li></ul></div>
+                <% end %>
+              </div>
+            </div>
+            <% if f.object.errors.try(:messages)[:base].present? && f.object.errors.try(:messages)[:base].include?('You must provide at least one IGN') %>
+                <p class='text-primary text-center'><%= 'You must provide at least one IGN' %></p>
+            <% end %>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <%= f.submit 'SUBMIT', class: 'btn btn-x btn-primary pull-right'%>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#myUser').modal();
+  });
+</script>

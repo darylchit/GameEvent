@@ -1,0 +1,19 @@
+<% if @my_clans.present? %>
+  <ul class="mss-list clearfix">
+    <% @my_clans.each_with_index do |clan, index| %>
+    	<%index=index-1%>
+       <li class="mss col-half wow flipInY">
+    		<%= link_to clan_path(clan.slug) do %>
+      		<%= image_tag(clan_jumbo_url(clan),class: 'btm_mrg_30') %>
+            <div class="mss-details">
+              <h4 class="mb0"><span class="fa fa-shield"></span> <%= clan.name %></h4>
+              <span class="fa fa-group"></span>Member Count: <%= clan.clan_members.count %><br>Upcoming Events: <%= get_events_of_clan(clan) %>
+            </div>
+        <% end %>
+      </li>
+    <% end %>
+    <div class="col-md-12 col-sm-12 clearfix"><%= link_to 'View All Clans', clans_path ,class: 'btn btn-primary pull-right width_10', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> View All Clans"} %>
+    </div>
+  </ul>
+<% end %>
+

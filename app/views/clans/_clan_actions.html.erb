@@ -1,0 +1,43 @@
+<% if @clan.is_host? current_user %>
+  <!--<p class="small text-gray">Created <%#= short_date(@clan.created_at) %></p>-->
+<% elsif @clan_member %>
+  <p class="small text-gray">Joined <%= short_date(@clan_member.created_at) %></p>
+  <%= button_to "Leave Clan", clan_member_path(@clan_member), method: :delete, class: "btn btn-primary action_button_width" %>
+<% elsif @clan.open? && (not @clan.member_or_removed_member? current_user) %>
+  <% if @clan_invite %>
+    <!-- Request pending -->
+    <% if @clan_invite.is_request? %>
+      <a href="#" class="btn btn-primary post-contract set_margin_action_btn">Request Pending</a>
+    <!-- Accept invite button -->
+    <% else %>
+      <%= form_for @clan_invite, method: :put do |f| %>
+        <%= f.hidden_field(:status, value: "confirmed") %>
+        <%= f.submit "Accept Invite", class: 'btn btn-primary post-contract set_margin_action_btn' %>
+      <% end %>
+      <%= button_to "Accept Invite", clan_invite_path(@clan_invite), method: :put, params: {clan_invite: {:status => "confirmed"}}, class: "btn btn-primary post-contract set_margin_action_btn" %>
+    <% end %>
+  <% elsif not @clan.private? and not @clan.autojoin?%>
+    <%= form_for ClanInvite.new do |f| %>
+      <%= f.hidden_field(:user_id, :value => current_user.id) %>
+      <%= f.hidden_field(:clan_id, :value => @clan.id) %>
+      <%= f.hidden_field(:inviter_id, :value => current_user.id) %>
+      <%= f.submit "Join Clan", class: 'btn btn-primary post-contract action_button_width' %>
+    <% end %>
+  <% elsif not @clan.private? and @clan.autojoin? %>
+    <%= form_for [@clan, ClanMember.new] do |f| %>
+      <%= f.hidden_field(:user_id, :value => current_user.id) %>
+      <%= f.hidden_field(:clan_id, :value => @clan.id) %>
+      <%= f.submit "Join Clan", class: 'btn btn-primary ' %>
+    <% end %>
+  <% end %>
+<% elsif @clan.recruiting? %>
+  <% if @pending_application.present? %>
+  <a href="#" class="btn btn-primary post-contract set_margin_action_btn">Request Pending</a>
+  <% elsif @clan.allow_reapply_application? || @deleted_application.nil? %>
+    <p class='btn btn-primary action_button_width post-contract set_margin_action_btn' data-toggle="modal" data-target="#apply_to_clan_modal">Apply</p>
+  <% else %>
+    <a href="#" class="btn btn-primary post-contract set_margin_action_btn">Rejected</a>
+  <% end %>
+<% elsif @clan.closed? %>
+  <p class="small text-gray set_margin_action_btn">Closed</p>
+<% end %>

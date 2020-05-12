@@ -1,0 +1,7 @@
+<% if event.present? %>
+  $('#global_model').empty().append("<%= j render(:partial => 'game_rosters/share')%>");
+  $('#social_model').empty().append("<%= j render(partial: 'game_rosters/discord_share_box')%>");
+  Event.DiscordShare.onClickOnContinueWithDiscord();
+  Event.CopyText.onClickOnCopyDetails("<%=event.token%>");
+  $('#event_share').modal();
+<% end %>

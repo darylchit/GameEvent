@@ -1,0 +1,58 @@
+<div class="roster-invite-card">
+	<div class="container-box">
+			<div class="card-heading">
+				<p class="small">
+					<span class="badge badge-outline">
+						<%= short_date_time_spacing c.start_date_time %> 
+						&#8226;
+						 <%= d = c.duration/60
+						  	"#{d} #{"Hr".pluralize d}"%>
+					</span>
+					<span class="pull-right text-primary card-roster-size">
+						<span class="fa fa-group"></span> <%= c.confirmed_users_count %>/<%= c.max_roster_size rescue nil %>
+					</span>												  	
+				</p>
+				<%= link_to roster_path(c) do %>
+					<h4><%=  c.contract_game_game_system_joins.first.game_game_system_join.game.title %> (<%=  c.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation %>)</h4>
+					<h4 class="text-gray"><%= !c.title? ? 'n/a' : c.title %></h4>
+				<% end %>
+			</div>
+			<%= link_to profiles_path() + '/' + c.buyer.username do %>
+			<div class="card-content">
+				<div class="card-avatar">
+					<%= image_tag(c.buyer.avatar_url, class: 'avatar-xs') %>
+				</div>
+				<div class="card-body">
+					<p class="text-gray"><strong class="text-primary">Host:</strong> <%= c.buyer.username %></p>
+					<p class="text-gray"><strong class="text-primary">Experience:</strong> <%= c.buyer.experience %></p>
+					<p class="text-gray"><strong class="text-primary">Play Type:</strong> <%= c.play_type %></p>
+				</div>
+				<div class="card-body">
+					<p class="text-gray"><strong class="text-primary">Age:</strong> <%= c.buyer.public_age ? age_in_years(c.buyer.date_of_birth) : 'n/a' %></p>
+					<p class="text-gray"><strong class="text-primary">PSA:</strong> <% if c.buyer.psa_rating != 0 %><span class="psa-rating-read-only" data-score="<%= c.buyer.psa_rating%>"></span><% else %> n/a <% end %></p>
+					<p class="text-gray"><strong class="text-primary">Game Type:</strong> 
+						<% if c.will_play == 'Player vs. Enemy' %>
+							PvE
+						<% elsif c.will_play == 'Player vs. Player' %>
+							PvP
+						<% else %>
+							All Types
+						<% end %>
+					</p>
+				</div>
+			</div>
+		<% end %>
+		<div class="card-actions">
+			<% if true %>
+				<div class="row">
+					<div class="col-xs-6">
+						<%= link_to "More Info", roster_path(c.id), class: "btn btn-info btn-block" %>
+					</div>
+					<div class="col-xs-6">
+						<%= link_to "Join Game", roster_path(c.id), class: "btn btn-primary btn-block" %>
+					</div>
+				</div>
+			<% end %>
+		</div> 
+	</div>
+</div>

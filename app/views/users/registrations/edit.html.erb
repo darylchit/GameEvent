@@ -1,0 +1,50 @@
+<div class="background-block content-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <%= render "layouts/accountnav" %>
+      </div>
+      <div class="col-md-9">
+        <div class="devise-block">
+          <h2 class="mt0">Edit Account</h2>
+
+            <%= bootstrap_form_for(resource, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+              <%= f.error_summary %>
+              <div class="row">
+                <div class="col-md-6">
+                  <%= f.email_field :email, autofocus: false %>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                  <%= f.text_field :first_name %>
+                </div>
+                <div class="col-md-6">
+                  <%= f.text_field :last_name %>
+                </div>
+              </div>
+
+              <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+              <% end %>
+
+              <%= f.password_field :password, autocomplete: "off", help: "leave blank if you don't want to change it" %>
+              <%= f.password_field :password_confirmation, autocomplete: "off" %>
+
+              <div class="row">
+                <div class="col-md-12 current-password-info">
+                  Please enter your current password to save your changes.
+                </div>
+              </div>
+              <%= f.password_field :current_password, autocomplete: "off", wrapper: { data: { validation: 'required' } } %>
+              <hr>
+              <div class="form-group clearfix">
+                <%= f.submit "Update", class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+              </div>
+
+            <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

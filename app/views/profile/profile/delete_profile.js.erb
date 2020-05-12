@@ -1,0 +1,12 @@
+toastr.options = {
+  "closeButton": true,
+  "timeOut": "7000",
+  "extendedTimeOut": "0",
+  "positionClass": "toast-top-center"
+};
+<% if @deleted %>
+toastr.success('Your Profile is Removed in 10 Days.');
+$('#remove_profile').modal('hide');
+<% else %>
+toastr.success('Please type DELETE to delete your profile');
+<% end %>

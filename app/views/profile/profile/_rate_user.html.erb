@@ -1,0 +1,40 @@
+<ul class="media-list feedback-list rate-players">
+  <% @rateable_users.each do | u | %>
+    <li class="media" id="feedback-<%= u.id %>">
+      <div class="media-left">
+        <%= link_to profiles_path() + '/' + u.username do %>
+          <%= image_tag(u.avatar_url, class: 'media-object avatar-sm') %>
+        <% end %>
+      </div>
+      <div class="media-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h4 class="media-heading">
+              <%= link_to profiles_path() + '/' + u.username do %>
+                <%= u.username %>
+              <% end %>
+              <% if current_user.is_blocking_user?(u) %>
+                <span class="label label-default blocked-label">Blocked</span>
+              <% end %>
+            </h4>
+          </div>
+          <div class="col-md-6 text-right-md">
+            <a href="#" class="dropdown" data-target="ban1" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"><span class="fa fa-chevron-down"></span></a>
+            <ul id="ban1" class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+              <li>
+                <% if current_user.is_blocking_user?(u) %>
+                  <%= link_to 'Unblock User', profile_block_path(current_user.blocks.where(:blocked_user => u)[0]), :method => 'delete', data: { :confirm => "Are you sure you want to unblock #{u.username}?" } %>
+                <% else %>
+                  <%= link_to 'Block User', new_profile_block_path({:blocked_user_id => u.id}), remote: true %>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="feedback-meta feedback-form">
+          <%= render "ratings/form", rated_user: u %>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>

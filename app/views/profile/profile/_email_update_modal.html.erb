@@ -1,0 +1,47 @@
+<script type="text/javascript">
+  $( document ).ready(function() {
+    var email_changed = getUrlParameter('changed_email');
+    var step = getUrlParameter('step');
+    if (email_changed == 'true'){
+      $('#updateEmailModal').modal({
+        backdrop: 'static',
+        keyboard: false
+      })
+      $("#updateEmailModal").modal("show");
+      var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?step='+step;
+      window.history.pushState({path:newurl},'',newurl);
+    }
+  });
+  var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+    sURLVariables = sPageURL.split('&'),
+    sParameterName,
+    i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split('=');
+
+      if (sParameterName[0] === sParam) {
+        return sParameterName[1] === undefined ? true : sParameterName[1];
+      }
+    }
+  };
+</script>
+
+<div  class="modal fade" id="updateEmailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-medium">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" type="button" aria-label="Close"><span aria-hidden="true" class="action_popup" id="">&times;</span></button>
+        <h4 class="modal-title">
+          Email Confirmation
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="set_mrg_tbl_application set_table_width">
+          <p>Your new email address needs to be verified to complete your update. Please check your new email account to complete the update. You will not be able to use your new email until you verify this address.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

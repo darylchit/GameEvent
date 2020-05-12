@@ -1,0 +1,146 @@
+<%
+current_user = @attributes[:current_user]
+invited_user = User.find(@attributes[:invited_user_id]) if @attributes[:invited_user_id]
+is_email = @attributes[:email]
+resource = Roster.find @attributes[:id]
+
+
+# display the other user of this invite, show the invitee of I am the inviter and vice versa
+display_user = current_user.eql?(invited_user) ? resource.owner : invited_user
+display_user ||= current_user
+profile_url = Rails.application.routes.default_url_options[:host] + (profiles_path() + '/' + display_user.username) if display_user.present?
+posted_at = resource.created_at.strftime "%m/%d/%Y %I:%M%P"
+
+%>
+<% if !is_email %>
+	<div class="well">
+    <p style="margin-top: 0;">
+    A new public game has been posted that matches your profile and notification settings.  You can <%= link_to "block", profile_blocks_and_feedback_path(current_user.username) %> this user’s posts or disable all public <%= link_to "game notifications", edit_profile_notifications_path %> from settings.
+    </p>
+			<h2 class="mt0 text-primary"><%=  resource.contract_game_game_system_joins.first.game_game_system_join.game.title %> (<%=  resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation %>)</h2>
+
+	    <p><%= resource.details %></p>  
+		<ul class="messages-list list-unstyled">
+			<li class="message">
+				<span class="message-avatar">	
+					<a href="<%= profiles_path() + '/' + resource.buyer.username %>"><%= ( image_tag Rails.application.assets.find_asset(resource.buyer.avatar_url, :digest => true).digest_path ).gsub('/images/', '/assets/') %></a>
+				</span>
+				<div class="message-content roster-content">
+			 		<div class="row">
+			 			<div class="col-lg-6 col-md-12 col-sm-6">
+			 				<dl class="roster-list dl-horizontal">
+			 					<dt>Host Name:</dt>
+			 					<dd><%= link_to resource.buyer.username, profiles_path() + '/' + resource.buyer.username, "style" => "color:#fff;" %></dd>
+								<dt>Host IGN:</dt>
+			 					<dd>
+			 						<% if resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS4' || resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS3' %>
+										
+										<%= resource.buyer.psn_user_name.present? ? resource.buyer.psn_user_name : 'Not Listed' %>
+		                        	<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB1' || resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB360' %>
+		                        		
+										<%= resource.buyer.xbox_live_user_name.present? ? resource.buyer.xbox_live_user_name : 'Not Listed' %>
+									<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'Wii U'%>
+		                        		
+										<%= resource.buyer.nintendo_user_name.present? ? resource.buyer.nintendo_user_name : 'Not Listed' %>
+									<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.title == 'PC'%>
+	                        			
+										<%= resource.buyer.pc_user_name.present? ? resource.buyer.pc_user_name : 'Not Listed' %>
+		                        	<% end %>
+			 					</dd>
+								<dt>Host PSA:</dt>
+			 					<dd>
+			 						<% if resource.buyer.psa_rating == 0 %>
+			 							n/a
+									<% else %>
+										<span class="psa-rating-read-only" data-score="<%= resource.buyer.psa_rating %>"></span>
+									<% end %>
+								</dd>
+			 				</dl>
+						</div>
+			 			<div class="col-lg-6 col-md-12 col-sm-6">
+			 				<dl class="roster-list dl-horizontal">
+								<dt>Start Date:</dt>
+			 					<dd><%=  resource.start_date_time.strftime("%Y/%m/%d") %></dd>
+								<dt>Start Time:</dt>
+			 					<dd><%=  resource.start_date_time.strftime("%I:%M%P") %></dd>
+			 					<dt>Spots Taken:</dt>
+			 					<dd><%= resource.confirmed_users.count %> / <%= resource.max_roster_size %></dd>
+			 					<dt>Game Type:</dt>
+			 					<dd><%= resource.will_play %></dd>
+							</dl>
+			 			</div>
+
+
+			 		</div>
+
+			  		<% if false %>
+						<h4>
+							<% if resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS4' || resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS3' %>
+								<span class="text-primary"><%= resource.buyer.username %>'s PSN Online ID:</span>
+								<%= resource.buyer.psn_user_name.present? ? resource.buyer.psn_user_name : 'Not Listed' %>
+                        	<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB1' || resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB360' %>
+                        		<span class="text-primary"><%= resource.buyer.username %>'s Xbox Gamertag:</span>
+								<%= resource.buyer.xbox_live_user_name.present? ? resource.buyer.xbox_live_user_name : 'Not Listed' %>
+							<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'Wii U'%>
+                        		<span class="text-primary"><%= resource.buyer.username %>'s Nintendo Network ID:</span>
+								<%= resource.buyer.nintendo_user_name.present? ? resource.buyer.nintendo_user_name : 'Not Listed' %>
+							<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.title == 'PC'%>
+                    			<span class="text-primary"><%= resource.buyer.username %>'s PC IGNs: </span>
+								<%= resource.buyer.pc_user_name.present? ? resource.buyer.pc_user_name : 'Not Listed' %>
+                        	<% end %>
+                        </h4>
+                    <% end %>										
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<p class="text-center">
+		<%= link_to "View All Details", url_for(:controller => 'rosters', :action => 'show', :id => resource.id, :only_path => false), class: "btn btn-block btn-primary" %>
+	</p>
+<% else %>
+	<p style="margin-top: 0;">
+		A new public game has been posted that matches your profile and notification settings.  You can block this user’s posts or disable all public game notifications with the links below.
+	</p>
+	<br>
+	<p style="margin-top: 0;">
+		<strong>Title:</strong> <%="%s (%s) " % [resource.games.first.title, resource.game_systems.first.abbreviation] %><br>
+		<strong>Event:</strong> <%= resource.title %><br>
+		<strong>Play Type:</strong> <%= resource.play_type %><br>
+		<strong>Game Type:</strong> <%= resource.will_play %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Start Date:</strong> <%=resource.start_date_time.strftime("%m/%d ") %><br>
+		<strong>Start Time:</strong> <%=resource.start_date_time.strftime("%l:%M%p ") %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Host Name:</strong> <%= resource.owner.username %><br>
+		<strong>Host Age:</strong> <%= resource.owner.public_age ? age_in_years(resource.owner.date_of_birth) : 'n/a' %><br>
+		<strong>Host PSA:</strong> <%= resource.owner.psa_rating != '' ? resource.owner.psa_rating : 'n/a' %><br>
+		<strong>Host Cancelation Rate:</strong> <%= !resource.owner.cancellation_rate.nil? ? resource.owner.cancellation_rate : 'n/a' %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Spots Filled/Available:</strong> <%= resource.confirmed_users_count %>/<%= resource.max_roster_size %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Event Details & Requirements:</strong>
+	</p>
+	<br><br>
+	<p style="margin-top: 0;">
+		<%= resource.details %>
+	</p>
+	<br><br>
+	<p style="margin-top: 0;">
+		<strong>View or Join Roster:</strong> <%= link_to URI.escape(event_url(resource.id)), event_url(resource.id) %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>View or Block Host:</strong> <%= link_to URI.escape(profiles_url + '/' + @roster.owner.username), (profiles_url + '/' + @roster.owner.username) %>
+	</p>
+	<p style="margin-top: 0;">
+		<strong>Disable Public Game Notices:</strong> <%= link_to URI.escape(edit_profile_notifications_url), edit_profile_notifications_url %>
+	</p>
+	<p style="margin-top: 0;">
+		<small>Note: all times displayed are converted to your local time. </small> 
+	</p>
+
+<% end %>

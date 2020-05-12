@@ -1,0 +1,53 @@
+<div class="add_game_modal modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-vertical">
+      <%= form_for(current_user, {url: profile_add_game_path, method: 'post', remote: true, :html => { :id => "add_game_form" }}) do |f| %>
+        <input id="user_new_game" name="[game]id" type="hidden" value="<%= game.id %>"/>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">
+            Add To Game Library
+          </h4>
+        </div>
+        <div class="modal-body contract-details global_validation">
+          <div class="row-fluid text-center">
+            <div class="col-xs-12">
+              <div class="add_game_image">
+                <%= image_tag(game.game_cover, class: '') %>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group text-center">
+                <%= f.label :game_system_ids, 'Select Your System', class: '' %>
+                <%= f.select :game_system_ids, game_systems_for_game(game), {include_blank: false}, {:class => "form-control", hide_label: true} %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group ign_field">
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 form-group">
+              <%= f.submit class: 'btn btn-lightgrey btn-full', value: 'Submit' %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-lightgrey btn-full" data-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+
+
+      <% end %>
+    </div>
+  </div>
+</div>

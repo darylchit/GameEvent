@@ -1,0 +1,7 @@
+<%if @total_banned <= 1%>
+	$('.blocked_clan_members').html("<%= j render(:partial => 'clans/clans/no_banned_users')%>");
+<%else%>
+	$('#view_clan_member_actions_'+ '<%=@clan_member_id%>' ).hide();
+	$('.modal-backdrop').hide();
+	$('.clan_member_remove_'+ '<%=@clan_member_id%>' ).hide();
+<% end %>	

@@ -1,0 +1,24 @@
+@mixin text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin vert-center() {  
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+@mixin linear-gradient($gradientLine, $colorStops...) {
+  background-image: -webkit-linear-gradient($gradientLine, $colorStops);
+  background-image:    -moz-linear-gradient($gradientLine, $colorStops);
+  background-image:      -o-linear-gradient($gradientLine, $colorStops);
+  @if length($gradientLine) == 2 {
+  background-image:         linear-gradient(to #{inverse-side(nth($gradientLine, 1))} #{inverse-side(nth($gradientLine, 2))}, $colorStops);
+  } @else {
+  background-image:         linear-gradient(to #{inverse-side($gradientLine)}, $colorStops);
+  }
+}

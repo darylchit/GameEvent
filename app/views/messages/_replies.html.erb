@@ -1,0 +1,68 @@
+<div class="modal fade" id="replies_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content ">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">
+					<% if message.message_type == 'user_messages'%>
+					  User Message
+					<% elsif message.message_type == 'clan_messages' %>
+					  Clan Message - <%= message.notified_object.name %>
+					<% end %>
+					<% receipt =  message.receipts.with_deleted.find_by_receiver_id(current_user.id)%>
+					<% if receipt.deleted_at.nil?%>
+						<%= link_to message_receipt_path(message, receipt), class: 'trash-btn',remote: true, method: :delete do %>
+						  <i class="fa fa-trash-o" aria-hidden="true"></i>
+						<% end %>
+					<% end %>
+				</h4>
+			</div>
+			<div class="modal-body contract-details">
+        <div class="row">
+					<div class="col-md-12 form-group reply-form">
+						<% if message.message_type == 'clan_messages' && message.body == 'clan_chat'%>
+						 <% clan = message.notified_object %>
+						 <% clan_member = clan.clan_members.find_by_user_id(current_user) %>
+						 <% if clan.present? && clan_member.present? %>
+						   <%= form_for [clan, ClanMessage.new], remote: true  do |f| %>
+										<div class="message-content row mrg_left_post_message">
+											<div class="form-group col-md-10 col-xs-9 filed_width_100 mrg_left_post_message">
+												<%= f.text_area :message, class:'form-control resize_none ', rows: 1 %>
+											</div>
+										<% if clan.is_host?(current_user) || (clan_member.clan_rank.present? && clan_member.clan_rank.post_chat?) %>
+											<div class="text-right-md col-md-2 col-xs-3 set_post_btn filed_width_100">
+												<%= f.submit 'Post Message', class: "btn btn-lightgrey custom-link-buttons filed_width_100 " %>
+											</div>
+										<% else %>
+											<div class="text-right-md col-md-2 col-xs-3 set_post_btn filed_width_100">
+											 <button type="button" class="btn btn-primary custom-link-buttons filed_width_100 " data-toggle="modal" data-target="#chat_restrict_popup">Post message</button>
+											</div>
+										<% end %>
+										</div>
+						    <% end %>
+							<% end %>
+						<% else %>
+							<%= form_for Reply.new(message: message), url: reply_message_path(message), remote: true do  | f |%>
+		            <%= f.hidden_field :message_id %>
+		            <div class="form-group">
+		              <%#= f.label :subject, 'Enter Message' %>
+		              <%= f.text_area :subject, class: 'form-control dynamic-height', rows: '2', 'data-validation'=> '[NOTEMPTY]', 'data-validation-message' => 'Enter your message here.' %>
+		            </div>
+		            <div class="col-md-4 col-md-offset-4 col-xs-12 reply-submit">
+		              <%= f.submit  'Post',  :class=> "btn btn-lightgrey btn-full xs_notice_box", data: { disable_with: "Post" } %>
+		            </div>
+		          <% end %>
+					  <% end %>
+					</div>
+					<div class="col-md-12">
+	          <ul class="clan-messages messages-list list-unstyled col-md-12 col-xs-12">
+	            <%= sync_new partial: 'reply_row', resource: Reply.new, direction: :prepend %>
+
+	            <%= sync  partial: 'reply_row', collection: message_replies, as: :reply %>
+	          </ul>
+					</div>
+        </div>
+			</div>
+		</div>
+	</div>
+</div>

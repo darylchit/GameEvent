@@ -1,0 +1,129 @@
+<% game_ids = Game.active.ids %>
+<% clan_avatars = ClanAvatar.ids %>
+
+	<div class="block-grid clans">
+		<div class="block-grid-header data_size">
+      <br>
+			<div class="row mrg_btm_20">
+				<div class="col-md-10 col-sm-8">
+					<h2 class="mt0 mb0 hidden-xs">
+						<%= header %> <% if is_mine && current_user.present? && clan_events.present? && clan_events != 'None' %> | <%=pluralize(clan_events, 'Upcoming Event') %> <% end %>
+					</h2>
+          <h2 class="mt0 mb0 text-center visible-xs ">
+            <%= header %> <% if is_mine && current_user.present? && clan_events.present? && clan_events != 'None' %> | <%=pluralize(clan_events, 'Upcoming Event') %> <% end %>
+          </h2>
+				</div>
+				<div class="col-md-2 col-sm-4 text-right-md text-right-sm hidden-xs">
+					<%= link_to 'View All', is_mine ? my_clans_path : clans_path , class: "btn btn-lightgrey btn-block" %>
+				</div>
+			</div>
+
+			<ul class="mss-list clearfix">
+        <li class="mss wow fadeInUp" data-wow-delay="0s">
+          <% if clans.present?  %>
+            <%= link_to (clan_path(clans.first.slug)) do %>
+              <%= image_tag(clan_jumbo_url(clans.first), class: 'hidden-xs') %>
+              <%= image_tag(clan_mobile_jumbo_url(clans.first), class: 'visible-xs') %>
+              <div class="mss-details">
+                <div class="traperent">
+                  <h4 class="title_wrap mb0 mrg_left game-title">
+                    <%= clans.first.name %>
+                  </h4>
+                  <% if is_mine %>
+                  <div class="title_wrap mrg_left game-data">
+                    <%= pluralize((clans.first.clan_members.count), 'Member') %> |
+										<% if is_mine %>
+										  <%= pluralize((clans.first.events.upcoming_events.count), 'Upcoming Event') %>
+										 <% else %>
+										 	<%= pluralize((clans.first.events.count), 'Event') %>
+										 <% end %>
+                  </div>
+                  <% end %>
+                  <div class="title_wrap mrg_left game-data">
+                    <%= clans.first.top_3_games.first.title rescue nil %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <% if is_mine %>
+              <%= link_to clans_path do %>
+                      <% clan_avatar = ClanAvatar.find(clan_avatars[rand(0..(clan_avatars.size-1))])%>
+                <%= image_tag(clan_avatar.jumbo_path, class: 'hidden-xs') %>
+                <%= image_tag(clan_avatar.mobile_jumbo_path, class: 'visible-xs') %>
+                <div class="mss-details">
+                  <div class="traperent">
+                    <h4 class="title_wrap mb0 mrg_left game-title">Join More</h4>
+                    <div class="title_wrap mrg_left game-data">
+                      <%= pluralize((rand(0..10)), 'Member') %> |   <%= pluralize((rand(0..10)), 'Upcoming Event') %>
+                    </div>
+                    <div class="title_wrap mrg_left game-data">
+                      <%= Game.active.find(game_ids[rand(0..(game_ids.size-1))]).title rescue nil %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          <% end %>
+
+        </li>
+      </ul>
+
+      <ul class="mss-list clearfix">
+        <% if clans[1..4].present? %>
+          <% clans[1..4].each_with_index do |clan, index| %>
+            <li class="mss col-third-rel wow fadeInUp" data-wow-delay="0s">
+              <%= link_to (clan_path(clan.slug)) do %>
+                <%= image_tag(clan_cover_url(clan)) %>
+                <div class="mss-details">
+                  <div class="traperent">
+                    <h4 class="title_wrap mb0 mrg_left game-title"><!--<<span class="fa fa-shield"></span>--> <%= clan.name %></h4>
+                    <% if is_mine %>
+                    <div class="title_wrap mrg_left game-data" style="display: inline-flex;">
+                      <%= pluralize((clan.clan_members.count), 'Member') %> | &nbsp;
+											<% if is_mine %>
+	                      <span class="hidden-xs"><%= pluralize((clan.events.upcoming_events.count), 'Upcoming Event') %></span>
+	                      <span class="visible-xs"><%= pluralize((clan.events.upcoming_events.count), 'Event') %></span>
+											<% else %>
+												<span class="hidden-xs"><%= pluralize((clan.events.count), 'Event') %></span>
+												<span class="visible-xs"><%= pluralize((clan.events.count), 'Event') %></span>
+											<% end %>
+                    </div>
+                    <% end %>
+                    <div class="title_wrap mrg_left game-data">
+                      <%= clan.top_3_games.first.title rescue nil %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </li>
+          <%end%>
+        <% end %>
+
+        <% if is_mine %>
+          <% (4-(clans[1..4].length rescue 0)).times do|i| %>
+              <li class="mss col-third-rel wow fadeInUp" data-wow-delay="0s">
+                <%= link_to (clans_path) do %>
+                    <% clan_avatar = ClanAvatar.find(clan_avatars[rand(0..(clan_avatars.size-1))])%>
+                    <%= image_tag(clan_avatar.avatar_path) %>
+                    <div class="mss-details">
+                      <div class="traperent">
+                        <h4 class="title_wrap mb0 mrg_left game-title">Join More</h4>
+                        <div class="title_wrap mrg_left game-data" style="display: inline-flex;">
+                          <%= pluralize((rand(0..10)), 'Member') %> | &nbsp;
+                          <span class="hidden-xs"><%= pluralize((rand(0..10)), 'Upcoming Event') %></span>
+                          <span class="visible-xs"><%= pluralize((rand(0..10)), 'Event') %></span>
+                        </div>
+                        <div class="title_wrap mrg_left game-data">
+                          <%= Game.active.find(game_ids[rand(0..(game_ids.size-1))]).title rescue nil %>
+                        </div>
+                      </div>
+                    </div>
+                <% end %>
+              </li>
+          <% end %>
+        <% end %>
+      </ul>
+	  <%= link_to 'View All', is_mine ? my_clans_path : clans_path, class: "btn btn-lightgrey btn-block visible-xs mrg_top_20" %>
+	  </div>
+	</div>

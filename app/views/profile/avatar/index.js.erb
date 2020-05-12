@@ -1,0 +1,29 @@
+$('#global_model').html("<%= j render(:partial => 'avatar_grid_popup.html')%>");
+$("#avatar_grid_popup").modal();
+
+(function() {
+    // this will attach listeners to the images and set the user's avatar in their profile
+   // if ($('body').hasClass('avatar-bound')) return;
+    //$('body').addClass('avatar-bound');
+
+    $('.modal-body').on('click', '.system-avatars a', function(e) {
+        var $img = $('#avatar_container img'),
+            src = $(this).attr('data-file-path'),
+            aid = $(this).attr('data-system-avatar-id');
+
+        if ($img.length > 0) {
+            $img.attr('src', src);
+        }
+        else {
+            $('#avatar_container').prepend($('<img/>').attr('src', src).addClass('avatar-md'));
+        }
+        $('#user_system_avatar_id').val(aid);
+        $('.modal').modal('hide');
+        e.preventDefault();
+    });
+
+})();
+
+$('#avatar_grid_popup').on('hidden.bs.modal', function (e) {
+  $('.modal-backdrop.fade.in').remove();
+});

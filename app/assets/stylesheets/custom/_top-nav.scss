@@ -1,0 +1,221 @@
+.dropdown-menu {
+	background-color: lighten($navbar-inverse-bg, 8%);
+	li a {
+		color: #cfcfcf;
+		&:hover {
+			background-color: transparent;
+			color: #9a9a9a;
+			text-decoration: none;
+		}
+	}
+}
+
+
+
+.navbar-inverse {
+	$experimental-support-for-svg: true;
+	@include background-image(linear-gradient(top, rgba(44,44,44,1) 0%, rgba(20,20,20,1) 100% ));
+	margin-bottom: 0;
+ 	.navbar-nav {
+		width: 100%;
+		@media screen and (min-width: $screen-sm-min) {
+    		text-align: center;
+    		.account-item + .account-item {
+    			margin-right: 8px;
+    		}
+    	}
+ 	 	> li {
+ 	 		font-size: 19px;
+ 	 		@media screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+ 	 			font-size: 15px;
+               > a{
+                padding: 10px 10px;
+              }
+ 	 		}
+ 	 		letter-spacing: 1px;
+	 		> a {
+	 			text-transform: uppercase;
+	 			color: #cfcfcf;
+	 			&:hover {
+	 				background-color: transparent;
+	 			}
+	 		}
+	 		@media screen and (min-width: $screen-sm-min) {
+	 			&:not(:first-child) > a {
+	 				padding-top: 18px;
+	 			}
+	 		}
+
+	 		&.open a {
+	 			background-color:  transparent !important;
+	 			&:hover {
+	 				background-color:  transparent;
+	 			}
+	 		}
+	 		@media screen and (min-width: $screen-md-min) {
+	 			.account-dropdown {
+					margin-top: 14px;
+				}
+			}
+	 	}
+	 	.account-dropdown {
+			@media screen and (min-width: $screen-md-min) {
+				width: 240px
+			}
+			& > li > a {
+				padding: 3px 6px;
+				padding-left: 6px !important;
+			}
+			.account-profile {
+				padding: 3px 6px;
+				.account-avatar {
+					min-width: 54px;
+				}
+			}
+		}
+		> li.quicklinks {
+			margin-right: 5px;
+			a.action-button {
+				padding-top: 4px;
+				padding-bottom: 4px;
+				padding-left: 11px;
+				padding-right: 11px;
+				.fa {
+					font-size: 28px;
+				    margin-top: 4px;
+				}
+			}
+		}
+		.badge {
+			margin-left: 5px;
+			line-height: 1.2;
+			background-color: #5E3BDD;
+			margin-bottom: 7px;
+		}
+		.envelope{
+			.badge {
+				margin-bottom: 0px;
+			}
+		}
+		.dropdown-menu{
+		  .badge {
+				margin-bottom: 0px;
+			}
+		}
+		@media screen and (max-width: $screen-sm-max) {
+			.badge.pull-right {
+				float: none !important;
+				vertical-align: top;
+			}
+		}
+ 	}
+ 	.nav-brand {
+		a {
+			padding: 10px 0;
+		}
+	 	img {
+			height: 44px;
+		}
+		@media screen and (max-width: $screen-sm-max) {
+			a {
+				padding: 5px 15px;
+			}
+			img {
+				height: 28px;
+			}
+		}
+	}
+}
+
+.navbar-brand img {
+	height: 28px;
+}
+
+@media screen and (min-width:$screen-sm-min) and (max-width: $screen-sm-max) {
+	.navbar-inverse .navbar-collapse {
+		padding: 0;
+		 .navbar-nav {
+			width: 82%;
+			> li a {
+				padding-top: 12px;
+			}
+			> li.account-item {
+				float: right;
+			}
+			.dropdown-menu.account-dropdown {
+				right: 0;
+				left: initial;
+			}
+		}
+	}
+}
+
+@media screen and (min-width: $screen-sm-min) {
+	.navbar-inverse .navbar-nav {
+		width: 100%;
+		text-align: center;
+	 	> li {
+	 		float: none;
+  			display: inline-block;
+  			a.action-button {
+	 			border: 1px solid $gray-lighter;
+			 	padding-top: 8px;
+			 	padding-bottom: 8px;
+			 	margin-top: 18px;
+			 	&:hover {
+			 		border-color: $gray;
+			 	}
+		 	}
+  		}
+	 	li:first-child a {
+	 		padding-left: 0;
+	 	}
+
+		.about-menu li:first-child a {
+			padding-left: 20px;
+		}
+
+		.about-menu li:first-child a {
+			padding-left: 20px;
+		}
+	}
+	.account-dropdown {
+		margin-left: -132px;
+		box-shadow: 2px 2px 12px rgba(0,0,0,0.4);
+	}
+	.navbar-collapse {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+.subnav{
+	.navbar-nav > li:not(:first-child) > a {
+	    padding-top: 16px;
+	}
+}
+
+.notifications-badge {
+	padding-left: 2px;
+	position: relative;
+	.badge {
+		position: absolute;
+	  top: 2px;
+	  font-size: 12px;
+	  background-color: #5E3BDD;
+	}
+}
+.navbar-inverse .navbar-nav li:first-child a {
+    padding-left:20px;
+}
+
+.mobile-envelope .pull-right{
+	margin-top: 12px;
+	margin-bottom: 12px;
+	margin-right: 5px;
+	.badge{
+		background-color: #5E3BDD;
+	}
+	i{
+		color: #fff;
+	}
+}

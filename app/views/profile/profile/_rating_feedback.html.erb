@@ -1,0 +1,19 @@
+<div class="feedback-block">
+  <div class="feedback-meta">
+    <div class="feedback-block">
+      <strong>Personality:</strong><br>
+      <span class="psa-rating-read-only" data-score="<%= r.personality_rating %>"></span>
+    </div>
+    <div class="feedback-block">
+      <strong>Skill:</strong><br>
+      <span class="psa-rating-read-only" data-score="<%= r.skill_rating %>"></span>
+    </div>
+    <div class="feedback-block">
+      <strong>Approval:</strong><br>
+      <span class="psa-rating-read-only" data-score="<%= r.approval_rating %>"></span>
+    </div>
+  </div>
+  <div class="feedback-text">
+    <%= r.comment %>
+  </div>
+</div>

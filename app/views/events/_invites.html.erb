@@ -1,0 +1,17 @@
+<% if @invites.count > 0%>
+	<div class="invites">
+		<div class="roster-invites-wrapper">
+			<ul class="roster-invites list-unstyled">
+				<% @invites.each do |invite| %>
+					<%= render partial: 'events/invite', locals: {invite: invite} %>
+				<% end %>
+			</ul>
+		</div>
+	</div>
+<% else %>
+	<div class="container-box">
+		You currently have no invites.
+	</div>
+	<br>
+
+<% end %>

@@ -1,0 +1,21 @@
+<%= render partial: 'users_grid' %>
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/adminnav" %>
+			</div>
+			<div class="col-md-9">
+				<%= render 'layouts/flash' %>
+
+            	<h2 class="mt0">Manage Users <span class="pull-right"><a class="btn btn-primary" data-grid-name="users" href="users?users%5Bexport%5D=csv">Export To CSV</a></span></h2>
+
+				<p id="notice"><%= notice %></p>
+				<%= render "grid_form" %>
+				<div class="table-responsive">
+					<%= render_grid(@users) %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

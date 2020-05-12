@@ -1,0 +1,69 @@
+<div class="row text-center">
+  <div class="col-xs-12 ">
+    <h1> <%= clan_application.user.username %> </h1>
+  </div>
+  <div class="col-xs-12 text-lightgrey">
+    <h4 class="mt0"> (<%= clan_application.view_status %>)</h4>
+  </div>
+  <div class="col-xs-12">
+    <%= image_tag clan_application.user.avatar_url, :class=>'avatar-sm' %>
+  </div>
+  <div class="col-xs-12 applicant-data">
+    <div class="col-xs-6 ">
+      <h4> <b>Applying To</b></h4>
+    </div>
+    <div class="col-xs-6">
+      <h4><b>Applied On</b></h4>
+    </div>
+    <div class="col-xs-6 title_wrap value">
+      <%= clan_application.clan.name %>
+    </div>
+    <div class="col-xs-6 value">
+      <%= clan_application.created_at.strftime("%b-%d | %l:%M%p") %>
+    </div>
+    <% if clan_application.reviewer.present? %>
+      <div class="col-xs-6">
+        <h4><b>Reviewed By</b></h4>
+      </div>
+      <div class="col-xs-6">
+        <h4><b>Reviewed On</b></h4>
+      </div>
+      <div class="col-xs-6 title_wrap value">
+        <%= clan_application.reviewer.username %>
+      </div>
+      <div class="col-xs-6 value">
+        <%= clan_application.reviewed_at.strftime("%b-%d | %l:%M%p") %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class='questions-answer'>
+<% clan_application.answers.each do |answer| %>
+  <div><h4><b><%= answer.question.name %></b></h4></div>
+  <div class="text-lightgrey"><%= answer.answer %></div>
+<% end %>
+</div>
+
+<% if clan_application.reviewer.nil? && @is_application_reviewer %>
+  <div class="topmrg_20"></div>
+  <div class="row">
+    <div class="col-sm-4  col-xs-12 botmrg_15">
+      <%= link_to 'Accept', accept_clan_clan_application_path(clan_application.clan, clan_application), method: 'patch', remote: true, class: 'btn btn-lightgrey btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Accept"}  %>
+    </div>
+    <div class="col-sm-4 col-xs-12 botmrg_15">
+      <%= link_to 'Reject', clan_clan_application_path(clan_application.clan, clan_application), method: 'delete', remote: true, class: 'btn btn-lightgrey btn-full', data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Reject"}  %>
+    </div>
+
+    <div class="col-sm-4 col-xs-12 botmrg_15">
+      <%= link_to 'View Profile', player_path(clan_application.user),  class: 'btn btn-lightgrey btn-full', target: '_blank' %>
+    </div>
+  </div>
+<% else %>
+<div class="topmrg_20"></div>
+<div class="row">
+  <div class="col-sm-4 col-sm-offset-4 col-xs-12 botmrg_15">
+    <%= link_to 'View Profile', player_path(clan_application.user),  class: 'btn btn-lightgrey btn-full', target: '_blank' %>
+  </div>
+</div>
+<% end %>

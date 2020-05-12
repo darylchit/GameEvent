@@ -1,0 +1,40 @@
+<% share_url = "#{ENV['domain']}#{clan_path(@clan.slug)}" %>
+<div class="modal fade" id="clan_share" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog set_popup_mrg" role="document">
+    <div class="modal-content modal-medium">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title clan_share_title">
+        </h4>
+      </div>
+      <div class="modal-body clan_share_body">
+        <div class="row" style="margin-top: -15px;">
+          <%= image_tag(clan_mobile_jumbo_url(@clan))%>
+        </div>
+        <div class="event_share text-center row">
+          <div class="col-xs-2 col-xs-offset-2 col-md-offset-1">
+            <%= social_share_button_tag("Hosted On Game Roster\nClan: #{@clan.name}\nView or Join Clan: ", :allow_sites => %w(twitter), url: share_url) %>
+          </div>
+          <div class="col-xs-2 ">
+            <%= social_share_button_tag(share_url, :allow_sites => %w(facebook), url: share_url) %>
+          </div>
+          <div class="col-xs-2">
+            <%= social_share_button_tag(share_url, :allow_sites => %w(google_plus), url: share_url) %>
+          </div>
+          <div class="col-xs-2">
+              <%= social_share_button_tag(share_url, :allow_sites => %w(reddit), url: share_url) %>
+          </div>
+        </div>
+
+        <div class="row" id="clan-details-share-id">
+
+          <div class="col-md-12 text-center event-copy-data">
+            <button class=" btn btn-lightgrey btn-full clan-clipboard-btn" data-clipboard-text="<%= "Hosted On Game Roster\nClan: #{@clan.name}\nView or Join Clan: #{share_url}" %>" >
+                Copy Clan Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

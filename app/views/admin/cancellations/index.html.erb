@@ -1,0 +1,79 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/adminnav" %>
+			</div>
+			<div class="col-md-9">
+				<div class="row">
+						<div class="col-md-9">
+								<h2 class="mt0">Cancelled Events</h2>
+						</div>
+						<div class ='col-md-3'>
+							<%= @rosters != true ? link_to('View Roster Cancellations', admin_cancellations_path(:rosters=>true)) :
+				      link_to('View Contract Cancellations', admin_cancellations_path)%>
+					  </div>
+				</div>
+				<p id="notice"><%= notice %></p>
+				<% unless @rosters %>
+				<div class="table-responsive">
+					
+					<%= grid(@grid, show_filters: :no, hide_csv_button: true, html: {class: 'table table-responsive admin-games table-striped data-tr'}) do |g|
+			
+						g.blank_slate do
+					    	content_tag :div, 'No Cancelled Events', class: 'no-results'
+						end
+						
+						g.column name: 'Provided Assistance' do | c |
+						
+			            	link_to admin_user_path(c.seller) do
+						          raw "<h5> #{c.seller.username} </h5>"
+			            	end
+							
+						end
+
+			      g.column name: 'Required Assistance' do | c |
+							
+							   link_to admin_user_path(c.buyer) do
+					            raw "<h5> #{c.buyer.username} </h5>"
+			            	end
+							
+						end
+
+			       g.column name: 'Canceller' do | c |
+			            	canceller = c.buyer.id == c.canceler_id ? c.buyer : c.seller
+			            	link_to admin_user_path(canceller) do
+					            raw "<h5> #{canceller.username} </h5>"
+			            	end
+							
+						end
+
+						g.column name: 'Event #', attribute: 'id' do | c |
+							
+								link_to c.id, admin_cancellation_path(c)
+							
+						end
+						
+						g.column name: 'Cancellation Date', attribute: 'cancelled_at' do | c |
+							
+							link_to c.cancelled_at.strftime("%Y/%m/%d %I:%M%p"), admin_cancellation_path(c)
+						end
+
+						g.column name: 'Type', attribute: 'contract_type' do | c |
+							if c.contract_type == 'Bounty'
+								link_to "Player Needed", admin_cancellation_path(c)
+							else
+								link_to "Available", admin_cancellation_path(c)
+							end
+			            end
+
+					end -%>
+		
+				</div>
+				<% else %>
+				<%= render 'roster_cancellations' %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

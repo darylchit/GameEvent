@@ -1,0 +1,66 @@
+<% if true %>
+<div style="<%= AdminConfig.email_image_css.value %>">
+  <%= image_tag(attachments['logo.png'].url, style: "width: #{AdminConfig.email_image_width.value}%" ) %>
+</div>
+<div style="<%= AdminConfig.email_image_css.value2 %>">
+  <%= AdminConfig.user_create_email.value.html_safe %>
+</div>
+<%= AdminConfig.mail_signature.value.html_safe %>
+
+<% elsif true %>
+
+    <p>Thank you for joining Game Roster.  Our goal is simple.  We want to help you find and build amazing communities.  These five tips will get you started.  </p>
+    <p>
+      1) Join Multiple Clans - there is no limit to the number you can join. All your clans' events will show up on your My Clans page. </p>
+    <p>2) Build Your Profile - head to the My Account page to edit your profile and set preferences for players, public games, alerts, and notifications.  Preferences will automatically block players and alert you when games are posted that meet your criteria. </p>
+    <p>3) Stay Active - your clan's activity rating changes based on the number of posted events.  Staying active helps the clan get discovered and promoted across the site. </p>
+    <p>4) Be Mindful - ratings and event cancellations are tracked to help gamers find ideal players.  Higher ratings and lower cancellations help you join more games and clans.</p>
+    <p>5) Use Filters - host time zone, age limits, most active times, ratings, cancellation rates, play style, and other metrics help you minimize lag and find ideal clans, players, and games.
+    </p>
+
+    <p>Game On.</p>
+    <p>Team Game Roster<br>
+    GameRoster.com</p>
+
+<% else %>
+  <h2 style="font-family: helvetica, arial, sans-serif;">Welcome to Game Roster</h2>
+  <p style="font-family: helvetica, arial, sans-serif;">
+    Thank you for giving us a chance to help you organize friends and connect with other players.  We know you want to get right into the action so we put the following guide and tips together to get you started. Getting around the platform is simple but there are four key features to understand:
+  </p>
+
+  <p style="font-family: helvetica, arial, sans-serif;">
+    <strong>Create Roster</strong><br>
+    Start and Post a Public Game <br>
+    Send Invites To Private Games
+  </p>
+  <p style="font-family: helvetica, arial, sans-serif;">
+    <strong>My Events</strong><br>
+    View Private Invitations<br>
+    Check Your Game Rosters
+  </p>
+  <p style="font-family: helvetica, arial, sans-serif;">
+    <strong>Players Available</strong><br>
+    Lists Available Players<br>
+    Post Your Availability
+  <p style="font-family: helvetica, arial, sans-serif;">
+    <strong>Public Games</strong><br>
+    Find Games Needing Players <br>
+    Search By Game and Interests
+  </p>
+
+  <p style="font-family: helvetica, arial, sans-serif;">
+    <strong>Five Helpful Tips:</strong><br />
+    1) Get Rated – odds are that other players don’t know much about you initially.  Joining public games and claiming events posted by other players on the Players Available page is a great way to build a reputation that will help you discover even more players.  Every play counts as one experience point and gives you a chance to be rated. <br />
+    <br />
+    2) Use Recurring Events – to quickly add multiple times/dates based on your general availability when you post your availability.  Making yourself more available increases the odds you will find a match. Simply sit back and look for email notifications when your events are claimed.<br />
+    <br />
+    3) Use Social Features – post your availability and public events on social media with our social tools.  This will help you fill up your public roster faster and connect with those you know outside the site.  <br />
+    <br />
+    4) Build a Creative Bio – set up a bio that showcases your skills and personality.  Don’t take it too serious and have fun.  See how the leaderboard sets up their bios to get a sense for what works and be sure to use videos to showcase your skills and let others see you in action. <br />
+    <br />
+    5) Grab a Player – look for available players on the Find Players page if your public or private event still needs extra players. Don’t see a player at your time?  Try messaging the available players to see if they can change times.  <br />
+  </p>
+  <p style="font-family: helvetica, arial, sans-serif;">
+    Done. It's time to go get your game on.
+  </p>
+<% end %>

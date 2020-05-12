@@ -1,0 +1,64 @@
+ul.mss-list {
+	padding: 0;
+	display: block;
+	list-style-type: none;
+	li {
+		font-size: .9em;
+		position: relative;
+		padding: 0;
+		border: 1px solid #323232;
+		background-color: #fcfcfc;
+		color: #fff;
+		font-weight: bold;
+		a {
+			color: #fff;
+		}
+
+		.mss-list-inline {
+			padding: 0;
+			display: inline;;
+			list-style-type: none;
+		}
+
+
+		.mss-details {
+			width: 100%;
+			position: absolute;
+			bottom: -1px;
+			padding: 60px 8px 6px;
+			@include background-image(linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.12) 20%, rgba(0, 0, 0, 0.75) 48%, rgba(0,0,0,0.9) 85%, rgba(0,0,0,0.9) 100%));
+		}
+		a h4 {
+			margin-top: 0;
+			margin-bottom: 4px;
+			color: $brand-primary;
+			text-shadow: 0 0 3px rgba(0,0,0,0.3);
+		}
+		&:hover {
+			.mss-details {
+				padding-bottom: 3px;
+				border-bottom: 3px solid $brand-primary;
+				@include background-image(linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.12) 20%, rgba(0, 0, 0, 0.9) 48%, rgba(0,0,0,1) 85%, rgba(0,0,0,1) 100%));
+			}
+		}
+		.psa-rating-read-only img {
+			margin-right: -3px;
+		}
+	}
+	@media screen and (max-width: $screen-sm-max) {
+		h4 {
+			font-size: 1.2em;
+			@include text-overflow();
+		}
+	}
+	@media screen and (max-width: 380px) {
+		font-size: .8em;
+		h4 {
+			font-size: 1.2em;
+			@include text-overflow();
+		}
+		.psa-rating-read-only img {
+			width: 10px;
+		}
+	}
+}

@@ -1,0 +1,22 @@
+<%= form_tag admin_users_path, method: 'get', html: {role: "form"}, class: "wice_grid_form" do %>
+	<div class="row">
+		<div class="col-md-5">
+			<div class="form-group">
+				<label>Username</label>
+				<%= grid_filter @users, :user_filter %>
+			</div>
+		</div>
+		<div class="col-md-5">
+			<div clas ="form-group">
+				<label>Email</label>
+				<%= grid_filter @users, :email_filter %>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="form-group">
+				<label>&nbsp;</label>
+				<button type="submit" class="btn btn-primary btn-sm btn-block">Search</button>
+			</div>
+		</div>
+	</div>
+<% end %>

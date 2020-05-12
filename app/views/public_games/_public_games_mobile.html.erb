@@ -1,0 +1,71 @@
+<div class="row event_card_mobile">
+  <div class="row-fluid mt20">
+    <div class="inner-box">
+      <div class="image">
+        <div class="player-card-mobile col-xs-12">
+          <div class="event_data">
+            <div class="card-head text-center">
+              <h6 class="title_wrap cursor_pointer"> <b> <%= public_event.game.present? ? public_event.game.title : "N/A" %></b></h6>
+              <div class="title_wrap cursor_pointer text-uppercase"><%= public_event.title %></div>
+              <div class="title_wrap cursor_pointer">Date:  <%= public_event.start_at.strftime("%b-%-d")%>&nbsp;&nbsp;|&nbsp;&nbsp;Time: <%= public_event.start_at.strftime("%l:%M%P") %></div>
+            </div>
+            <div class="card-content ">
+              <div class="left-part">
+                <%= image_tag(public_event.game.game_cover, :class=> 'avatad_img', data: {toggle:"tooltip", placement:"top", title: public_event.game.title }) %>
+              </div>
+              <div class="right-parts">
+                <div class="left-text">
+                  <p>Host: <span><%= public_event.user.username.present? ? public_event.user.username.titleize : "" %></span></p>
+                  <p>Host PSR:
+                    <span>
+                    <%=public_event.user.user_setting.total_psr %>
+                      <span class="psr_thump_up">
+                <i class="fa fa-thumbs-up thump-pos" aria-hidden="true"></i>
+                </span>
+
+                    </span>
+                  </p>
+                  <p>Host Exp: <span><%= public_event.user.event_experience %></span></p>
+
+                  <p>Host CR: <span><%= public_event.user.event_cancellation_rate %>%</span></p>
+                </div>
+
+                <div class="right-text">
+                  <p>Type: <span>Public</span></p>
+                  <p>System: <span><%= public_event.game_system.abbreviation.present? ? public_event.game_system.abbreviation.upcase : "" %></span></p>
+                  <p>Ages: <span><%= public_event.minimum_age.present? ?  public_event.minimum_age.to_s : "13" %>
+                    <%= " - " + ( public_event.maximum_age.present? ? public_event.maximum_age.to_s : "99" ) %>
+                    </span></p>
+                  <p>Spots: <span><%= public_event.invites.where(:status => 1).present? ? public_event.invites.where(:status => 1).count : "0" %> of <%= public_event.maximum_size.present? ? public_event.maximum_size : "0" %></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="overlay-box">
+          <div class="overlay-inner">
+            <div class="content">
+              <h3><%= link_to 'View', get_event_show_path(public_event)%></h3>
+              <h3>
+                <% link_string , link_path, method = get_link_for_invite(public_event)%>
+                <%= link_to link_string, link_path, method: method, remote: (current_user.present? ? true : false), id: "event_action#{public_event.id}", class: "event_action#{public_event.id}"  %>
+              </h3>
+              <% if (current_user.present?  && !public_event.cancelled? && !public_event.completed?)  %>
+
+                <% if (public_event.user_id == current_user.id) || (public_event.clan_event? && public_event.clan.host_id == current_user.id) %>
+
+                  <h3><%= link_to :Cancel, cancel_game_roster_path(public_event), method: :put, remote: true %></h3>
+                <% end %>
+              <% end %>
+              <h3>
+                <%= link_to 'Share', share_game_roster_path(public_event), remote: true %>
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<%= render 'sidebar' %>
+			<div class="col-md-9">
+				<div class="messages-container">
+					<div class="row">
+						<div class="col-md-10">
+							<% if @other_participants.count > 1 %>
+								<h3 class="mt0"><a href="<%= profiles_path() + '/' + @other_user.username %>"><%= @origin == current_user ? @first_recipient.username : @origin.username%></a><span class="" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="
+																	<% @other_participants.each_with_index do | p, index | %>
+																			<%= p.name %><% if index != @other_participants.count - 1 %>,<% end %>
+																	<% end %>"> +<%=@other_participants.count %> other<% if @other_participants.count > 1 %>s<% end %></span></h3>
+							<% else %>
+								<% if @origin.present? %>
+									<h3 class="mt0"><a href="<%= profiles_path() + '/' + @other_user.username %>"><%= @other_user.username %></h3>
+								<% end %>
+							<% end %>
+						</div>
+						<div class="col-md-2 text-right-md">
+							<% if  %>
+								<%= link_to((@conversation.is_trashed?(current_user) ? 'Remove from Trash': 'Send to Trash'), message_path(@conversation), :method => 'delete', 'prompt' => 'Are you sure you want to trash this message?') %>
+							<% end %>
+						</div>
+					</div>
+          <ul class="messages-list list-unstyled">
+            <% last_keys = {} %>
+            <% @conversation.receipts.order(:created_at).each do | r |  %>
+
+              <% # skip double renders of the same message to ones self %>
+              <% key = [ r.notification_id, r.receiver_id ].join(',') %>
+              <% next if last_keys[key] %>
+              <% last_keys[key] = true %>
+
+							<% if r.receiver == current_user and r.mailbox_type == "sentbox" %>
+								<li class="message message-self">
+									<span class="message-avatar message-self">
+											<a href="<%= profiles_path() + '/' + current_user.username %>"><%= image_tag current_user.avatar_url, :class=>'avatar-sm'%></a>
+									</span>
+									<div class="message-content">
+										<h4><span class="text-primary">From: </span>You<span class="pull-right"><small><%= r.message.created_at.strftime("%Y/%m/%d %I:%M%p") %> </small></span></h4>
+										<p>
+                                            <%= parse_message r.message.body, current_user %>
+										</p>
+									</div>
+								</li>
+							<% elsif r.receiver == current_user and r.mailbox_type == "inbox" %>
+								<li class="message">
+									<span class="message-avatar">
+										<% if !r.message.sender.present? %>
+											[deleted]
+										<% else %>
+											<a href="<%= profiles_path() + '/' + r.message.sender.username %>"><%= image_tag r.message.sender.avatar_url, :class=>'avatar-sm'%></a>
+										<% end %>
+									</span>
+									<div class="message-content">
+										<h4><span class="text-primary">From: </span>
+											<% if !r.message.sender.present? %>
+												[deleted]
+											<% else %>
+												<%= r.message.sender.username %>
+											<% end %>
+											<span class="pull-right"><small><%= r.message.created_at.strftime("%Y/%m/%d %I:%M%p") %> </small></span></h4>
+										<% if @conversation.conversationable.present? and r.message.body == "I've claimed your event"%>
+											<%= render 'mailboxer/message_mailer/contract_claim', {:resource => @conversation.conversationable, :conversation => @conversation} %>
+										<% else %>
+											<%= parse_message r.message.body, current_user %>
+										<% end %>
+									</div>
+								</li>
+							<% end %>
+						<% end %>
+						<% if @other_user.present? && !current_user.is_blocking_user?(@other_user) and !@other_user.is_blocking_user?(current_user) %>
+							<%= render 'message_form' %>
+						<% end %>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,21 @@
+<% if resource.video_urls.present? %>
+  <% resource.video_urls.each do |video_url| %>
+    <div class="topmrg_20">
+      <div class="container-boxtemp">
+        <div class="vedio_box">
+          <h4 class="text-center"><%= video_url.name.present? ? video_url.name : '&nbsp;'.html_safe %></h4>
+          <div class="embed-responsive embed-responsive-16by9">
+            <% if video_url.youtube_url? %>
+                <iframe width="560" height="315" src="<%= youtube_embed_url video_url.url %>" frameborder="0" allowfullscreen></iframe>
+            <% elsif video_url.twitch_url? %>
+                <iframe src="https://player.twitch.tv/?video=v<%=video_url.video_id %>&autoplay=false" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe><a href="https://www.twitch.tv/joshog?tt_medium=live_embed&tt_content=text_link" style="padding:2px 0px 4px; display:block; width:345px; font-weight:normal; font-size:10px; text-decoration:underline;">Watch live video from JoshOG on www.twitch.tv</a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+  <h3 class="text-center">No Videos</h3>
+<% end %>

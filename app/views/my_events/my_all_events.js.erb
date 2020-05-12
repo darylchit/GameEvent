@@ -1,0 +1,13 @@
+<%if event_sorts.present? %>
+$('#my-events-lg').html("<%= j render partial: 'my_all_events', collection: event_sorts, as: :event%>");
+$('#my-events-xs').html("<%= j render partial: 'my_all_events_mobile', collection: event_sorts, as: :event%>");
+$('.view-more-all-my-event').attr('href', '<%= j my_all_events_more_my_events_path(sort_by: params[:sort_by], page: params[:page].nil? ? 2 : params[:page].to_i + 1).html_safe%>')
+<%end %>
+
+if ($('[data-toggle="tooltip"]').length > 0) {
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+};
+
+Event.RedirectURL.OnClickRedirectPath()

@@ -1,0 +1,85 @@
+
+
+<div class="container background-block content-area clan_edit_page">
+  <div class="row text-center">
+    <%= image_tag "game_roster_1.png", :class=> 'logo avatar-md2 wow flip'%>
+    <h1 class="">EDIT CLAN</h1>
+  </div>
+
+  <% if @clan.errors.any? %>
+      <div id="error_explanation" class='text-primary'>
+      <% cnt = @clan.errors.count %>
+      	<% if @clan.errors.messages[:questions].present? %>
+      		<% @clan.errors.messages[:questions].first == "is invalid" ? cnt = (cnt - 1) : cnt %>
+      	<%end %>
+        <h2><%= pluralize(cnt , "error") %> prohibited this clan from being saved:</h2>
+        <ul>
+          <% @clan.errors.messages.each do |message| %>
+              <% next if message == 'Video urls is invalid'%>
+              <% next if message[1] == ["is invalid"] %>
+              <% if message == 'Video urls url Please only submit YouTube and Twitch videos.'%>
+                  <li class="text-primary">Video ULR must be from YouTube or Twitch</li>
+                  <% next%>
+              <% end %>
+              <li><%= message[1].join %></li>
+          <% end %>
+        </ul>
+      </div>
+  <% end %>
+	<div class="topmrg_20 row clearfix"></div>
+	<div class="">
+		<div class="row">
+			<div class="col-md-12 clan_edit_page set_padding_0">
+				<ul class="nav nav-tabs pull-right right set_mrg_0">
+
+				  <% if @clan.paranoia_destroyed?%>
+						<li class="right"><a tabindex="0" data-toggle="popover" data-trigger="hover" data-placement="top" title="Inactive Clan" data-content="This clan is no longer active" href='#'>
+							<span class="">View Clan</span></a>
+						</li>
+					<% else %>
+						<li class="right"><%= link_to "View Clan", clan_path(@clan.slug) %></li>
+					<% end %>
+				  <li class="active right"><a data-toggle="tab" href="#edit_clan_form">Settings</a></li>
+					<li class="right"><a data-toggle="tab" href="#clan_recurring_event"> Recurring Events</a></li>
+			  	<li class="right"><a data-toggle="tab" href="#clan_members_section">Members</a></li>
+					<li class="right"><a data-toggle="tab" href="#clan_banned_users_section"> Banned</a></li>
+					<li class="right"><a data-toggle="tab" href="#clan_applications"> Applications</a></li>
+
+				</ul>
+				<div class="tab-content">
+				  <div id="edit_clan_form" class="tab-pane fade in active set_padding_form">
+						<%= render 'form' %>
+				  </div>
+					<div id="clan_members_section" class="tab-pane fade ">
+						<div class="clan_members_table set_table_width topmrg_20">
+							<%= render 'clan_members'%>
+							<p class="text-center">Removing members will permanently ban them.</p>
+						</div>
+				  </div>
+					<div id="clan_banned_users_section" class="tab-pane fade">
+							<%= render 'blocked_clan_members'%>
+							<%#= link_to "Donate", '#', data: { toggle: "modal", target: '#donate_popup'} %>
+				  </div>
+					<div id='clan_applications' class="tab-pane fade ">
+						<%= render 'pending_application'%>
+					</div>
+					<div id='clan_recurring_event' class="tab-pane fade set_padding_form">
+						<div class="topmrg_20 row clearfix"></div>
+						<div class='text-justify topmrg_20'>
+							<p>With recurring events, your clan always has an activity to join. This section lets you post an unlimited number of recurring events that will be displayed on your clan profile, mobile app, and Discord server. Events are created immediately after you submit them here. Removing a recurring event will stop new events from being created.  Any unwanted events that are already posted must be manually deleted. Recurring events do not have a host and do not include the founder by default.  You can opt to automatically add the founder as a participant below.</p>
+						</div>
+						<% if recurring_events.present? %>
+              <% recurring_events.each_with_index do |recurring_event, index| %>
+                  <h3> Recurring Event <%= index + 1%></h3>
+						     <%= render :partial => 'clans/recurring_events/form', locals:  {recurring_event: recurring_event}%>
+              <% end %>
+            <% end %>
+            <h3> Configure Your Recurring Event</h3>
+						<%= render 'clans/recurring_events/form' %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%#= render 'clans/clans/banned_users.html' if current_user.present? %>

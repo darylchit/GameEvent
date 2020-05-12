@@ -1,0 +1,16 @@
+<% @clan_members.group_by{|cm| cm.clan_rank.default_sort_order if cm.clan_rank.present? }.each do |sort_order, default_clan_members| %>
+   <% default_clan_members.group_by{ |cm|cm.clan_rank.title}.each do |clan_rank, clan_members| %>
+  <div class='clear row'>
+    <div class="row-fluid">
+      <div class="gold-header-row row-fluid"></div>
+      <div class="col-md-12 lightgrey-bg gold-header-row">
+        <h2 class='text center'> <%= clan_rank.present? ? clan_rank.upcase : "" %> </h2>
+      </div>
+    </div>
+    <div class="col-md-12 topmrg_20">
+      <%#= render :partial => 'clan_member', collection: clan_members, as: :member %>
+      <%= render :partial => 'players/players/player', collection: clan_members.map{|cm|cm.user}, as: :player %>
+    </div>
+  </div>
+   <% end %>
+<% end %>

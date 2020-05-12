@@ -1,0 +1,7 @@
+A link to donate to your mercenary has been posted on your My Events page. Please consider a donation as they encourage good behavior and help create a stronger community. Your generosity will be tracked and will either help or hurt your ability to attract other players. Use the link below to donate now.
+
+<%= if @event.is_a? Bounty 
+  posted_bounty_url(@event, only_path: false)
+else 
+  claimed_contract_url(@event, only_path: false)
+end  -%>

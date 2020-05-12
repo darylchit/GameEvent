@@ -1,0 +1,184 @@
+<%= render 'layouts/flash' %>
+
+<%= form_for resource, :url => resource.new_record? ? rosters_path : roster_path(resource), :html => {multipart: true } do |f| %>
+	<% if resource.errors.any? %>
+		<div id="error_explanation">
+		  <ul>
+		  <% resource.errors.full_messages.each do |message| %>
+			<li><%= message %></li>
+		  <% end %>
+		  </ul>
+		</div>
+	<% end %>
+
+	<div class="form-group <%= !resource.new_record? ? 'hidden' : '' %>">
+	    <label>Event type:</label>
+            <select class="form-control" id="event-type" name="event_type">
+                <option class="event-option" value="null"></option>
+                <option class="event-option" value="0" <%= resource.clan_id.present? ? 'selected' : '' %>>Clan (Private)</option>
+                <option class="event-option" value="1">Public (Private)</option>
+                <option class="event-option" value="2">Public (Public)</option>
+            </select>
+            <input id="private-toggle" name="roster[private]" type="hidden" value="" />
+	</div>
+
+        <div id="clan-select-container" class="form-group">
+            <input id="clan_id" name="clan_id" type="hidden" value="<%= params[:clan_id] %>"/>
+            <label>Clan</label>
+            <% if resource.clan_id.present? %>
+			<%= f.collection_select :clan_id, current_user.clan_members.map{ |c| Clan.find(c.clan_id)}.sort_by{|c| c.name },
+                :id, :name, {include_blank: false}, {id: 'clan-select-input',
+                                                     class: 'form-control data-disabled',
+                                                     hide_label: true,
+                                                     multiple: false,
+                                                     disabled: resource.clan_id.present?} %>
+            <% else %>
+        	<%= f.collection_select :clan_id, current_user.clan_members.map{ |c| Clan.find(c.clan_id)}.sort_by{|c| c.name },
+                :id, :name, {include_blank: false}, {id: 'clan-select-input',
+                                                     class: 'form-control',
+                                                     hide_label: true,
+                                                     multiple: false} %>
+            <% end %>
+        </div>
+
+
+	<div class="form-group">
+		<% if @games.count == 0 %>
+			You do not have any titles listed for game systems that you have provided an IGN for. <br />
+			<%= link_to 'Add Games', edit_games_and_systems_path %><br />
+			<%= link_to 'Add IGNs', edit_profile_path %><br />
+		<% end %>
+		<label>Game <%= link_to "(My Titles)", edit_games_and_systems_path %></label>
+		<%= f.select(:game_game_system_join_ids, (@games.map{|g| [g.game.title + ' - ' + g.game_system.abbreviation, g.id]}).sort, {}, {:class => "form-control", :multiple => false} ) %>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<label>Game Type</label>
+			<%= f.select(:will_play, options_for_select(["All Types", "Player vs. Player", "Player vs. Enemy"], resource.will_play), {}, {:class => "form-control"}) %>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label>Play Type</label>
+				<%= f.select(:play_type, options_for_select(["Casual", "Serious"], resource.play_type), {}, {:class => "form-control"}) %>
+			</div>
+		</div>
+		<!-- <div class="col-md-4">
+			<div class="form-group">
+				<label>Make Private</label>
+				<div class="form-group">
+						<label class="switch">
+						<%# f.check_box :private, :class => "switch-input", :value => "true" %>
+				      <span class="switch-label" data-on="Yes" data-off="No"></span>
+				      <span class="switch-handle"></span>
+				    </label>
+				</div>
+			</div>
+		</div> -->
+	</div>
+
+	<div class="form-group">
+
+		<div class="row">
+			<div class="col-md-6">
+
+				<div class="form-group">
+					<label>Date and Time</label>
+					<% start = long_date_time (f.object.start_date_time || Time.now.advance(hours: 1)) # if Time.now form sometimes can't submit %>
+                    <% unless resource.confirmed_users.any? && resource.public? %>
+					<%= f.text_field :start_date_time, value: start, class: 'form-control date-time-picker',
+                        data: (resource.new_record? ? {start_date: start} : {start_date: start,  toggle:'tooltip', placement:'top'}),
+                        title: 'Upating the time will send out new invites to all invitees', :help => 'Your Events cannot be claimed after this start date/time.' %>
+                    <% else %>
+                    <div class = "tooltip-wrap" data-title = 'Time cannot be changed for a public roster with claimed spots', data-toggle ='tooltip', data-placement = 'top'>
+                        <%= f.text_field :start_date_time, class: 'form-control date-time-picker', value: start, disabled: true %>
+                    </div>
+                    <% end %>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group duration">
+					<label>Event Duration</label>
+					<%= f.select :duration, [["1 Hour", 60], ["2 Hours", 120], ["3 Hours", 180], ["4 Hours", 240], ["5 Hours", 300], ["6 Hours", 360], ["7 Hours", 420], ["8 Hours", 480], ["9 Hours", 540], ["10 Hours", 600], ["11 Hours", 660], ["12 Hours", 80]], {}, :class => "form-control" %>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	 <div class="form-group">
+	 	<label>Event Title</label>
+		<%= f.text_field :title, :class => 'form-control' %>
+	 </div>
+
+	<div class="form-group max-characters" data-max-num="250">
+		<label>Details & Requirements</label>
+		<%= f.text_area :details, :class => 'form-control', :rows=>'5'%>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label>Maximum Roster Size</label>
+				<div class="input-group input-group-spinner">
+	      			<%= f.text_field :max_roster_size, :class => 'form-control', 'data-min' => '2' %>
+	      		</div>
+			</div>
+		</div>
+		<div class="col-md-2 col-sm-4 col-xs-4 ">
+			<div class="form-group">
+				<label>Allow Waitlist</label>
+				<div class="form-group">
+					<label class="switch">
+						<%= f.check_box :waitlist, :class => "switch-input", :id => "toggle-waitlist",  :value => "true" %>
+				      <span class="switch-label" data-on="Yes" data-off="No"></span>
+				      <span class="switch-handle"></span>
+				    </label>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 col-sm-8 col-xs-8 mt-20">
+			<% if resource.clan_id.present? %>
+				<%= link_to "#{@roster.users.count > 0 ? 'Invited Users' : 'Invite'}",
+					resource.new_record? ?
+					add_invitees_path :
+					add_invitees_roster_path(resource),
+					id: "add-invitees",
+					"data-url": (resource.new_record? ?
+					add_invitees_path : add_invitees_roster_path(resource)),
+					class: "btn btn-outline btn-block btn-lg",
+					remote: true
+				%>
+			<% elsif current_user.favorited_users.count > 0 %>
+				<%= link_to "#{@roster.users.count > 0 ? 'Invited Users' : 'Invite'}", resource.new_record? ? add_invitees_path : add_invitees_roster_path(resource) , id: "add-invitees", "data-url": (resource.new_record? ? add_invitees_path : add_invitees_roster_path(resource)), class: "btn btn-outline btn-block btn-lg", remote: true %>
+			<% else %>
+				<%= link_to "#{@roster.users.count > 0 ? 'Invited Users' : 'Invite'}", resource.new_record? ? add_invitees_path + '?search_all_users=yes' : add_invitees_roster_path(resource) + '?search_all_users=yes' , id: "add-invitees", class: "btn btn-outline btn-block btn-lg", remote: true %>
+			<% end %>
+
+		</div>
+	</div>
+	<br>
+
+	<%= f.hidden_field :user_ids %>
+
+	<br>
+	<div class="clearfix form-group">
+		<% if !resource.new_record? %>
+			<%= link_to 'Cancel', cancel_roster_path(resource), class: 'btn btn-danger btn-lg' %>
+		<% end %>
+		<%= f.submit class: "btn btn-primary btn-lg btn-x pull-right-md", value: "SUBMIT" %>
+	</div>
+<% end %>
+
+<% if !resource.new_record? %>
+	<%= render 'roster_actions.html.erb' %>
+    <br>
+
+	<ul class="nav nav-tabs nav-tabs-gray" role="tablist">
+	    <li role="presentation" class="active"><a href="#roster-users" aria-controls="home" role="tab" data-toggle="tab">Roster <span class="hidden-xs badge <%= resource.confirmed_users_count >= resource.max_roster_size ? "badge-danger" : "badge-success" %>"><%= @roster.confirmed_users_count %> / <%= resource.max_roster_size %></span></a></li>
+	    <li role="presentation" class=""><a href="#roster-messages" aria-controls="profile" role="tab" data-toggle="tab">Messages <span class="hidden-xs badge"><%= @roster.roster_messages.count %></span></a></li>
+	</ul>
+
+	<div class="tab-content container-box" id="event-rating">
+		<div role="tabpanel" class="tab-pane fade in active" id="roster-users"><%= render 'users.html.erb' %></div>
+		<div role="tabpanel" class="tab-pane fade" id="roster-messages"><%= render 'roster_message_board.html.erb'%></div>
+	</div>
+<% end %>

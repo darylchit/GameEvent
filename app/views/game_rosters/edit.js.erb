@@ -1,0 +1,6 @@
+$('#global_model').html("<%= j render(:partial => 'form_popup')%>")
+$("#event_model").modal();
+$('#event_model').on('shown.bs.modal', function () {
+  $('.event-chosen-select').chosen();
+});
+Event.EventType.bindEventPopup();

@@ -1,0 +1,17 @@
+$('.add_game_modal .ign_field').html('')
+<% if @already_added_game %>
+  $("#add_game_form").addError({
+    "user[game_system_ids]": "Error: You Already Have This Game in Your Library"
+  });
+<% end %>
+<% if @ign_filed.present? && current_user.send(@ign_filed).present? %>
+
+<% elsif @ign_filed.present? %>
+$('.add_game_modal .ign_field').html("<%= escape_javascript "<label for='user_ign' class='fadeInUp '>#{User::IGN_NAME_AND_LABLE[@ign_filed]}</label>
+<input class='form-control fadeInUp ' type='text' data-validation='[NOTEMPTY,L>=1, L<=25]'  name='user[#{@ign_filed}]' id='user_ign'>".html_safe %>");
+
+
+
+<% else %>
+  $('.add_game_modal').modal('toggle');
+<% end %>

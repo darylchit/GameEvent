@@ -1,0 +1,31 @@
+<div class="modal fade" id="favorite_users_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-medium ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">
+          Favorites Users
+        </h4>
+      </div>
+      <div class="modal-body contract-details">
+        <div class="form-group">
+          <%= form_tag messages_path(), :action => 'create', remote: true, id: 'compose_favorite_user_form' do  | f |%>
+            <%= label_tag :recipient_id, 'User'%>
+            <%= select_tag :recipient_id, options_for_select(@favorites_user), {class: 'form-control favorites_user_list', 'data-validation'=> '[NOTEMPTY]', 'data-validation-message' => 'Please select favorite user.'}  %>
+            <div class="form-group">
+              <%= label_tag :message, 'Enter Message' %>
+              <%= text_area_tag :message, '', class: 'form-control tesx_message_box', placeholder: 'Type a reply...', rows: '5', 'data-validation'=> '[NOTEMPTY]', 'data-validation-message' => 'Enter your message here.' %>
+            </div>
+            <% if @favorites_user.present? %>
+              <div class="text-right-md">
+                <%= submit_tag 'Send',  :class=> "btn btn-primary btn-x xs_notice_box", data: { disable_with: "..." } %>
+              </div>
+            <% else %>
+              <span class="text-primary"> Please add some favorite user</span>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

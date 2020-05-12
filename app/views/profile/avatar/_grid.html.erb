@@ -1,0 +1,27 @@
+<%
+counter = 0
+per_row = 4
+%>
+<div class="system-avatars">
+<% avatars.each do |a| %>
+  <% if counter % per_row == 0 %>
+    <div class="row">
+  <% end %>
+      <div class="col-md-<%= 12 / per_row %>">
+        <%= link_to '#', data: { system_avatar_id: a.id, file_path: image_url(a.file_path) } do %>
+          <% if a == current_user.system_avatar %>
+            <%= image_tag a.file_path, class: 'selected'%>
+          <% else %>
+            <%= image_tag a.file_path, class: 'selected'%>
+          <% end %>
+        <% end %>
+      </div>
+  <% counter += 1 %>
+  <% if counter % per_row == 0 %>
+    </div>
+  <% end %>
+<% end %>
+<% if counter % per_row != 0 %>
+  </div>
+<% end %>
+</div>

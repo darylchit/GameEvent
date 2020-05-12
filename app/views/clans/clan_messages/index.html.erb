@@ -1,0 +1,70 @@
+<div class="container p-x-0-xs">
+  <div class="well clan-well">
+    <%= render "clans/clan_header", active: 'messages' %>
+
+    <h3 class="profile-title">Messages</h3>
+
+    <% unless @clan.clan_messages.empty? %>
+      <ul class="clan-messages messages-list list-unstyled">
+        <% @clan.clan_messages.each do |r| %>
+        <li class="message message-self">
+          <div class ='message-container'>
+             <small class='success' style='display:none'>Message Updated.</small>
+             <div class='errors'></div>
+
+              <span class="message-avatar message-self">
+                  <a href="<%= profiles_path() + '/' + r.user.username %>"><%= image_tag r.user.avatar_url, :class=>'avatar-sm'%></a>
+              </span>
+              <div class="message-content">
+                <h4><span class="text-primary">From: </span><%=r.user.username%><span class="visible-sm-block visible-xs-block visible-md visible-lg pull-right-md"><small>
+                  <%=r.created_at.strftime("%m/%d %I:%M%p %Z ") %>&nbsp;
+                  <% if r.user == current_user %>
+                    <a href="#" class="dropdown" data-target="actions" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false"><span class="fa fa-chevron-down"></span></a>
+                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+                      <li>
+                        <%=link_to 'Delete', roster_message_path(r), method: :delete, data: {confirm:'Are you sure?'},
+                    :remote => true, :class => 'delete_message'   %>
+                      </li>
+                      <li>
+                        <%=link_to 'Edit', edit_roster_message_path(r), remote: true, class: 'edit_message' %>
+                      </li>
+                    </ul>
+                  <% end %>
+                </small></span></h4>
+                <div class="message-body">
+                  <p>
+                    <%=r.message%>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+
+    <% else %>
+      <p>No Messages.</p>
+    <% end %>
+
+    <% if @clan.member current_user %>
+      <%= form_for [@clan, @clan_message]  do |f| %>
+        <ul class="roster-messages messages-list list-unstyled">
+          <li class="message message-self">
+            <span class="message-avatar">
+              <a href="<%= profiles_path() + '/' + current_user.username %>"><%= image_tag current_user.avatar_url, :class=>'avatar-sm'%></a>
+            </span>
+              <div class="message-content">
+                <div class="form-group">
+                  <%= f.text_area :message, class:'form-control', rows: 3 %>
+                </div>
+                <div class="text-right-md">
+                  <%= f.submit 'Post message', class: 'btn btn-primary'%>
+                </div>
+              </div>
+          </li>
+        </ul>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>

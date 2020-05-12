@@ -1,0 +1,49 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+			<div class="col-md-9">
+				<div class="row">
+						<div class="col-md-12">
+								<h2 class="mt0">My Claimed bounties</h2>
+						</div>
+				</div>
+				<p id="notice"><%= notice %></p>
+				<div class="table-responsive">
+					<%= grid(@grid, show_filters: :yes, hide_csv_button: true, html: {class: 'table table-responsive admin-games table-striped data-tr'}) do |g|
+						g.blank_slate do
+					    	content_tag :div, 'You have no bounties', class: 'no-results'
+						end
+
+						g.column name: '' do | c |
+							raw "#{image_tag(c.seller.avatar_url, class: 'avatar-sm')}"
+						end
+
+						g.column name: 'bountyer' do | c |
+							raw "<h5> #{c.seller.username} </h5>"
+						end
+
+						g.column name: 'bounty #', attribute: 'id' do | c |
+							link_to c.id, claimed_bounty_path(c)
+						end
+
+						g.column name: 'Date', attribute: 'start_date_time' do | c |
+							link_to c.start_date_time.strftime("%Y/%m/%d %I:%M%p"), claimed_bounty_path(c)
+						end
+
+						# g.column name: 'Duration', attribute: 'duration' do | c |
+						# 	link_to c.duration.to_s + ' Hrs', claimed_bounty_path(c)
+						# end
+
+						g.column name: 'Status', attribute: 'status' do | c |
+							link_to c.status, claimed_bounty_path(c)
+						end
+
+					end -%>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

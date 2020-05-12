@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <%= favicon_link_tag 'favicon.ico' %>
+    <%#= favicon_link_tag 'apple-touch-icon-57x57.png', rel: 'apple-touch-icon', type: 'image/png' %>
+    <%#= favicon_link_tag 'apple-touch-icon-76x76.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '76x76' %>
+    <%#= favicon_link_tag 'apple-touch-icon-120x120.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '120x120' %>
+    <%#= favicon_link_tag 'apple-touch-icon-152x152.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '152x152' %>
+
+    <title>Game Roster | Join the Fight℠</title>
+
+    <meta name="description" content="Clans - Players - Games | Limitless Communities">
+
+
+
+    <%= render "/layouts/social_meta.html.erb" %>
+
+    <%= stylesheet_link_tag    'about', media: 'all', 'data-turbolinks-track' => true %>
+    <%= split_stylesheet_link_tag "about", :media => "all" %>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Prociono" rel="stylesheet">
+
+    <%= javascript_include_tag 'about', 'data-turbolinks-track' => true %>
+    <%#= include_sync_config %>
+	 <%= csrf_meta_tag %>
+    <!--[if gte IE 9]>
+      <style type="text/css">
+        .content-block {
+           filter: none;
+        }
+      </style>
+    <![endif]-->
+
+  <% if !is_mobile_app? %>
+    <meta name="apple-itunes-app" content="app-id=1084852919">
+  <% end %>
+
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '1171498722875446',
+          xfbml      : true,
+          version    : 'v2.5'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <% if controller_name == 'pages' && action_name == 'thankyou' %>
+      <% #Facebook Pixel Code %>
+      <script>
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','//connect.facebook.net/en_US/fbevents.js');
+
+      fbq('init', '205890153107279');
+      fbq('track', "PageView");
+      fbq('track', "CompleteRegistration", {'status': '<%= is_mobile_app? ? "mobile" : "web" %>'});
+      <% if is_mobile_app? %>
+        fbq('trackCustom', 'CompleteMobileRegistration');
+      <% end %>
+      </script>
+      <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=205890153107279&ev=PageView&noscript=1"
+      /></noscript>
+    <% end %>
+
+</head>
+<body class="default_cursor <%= "mobile-app" if is_mobile_app? %> about_pagex">

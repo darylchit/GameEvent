@@ -1,0 +1,14 @@
+<% if @notification_controller %>
+	$('.clan_application_action').html("<%= escape_javascript(render partial: 'application', locals: {clan_application: @clan_application} )%>");
+<% else %>
+	<%if @total_pending <= 1%>
+		$('#clan_applications').html("<%= j render(:partial => 'no_pending_application')%>");
+		$('.pending_application_mobile').html("<%= j render(:partial => 'no_pending_application')%>");
+	<% else%>
+		$(".app-" + '<%=@clan_application_id%>' ).remove();
+		$("#view_application_" + "<%=@clan_application_id%>" ).remove();
+	<% end %>
+
+<% end %>
+$('.modal-backdrop').hide();
+$('#clan_application_notification_modal').modal('hide')

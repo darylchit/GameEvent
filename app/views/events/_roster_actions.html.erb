@@ -1,0 +1,6 @@
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<%= link_to 'Join Game', roster_path(@event.id), class: 'btn btn-success btn-lg btn-block' unless @event.confirmed_users.count + 1 >= @event.max_roster_size %>
+		<%= link_to 'Join Waitlist', roster_path(@event.id), class: 'btn btn-success btn-lg btn-block' unless  @event.confirmed_users.count + 1 < @event.max_roster_size %>
+	</div>
+</div>

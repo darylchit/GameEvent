@@ -1,0 +1,13 @@
+<%= render "layouts/header" %>
+<%= render "layouts/topnav" unless  controller.controller_name == "clans" && controller.action_name == "show" %>
+<%= render "layouts/slidenav" unless  controller.controller_name == "clans" && controller.action_name == "show"%>
+
+<p class="notice hidden"><%= notice %></p>
+<p class="alert hidden"><%= alert %></p>
+<%= render 'layouts/toster' %>
+<%= yield %>
+<div id="global_model"></div>
+<div id="social_model"></div>
+<%= render 'layouts/modal' %>
+<%= render "layouts/footer" %>
+<%= render "users/registrations/user", resource: current_user if current_user.present? && !current_user.profile_valid? && request.get? && current_admin.nil?%>

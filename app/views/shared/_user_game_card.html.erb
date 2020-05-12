@@ -1,0 +1,10 @@
+<li class="col-fifth card-wrapper contract-card p-x-0-xs">
+  <% #TODO: Link to public games filtered by this game / system %>
+    <%= image_tag(user_game.game.game_cover, class: 'avatar-lg') %>
+  <div class="card-content card-pad">
+    <div class="text-center">
+      <h5 class="text-ellips"><%= user_game.game.title %></h5>
+      <h6><%= user_game.game_system.abbreviation %></h6>
+    </div>
+  </div>
+</li>

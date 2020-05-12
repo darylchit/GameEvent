@@ -1,0 +1,266 @@
+<div class="home_page">
+  <% if false%>
+  <section class="common_main mb0">
+    <div class="container">
+      <% if false %>
+      <div class="row visible-xs">
+        <div class=" col-xs-12">
+          <div class="text-center">
+            <div class="col-xs-6 m-square-left">
+              <%= link_to messages_path do %>
+                  <div class="white_color">
+                    <h4 class="msg-title">Unread Messages</h4>
+                    <span class="msg-number text-center">
+                      <%= message_count %>
+                    </span>
+                  </div>
+              <% end %>
+            </div>
+            <div class="col-xs-6 m-square-right">
+              <%= link_to my_clans_path do %>
+                <div class="white_color">
+                  <h4 class="msg-title">My Clan Events</h4>
+                  <span class="msg-number text-center">
+                    <%= clan_events %>
+                  </span>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+       </div>
+       <% end %>
+    <div class="row">
+      <div class="col-sm-3 col-xs-6 m-part-left">
+        <div class="square">
+          <div>
+            <div>
+              <div>
+                <%= link_to messages_path do %>
+                  <div class="white_color">
+                    <h4 class="msg-title">Unread<br>Messages</h4>
+                    <span class="msg-number">
+                      <%= message_count %>
+                    </span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6 m-part-right">
+        <div class="square">
+          <div>
+            <div>
+              <div>
+                <%= link_to my_clans_path do %>
+                  <div class="white_color">
+                    <h4 class="msg-title">My Clan<br>Events</h4>
+                    <span class="msg-number">
+                      <%= clan_events%>
+                    </span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6 m-part-left">
+        <div class="square">
+          <div>
+            <div>
+              <div>
+                <%= link_to "#{my_events_path}#my-invitation-lg", class: 'hidden-xs' do %>
+                  <div class="white_color">
+                    <h4 class="msg-title">Pending Invitations</h4>
+                    <span class="msg-number">
+                      <%= invitations.present? ? invitations.count : current_user ? 'None' : 4 %>
+                    </span>
+                  </div>
+                <% end %>
+                <%= link_to "#{my_events_path}#my-invitation-xs", class: 'visible-xs' do %>
+                    <div class="white_color">
+                      <h4 class="msg-title">Pending Invitations</h4>
+                      <span class="msg-number">
+                      <%= invitations.present? ? invitations.count : current_user ? 'None' : 4 %>
+                    </span>
+                    </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6 m-part-right">
+        <div class="square">
+          <div>
+            <div>
+              <div>
+                <%= link_to "#{my_events_path}#my-upcoming-lg", class: 'hidden-xs' do %>
+                  <div class="white_color">
+                    <h4 class="msg-title">&nbsp; Upcoming &nbsp; Events</h4>
+                    <span class="msg-number">
+                      <%= upcoming_events.present? ? upcoming_events.count : current_user ? 'None' : 3 %>
+                    </span>
+                  </div>
+                <% end %>
+                <%= link_to "#{my_events_path}#my-upcoming-xs", class: 'visible-xs' do %>
+                    <div class="white_color">
+                      <h4 class="msg-title">Upcoming Events</h4>
+                      <span class="msg-number">
+                      <%= upcoming_events.present? ? upcoming_events.count : current_user ? 'None' : 3 %>
+                    </span>
+                    </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="home_page_gold_line"></div>
+  <% end %>
+<% unless current_user.present? %>
+  <section class="common_main mb0">
+    <div class="text-justify container">
+      <h4>Game Roster helps you find, promote, and build stronger gaming communities that go beyond the limits of any one game, system, or platform. We help communities develop tight-knit relationships that span an endless number of game titles by developing applications  that solve the challenges facing gamers. You can learn more about our features on the About page.</h4>
+      <!-- <h4>Game Roster is a social network for gamers that helps you find, promote, and build stronger gaming communities that go beyond the limits of any one game, system, or platform.  We help communities develop tight-knit relationships that span an endless number of game titles, which allows you to build long-term bonds that do not fade with any game’s or system’s popularity.</h4>
+      <h4>We develop applications that solve the challenges facing gamers and currently offer clan hosting, a Community LFG<sup>SM</sup> (build your own exclusive LFG), clan recruitment applications, custom ranks/permissions, donations, advanced filters, third party site integrations, in-depth profiles, player preferences, and many other customizable tools.</h4> -->
+    </div>
+  </section>
+<% end %>
+
+  <% if current_user.present? %>
+    <section class="common_main mb0 background-block">
+      <div class="container">
+        <%= render 'dashboard/partials/clans', clans: my_clans, header: 'My Clans', is_mine: true %>
+      </div>
+    </section>
+
+  <% end %>
+
+  <section class="common_main mb0">
+    <div class="container">
+      <%= render 'dashboard/partials/clans', clans: active_clans, header: 'Active Clans', is_mine: false %>
+    </div>
+  </section>
+
+  <%= render 'dashboard/partials/games/game_std', game_collection: trending_games, header: 'Trending Games', view_all_url: public_games_path %>
+  <%= render 'dashboard/partials/games/game_std', game_collection: new_games, header: 'Coming Soon', view_all_url: games_and_systems_path %>
+
+  <!--<div class="container">-->
+    <!--&lt;!&ndash;/<div class="gold-header-row row-fluid"></div>&ndash;&gt;-->
+  <!--</div>-->
+
+
+  <%# OLD CODE FOR REFERENCE %>
+  <% if false %>
+
+  <% if @invites.any? && 5 == 4 # disabled %>
+    <section class="common_main mb0">
+      <div class="container">
+         <div class="well mt0 mb0">
+          <div class="row">
+            <div class="col-md-10 col-sm-8 ">
+              <h2 class="mt0">Invites</h2>
+            </div>
+            <div class="col-md-2 col-sm-4 text-right-md text-right-sm">
+              <%= link_to 'VIEW ALL', events_path, class: "btn btn-primary btn-block hidden-xs" if @invites.count > 4 %>
+            </div>
+          </div>
+          <%= render 'events/invites' %>
+          <%= link_to 'VIEW ALL', events_path, class: "btn btn-primary btn-block visible-xs" if @invites.count > 4 %>
+        </div>
+      </div>
+    </section>
+  <% end %>
+
+  <% if @upcoming_events.any? && 5 == 4 # disabled %>
+      <section class="common_main mb0">
+          <div class="container ">
+
+              <% if @needs_rated %>
+                  <%= link_to profiles_path + '/' + current_user.username + '/blocks-and-feedback' do %>
+                      <div class="alert alert-warning text-center"><p class="lead">
+                          Please <strong>rate</strong> the users you have completed events with.
+                      </div>
+                  <% end %>
+              <% end %>
+
+              <div class="well clearfix mb0 mt0">
+                  <%= render 'dashboard/partials/upcoming_events'%>
+              </div>
+          </div>
+      </section>
+  <% end %>
+
+  <% unless @notices.empty? %>
+      <section class="common_main mb0">
+          <div class="container">
+              <%= render 'dashboard/partials/notices', notices: @notices %>
+          </div>
+      </section>
+  <% end %>
+
+  <% if 5 == 4 # disabled %>
+      <section class="common_main mb0">
+          <div class="container">
+              <div class="well clearfix mb0 mt0">
+                  <%= render 'dashboard/partials/my_games' %>
+              </div>
+          </div>
+      </section>
+  <% end %>
+
+  <% if 5 == 4 && @relevant_events.present?  # disabled %>
+      <section class="common_main mb0">
+          <div class="container">
+              <%= render 'dashboard/partials/relevant_events' %>
+          </div>
+      </section>
+  <% end %>
+
+  <% if 5 == 4 %>
+      <% unless @clan_notices.empty? # disabled %>
+          <section class="common_main mb0">
+              <div class="container">
+                  <div class="well mt0 mb0">
+                      <%# render 'dashboard/partials/notices', notices: @clan_notices, path: 'clan' %>
+                  </div>
+              </div>
+          </section>
+      <% end %>
+  <% end %>
+
+  <% unless @clans.empty? %>
+      <section class="common_main mb0">
+          <div class="container">
+              <%= render 'dashboard/partials/clans', clans: @user_clans, header: 'My Clans', is_mine: true %>
+          </div>
+      </section>
+
+      <section class="common_main mb0">
+          <div class="container">
+              <%= render 'dashboard/partials/clans', clans: @clans, header: 'Active Clans', is_mine: false %>
+          </div>
+      </section>
+  <% end %>
+
+  <%= render 'dashboard/partials/games/games_block' %>
+
+  <%#= render 'dashboard/partials/streaming_users' if @streaming_users %>
+
+    <% if @streaming_users %>
+      <section class="common_main mb0">
+    	  <div class="container">
+    	   <%= render 'dashboard/partials/now_playing' %>
+        </div>
+      </section>
+    <% end %>
+  <% end %>
+
+</div>

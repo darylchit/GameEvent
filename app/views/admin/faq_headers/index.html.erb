@@ -1,0 +1,39 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+        <div class="col-md-3">
+  				<%= render "layouts/adminnav" %>
+  			</div>
+        <div class="col-md-9">
+  				<div class="row">
+            <div class="col-md-6">
+              <h2 class="mt0">Manage Faq</h2>
+            </div>
+						<div class="col-md-3">
+              <%= link_to 'Preview', preview_admin_faq_headers_path, class: "btn btn-lightgrey btn-full",  target:"_blank" %>
+            </div>
+            <div class="col-md-3">
+            	<%= link_to 'Add Faq Header', new_admin_faq_header_path, class: "btn btn-lightgrey btn-full pull-right-md" %>
+            </div>
+  	      </div>
+
+					<div class="table-responsive">
+						<%= grid(faq_header_grid, show_filters: :no, hide_csv_button: true, html: {class: 'table table-responsive admin-game table-striped data-tr'}) do |g|
+							g.column name: 'name' do | f |
+								link_to f.name.try(:html_safe), admin_faq_header_path(f)
+							end
+	            g.column name: 'Rank' do |f|
+	              link_to f.rank, admin_faq_header_path(f)
+	            end
+							g.column name: 'Status' do |f|
+	              link_to "#{f.active? ? 'Active' : 'Inactive'}", admin_faq_header_path(f)
+	            end
+						end -%>
+					</div>
+
+        </div>
+			</div>
+		</div>
+	</div>
+</div>

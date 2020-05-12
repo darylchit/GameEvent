@@ -1,0 +1,68 @@
+<div class="container players-page">
+  <div class="">
+    <%= render "clans/clan_header", active: 'members' %>
+    <% if @clan.host.present? %>
+      <%= render "clans/clan_members/clan_host" %>
+    <% end %>
+    <div>
+      <div class="roster-invites-wrapper clearfix">
+        <% if @clan_members.present? %>
+          <ul class="list-unstyled">
+            <div id="clan_members">
+               <% @clan_members.group_by{|cm| cm.clan_rank.title if cm.clan_rank.present? }.each do |clan_rank, clan_members| %>
+                <div class='row clear'>
+                    <div class="row-fluid topmrg_20">
+                      <div class="gold-header-row row-fluid"></div>
+                      <div class="col-md-12 lightgrey-bg gold-header-row">
+                        <h2 class='text center'> <%= clan_rank.present? ? clan_rank.upcase : "" %> </h2>
+                      </div>
+                    </div>
+                   <%#= render :partial => 'clan_member', collection: clan_members, as: :member %>
+                  <div class="col-md-12 topmrg_20">
+                    <%= render :partial => 'players/players/player', collection: clan_members.map{|cm|cm.user}, as: :player %>
+                  </div>
+                </div>
+               <% end %>
+            </div>
+          </ul>
+          <div id="clan_members_paginator">
+            <%#= paginate @clan_members, remote: true %>
+          </div>
+          <% else %>
+            <h3 class="text-center">No Members have joined this clan yet.</h3>
+            <div class="text-center">
+              <% if not @clan.member current_user %>
+                <% if @clan_invite %>
+                  <!-- Request pending -->
+                  <% if @clan_invite.is_request? %>
+                    <a href="#" class="btn btn-primary post-contract">Request Pending</a>
+                  <!-- Accept invite button -->
+                  <% else %>
+                    <%= form_for @clan_invite, method: :put do |f| %>
+                      <%= f.hidden_field(:status, value: "confirmed") %>
+                      <%= f.submit "Accept Invite", class: 'btn btn-primary btn-xl' %>
+                    <% end %>
+                    <%= button_to "Accept Invite", clan_invite_path(@clan_invite), method: :put, params: {clan_invite: {:status => "confirmed"}}, class: "btn btn-primary btn-xl" %>
+                  <% end %>
+                <% elsif not @clan.private? and not @clan.autojoin?%>
+                  <%= form_for ClanInvite.new do |f| %>
+                    <%= f.hidden_field(:user_id, :value => current_user.id) %>
+                    <%= f.hidden_field(:clan_id, :value => @clan.id) %>
+                    <%= f.hidden_field(:inviter_id, :value => current_user.id) %>
+                    <%= f.submit "Join Clan", class: 'btn btn-primary btn-xl post-contract' %>
+                  <% end %>
+                <% elsif not @clan.private? and @clan.autojoin? %>
+                  <%= form_for [@clan, ClanMember.new] do |f| %>
+                    <%= f.hidden_field(:user_id, :value => current_user.id) %>
+                    <%= f.hidden_field(:clan_id, :value => @clan.id) %>
+                    <%= f.submit "Join Clan", class: 'btn btn-primary btn-xl' %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+      </div>
+    </div>
+    <br>
+  </div>
+</div>

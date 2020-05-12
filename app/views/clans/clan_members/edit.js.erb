@@ -1,0 +1,6 @@
+$('.modal-title').html('Set Clan Rank');
+
+$('.modal-body').html('<%= j render "clan_rank_modal" %>').addClass('contract-body');
+
+$('.modal-footer:not(".modal-contract-footer")').hide();
+$('.modal').modal('show');

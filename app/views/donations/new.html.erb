@@ -1,0 +1,105 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="account-nav profile-nav">
+					<div class="side-nav-avatar image-container">
+						<%= link_to profiles_path + '/' + @donatee.try(:username) do %>
+							<%= image_tag(@donatee.avatar_url) %>
+						<% end %>
+					</div>
+
+					<div class="side-nav-container container-box">
+						<div class="form-group">
+							<label>Personality Rating</label>
+							<%if @donatee.personality_rating == 0 %>
+								N/A
+							<% else %>
+								<span class="psa-rating-read-only" data-score="<%= @donatee.personality_rating %>">
+
+								</span>
+							<% end %>
+						</div>
+						<div class="form-group">
+							<label>Skill Rating</label>
+							<%if @donatee.skill_rating == 0 %>
+								N/A
+							<% else %>
+								<span class="psa-rating-read-only" data-score="<%= @donatee.skill_rating %>">
+
+								</span>
+							<% end %>
+						</div>
+						<div class="form-group">
+							<label>Approval Rating</label>
+							<%if @donatee.approval_rating == 0%>
+								N/A
+							<% else %>
+								<span class="psa-rating-read-only" data-score="<%= @donatee.approval_rating %>">
+
+								</span>
+							<% end %>
+						</div>
+						<div class="form-group">
+							<label>Generosity Rating</label>
+							<%if @donatee.generosity_rating == 0%>
+								N/A
+							<% else %>
+								<span class="psa-rating-read-only" data-score="<%= @donatee.generosity_rating %>">
+
+								</span>
+							<% end %>
+						</div>
+						<%= link_to "View All Feedback", profiles_path + '/' + @donatee.username + '/feedback'  %>
+					</div>
+
+					<div class="side-nav-container container-box">
+						<div class="form-group">
+							<label>Experience</label>
+							<p><%= @donatee.contracts_completed %></p>
+						</div>
+						<div class="form-group">
+							<label>Cancellation Rate</label>
+							<p> <%= @donatee.cancellation_rate.present? ? "#{@donatee.cancellation_rate}%" : 'N/A' %>  </p>
+						</div>
+					</div>
+
+					<div class="side-nav-container container-box">
+						<div class="form-group">
+							<label>Player is a Minor</label>
+							<p><%= @donatee.date_of_birth <= (Time.now - 18.years) ? 'No' : 'Yes' %></p>
+						</div>
+						<% if @donatee.will_play.present? %>
+							<div class="form-group">
+								<label>Will Play</label>
+								<%= @donatee.will_play %>
+							</div>
+						<% end %>
+						<% if @donatee.newbie_patience_level.present? %>
+							<div class="form-group">
+								<label>Patience Level</label>
+								<%= @donatee.newbie_patience_level %>
+							</div>
+						<% end %>
+
+						<div class="form-group">
+							<label>Languages</label>
+							<%= @donatee.languages.join(', ') %>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+	  		<div class="col-md-9">
+				<h1 class="mt0">Donate to <%= @donatee.username %></h1>
+
+				<%= render 'form' %>
+				<br>
+				<p>
+					<%= link_to 'Back to Profile', profiles_path + '/' + @donatee.try(:username) %>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

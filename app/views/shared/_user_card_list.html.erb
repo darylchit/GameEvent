@@ -1,0 +1,53 @@
+<ul class="mss-list clearfix">
+  <% users.each do | m | %>
+    <li class="mss col-fifth">
+      <%= link_to profiles_path() + '/' + m.username do %>
+        <%= image_tag(m.avatar_url) %>
+      <% end %>
+      <%= link_to profiles_path() + '/' + m.username do %>
+        <div class="mss-details">
+          <h4>
+            <%= m.username %>
+          </h4>
+          <strong>Experience: </strong><%= m.contracts_completed %><br />
+          <% if show_ratings.index(:psa_rating).present? %>
+            <strong>PSA: </strong>
+            <% if m.psa_rating >= 1 %>
+              <span class="psa-rating-read-only" data-score="<%= m.psa_rating %>"></span>
+            <% else %>
+              N/A
+            <% end %>
+            <br />
+          <% end %>
+          <% if show_ratings.index(:personality_rating).present? %>
+            <strong>Personality: </strong>
+            <% if m.personality_rating >= 1 %>
+              <span class="psa-rating-read-only" data-score="<%= m.personality_rating %>"></span>
+            <% else %>
+              N/A
+            <% end %>
+            <br />
+          <% end %>
+          <% if show_ratings.index(:skill_rating).present? %>
+            <strong>Skill: </strong>
+            <% if m.skill_rating >= 1 %>
+              <span class="psa-rating-read-only" data-score="<%= m.skill_rating %>"></span><% else %>
+              N/A
+            <% end %>
+            <br />
+          <% end %>
+          <% if show_ratings.index(:approval_rating).present? %>
+            <strong>Approval: </strong>
+            <% if m.approval_rating >= 1 %>
+              <span class="psa-rating-read-only" data-score="<%= m.approval_rating %>"></span>
+            <% else %>
+              N/A
+            <% end %>
+            <br />
+          <% end %>
+        </div>
+
+        <% end %>
+    </li>
+  <% end %>
+</ul>

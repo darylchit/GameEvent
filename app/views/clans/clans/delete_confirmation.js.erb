@@ -1,0 +1,9 @@
+$('#global_model').html("<%= j render(:partial => 'delete_confirmation_popup')%>")
+<% if params[:remove_string].present? %>
+  <% if [:remove_string] == "remove".upcase %>
+    $('.remove_string_validate').html("");
+  <% else %>
+    $('.remove_string_validate').html("Please type REMOVE in all capital letters to remove your clan.")
+  <% end %>
+<% end %>
+$("#delete_clan_confirmation_popup").modal();

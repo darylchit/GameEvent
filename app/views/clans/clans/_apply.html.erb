@@ -1,0 +1,44 @@
+<% if (not (@clan.is_host? current_user)) &&  @clan.recruiting? && @clan.allow_reapply_application? || @deleted_application.nil?%>
+  <div class="modal fade" id="apply_to_clan_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <%= form_for @clan.clan_applications.build, url: clan_clan_applications_path(@clan), remote: true do |f|%>
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">
+              Requirment Questions
+            </h4>
+          </div>
+          <div class="modal-body contract-details global_validation">
+            <%= f.hidden_field :clan_id%>
+            <%= f.hidden_field :user_id, value: current_user.id %>
+            <% @clan.questions.each do|question|%>
+            <input value="<%= current_user.id%>" name="clan_application[answers_attributes][<%=question.id%>][user_id]" type="hidden">
+            <input value="<%= question.id%>" name="clan_application[answers_attributes][<%=question.id%>][question_id]" type="hidden">
+            <input value="<%= @clan.id%>" name="clan_application[answers_attributes][<%=question.id%>][clan_id]" type="hidden">
+              <div class='row'>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="question<%=@clan_id%><%= question.id%>"><%= question.name %></label>
+                    <input class="form-control" type="text" name="clan_application[answers_attributes][<%=question.id%>][answer]" id="question<%=@clan_id%><%= question.id%>" data-validation='[NOTEMPTY]' data-validation-message='Enter Answer.'>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div class="modal-footer">
+            <div class="modal-footer-button-container">
+              <div class="col-sm-4 col-sm-offset-2">
+                <%= f.submit class: 'btn btn-lightgrey  btn-full', value: 'Apply' %>
+              </div>
+              <div class="col-sm-4">
+                <button type="button" class="btn btn-lightgrey btn-full" data-dismiss="modal" aria-label="Close">Cancel</button>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,19 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+				<div class="devise-block">
+					<h1 class="text-center">Admin Sign In</h1>
+					<%= bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+						<%= f.text_field :email, autofocus: true %>
+						<%= f.password_field :password, autocomplete: "off" %>
+						<br>
+						<div class="form group text-center-md">
+							<%= f.submit "Login", class: "btn btn-primary btn-x" %>
+						</div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

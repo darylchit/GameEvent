@@ -1,0 +1,58 @@
+.chosen-one-line {
+	.chosen-container-active {
+		.chosen-choices {
+			.search-choice:not(.placeholder-choice) {
+				display: inline-block;
+			}
+			.placeholder-choice {
+				display: none;
+			}
+		}
+	}
+	.chosen-choices {
+		.search-choice:not(.placeholder-choice) {
+			display: none;
+		}
+	}
+	.chosen-choices .search-choice.placeholder-choice {
+		padding-right:5px;
+	}
+}
+
+.toggle-list {
+	li {
+		padding: 15px;
+		background-color: rgba(44,44,44,0.7);
+		margin-top: 0;
+		.media-right label {
+			margin-bottom: 0;
+		}
+	}
+	li:nth-child(2n) {
+		background-color: rgba(72,72,72,0.7);
+	}
+}
+
+// User complained select is now showing selected option,
+// because bootstrap defaulted to the light gray text color
+select, select[multiselect] {
+	color: #212121 !important;
+}
+
+// Clan Form
+.form-upload {
+	text-align: center;
+	.fa {
+		margin-left: 8px;
+	}
+}
+
+// Fix bootstrap accordions expanding to accomodate for the height of an entire
+// chosen select list
+.collapse, .collapsing {
+	&:not(.in) {
+		.chosen-drop {
+			display: none;
+		}
+	}
+}

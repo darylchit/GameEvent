@@ -1,0 +1,25 @@
+<%= form_for(@clan_donation, url: clan_clan_donations_path( @clan )  ) do |f| %>
+  <% if @clan_donation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@clan_donation.errors.count, "error") %> prohibited this donation from being saved:</h2>
+
+      <ul>
+      <% @clan_donation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.hidden_field :clan_id%>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Donation Amount</label>
+        <%= f.number_field :amount_dollars, class: 'form-control', placeholder: 'in dollars', step: '.25', value: @clan_donation.amount_dollars %>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <%= f.submit class: 'btn btn-primary', value: 'Submit' %>
+  </div>
+<% end %>

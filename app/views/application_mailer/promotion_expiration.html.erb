@@ -1,0 +1,33 @@
+<div style="color: black; ">
+  <%= image_tag(attachments['logo.png'].url, style: 'width: 100%' ) %>
+</div>
+
+<p style="text-align: justify">
+  Thank you for being an Open Beta user.  We appreciate your support as we launch new services that help players build stronger gaming communities that go beyond the limits of any one game, system, or platform.  Your promotional benefits will expire on <%= @subscription.ends_on.strftime("%m/%d/%Y") %>.
+</p>
+<p style="text-align: justify">
+  Game Roster is a FREE site, so you will still be able to join clans, participate in all types of events, and enjoy many of the features on the site.   However, a subscription is required to create and host a clan.  If you have created a clan during the Open Beta, it will be marked as inactive and will be hidden from other players.
+</p>
+<p style="text-align: justify">
+  All your clan information is retained and can be reactivated anytime you have an Elite subscription by visiting the Edit Clan page.  Alternatively, you can transfer ownership of your clan to another user with an Elite subscription.  The Elite subscription is $19.99 per year and provides access to all available and upcoming perks on the site.
+</p>
+<p style="text-align: justify">
+  While the site is completely FREE, users can pay an optional $5.99 per year to help support our development efforts.  These Pro subscriptions allow you to upload a custom avatar, remove all ads, and unlock future perks.
+</p>
+<p style="text-align: justify">
+  Visit your My Account page or select the link below if you wish to update your subscription.  Thank you again for trying out Game Roster and helping us build a better site.
+</p>
+<p style="text-align: justify">
+  Update Subscription Link: <a href="<%= ENV['domain']%>/profile/edit">GameRoster.com</a><br>
+</p>
+
+<p style="text-align: left">
+  <br>
+  <a href="gameroster.com" style="text-decoration: none;color: black;">
+    <b>Game Roster</b>
+  </a>
+  <br>
+  Clans | Players | Games<br>
+  Limitless Communities<br>
+  @GameRoster<br>
+</p>

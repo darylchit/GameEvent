@@ -1,0 +1,11 @@
+<% if current_user.present? %>
+    location.pathname = '<%= @redirct_path%>';
+<% else %>
+  toastr.options = {
+      "closeButton": true,
+      "timeOut": "7000",
+      "extendedTimeOut": "0",
+      "positionClass": "toast-top-center"
+  };
+  toastr.success("Invalid Email or Password");
+<% end %>

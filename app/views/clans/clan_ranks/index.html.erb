@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="well">
+     <div class="row">
+      <div class="col-md-9">
+        <h2 class="profile-title"><%= link_to clan_path(@clan.slug), class: "text-white" do %><span class="fa fa-angle-left"></span> Clan Profile<% end %></h2>
+        <%= render "clans/clan_nav", active: "ranks" %>
+      </div>
+      <div class="col-md-3 text-right-md">
+          <%= link_to "Edit Clan", edit_clan_path(@clan), class: "btn btn-primary" if @clan.is_host? current_user %>
+      </div>
+
+     </div><!-- Row -->
+
+    <%= render 'layouts/flash' %>
+
+    <h2 class="profile-title">Clan Ranks</h2>
+    <% if @clan.can_perform? current_user, :edit_ranks %>
+      <p class="lead">Edit the actions that can be performed by the different ranks inside of your clan.</p>
+    <% end %>
+
+    <div class="clan-rank">
+      <ul class="list-unstyled">
+        <% if @clan.can_perform? current_user, :edit_ranks %>
+          <%= render :partial => 'edit_clan_rank', collection: @ranks, as: :clan_rank %>
+        <% else %>
+          <%= render partial: 'clan_rank', collection: @ranks, as: :clan_rank %>
+        <% end %>
+      </ul>
+    </div>
+
+  </div>
+</div>

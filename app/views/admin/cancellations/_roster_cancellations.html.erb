@@ -1,0 +1,36 @@
+<div class="table-responsive">
+	<%= grid(@grid, show_filters: :no, hide_csv_button: true, html: {class: 'table table-responsive admin-games table-striped data-tr'}) do |g|
+			
+		g.blank_slate do
+			content_tag :div, 'No Cancelled Events', class: 'no-results'
+		end
+		
+		g.column name: 'Roster Host', model: 'User', attribute: 'username' do | r |
+				link_to admin_user_path(r.buyer) do
+					raw "<h5> #{r.buyer.username} </h5>"
+				end
+			end
+
+	
+		g.column name: 'Event #', attribute: 'id' do | r |
+			link_to "#{r.id}", admin_roster_path(r)
+		end
+		g.column name: 'Type' do | r |
+				if r.public? 
+					"Public"
+				else
+					"Private"
+				end
+		end
+		g.column name: 'Cancellation Date', attribute: 'cancelled_at' do | r |
+				r.cancelled_at.strftime("%Y/%m/%d %I:%M%p")
+		end
+	
+		g.column name: 'Roster Slots Filled'  do |r|
+			"#{r.confirmed_users_count}/#{r.max_roster_size}"
+		end
+		g.column name: 'Cancelled?', attribute: 'contract_type' do | r |
+			link_to 'Uncancel', admin_cancellation_path(r)+'/uncancel', method: :patch
+		end
+	end -%>
+</div>

@@ -1,0 +1,42 @@
+.input-group-spinner {
+	min-width: 92px;
+	input.form-control {
+		border: 1px solid #ccc;
+		-webkit-appearance:none;
+	}
+  .input-group-addon {
+    padding: 0;
+    border: 0;
+    // Because firefox shrinks this to icon's width
+    min-width: 28px;
+    background-color: transparent;
+  }
+  .btn {
+    border-radius: 0;
+    border-top-right-radius: $border-radius-base;
+    padding: 2px 8px;
+    height:21px;
+    font-size: 8px;
+    border-top-width: 1px;
+    border-bottom-width: 1px solid #333;
+    &:hover {
+    	color: $brand-primary;
+        background-color: #212121;
+    }
+    &:focus {
+    	outline: none;
+    }
+    & + .btn { 
+        border-top-right-radius: 0;
+        border-bottom-right-radius: $border-radius-base;
+        height: 20px;
+		margin-top: 0;
+    	border-top-width: 0;
+    	border-bottom-width: 1px;
+    }
+    .fa {
+    	line-height: .9;
+        margin-left: .75em;
+    }
+  }
+}

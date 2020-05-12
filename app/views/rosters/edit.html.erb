@@ -1,0 +1,30 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-8 col-sm-6">
+						<h3 class="mt0">Edit Event <%= resource.id %> </h3>
+					</div>
+					<div class="col-md-4 col-sm-6 text-right-md">
+						<%  if resource.status == "Open" %>
+							<div class="sharing-buttons">
+								<a href="https://twitter.com/intent/tweet/?text=&url=<%= URI.escape (event_url resource.id.to_s) %>&via=GameRoster" class="btn btn-twitter btn-sharing">
+									<span class="fa fa-twitter"></span>
+								</a> 
+								<a href="#" class="btn btn-facebook btn-sharing" data-event-id="<%= resource.id %>">
+									<span class="fa fa-facebook"></span>
+								</a>
+							</div>
+						<% end %>
+					</div>
+				</div>
+				<%= render 'form' %>
+			</div>
+		</div>
+	</div>	
+</div>
+

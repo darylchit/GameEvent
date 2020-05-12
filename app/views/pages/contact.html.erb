@@ -1,0 +1,26 @@
+<div class="background-block content-area">
+	<div class="container">
+		<h2 class="mt0">Contact Us</h2>
+		
+		<p class="lead">We strive to have a reliable, safe, and fair marketplace for gamers.  Your feedback is an import way for us to address issues and grow.   Use the form below to share some thoughts, request new games, report problems, or to get certified. </p>
+
+		<%= form_for resource, :url => contact_path(resource),  method: 'delete' do |f| %>
+			<div class="form-group">
+				<label>Contact Type</label>
+				<%= f.select :contact_type, ["Gameplay Dispute", "Technical Support", "Report Player", "Request Pro Player Status", "Request Custom Avatar", "Request New Game", "Suggestions", "Other"], {}, :class => "form-control" %>
+			</div>
+
+			<div class="form-group">
+				<label>Message</label>
+				<%= f.textarea :contact_message, :class => "form-control" %>
+			</div>
+
+			<div class="form-group">
+				<label>Attachments</label>
+				<%= f.file_field :contact_attachments, :multiple => true, name: "contact_attachments[]" %>
+			</div>
+
+		<% end %>
+
+	</div>
+</div>

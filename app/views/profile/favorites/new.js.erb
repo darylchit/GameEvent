@@ -1,0 +1,6 @@
+$('.modal-title').html('<%= @favorited_user.username %> Added');
+
+$('.modal-body').html('<%= j render "general", :user => @favorited_user %>').addClass('contract-body');
+
+$('.modal-footer:not(".modal-contract-footer")').addClass('hidden');
+$('.modal').modal('show');

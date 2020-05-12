@@ -1,0 +1,44 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/adminnav" %>
+			</div>
+			<div class="col-md-9">
+				<div class="row">
+	                <div class="col-md-9">
+	                    <h2 class="mt0">Manage Systems</h2>
+	                </div>
+	                <div class="col-md-3">
+	                	<%= link_to 'Add System', new_admin_game_system_path(), class: "btn btn-primary pull-right-md" %>
+	                </div>
+	            </div>
+				<p id="notice"><%= notice %></p>
+				<div class="table-responsive">
+					<%= grid(@grid, show_filters: :no, hide_csv_button: true, html: {class: 'table table-responsive admin-systems table-striped data-tr'}) do |g|
+						g.blank_slate do
+					    	content_tag :div, 'You have not added any game systems', class: 'no-results'
+					  	end
+
+					  	g.row_attributes do |g|
+						    {:datasrc => edit_admin_game_system_path(g)}
+						end
+
+					  	g.column name: 'Title', attribute: 'title' do | g |
+							link_to g.title, edit_admin_game_system_path(g)
+						end
+						g.column name: 'Abbreviation', attribute: 'abbreviation' do | g |
+							link_to g.abbreviation, edit_admin_game_system_path(g)
+						end
+            g.column name: 'Display Order', attribute: 'display_rank' do | g |
+              link_to g.display_rank||'N/A', edit_admin_game_system_path(g)
+            end
+						#g.column name: 'Actions', attribute do | organization |
+						#	edit_admin_organization_path(organization)
+						#end
+					end -%>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>

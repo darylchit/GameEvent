@@ -1,0 +1,263 @@
+<h3 class="mt0">Players Confirmed<span class="pull-right"><small><%= @roster.confirmed_users_count %> / <%= resource.max_roster_size %></small></span></h3>
+<table class="table mb0 roster-users-table tablesaw tablesaw-stack table-striped<%= resource.start_date_time < Time.now ? '-3' : '' %>" data-tablesaw-mode="columntoggle">
+	<thead>
+		<tr>
+			<th></th>
+			<th>USERNAME</th>
+			<th>IGN</th>
+			<th class="ratings-column">PSA</th>
+			<th>EXPERIENCE</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>		
+		<tr class="roster-admin <%= resource.end_date_time > Time.now ? 'roster-admin-no-rating' : '' %>">
+			<td class="avatar-col" width="88px">
+				<%= link_to profiles_path() + '/' + resource.buyer.username do %>
+			        <%= image_tag(resource.buyer.avatar_url, class: "avatar-sm") %>
+			     <% end %>
+			</td>
+			<td>
+				<%= link_to profiles_path() + '/' + resource.buyer.username do %>
+			        <h3 class="mt0 mb0">HOST</h3>
+			        <h5 class="mt0 mb0"><%= resource.buyer.username %></h5>
+			     <% end %>
+			</td>
+			<td>
+				<%= link_to profiles_path() + '/' + resource.buyer.username do %>
+					<% if resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS4' || resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS3' %>
+						<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= resource.buyer.psn_user_name.present? ? resource.buyer.psn_user_name : 'Not Listed' %></h5>
+				    <% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB1' || resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB360' %>
+						<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= resource.buyer.xbox_live_user_name.present? ? resource.buyer.xbox_live_user_name : 'Not Listed' %></h5>
+					<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'Wii U' %>
+						<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= resource.buyer.nintendo_user_name.present? ? resource.buyer.nintendo_user_name : 'Not Listed' %></h5>
+					<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.title == 'PC' %>
+						<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= resource.buyer.pc_user_name.present? ? resource.buyer.pc_user_name : 'Not Listed' %></h5>
+				    <% end %>
+				<% end %>
+			</td>
+			<td class="psa-rating">
+				<% if resource.buyer.psa_rating == 0 %>
+					n/a
+				<% else %>
+					<span class="psa-rating-read-only" data-score="<%= resource.buyer.psa_rating %>"></span>
+				<% end %>
+			</td>
+			<td class="roster-exp">
+				<% if resource.buyer.contracts_completed == 0 %>
+					n/a
+				<% else %>
+					<%= resource.buyer.contracts_completed %>
+				<% end %>
+			</td>
+			<td class="contract-actions text-right">
+				<% if (current_user == resource.buyer || @invite && @invite.confirmed?) && resource.end_date_time < Time.now && current_user != resource.buyer %>
+					<span class='roster-actions' style="width: auto;">
+						<button class="btn btn-success btn-sm collapsed" type="button" data-toggle="collapse" data-target="#collapseRating_<%= resource.buyer.id %>" aria-expanded="false" aria-controls="collapseExample">Rate</button>
+					</span>
+				<% end %>
+			</td>
+		<% if (current_user == resource.buyer || @invite && @invite.confirmed?) && resource.end_date_time < Time.now %>
+			</tr>
+			<tr class="roster-rating roster-admin">
+				<td colspan="6">
+						<div class="collapse collapsed" id="collapseRating_<%= resource.buyer.id %>">
+						<div class="collapse-body">
+							<%= render "ratings/form", rated_user: resource.buyer %>
+						</div>
+					</div>
+				</td>
+			<% end %>
+		</tr>
+		<% @roster_users.each_with_index do |u,index| %>
+			<tr class="<%= index.even? ? 'tr-stripe' : '' %>">
+				<td class="avatar-col" width="88px">
+					<%= link_to profiles_path() + '/' + u.username do %>
+				        <%= image_tag(u.avatar_url, class: "avatar-sm") %>
+				     <% end %>
+				</td>
+				<td>
+					<%= link_to profiles_path() + '/' + u.username do %>
+				        <h5><%= u.username %></h5>
+				     <% end %>
+				</td>
+				<td>
+					<%= link_to profiles_path() + '/' + u.username do %>
+						<% if resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS4' || resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS3' %>
+							<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= u.psn_user_name.present? ? u.psn_user_name : 'Not Listed' %></h5>
+					    <% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB1' || resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB360' %>
+							<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= u.xbox_live_user_name.present? ? u.xbox_live_user_name : 'Not Listed' %></h5>
+						<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'Wii U' %>
+							<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= u.nintendo_user_name.present? ? u.nintendo_user_name : 'Not Listed' %></h5>
+						<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.title == 'PC' %>
+							<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= u.pc_user_name.present? ? u.pc_user_name : 'Not Listed' %></h5>
+					    <% end %>
+					<% end %>
+				</td>
+				<td class="roster-psa">
+					<% if u.psa_rating == 0 %>
+						n/a
+					<% else %>
+						<span class="psa-rating-read-only" data-score="<%= u.psa_rating %>"></span>
+					<% end %>
+				</td>
+				<td class="roster-exp">
+					<% if u.contracts_completed == 0 %>
+						n/a
+					<% else %>
+						<%= u.contracts_completed %>
+					<% end %>
+				</td>
+				<% if current_user == resource.buyer || @invite && @invite.confirmed? %>
+					<td class="contract-actions text-right">
+						<% if resource.end_date_time > Time.now %>
+							<% if resource.owner == current_user %>
+						        <% invite = resource.invite_for u %>
+						        	<span class='roster-actions'>
+						        	<% if resource.waitlist && @roster.confirmed_users_count >=  resource.max_roster_size %>
+						        		<%= link_to "Waitlist", waitlist_invite_path(invite), method: :patch, class: 'btn btn-primary btn-sm' %>
+						          	<% end %>
+						          	<%= link_to "Remove", invite_path(invite), method: :delete, class: 'btn btn-danger btn-sm' %>
+						          </span>
+					      	<% elsif u == current_user and @invite %>
+					        	<%= link_to "Leave Roster", decline_invite_path(@invite), method: :patch, class: 'btn btn-danger btn-sm roster-actions' %>
+					    	<% end %>
+					    <% elsif resource.start_date_time < Time.now && resource.end_date_time > Time.now %>
+							<% if resource.owner == current_user %>
+						        <% invite = resource.invite_for u %>
+					        	<span class='roster-actions'>
+                       				<% if invite.confirmed? %>
+                        				<%= button_to "No Show", no_show_invite_path(invite.id), method: :patch, class: 'btn btn-danger btn-sm' %>
+									<% else %>
+										<%= button_to "Reconfirm", reconfirm_invite_path(invite.id), method: :patch, class: 'btn btn-danger btn-sm' %>
+									<% end %>
+					          		<%= link_to "Remove", invite_path(invite), method: :delete, class: 'btn btn-danger btn-sm' %>
+					        	</span>
+					    	<% end %>
+					    <% else %>
+							<% if resource.owner == current_user %>
+	                            <% invite = resource.invite_for u %>
+								<span class='roster-actions'>
+									<% if invite.confirmed? %>
+	                        			<%= button_to "No Show", no_show_invite_path(invite.id), method: :patch, class: 'btn btn-danger btn-sm' %>
+									<% else %>
+										<%= button_to "Reconfirm", reconfirm_invite_path(invite.id), method: :patch, class: 'btn btn-danger btn-sm' %>
+									<% end %>
+									<button class="btn btn-success btn-sm collapsed" type="button" data-toggle="collapse" data-target="#collapseRating_<%= u.id %>" aria-expanded="false" aria-controls="collapseExample">Rate</button>
+								</span>
+							<% elsif current_user != u %>
+								<span class='roster-actions' style="width: auto;">
+									<button class="btn btn-success btn-sm collapsed" type="button" data-toggle="collapse" data-target="#collapseRating_<%= u.id %>" aria-expanded="false" aria-controls="collapseExample">Rate</button>
+								</span>
+							<% end %>
+					    <% end %>
+					</td>
+				<% else %>
+					<td></td>
+				<% end %>
+			<% if (current_user == resource.buyer || @invite && @invite.confirmed?) && resource.end_date_time < Time.now %>
+			
+				</tr>
+				<tr class="roster-rating <%= index.even? ? 'tr-stripe' : '' %>">
+					<td colspan="6">
+							<div class="collapse collapsed" id="collapseRating_<%= u.id %>">
+							<div class="collapse-body">
+								<%= render "ratings/form", rated_user: u %>
+							</div>
+						</div>
+					</td>
+			<% end %>
+
+			</tr>
+		<% end %>
+		<% if @roster_users.count < resource.max_roster_size - 1 %>
+			<% (resource.max_roster_size - @roster_users.count - 1).times do %>
+				<tr class="roster-placeholder">
+				<td class="avatar-col" width="88px">
+				    <%= image_tag("roster-placeholder.jpg", class: "avatar-sm", style: "opacity:0.5") %>
+				</td>
+				<td>
+				    <h5>Empty</h5> 
+				</td>
+				<td>
+					 <h5>Empty</h5> 
+				</td>
+				<td>
+					<span class="psa-rating-read-only" data-score="0"></span>
+				</td>
+				<td>
+					0
+				</td>
+				<td class="contract-actions text-right-md">
+				</td>
+			</tr>
+			<% end %>
+		<% end %>
+	</tbody>
+</table>
+
+
+
+
+<% if resource.waitlist && @roster.confirmed_users_count >=  resource.max_roster_size %>
+ 
+
+	<h3>Waitlist <span class="pull-right"><small><%= @roster.waitlist_users.count %></small></span></h3>
+
+	<table class="table mb0 roster-users-table sorted_table table-striped">		
+		<% for u in @waitlist_users %>
+		<% invite = resource.invite_for u %>
+			<tr data-id="<%= invite.id %>"> 
+				<td class="avatar-col" width="88px">
+					<%= link_to profiles_path() + '/' + u.username do %>
+				        <%= image_tag(u.avatar_url, class: "avatar-sm") %>
+				     <% end %>
+				</td>
+				<td class="roster-username">
+					<%= link_to profiles_path() + '/' + u.username do %>
+				        <h5><%= u.username %></h5>
+				     <% end %>
+				</td>
+				<td class="roster-ign">
+					<%= link_to profiles_path() + '/' + u.username do %>
+						<% if resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS4' || resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS3' %>
+							<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= u.psn_user_name.present? ? u.psn_user_name : 'Not Listed' %></h5>
+					    <% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB1' || resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB360' %>
+							<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= u.xbox_live_user_name.present? ? u.xbox_live_user_name : 'Not Listed' %></h5>
+						<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'Wii U' %>
+							<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= u.nintendo_user_name.present? ? u.nintendo_user_name : 'Not Listed' %></h5>
+						<% elsif resource.contract_game_game_system_joins.first.game_game_system_join.game_system.title == 'PC' %>
+							<h5><span class="hidden-lg hidden-md hidden-sm" >IGN:&nbsp;</span><%= u.pc_user_name.present? ? u.pc_user_name : 'Not Listed' %></h5>
+					    <% end %>
+					<% end %>
+				</td>
+				<td class="roster-psa" data-psa="<%= u.psa_rating %>">
+					<% if u.psa_rating == 0 %>
+						n/a
+					<% else %>
+						<span class="psa-rating-read-only" data-score="<%= u.psa_rating %>"></span>
+					<% end %>
+				</td>
+				<td>
+					<% if u.experience == 0 %>
+						n/a
+					<% else %>
+						<%= u.experience %>
+					<% end %>
+				</td>
+				<td class="contract-actions text-right">
+				    <% if resource.owner == current_user %>
+				        <% invite = resource.invite_for u %>
+				        <span class='roster-actions'>
+				        	<%= link_to "Remove", invite_path(invite), method: :delete, class: "btn btn-danger btn-sm" %>
+				        	<span class="btn btn-default btn-sm btn-auto hidden-touch"><span class="fa fa-arrows"></span></span>
+						</span>
+				    <% elsif u == current_user and @invite %>
+				        <%= link_to "Leave Roster", decline_invite_path(@invite), method: :patch, class: 'btn btn-danger btn-sm roster-actions' %>
+					<% end %>
+				</td>
+			</tr>
+		<% end %>
+	</table>
+
+<% end %>

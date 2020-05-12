@@ -1,0 +1,33 @@
+<% if resource.present? && resource.errors.present? %>
+  <% if resource.errors.full_messages.first == 'Email not found'%>
+    <% msg = 'Email Not Found - Try Another Address' %>
+  <% else %>
+    <% msg = resource.errors.full_messages.first %>
+  <% end %>
+  $( "#forgot_password_form #user_email" ).focus();
+  $("#forgot_password_form").addError({
+    "user[email]" : "<%= msg %>"
+  });
+
+<% else %>
+  $("#forgot_password_modal").modal("hide");
+
+  toastr.options = {
+    "closeButton": true,
+    "timeOut": "7000",
+    "extendedTimeOut": "0",
+    "positionClass": "toast-top-center"
+  };
+
+  toastr.success('Email has been sent. Please check your inbox and junk email settings.');
+
+//  $(".container").prepend(
+//    "<div class='alert alert-dismissable alert-success'>"
+//    +"<button class='close' data-dismiss='alert'>"
+//       +"<span aria-hidden='true'>×</span>"
+//       +"<span class='sr-only'>Close</span>"
+//     +"</button>"
+//      +"Email has been sent. Please check your inbox and junk email settings.<br>"
+//    +"</div>"
+//  );
+<% end %>

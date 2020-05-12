@@ -1,0 +1,97 @@
+<%= form_tag '', :method => :get do %>
+  <div class="player-filter">
+    <div class="row">
+      <div class="col-md-4">
+          <div class="form-group">
+            <label>Title</label>
+       		   <%= select_tag "select_filter[game][]",
+       		options_from_collection_for_select(@sorted_games, 'id', 'title',
+       		@select_params[:game]),  multiple: true, size: 5, class: 'form-control chosen-select' %>
+          </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>System</label>
+          <div class="chosen99">
+          	<%= select_tag "select_filter[game_system][]",
+          		options_from_collection_for_select(@sorted_systems, 'id', 'title', @select_params[:game_system]), {multiple: true, size: 5, class: 'form-control chosen-select', prompt: 'Select a System'} %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Game Type</label>
+          <%= select_tag "select_filter[will_play]",
+          		options_for_select(User::GAME_TYPE, @select_params[:will_play]), {class: 'form-control', prompt: 'Select a Game Type'} %>
+        </div>
+      </div>
+    </div>
+
+      <div class = "row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Host Search</label>
+            <%= text_field_tag "filter[seller_with_username]", @filter_params[:seller_with_username], {class: 'form-control', placeholder: 'Enter username'}  %>
+        </div>
+      </div>
+      <div class="col-md-4 col-md-offset-4">
+        <div class="form-group">
+          <label>Description Search</label>
+            <%= text_field_tag "filter[details]", @filter_params[:details], {class: 'form-control', placeholder: 'Enter a descriptions'}  %>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <h3>Host Information</h3>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Patience</label>
+           <%= select_tag "filter[seller_with_newbie_patience_level]",
+      		options_for_select(['High', 'Low'], @filter_params[:seller_with_newbie_patience_level] || 'Select a Newbie Patience Level' ), {class: 'form-control', prompt: 'Select a Newbie Patience Level'} %>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Experience</label>
+          <%= select_tag "range_filter[seller_with_contracts_completed]",
+      		options_for_select(User::EXPERIENCE_RANGES, integer_range_to_string(@range_params[:seller_with_contracts_completed])), {class: 'form-control', prompt: 'Select an Experience Level'} %>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Age Range</label>
+
+  		  <%= select_tag "range_filter[seller_with_date_of_birth]", options_for_select(User::AGE_RANGES, date_range_to_string(@range_params[:seller_with_date_of_birth]) || ''), {class: 'form-control', prompt: ''} %>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>PSA Rating</label>
+        <%# disabled until determine purpose of field %>
+        <%= select_tag "range_filter[seller_with_psa_rating]",
+          options_for_select(User::RATING_RANGES, integer_range_to_string(@range_params[:seller_with_psa_rating])), {class: 'form-control', prompt: ''} %>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <a class="btn btn-danger btn-block" href="/public-games">Reset</a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= submit_tag 'Submit', class: "btn btn-primary btn-block wg-external-submit-button"%>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- Player Filter -->
+
+<% end %>

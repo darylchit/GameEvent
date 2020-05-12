@@ -1,0 +1,110 @@
+<% if headline %>
+<div class="row">
+	<div class="col-md-8 col-sm-6">
+		<h3 class="mt0">Event Details</h3>
+	</div>
+	<% if @event.public? && show_sharing %>
+		<div class="col-md-4 col-sm-6 text-right-md">
+			<div class="sharing-buttons">
+				<a href="https://twitter.com/intent/tweet/?text=&url=<%= URI.escape (event_url @event.id.to_s) %>&via=GameRoster" class="btn btn-twitter btn-sharing">
+					<span class="fa fa-twitter"></span>
+				</a> 
+				<a href="#" class="btn btn-facebook btn-sharing" data-event-id="<%= @event.id %>">
+					<span class="fa fa-facebook"></span>
+				</a>
+			</div>
+		</div>
+	<% end %>
+</div>
+<% end %>
+<div class="container-box contract-details">
+
+	<h2 class="mt0 mb0 text-primary"><%=  @event.contract_game_game_system_joins.first.game_game_system_join.game.title %> (<%=  @event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation %>)</h2>
+	<h3 class="mt0"><%= @event.title %></h3>
+
+    <p class="description-text"><%= @event.details %></p>                     
+    
+    <div>
+		<ul class="messages-list list-unstyled">
+			<li class="message">
+				<span class="message-avatar">	
+					<a href="<%= profiles_path() + '/' + @event.buyer.username %>"><%= image_tag @event.buyer.avatar_url%></a>
+				</span>
+				<div class="message-content roster-content">
+			 		<div class="row">
+			 			<div class="col-lg-6 col-md-12 col-sm-6">
+			 				<dl class="roster-list dl-horizontal">
+			 					<dt>Host Name:</dt>
+			 					<dd><%= link_to @event.buyer.username, profiles_path() + '/' + @event.buyer.username, "style" => "color:#fff;" %></dd>
+								<dt>Host IGN:</dt>
+			 					<dd>
+			 						<% if @event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS4' || @event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS3' %>
+										
+										<%= @event.buyer.psn_user_name.present? ? @event.buyer.psn_user_name : 'Not Listed' %>
+		                        	<% elsif @event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB1' || @event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB360' %>
+		                        		
+										<%= @event.buyer.xbox_live_user_name.present? ? @event.buyer.xbox_live_user_name : 'Not Listed' %>
+									<% elsif @event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'Wii U'%>
+		                        		
+										<%= @event.buyer.nintendo_user_name.present? ? @event.buyer.nintendo_user_name : 'Not Listed' %>
+									<% elsif @event.contract_game_game_system_joins.first.game_game_system_join.game_system.title == 'PC'%>
+	                        			
+										<%= @event.buyer.pc_user_name.present? ? @event.buyer.pc_user_name : 'Not Listed' %>
+		                        	<% end %>
+			 					</dd>
+								<dt>Host PSA:</dt>
+			 					<dd>
+			 						<% if @event.buyer.psa_rating == 0 %>
+			 							n/a
+									<% else %>
+										<span class="psa-rating-read-only" data-score="<%= @event.buyer.psa_rating %>"></span>
+									<% end %>
+								</dd>
+								<dt>Host Age</dt>
+								<dd>
+									<% if @event.buyer.public_age == true %>
+										<%= age_in_years(@event.buyer.date_of_birth) %>
+									<% else %>
+										n/a
+									<% end %>
+								</dd>
+			 				</dl>
+						</div>
+			 			<div class="col-lg-6 col-md-12 col-sm-6">
+			 				<dl class="roster-list dl-horizontal">
+								<dt>Start Date:</dt>
+			 					<dd><%=  @event.start_date_time.strftime("%Y/%m/%d") %></dd>
+								<dt>Start Time:</dt>
+			 					<dd><%=  @event.start_date_time.strftime("%I:%M%P") %></dd>
+			 					<dt>Spots Taken:</dt>
+			 					<dd><%= @event.confirmed_users_count %> / <%= @event.max_roster_size %></dd>
+			 					<dt>Game Type:</dt>
+			 					<dd><%= @event.will_play %></dd>
+							</dl>
+			 			</div>
+
+
+			 		</div>
+
+			  		<% if false %>
+						<h4>
+							<% if @event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS4' || @event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'PS3' %>
+								<span class="text-primary"><%= @event.buyer.username %>'s PSN Online ID:</span>
+								<%= @event.buyer.psn_user_name.present? ? @event.buyer.psn_user_name : 'Not Listed' %>
+                        	<% elsif @event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB1' || @event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'XB360' %>
+                        		<span class="text-primary"><%= @event.buyer.username %>'s Xbox Gamertag:</span>
+								<%= @event.buyer.xbox_live_user_name.present? ? @event.buyer.xbox_live_user_name : 'Not Listed' %>
+							<% elsif @event.contract_game_game_system_joins.first.game_game_system_join.game_system.abbreviation == 'Wii U'%>
+                        		<span class="text-primary"><%= @event.buyer.username %>'s Nintendo Network ID:</span>
+								<%= @event.buyer.nintendo_user_name.present? ? @event.buyer.nintendo_user_name : 'Not Listed' %>
+							<% elsif @event.contract_game_game_system_joins.first.game_game_system_join.game_system.title == 'PC'%>
+                    			<span class="text-primary"><%= @event.buyer.username %>'s PC IGNs: </span>
+								<%= @event.buyer.pc_user_name.present? ? @event.buyer.pc_user_name : 'Not Listed' %>
+                        	<% end %>
+                        </h4>
+                    <% end %>										
+				</div>
+			</li>
+		</ul>
+    </div>	            
+</div>

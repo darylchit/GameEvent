@@ -1,0 +1,37 @@
+$('.modal-title').html('Roster Invitees');
+
+$('.modal-body').html('<%= escape_javascript( render 'invitees_list', favorites: @favorites, resource: @roster) %>').addClass('contract-body');
+
+$('.modal-footer:not(".modal-contract-footer")').html('<button class="btn btn-lg btn-outline pull-right-md">Close</button>');
+$('.modal').modal('show');
+
+
+<% if @clan.present? %>
+  var members = [];
+  <% @users.each do |u| %>
+    members.push(<%= u.id %>);
+  <% end %>
+<% end %>
+
+if ($('#roster_user_ids').length > 0 ) {
+  var arr = $('#roster_user_ids').val().split(/[ ,]+/).join(',').split(',');
+
+  $("input:checkbox[name='roster_invitees[]']").each( function() {
+    $me = $(this);
+    $me.prop('checked', !( $.inArray( $me.val(), arr )<0 ) );
+  });
+}
+
+if (!$("input[name='search_all_users']").prop('checked') && $('#contracts_table_container .no-results').length > 0) {
+	$('.wg-external-submit-button[data-grid-name="invitees_grid"]').hide();
+} else {
+	$('.wg-external-submit-button[data-grid-name="invitees_grid"]').show();
+}
+
+// convert wice grid paginations into remote links
+$('.modal-body .pagination a').attr("data-remote", "true"); 
+$('.modal-body .wice-grid-title-row a').each(function() {
+  $me = $(this);
+  $me.attr("data-remote", "true");
+  $me.attr('href', '<%=j add_invitees_path %>' + $me.attr('href'));
+});

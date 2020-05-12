@@ -1,0 +1,5 @@
+<%if @user.present? %>
+  $("#user_sign_up").addError({"user[email]": "Has already been taken"});
+<% else %>
+  $("#user_sign_up").removeError(["user[email]"]);
+<% end%>

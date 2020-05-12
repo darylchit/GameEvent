@@ -1,0 +1,220 @@
+<div class="background-block content-area players-page">
+  <div class="container">
+    <div class="row text-center">
+      <%= image_tag "game_roster_1.png", :class=> 'logo wow flip'%>
+      <h1 class="strong hidden-xs">PLAYERS</h1>
+      <h2 class="mt8 strong visible-xs">PLAYERS</h2>
+    </div>
+    <%= form_tag '', :method => :get do %>
+    <div class="clearfix">
+      <div class="row">
+      	<div class="col-md-9 col-sm-9">
+      		<div class="form-group">
+              <%= text_field_tag "filter[username]", @filter_params[:username], {class: 'form-control', placeholder: 'Search Username or IGN'}  %>
+          </div>
+      	</div>
+        <div class="col-md-3 col-sm-3 text-right-md text-right-sm clans_btn_mrg">
+          <span class="btn btn-lightgrey btn_width btn-full" data-toggle="collapse" data-target="#collapse-filters" aria-expanded="false" aria-controls="collapseExample">Filter Options</span>
+          <%= link_to("My Profile", profile_path, class: "btn btn-lightgrey btn_width btn-full" ) %>
+        </div>
+        <div class="row topmrg_20 visible-xs"></div>
+        <div class="col-xs-12 gold_row"></div>
+      </div>
+
+      <div class="filter-panel collapse" id="collapse-filters">
+        <!-- Player Filter -->
+        <%#= form_tag '', :method => :get do %>
+          <div class="player-filter">
+            <div class="row topmrg_20">
+              <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Game</label>
+               		  <%= select_tag "select_filter[game][]",options_from_collection_for_select(@sorted_games, 'id', 'title',@select_params[:game]),  multiple: false, size: 5, class: 'form-control chosen-select', prompt: 'Select a Game' %>
+                  </div>
+              </div>
+              <div class="col-md-4">
+                  <div class="form-group">
+                    <label>System</label>
+                    <div class="chosen99">
+                  		<%= select_tag "select_filter[game_system][]",
+                  		options_from_collection_for_select(@sorted_systems, 'id', 'title', @select_params[:game_system]), {multiple: false, size: 5, class: 'form-control chosen-select', prompt: 'Select a System'} %>
+                  </div>
+                  </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Clan Affiliations</label>
+                  <%= select_tag "select_filter[affiliations]",
+                                 options_for_select([['Yes', true],['No', false]],  @select_params[:affiliations]), {class: 'form-control chosen-select', prompt: 'Select Affiliations'} %>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>PSR Rating</label>
+                  <%= select_tag "range_filter[psa_rating]",
+                                 options_for_select(User::RATING_RANGES, integer_range_to_string(@range_params[:psa_rating])), {class: 'form-control chosen-select', prompt: ''} %>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Experience</label>
+                  <%= select_tag "range_filter[event_percentile]",options_for_select(User::HOST_EXPERIENCE_RANGES, integer_range_to_string(@range_params[:event_percentile])), {class: 'form-control chosen-select', prompt: 'Select an Experience Level'} %>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Cancellation Rate (Maximum)</label>
+                  <%= select_tag "range_filter[cancellation_percentile]",options_for_select((0..100).map{|i|["#{i}%", "0 - #{i}"]}.unshift(['Select Cancellation Rate','']), @range_params[:cancellation_percentile].present? && @range_params[:cancellation_percentile].is_a?(Array) ? "0 - #{@range_params[:cancellation_percentile].last}" : nil ), {class: 'form-control chosen-select', prompt: ''} %>
+
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Prefers to Play</label><%= @in_params_orginal %>
+                  <%= select_tag "in_filter[will_play]",
+                                 options_for_select(User::GAME_TYPE_FILTER, @in_params[:will_play].present? ? @in_params[:will_play].join(',') : nil), {class: 'form-control chosen-select'} %>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Play Style</label>
+                  <%= select_tag "in_filter[game_style]",
+                                 options_for_select(User::GAME_STYLE_FILTER, @in_params[:game_style].present? ? @in_params[:game_style].join(',') : nil), {class: 'form-control chosen-select'} %>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Patience Level</label>
+                  <%= select_tag "select_filter[newbie_patience_level]",
+                                 options_for_select(["High", "Low"], @select_params[:newbie_patience_level]), {class: 'form-control chosen-select', prompt: ' Select Patience Level'} %>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label> Most Active Days</label>
+                  <%= select_tag "in_filter[most_active_days]",
+                                 options_for_select(User::MOST_ACTIVE_DAYS_FILTER, @in_params[:most_active_days].present? ? @in_params[:most_active_days].join(',') : nil), {class: 'form-control chosen-select'} %>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label> Most Active Time</label>
+                  <%= select_tag "in_filter[most_active_time]",
+                                 options_for_select(User::MOST_ACTIVE_TIMES_FILTER, @in_params[:most_active_time].present? ? @in_params[:most_active_time].join(',') : nil), {class: 'form-control chosen-select'} %>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Age Range</label>
+                  <%= select_tag "range_filter[date_of_birth]", options_for_select(User::AGE_RANGES, date_range_to_string(@range_params[:date_of_birth]) || ''), {class: 'form-control chosen-select', prompt: 'All Ages'} %>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label> Country </label>
+                  <%= select_tag "select_filter[country]",
+                                 options_for_select(countries_list, @select_params[:country]), {class: 'form-control chosen-select', prompt: 'Select Country'} %>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label> Time Zone </label>
+                  <%= select_tag "select_filter[timezone]", options_for_select(ActiveSupport::TimeZone.all.sort.map{|a|a.name}, @select_params[:timezone]), {class: 'form-control chosen-select', prompt: 'Select Time Zone'} %>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label> Language </label>
+                  <%= select_tag "select_filter[language]",
+                                 options_for_select(User.available_languages.sort, @select_params[:language]), {class: 'form-control chosen-select', prompt: 'Select Language'} %>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Sort By</label>
+                  <%= select_tag "sort_filter",
+                                 options_for_select([['Last Sign-In','users.last_sign_in_at desc NULLS LAST'], ['Alphabetical A - Z', 'users.username asc'], ['Alphabetical Z - A', 'users.username desc'],['Most Experience','users.experience'],['Highest Rating', 'psr desc'],['Site Activity ','users.sign_in_count desc']], params[:sort_filter] ? params[:sort_filter] : nil ), {class: 'form-control chosen-select'} %>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>&nbsp;</label>
+                  <a class="btn btn-primary btn-block" href="/players">Reset</a>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>&nbsp;</label>
+                  <%= submit_tag 'Submit', class: "btn btn-primary btn-block wg-external-submit-button"%>
+                </div>
+              </div>
+            </div>
+            <div class="row gold_row"></div>
+          </div>
+      </div>
+
+      <% if current_subscription.nil? %>
+        <div class="row text-center hidden-xs" style="margin-top: 15px;">
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- Desktop Long Banner -->
+          <ins class="adsbygoogle"
+               style="display:inline-block;width:970px;height:90px"
+               data-ad-client="ca-pub-7969073226896485"
+               data-ad-slot="7194419117"></ins>
+          <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        <div class="row text-center visible-xs" style="margin-top: 15px;">
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- Mobile Banner -->
+          <ins class="adsbygoogle"
+               style="display:inline-block;width:320px;height:100px"
+               data-ad-client="ca-pub-7969073226896485"
+               data-ad-slot="4553256987"></ins>
+          <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+      <% end %>
+
+      <div class="roster-invites-wrapper clearfix topmrg_20">
+          <ul class="list-unstyled" id= "players-list">
+            <%if @players.present? %>
+              <%= render :partial => 'player', collection: @players, as: :player %>
+            <% else %>
+                <div class="row text-center">
+                  <%= image_tag "game_roster_1.png", :class=> 'logo wow flip'%>
+                  <h1 class="strong hidden-xs">No Players Found</h1>
+                  <h2 class="mt8 strong visible-xs">No Players Found</h2>
+                </div>
+            <% end  %>
+          </ul>
+      </div>
+      <% if @players.present? %>
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div class="hidden">
+              <%= paginate @players %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+</div>

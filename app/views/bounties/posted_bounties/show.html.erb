@@ -1,0 +1,117 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<%= render "layouts/accountnav" %>
+			</div>
+			<div class="col-md-9">
+				<p id="notice"><%= notice %></p>
+				<h3 class="mt0">Event Details</h3>
+				<div class="container-box contract-details">
+					<div class="row">
+	                    <div class="col-md-6">
+	                        <h1 class="mt0">
+								<% if resource.seller.present? %>
+									<%= link_to resource.seller.username, profiles_path() + '/' + resource.seller.username %>
+								<% else %>
+									Unclaimed
+								<% end %>
+							</h1>
+	                    </div>
+	                    <div class="col-md-6 text-right-md">
+	                        <small>Event #</small>
+	                        <h5 class="mt0"><%= resource.id %></h5>
+	                    </div>
+	                </div>
+
+	                <ul class="list-unstyled contract-meta contract-top">
+	                    <li class="contract-cal"><strong>Start Date:</strong>
+							<%=  resource.start_date_time.strftime("%Y/%m/%d") %>
+						</li>
+						<li class="contract-clock"><strong>Start Time:</strong>
+							<%=  resource.start_date_time.strftime("%I:%M%P") %>
+						</li>
+	                   <li class="contract-length"><strong>Length:</strong>
+	                        <%= d = resource.duration/60
+													  	"#{d} #{"Hour".pluralize d}"%>
+	                    </li>
+	                    <li class="contract-will-play"><strong>Will Play:</strong>
+							<%= resource.will_play %>
+						</li>
+	                    <li class="contract-status"><strong>Status:</strong>
+	                        <%= resource.status %>
+	                    </li>
+	                </ul>
+	                <p><%= resource.details %></p>
+	                <% if resource.selected_game_game_system_join.present? %>
+		                <div>
+							<ul class="messages-list list-unstyled">
+								<li class="message">
+									<span class="message-avatar">	
+										<% if resource.selected_game_game_system_join.game.game_cover.present? %>
+		                                  	<%= image_tag(resource.selected_game_game_system_join.game.game_cover.url) %>
+		                                <% else %>
+											<%= image_tag('def-cover.jpg') %>
+		                                <% end %>
+									</span>
+									<div class="message-content">
+								 		<h4><span class="text-primary">Title: </span><%=  resource.selected_game_game_system_join.game.title %></h4>
+								  		<h4><span class="text-primary">System: </span><%=  resource.selected_game_game_system_join.game_system.title %></h4>
+										<h4>
+											<% if resource.selected_game_game_system_join.game_system.abbreviation == 'PS4' || resource.selected_game_game_system_join.game_system.abbreviation == 'PS3' %>
+												<span class="text-primary"><%= resource.seller.username %>'s PSN Online ID:</span>
+												<%= resource.seller.psn_user_name.present? ? resource.seller.psn_user_name : 'Not Listed' %>
+				                        	<% elsif resource.selected_game_game_system_join.game_system.abbreviation == 'XB1' || resource.selected_game_game_system_join.game_system.abbreviation == 'XB360' %>
+				                        		<span class="text-primary"><%= resource.seller.username %>'s Xbox Gamertag:</span>
+												<%= resource.seller.xbox_live_user_name.present? ? resource.seller.xbox_live_user_name : 'Not Listed' %>
+											<% elsif resource.selected_game_game_system_join.game_system.abbreviation == 'Wii U'%>
+				                        		<span class="text-primary"><%= resource.seller.username %>'s Nintendo Network ID:</span>
+												<%= resource.seller.nintendo_user_name.present? ? resource.seller.nintendo_user_name : 'Not Listed' %>
+											<% elsif resource.selected_game_game_system_join.game_system.title == 'PC'%>
+			                        			<span class="text-primary"><%= resource.seller.username %>'s PC IGNs: </span>
+												<%= resource.seller.pc_user_name.present? ? resource.seller.pc_user_name : 'Not Listed' %>
+				                        	<% end %>
+				                        </h4>											
+									</div>
+								</li>
+							</ul>
+		                </div>
+					<% else %>
+						<div>
+							<h3>Available Titles</h3>
+							<ul class="game-list clearfix">
+								<%  resource.game_game_system_joins.each do | ggs | %>
+									<li class="game-item col-fifth">
+										<%= game_cover_html ggs.game %>
+										<div class="game-details">
+											<h5 class="mb0"><%= ggs.game.title %></h5>
+											<small class="game-system"><%= ggs.game_system.title %></small>
+										</div>
+									</li>
+								<% end %>
+							</ul>
+						</div>
+					<% end %>
+				</div>
+				<div class="contract-actions">
+					<%  if resource.status == "Claimed" %>
+						<%= link_to 'Cancel Bounty', posted_bounty_cancel_path(resource), class: 'btn btn-danger btn-lg' %><br>
+					<% end %>
+					<% if resource.status == 'Invoiced' %>
+						<%= link_to 'Donate', bounty_payment_request_path(resource), :method => "POST", class: 'btn btn-success btn-lg' %><br>
+					<% end %>
+				</div>
+				<% if resource.status == 'Cancelled' %>
+					<%= render 'contracts/contracts/cancellation', contract: resource %>
+				<% end %>
+			
+				<% if resource.is_closed? && !resource.is_closed_by_poster? %>
+					<h3 id="event-rating">Feedback</h3>
+	        		<div class="container-box">
+						<%= render "ratings/form", rated_user: resource.buyer %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

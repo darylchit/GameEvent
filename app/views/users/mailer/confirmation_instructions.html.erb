@@ -1,0 +1,14 @@
+<div style="<%= AdminConfig.email_image_css.value %>">
+  <%= image_tag(attachments['logo.png'].url, style: "width: #{AdminConfig.email_image_width.value}%" ) %>
+</div>
+<div style="<%= AdminConfig.email_image_css.value2 %>">
+  <% if @resource.unconfirmed_email.present? %>
+    <p style="font-family: helvetica, arial, sans-serif;">Select the link below to update your contact email address.  Your update will not be reflected until you confirm this account.</p>
+  <% else %>
+    <p style="font-family: helvetica, arial, sans-serif;">Thank you for signing up for Game Roster! Click the link below to confirm your address and get started.</p>
+  <% end %>
+<br>
+<p style="font-family: helvetica, arial, sans-serif;"><%= link_to 'CONFIRM EMAIL', confirmation_url(@resource, confirmation_token: @token) %></p>
+<br>
+</div>
+<%= AdminConfig.mail_signature.value.html_safe %>

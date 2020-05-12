@@ -1,0 +1,41 @@
+<% if @clan_members.present? %>
+<table class="table table-hover sortable member_table">
+  <thead class="require_bold">
+    <tr>
+      <th class="col-md-2">Username</th>
+      <th class="col-md-2 text-center">Rank</th>
+      <th class="col-md-1 text-center">Visits</th>
+      <th class="col-md-2 text-center">Member Since</th>
+      <th class="col-md-2 text-center">Last Sign In</th>
+      <th class="col-md-2 text-center">Last Payment</th>
+      <th class="col-md-2 text-center">Last Amount</th>
+      <th class="col-md-1"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @clan_members.each do |clan_member|%>
+      <% clan_donation = @clan.clan_donations.complete.where(user_id: clan_member.user_id).order('created_at desc').first %>
+      <tr>
+        <td class="col-md-2"><%=link_to clan_member.user.username, player_path(clan_member.user) %></td>
+        <td class="col-md-2">
+          <div class="form-group">
+            <%= select_tag 'member_clan_rank_id', options_for_select(@clan.clan_ranks.map{|rank| [rank.title, rank.id]}, clan_member.clan_rank_id), class: 'form-control clan_member_rank_select', data: {id: clan_member.id, clan: clan_member.clan_id} %>
+          </div>
+        </td>
+        <td class="col-md-1 text-center"><%= clan_member.user.sign_in_count%></td>
+        <td class="col-md-2 text-center"><%= clan_member.user.created_at.strftime('%m/%d/%y')%></td>
+        <td class="col-md-2 text-center"><%= clan_member.user.last_sign_in_at.present? ? clan_member.user.last_sign_in_at.strftime('%m/%d/%y') : '' %></td>
+        <td class="col-md-2 text-center"><%= clan_donation.present? ? clan_donation.created_at.strftime('%m/%d/%y') : '-' %></td>
+        <td class="col-md-2 text-center"><%= clan_donation.present? ? "$#{clan_donation.amount_dollars.to_i}" : '-' %></td>
+        <td class="col-md-1 text-center">
+          <p class='clan_member_remove text-primary btn' data-clan="<%= clan_member.clan_id%>" data-id="<%=clan_member.id%>" id="member_remove_<%= clan_member.id %>"> Remove  </p>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @clan_members, remote: true %>
+<% else %>
+  <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+  <h3 class="text-center">No Clan Members Available!</h3>
+<% end %>

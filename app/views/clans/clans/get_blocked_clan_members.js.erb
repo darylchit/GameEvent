@@ -1,0 +1,13 @@
+$("#blocked_clan_members_desktop").append("<%= escape_javascript render(:partial => 'clans/clans/blocked_clan_members_row.html', :collection =>  @blocked_members.offset(@offset).limit(10), :as => :clan_member) %>");
+$("#blocked_clan_members_mobile").append("<%= escape_javascript render(:partial => 'clans/clans/blocked_clan_members_mobile.html', :collection =>  @blocked_members.offset(@offset).limit(10), :as => :clan_member) %>");
+$("#view_more_blocked_users").attr("href", "/clans/<%=@clan_id%>/get_blocked_clan_members?offset=<%=@offset_add%>&total_blocked=<%=@total%>");
+$("#view_more_blocked_users_mobile").attr("href", "/clans/<%=@clan_id%>/get_blocked_clan_members?offset=<%=@offset_add%>&total_blocked=<%=@total%>");
+<%if @show_button %>
+	$("#view_more_blocked_users").hide();
+	$("#view_more_blocked_users_mobile").remove();
+<% end %>
+
+$('.action_popup').on('click', function(){
+  var modal_id =  $(this).attr('id');
+  $('#view_clan_member_actions_'+ modal_id).removeClass('in');
+ });

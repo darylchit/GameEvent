@@ -1,0 +1,99 @@
+<% #prerender the partial grid so that the filters can figure out what they're shooting for. dumb. %>
+
+<% if @cover_game.present? %>
+	<% if @cover_game.game_jumbo.present? %>
+		<style type="text/css">
+
+			.mini-hero.game-hero {
+				background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==')<%= raw ", url('#{@cover_game.game_jumbo.url}')" if @cover_game.game_jumbo.present? %>;
+
+				background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(22, 22, 22, 0.2)), color-stop(32%, rgba(22, 22, 22, 0.2)), color-stop(50%, rgba(22, 22, 22, 0.2)), color-stop(80%, rgba(22, 22, 22, 0.85)), color-stop(89%, rgba(22, 22, 22, 0.93)), color-stop(100%, #161616))<%= raw ", url('#{@cover_game.game_jumbo.url}')" if @cover_game.game_jumbo.present? %>;
+
+				background-image: -moz-linear-gradient(top, rgba(22, 22, 22, 0.2) 0%, rgba(22, 22, 22, 0.2) 32%, rgba(22, 22, 22, 0.2) 50%, rgba(22, 22, 22, 0.85) 80%, rgba(22, 22, 22, 0.93) 89%, #161616 100%)<%= raw ", url('#{@cover_game.game_jumbo.url}')" if @cover_game.game_jumbo.present? %>;
+
+				background-image: -webkit-linear-gradient(top, rgba(22, 22, 22, 0.2) 0%, rgba(22, 22, 22, 0.2) 32%, rgba(22, 22, 22, 0.2) 50%, rgba(22, 22, 22, 0.85) 80%, rgba(22, 22, 22, 0.93) 89%, #161616 100%)<%= raw ", url('#{@cover_game.game_jumbo.url}')" if @cover_game.game_jumbo.present? %>;
+
+				background-image: linear-gradient(to bottom, rgba(22, 22, 22, 0.2) 0%, rgba(22, 22, 22, 0.2) 32%, rgba(22, 22, 22, 0.2) 50%, rgba(22, 22, 22, 0.85) 80%, rgba(22, 22, 22, 0.93) 89%, #161616 100%)<%= raw ", url('#{@cover_game.game_jumbo.url}')" if @cover_game.game_jumbo.present? %>;
+
+				background-size: cover;
+	    		background-position: 50% 50%;
+			}
+
+			@media screen and (max-width: 767px) {
+				.mini-hero.game-hero {
+					<% if @cover_game.game_jumbo_mobile.present? %>
+					background-image: url('<%= raw @cover_game.game_jumbo_mobile.url %>');
+					background-size: cover;
+					background-position: 50% 50%;
+					<% end %>
+					padding: 40px 0 60px;
+				}
+			}
+
+		</style>
+
+	<% end %>
+
+	<section class="content-block mini-hero game-hero<%= " no-image" unless @cover_game.game_jumbo.present? %>">
+			<div class="mini-hero-logo text-center">
+				<% if @cover_game.game_logo.present? %>
+					<img src="<%= raw @cover_game.game_logo.url %>">
+				<% else %>
+					<div class="game-title">
+						<h1><%= @cover_game.title %></h1>
+					</div>
+				<% end %>
+			</div>
+		</section>
+		<div class="container container-block well">
+
+<% else %>
+	<div class="container well">
+<% end %>
+
+
+<p id="notice"><%= notice %></p>
+
+<div class="row">
+  <div class="col-md-6 col-sm-6">
+  	<h2 class="mt0">Public Games</h2>
+  </div>
+  <div class="col-md-6 col-sm-6 col-xs-12 text-right-md text-right-sm post-buttons">
+	  	<button class="btn btn-outline btn-block-xs" data-toggle="collapse" data-target="#collapse-filters" aria-expanded="false" aria-controls="collapseExample">Filter Options</button>
+			
+	  	<%= link_to 'Post', new_roster_path(), class: "btn btn-block-xs btn-primary" %>
+  			
+
+  </div>
+</div>
+
+<%
+#----------------------------
+# NOTE: This view shows both contracts and rosters, claimed and posted
+#----------------------------
+
+%>
+
+		<div class="filter-panel collapse" id="collapse-filters">
+      <!-- Player Filter -->
+        <%= render 'filter_form' %> 
+     </div>
+      <% if @public_events.any? %>
+	      <ul class="list-unstyled clearfix">         
+		       <%= render :partial => 'events/event', collection: @public_events, as: :event %>
+	      </ul>
+	      <% else %>
+					<h3 class="text-center">
+						No events found. <%= link_to "Create an Event Now", new_roster_path %>
+					</h3>
+	      <% end %>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div>  
+          <%= paginate @public_events %> 
+        </div>
+      </div>
+    </div>
+  </div>
+

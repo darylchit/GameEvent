@@ -1,0 +1,20 @@
+<div class="modal fade" id="unblock_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog set_popup_mrg" role="document">
+    <div class="modal-content modal-medium">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title unblock_user_title">
+             Unblock User -  <%= username %>
+          </h4>
+        </div>
+        <div class="modal-body unblock_user_body">
+          <div class="row unblock_set_margin">
+            <div class="col-sm-12">
+              Are you sure you want to unblock <%= username %>?
+            </div>
+            <%= link_to "Unblock User", link_if_cancelled_event(profile_block_path(current_user.blocks.where(:blocked_user => user_id)[0])), :method => method_if_cancelled_event('delete'), class: "btn btn-outline btn-full margin-top-20", style: "margin-right:20px;" %>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<% unless resource.is_cancelled? %>
+  <% if @invite # user has been invited to this roster event and has not claimed it yet %>
+      <div class="row">
+      	<div class="col-md-6">
+  			<%= link_to 'Decline Invitation', decline_invite_path(@invite), method: :patch, class: 'btn btn-danger btn-lg btn-block' if @invite.pending? %>
+  		</div>
+  		<div class="col-md-6">
+  			<%= link_to 'Join Game', claim_invite_path(@invite), method: :patch, class: 'btn btn-success btn-lg btn-block' if @invite.claimable?%>
+  			<%= link_to 'Join Waitlist', waitlist_invite_path(@invite), method: :patch, class: 'btn btn-success btn-lg btn-block' if @invite.waitlistable? %>
+  		</div>
+  	</div>
+  <% elsif resource.public? and !resource.owner.eql?(current_user) %>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <% if resource.slots_available? %>
+          <%= link_to 'Join Game', roster_invites_path(resource), method: :post, class: 'btn btn-success btn-lg btn-block' %>
+        <% elsif resource.waitlist %>
+          <%= link_to 'Join Waitlist', roster_invites_path(resource), method: :post, class: 'btn btn-success btn-lg btn-block' %>
+        <% end %>
+  		</div>
+  	</div>
+  <% end %>
+<% end %>
+
+<%  if resource.status == "Claimed" %>
+	<%= link_to 'Cancel Contract', posted_contract_cancel_path(resource), class: 'btn btn-danger btn-lg' %>
+<% end %>
+
+<% if resource.status == 'Cancelled' %>
+	<%= render 'contracts/contracts/cancellation', contract: resource %>
+<% end %>

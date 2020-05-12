@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="col-md-10 col-sm-8 ">
+		<h2 class="mt0">My Upcoming Events</h2>
+	</div>
+	<div class="col-md-2 col-sm-4 text-right-md text-right-sm">
+		<%= link_to 'VIEW ALL', events_path, class: "btn btn-primary btn-block hidden-xs" if @upcoming_events.any? %>
+	</div>
+	</div>
+
+	<div class="roster-invites-wrapper">
+		<% if @upcoming_events.any? %>
+			<ul class="list-unstyled clearfix <%= browser.device.mobile? ? 'mss-list' : '' %>">
+				<% if browser.device.mobile? %>
+					<% @upcoming_events[0..2].each do |event| %>
+						<%= render "dashboard/partials/upcoming_event_mobile", event: event %>
+					<% end %>
+				<% else %>
+					<% @upcoming_events.each do |event| %>
+						<%= render "dashboard/partials/upcoming_event", event: event %>
+					<% end %>
+				<% end %>
+			</ul>
+			<%= link_to 'VIEW ALL', events_path, class: "btn btn-primary btn-block visible-xs" if @upcoming_events.any? %>
+		<% else %>
+			<h4>You have no upcoming events</h4>
+		<% end %>
+	</div>
+</div>

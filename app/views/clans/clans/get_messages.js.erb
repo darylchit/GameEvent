@@ -1,0 +1,5 @@
+$("#chat_messages").append("<%= escape_javascript render(:partial => 'sync/clan_messages/message_row', :collection => @clan.clan_messages.offset(@offset).limit(25), :as => :clan_message) %>");
+$("#view_more_messages").attr("href", "/clans/<%=@clan_id%>/get_messages?offset=<%=@offset_add%>&total_message=<%=@total%>")
+<%if @show_button %>
+	$("#view_more_messages").hide();
+<% end %>

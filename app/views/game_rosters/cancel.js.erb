@@ -1,0 +1,18 @@
+<% if event.cancelled? %>
+  $('.event_cancel_action<%= event.id %>').hide();
+  $('.event_status').html("<%=event.status.titleize%>");
+  $('.event_cancel_action<%= event.id %>').attr('href', '');
+  $('.cancelled_event_link').attr('href', "/game_rosters/<%= event.id %>/cancelled_event")
+  $('#cancel_event_confirmation').hide();
+  toastr.options = {
+      "closeButton": true,
+      "timeOut": "7000",
+      "extendedTimeOut": "0",
+      "positionClass": "toast-top-center"
+  };
+  toastr.success('You have cancelled an event');
+  location.reload();
+  // toastr.clear();
+<% else %>
+
+<% end %>

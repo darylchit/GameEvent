@@ -1,0 +1,92 @@
+<div class="col-md-9">
+  <h3 class="mt0"><%= @box_type %></h3>
+  <% if @box.count > 0 %>
+    <ul class=" list-unstyled list-group messages">
+      <% @box.each do | m | %>
+        <% if m.originator != current_user 
+          other_participants = m.participants.uniq{|x| x.id}.delete_if {|obj| obj == m.originator || obj == @current_user}
+          first_recipient = other_participants[0]
+          else
+            if m.originator != m.participants.uniq{|x| x.id}.first
+              first_recipient = m.participants.first
+              other_participants = m.participants.uniq{|x| x.id}.delete_if {|obj| obj == @origin }
+            else
+              other_participants = m.participants.uniq{|x| x.id}.drop(1)
+              first_recipient = other_participants[0]
+              
+            end
+
+            first_recipient ||= current_user
+          end
+        %>
+        <li class="list-group-item <%= !m.is_read?(current_user) ? "unread" : '' %>">
+          <a href="<%= message_path(m) %>">
+            <div class="row">
+              <div class="col-md-2 col-sm-3 col-xs-4">
+                <div class="message-action-box">
+                  <div class="checkbox pull-left hidden-sm hidden-xs">
+                  </div>
+                </div>
+                <% unless m.originator.present? %>
+                  [deleted]
+                <% else %>
+                  <%= image_tag m.originator == current_user ? first_recipient.avatar_url : m.originator.avatar_url, :class=> 'avatar-sm' %>  
+                <% end %>
+              </div>
+
+              <div class="col-md-8 col-sm-8 col-xs-8">
+                <div class="row">
+                  <div class="col-md-5 col-sm-12">
+                    <span class="message-user">
+                      <% if other_participants.count > 1 %>
+                        <%= m.originator == current_user ? first_recipient.username : m.originator.username %><br>
+                        <span class="" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="
+                          <% other_participants.each_with_index do | p, index | %>
+                            <% if p and p != current_user  %>
+                              <%= p.name %><% if index + 1 != other_participants.count %>,<% end %>
+                            <% end %>
+                          <% end %>">
+                          +<%= other_participants.count %> other<% if other_participants.count > 1 %>s<% end %>
+                        </span>
+                      <% else %>
+                        <%= m.originator == current_user ? first_recipient.username : m.originator.username rescue ""%>
+                      <% end %>
+                    </span>
+                  </div>
+                  <div class="col-md-7 col-sm-12">
+                    <span class="message-excerpt">
+                      <% if m.conversationable.present? and m.receipts.last.message.body == "I've claimed your contract" %>
+                        <p>
+                          <strong>From: <%= m.receipts.last.message.sender.username %></strong><br />
+                          I've claimed your event!
+                        </p>
+                      <% else %>
+                        <p>
+                          <strong>From:
+                            <% if !m.receipts.last.message.sender.present? %>
+                              [deleted]
+                            <% else %>
+                              <%= m.receipts.last.message.sender.username == current_user.username ? 'You' : m.receipts.last.message.sender.username %>
+                            <% end %>
+                          </strong><br />
+                          <%= truncate(m.receipts.last.message.body.gsub(/\[[^\]]*\]/, ''), :length => 40) %>
+                        </p>
+                      <% end %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-2 col-sm-2 col-xs-3 text-right-md">
+                <span class="badge message-time"><%= time_ago_in_words(m.receipts.last.message.created_at) %></span><br>
+                <%= !m.is_read?(current_user) ? "unread" : '' %>
+              </div>
+            </div>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    No Messages
+  <% end %>
+</div>

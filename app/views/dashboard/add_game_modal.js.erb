@@ -1,0 +1,13 @@
+$('#global_model').html('<%= j render "add_game_form", game: @game, names: @system_names_for_game %>').addClass('contract-body');
+$('.add_game_modal').modal('show');
+$('#add_game_form').validate({
+  submit: {
+    callback: {
+      onSubmit:function(){
+        $.post($('#add_game_form').attr('action'), $("#add_game_form").serialize(),function(){},"script")
+      }
+    }
+  }
+});
+
+bindGameModal();

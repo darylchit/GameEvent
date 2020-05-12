@@ -1,0 +1,55 @@
+<div class="modal fade" id="user_invite_to_clan" tabindex="-1" role="dialog" aria-labelledby="myUserLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-medium contract-body">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title text-center" id="myModalLabel"><b>Invite User to Clan</b></h4>
+      </div>
+      <%= form_for ClanInvite.new, :url => clan_invites_path, :html => {multipart: true }, remote: true do |f| %>
+        <div class="modal-body contract-details contract-padding ">
+          <%= f.hidden_field :user_id, value: params[:user_id] %>
+          <%= f.hidden_field :inviter_id, value: current_user.id %>
+          <div class="form-group">
+            <h3>Which clan would you like to invite this user to?</h3>
+
+            <ul class="list-unstyled clearfix games-list">
+              <% @available_clans.each do |clan| %>
+                <li class="game-item col-fifth <%= clan.member(@user) ? 'clan-disabled' : '' %>">
+                  <% if clan.member(@user) %>
+                    <span class="clan-wrapper">
+                      <div class="cover-wrap">
+                        <%= image_tag(clan.cover) %>
+                      </div>
+                      <div class="game-details">
+                        <h5 class="mb0 mt0 text-ellips"><%= clan.name %></h5>
+                        <h6 class="mt0 mb0">(Is Already A Member)</h6>
+                      </div>
+                    </span>
+                  <% else %>
+                    <label>
+                      <div class="cover-wrap">
+                        <div class="game-cover">
+                          <%= image_tag(clan_cover_url(clan)) %>
+                        </div>
+                      </div>
+                      <div class="game-details">
+                        <h5 class="mb0 mt0 text-ellips">
+                          <%=  f.radio_button :clan_id, clan.id %> <%= clan.name %>
+                        </h5>
+                      </div>
+                    </label>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+
+          </div>
+        </div>
+        <div class="modal-footer modal-contract-footer contract-padding">
+          <%= f.submit "Submit", class: "disabled btn btn-lg btn-outline pull-right-md", 'data-toggle' => "tooltip", 'data-placement' => "top", 'title' => "Select a clan to continue", data: { disable_with: "..." } %>
+
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

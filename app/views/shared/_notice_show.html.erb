@@ -1,0 +1,48 @@
+<div class="background-block content-area">
+    <div class="container">
+    <%= render 'layouts/flash' %>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="mt0"><%= @header %></h2>
+                            <h3>
+                                <% if @is_clan %>
+                                    Clan: 
+                                    <span class="lead text-primary"> 
+                                        <%= link_to @clan.name, clan_path(@clan.slug) %>
+                                    </span> 
+                                <% end %>
+                            </h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3><%= @notice.title %></h3>
+                                    <p>
+                                        <small>
+                                            <%= @notice.updated_at.to_date == Date.today ? "Today, #{standard_time(@notice.updated_at)}" : short_date_time(@notice.updated_at) %>
+                                        </small>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p><%= @notice.body %></p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                <% if (@is_clan && current_user.id == @notice.user_id) || (!current_admin.nil? && !@is_clan && @notice.admin_id == current_admin.id) %>
+                                        <%= link_to 'Delete Notice', @is_clan ? clan_clan_notice_path(@clan,@notice) : delete_system_notice_path(@notice),
+                                        method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-primary btn-x pull-right-md', remote: true %>
+                                <% end %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>

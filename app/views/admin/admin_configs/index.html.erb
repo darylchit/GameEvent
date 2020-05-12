@@ -1,0 +1,245 @@
+<div class="background-block content-area">
+	<div class="container">
+
+			<div class="col-md-12">
+        <div class="col-md-3">
+  				<%= render "layouts/adminnav" %>
+  			</div>
+        <div class="col-md-9">
+          <h2 class="mt0"> Email Preferences</h2>
+					<div class="row">
+						<div class="col-md-4">
+							<span class="btn btn-primary btn-full" data-toggle="modal" data-target="#email_signature"> Email Signature</span>
+						</div>
+						<div class="col-md-4">
+							<span class="btn btn-primary btn-full" data-toggle="modal" data-target="#email_image_css"> Email CSS</span>
+						</div>
+						<div class="col-md-4">
+							<span class="btn btn-primary btn-full" data-toggle="modal" data-target="#email_image_width"> Image Width</span>
+						</div>
+					</div>
+
+
+					<div class="modal fade" id="email_signature" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+						<div class="modal-dialog set_popup_mrg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title" id="myModalLabel">Email Signature</h4>
+								</div>
+								<div class="modal-body contract-details">
+									<%= form_for [:admin, mail_signature] do |f| %>
+				          	<div class="form-group">
+				          		<%= f.text_area :value, rows: 5,  class: 'form-control'%>
+				          		<% if f.object.errors.try(:messages)[:value].try(:first).present? %>
+				          			<%= f.object.errors.try(:messages)[:value].try(:first) %>
+				          		<% end %>
+				          	</div>
+				            <div class="clearfix form-group">
+				              <%= f.submit value: 'Save', class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+				            </div>
+				          <% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal fade" id="email_image_css" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+						<div class="modal-dialog set_popup_mrg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title" id="myModalLabel">Email CSS</h4>
+								</div>
+								<div class="modal-body contract-details">
+									<%= form_for [:admin, email_image_css] do |f| %>
+				          	<div class="form-group">
+											<%= f.label :value, 'Image CSS'%>
+				          		<%= f.text_field :value,  class: 'form-control'%>
+				          		<% if f.object.errors.try(:messages)[:value].try(:first).present? %>
+				          			<%= f.object.errors.try(:messages)[:value].try(:first) %>
+				          		<% end %>
+				          	</div>
+										<div class="form-group">
+											<%= f.label :value2, 'Mail Body CSS'%>
+				          		<%= f.text_field :value2,  class: 'form-control'%>
+				          		<% if f.object.errors.try(:messages)[:value2].try(:first).present? %>
+				          			<%= f.object.errors.try(:messages)[:value2].try(:first) %>
+				          		<% end %>
+				          	</div>
+				            <div class="clearfix form-group">
+				              <%= f.submit value: 'SAVE', class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+				            </div>
+				          <% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal fade" id="email_image_width" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+						<div class="modal-dialog set_popup_mrg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title" id="myModalLabel">Email Image Width</h4>
+								</div>
+								<div class="modal-body contract-details">
+									<%= form_for [:admin, email_image_width] do |f| %>
+				          	<div class="form-group">
+				          		<%= f.text_field :value,  class: 'form-control'%>
+				          		<% if f.object.errors.try(:messages)[:value].try(:first).present? %>
+				          			<%= f.object.errors.try(:messages)[:value].try(:first) %>
+				          		<% end %>
+				          	</div>
+				            <div class="clearfix form-group">
+				              <%= f.submit value: 'SAVE', class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+				            </div>
+				          <% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+
+          <hr>
+          <h2 class="mt0"> Sign up Email</h2>
+					<div class="row">
+						<div class="col-md-4">
+							<span class="btn btn-primary btn-full" data-toggle="modal" data-target="#sign_up_subject"> Subject</span>
+						</div>
+						<div class="col-md-4">
+							<span class="btn btn-primary btn-full" data-toggle="modal" data-target="#sign_up_body"> Body </span>
+						</div>
+						<div class="col-md-4">
+							<%= link_to 'Test User Welcome Email', user_welcome_mail_admin_admin_configs_path, class: 'btn btn-primary btn-full', method: :post %>
+						</div>
+					</div>
+
+
+					<div class="modal fade" id="sign_up_subject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+						<div class="modal-dialog set_popup_mrg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title" id="myModalLabel">SIGN UP SUBJECT</h4>
+								</div>
+								<div class="modal-body contract-details">
+									<%= form_for [:admin, user_create_subject] do |f| %>
+				          	<div class="form-group">
+				          		<%= f.text_field :value,  class: 'form-control'%>
+				          		<% if f.object.errors.try(:messages)[:value].try(:first).present? %>
+				          			<%= f.object.errors.try(:messages)[:value].try(:first) %>
+				          		<% end %>
+				          	</div>
+				            <div class="clearfix form-group">
+				              <%= f.submit value: 'SAVE', class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+				            </div>
+				          <% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal fade" id="sign_up_body" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+						<div class="modal-dialog set_popup_mrg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title" id="myModalLabel">SIGN UP Email</h4>
+								</div>
+								<div class="modal-body contract-details">
+									<%= form_for [:admin, user_create_email] do |f| %>
+										<div class="form-group">
+											<%= f.label :value, 'Mail Body'%>
+											<%= f.text_area :value, rows: 15,  class: 'form-control'%>
+											<% if f.object.errors.try(:messages)[:value].try(:first).present? %>
+												<%= f.object.errors.try(:messages)[:value].try(:first) %>
+											<% end %>
+										</div>
+										<div class="form-group">
+											<%= f.label :value2, 'Message Body'%>
+				          		<%= f.text_area :value2, rows: 15,  class: 'form-control'%>
+				          		<% if f.object.errors.try(:messages)[:value2].try(:first).present? %>
+				          			<%= f.object.errors.try(:messages)[:value2].try(:first) %>
+				          		<% end %>
+				          	</div>
+										<div class="clearfix form-group">
+											<%= f.submit value: 'SAVE', class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+										</div>
+									<% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+
+          <hr>
+					<h2 class="mt0"> Clan Create Email</h2>
+					<div class="row">
+						<div class="col-md-4">
+							<span class="btn btn-primary btn-full" data-toggle="modal" data-target="#clan_subject"> Subject</span>
+						</div>
+						<div class="col-md-4">
+							<span class="btn btn-primary btn-full" data-toggle="modal" data-target="#clan_body"> Body </span>
+						</div>
+						<div class="col-md-4">
+							<%= link_to 'Test Create Clan Email', clan_welcome_mail_admin_admin_configs_path, class: 'btn btn-primary btn-full', method: :post %>
+						</div>
+					</div>
+
+					<div class="modal fade" id="clan_subject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+						<div class="modal-dialog set_popup_mrg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title" id="myModalLabel">Clan Create Subject</h4>
+								</div>
+								<div class="modal-body contract-details">
+									<%= form_for [:admin, clan_create_subject] do |f| %>
+										<div class="form-group">
+											<%= f.text_field :value,  class: 'form-control'%>
+											<% if f.object.errors.try(:messages)[:value].try(:first).present? %>
+												<%= f.object.errors.try(:messages)[:value].try(:first) %>
+											<% end %>
+										</div>
+										<div class="clearfix form-group">
+											<%= f.submit value: 'SAVE', class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+										</div>
+									<% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal fade" id="clan_body" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+						<div class="modal-dialog set_popup_mrg" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title" id="myModalLabel"> Create Clan Email</h4>
+								</div>
+								<div class="modal-body contract-details">
+									<%= form_for [:admin, clan_create_email] do |f| %>
+										<div class="form-group">
+											<%= f.label :value2, 'Mail Body'%>
+											<%= f.text_area :value, rows: 15,  class: 'form-control'%>
+											<% if f.object.errors.try(:messages)[:value].try(:first).present? %>
+												<%= f.object.errors.try(:messages)[:value].try(:first) %>
+											<% end %>
+										</div>
+										<div class="form-group">
+											<%= f.label :value2, 'Message Body'%>
+				          		<%= f.text_area :value2, rows: 15,  class: 'form-control'%>
+				          		<% if f.object.errors.try(:messages)[:value2].try(:first).present? %>
+				          			<%= f.object.errors.try(:messages)[:value2].try(:first) %>
+				          		<% end %>
+				          	</div>
+										<div class="clearfix form-group">
+											<%= f.submit value: 'SAVE', class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+										</div>
+									<% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

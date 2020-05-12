@@ -1,0 +1,19 @@
+<!-- <h3 class="text-primary">BIO</h3> -->
+<h3 class="text-primary">About</h3>
+<p class="justify-text">
+	<%= @clan.bio %>
+</p>
+
+<% if @clan.ground_rules.present? %>
+  <h3 class="text-primary">Ground Rules</h3>
+  <p class="justify-text">
+    <%= @clan.ground_rules %>
+  </p>
+<% end %>
+
+<% if @clan.requirements.present? %>
+  <h3 class="text-primary">Requirements</h3>
+  <p class="justify-text">
+    <%= @clan.requirements %>
+  </p>
+<% end %>

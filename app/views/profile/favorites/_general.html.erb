@@ -1,0 +1,12 @@
+<div class="contract-padding">
+	<p>
+		Are you sure you want to add <%= user.username %> to your favorites?
+	</p>
+</div>
+<div class="modal-footer modal-contract-footer contract-padding">
+  <h3 class="mt0 modal-footer-label pull-left-md"></h3>
+  <%= form_for @favorite, url: profile_favorites_path do |f| %>
+    <%= f.hidden_field :favorited_user_id, value: @favorite.favorited_user_id %>
+    <%= f.submit "Add User", class:"btn btn-lg btn-outline pull-right-md" %>
+  <% end %>
+</div>

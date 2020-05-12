@@ -1,0 +1,208 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :youtube, "YouTube URL"%>
+      <%= f.text_field :youtube, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: https://www.youtube.com/channel/12345</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:youtube].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:youtube].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :twitch, "Twitch URL"%>
+      <%= f.text_field :twitch, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: https://www.twitch.tv/gameroster</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:twitch].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:twitch].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :facebook, "Facebook URL"%>
+      <%= f.text_field :facebook, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: https://www.facebook.com/gameroster/</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:facebook].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:facebook].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :google_plus, "Google+ URL"%>
+      <%= f.text_field :google_plus, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: https://plus.google.com/b/12345/12345</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:google_plus].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:google_plus].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :twitter, "Twitter URL"%>
+      <%= f.text_field :twitter, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: https://twitter.com/GameRoster</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:twitter].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:twitter].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :instagram, "Instagram URL"%>
+      <%= f.text_field :instagram, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: https://www.instagram.com/example</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:instagram].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:instagram].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :battlelog, 'Battlelog URL'%>
+      <%= f.text_field :battlelog, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: http://battlelog.battlefield.com/bfh/user/abc/</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:battlelog].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:battlelog].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :patreon, "Patreon URL"%>
+      <%= f.text_field :patreon, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: https://patreonapp.com/channels/12345/12345</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:patreon].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:patreon].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :destiny, 'Destiny URL' %>
+      <%= f.text_field :destiny, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: https://www.bungie.net/en/abc</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:destiny].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:destiny].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :guardian_gg, 'Destiny – Guardian GG URL'%>
+      <%= f.text_field :guardian_gg, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: http://guardian.gg/en/profile/1/abc</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:guardian_gg].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:guardian_gg].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :steam, "Steam URL" %>
+      <%= f.text_field :steam, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: http://steamcommunity.com/id/abc123</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:steam].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:steam].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :league_of_legends,  "League of Legends URL"%>
+      <%= f.text_field :league_of_legends, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: http://matchhistory.na.leagueoflegends.com/abc</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:league_of_legends].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:league_of_legends].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :overwatch,  "Overwatch URL"%>
+      <%= f.text_field :overwatch, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: https://playoverwatch.com/en-us/career/abc</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:overwatch].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:overwatch].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :world_of_warcraft, "World of Warcraft URL" %>
+      <%= f.text_field :world_of_warcraft, class: 'form-control' %>
+      <span class="helper-text">
+        <small>Example: https://worldofwarcraft.com/en-us/character/abc/abc</small>
+      </span>
+      <% if f.object.errors.try(:messages)[:world_of_warcraft].try(:first).present? %>
+        <p class='text-primary'><%= f.object.errors.try(:messages)[:world_of_warcraft].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :mixur, "Scuf URL" %>
+      <%= f.text_field :scuf, class: 'form-control' %>
+      <span class="helper-text">
+          <small>Example: https://scufgaming.com/s/example/</small>
+        </span>
+      <% if f.object.errors.try(:messages)[:scuf].try(:first).present? %>
+          <p class='text-primary'><%= f.object.errors.try(:messages)[:scuf].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <%= f.label :mixer_url, "Mixer URL" %>
+      <%= f.text_field :mixer_url, class: 'form-control' %>
+      <span class="helper-text">
+          <small>Example: https://mixer.com/12345</small>
+        </span>
+      <% if f.object.errors.try(:messages)[:mixer_url].try(:first).present? %>
+          <p class='text-primary'><%= f.object.errors.try(:messages)[:mixer_url].try(:first) %></p>
+      <% end %>
+    </div>
+  </div>
+</div>

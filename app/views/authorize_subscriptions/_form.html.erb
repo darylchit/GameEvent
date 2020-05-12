@@ -1,0 +1,135 @@
+<div class="modal fade" id="new_subscription_modal" tabindex="-1" role="dialog" aria-labelledby="myUserLabel" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-medium">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title text-center" id="myModalLabel"><b>Subscribe</b></h4>
+      </div>
+
+      <div class="modal-body contract-details">
+        <div class="row">
+          <p class="text-center">Subscriptions Are Non-Refundable But Can Be Changed At Any Time.   </p>
+        </div>
+
+        <%= form_for subscription, url: authorize_subscriptions_path, remote: true do |f|%>
+            <div class="row-fluid">
+              <div class="form-group">
+                <%= f.label :subscription_plan_id, 'Select Subscription Option (Compare Features)' %>
+                <%= f.select :subscription_plan_id, subscription_plans.map{|sp|["#{sp.name}: $#{sp.price} per Year", sp.id]}, { hide_label: :true}, {:class => 'form-control chosen-select'} %>
+              </div>
+
+              <div class="row">
+                <p class="text-center">Pay With Credit or Debit Card</p>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%= f.label :first_name, 'First Name' %>
+                    <%= f.text_field :first_name, class: 'form-control' %>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%= f.label :last_name, 'Last Name' %>
+                    <%= f.text_field :last_name, class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%= f.label :street_1, 'Billing Address - Line 1' %>
+                    <%= f.text_field :street_1, class: 'form-control' %>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%= f.label :street_2, 'Billing Address - Line 2' %>
+                    <%= f.text_field :street_2, class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%= f.label :city %>
+                    <%= f.text_field :city, class: 'form-control' %>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                 <div class="row">
+                   <div class="col-md-6 col-xs-6">
+                     <div class="form-group">
+                       <%= f.label :sub_state %>
+                       <%= f.text_field :sub_state, class: 'form-control' %>
+                     </div>
+                   </div>
+                   <div class="col-md-6 col-xs-6">
+                     <div class="form-group">
+                       <%= f.label :zipcode, 'Zip Code' %>
+                       <%= f.text_field :zipcode, class: 'form-control' %>
+                     </div>
+                   </div>
+                 </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%= f.label :card, 'Card Number' %>
+                    <%= f.text_field :card, class: 'form-control' %>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-6 col-xs-6">
+                      <div class="form-group">
+                        <%= f.label :cvv, 'Security Code' %>
+                        <%= f.text_field :cvv, class: 'form-control' %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3 col-xs-6">
+                  <div class="form-group">
+                    <%= f.label :ex_month, 'Expiration Month' %>
+                    <%= f.select :ex_month, ex_months , { hide_label: :true}, {:class => 'form-control chosen-select'} %>
+                  </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                  <div class="form-group">
+                    <%= f.label :ex_year, 'Expiration Year' %>
+                    <%= f.select :ex_year, ex_years, { hide_label: :true}, {:class => 'form-control chosen-select'} %>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="form-group">
+                <div class="checkbox">
+                  <label>
+                    <%= f.check_box :terms %>Agree To Billing Terms As Outlined In Terms Of Use
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <p class="group-subscription-error text-primary"></p>
+              </div>
+              <div class="form-group">
+                <%= f.submit 'Subscribe', class: 'btn btn-primary btn-full' %>
+              </div>
+
+
+            </div>
+        <% end %>
+
+      </div>
+
+    </div>
+  </div>
+</div>

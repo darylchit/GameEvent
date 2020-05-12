@@ -1,0 +1,38 @@
+<div class="modal fade" id="notice_popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<%= form_for @notice, :url => clan_clan_notices_path(@clan)  do |f| %>
+				<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">
+		          CREATE NEW CLAN NOTICE
+		        </h4>
+				</div>
+				 <%if @clan.is_host?(current_user) || @clan_member &&  @clan_member.clan_rank && @clan_member.clan_rank.post_notices? %>
+					<div class="modal-body contract-details">
+		      	<div class="form-group">
+	            <%= f.label :title, 'Title' %>
+			      	<%= f.text_field :title, value: nil, class: 'form-control' %>
+	            <%= f.label :expiration, 'Expiration' %>
+			      	<%= f.select(:expiration, options_for_select([* Date.today..Date.today.advance(years: 1)], nil), {include_blank: true}, {:class => "form-control"}) %>
+			      	<%= f.label :body, 'Body' %>
+			      	<%= f.text_area :body, value: nil, class: 'form-control', maxlength: '5000', rows: '5' %>
+			      	<div class="topmrg_20"></div>
+			      	<div class="row">
+		    				<div class="col-sm-3 col-xs-12">
+		      				<%= f.submit class: 'btn btn-primary btn-full', value: 'Submit' %>
+			      		</div>
+			      		<div class="col-sm-3 col-xs-12">
+			      			<button type="button" class="btn btn-primary btn-full" data-dismiss="modal" aria-label="Close">Cancel</button>
+			      		</div>
+			      	</div>
+		      	</div>
+		    	</div>
+		    <%else %>
+		      <div class="video_icon"><i class="fa fa-frown-o" aria-hidden="true"></i></div>
+		      <h3 align="center">Your Rank Is Not Permitted To Post Notices</h3>
+		    <% end %>
+			<% end %>
+		</div>
+	</div>
+</div>

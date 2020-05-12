@@ -1,0 +1,10 @@
+<% if notification.notified_object_type == 'ClanInvite' %>
+  <% invite = ClanInvite.find(notification.notified_object_id) %>
+  <%= render partial: "messages/notifications/clan_invite", locals: {notification: notification, invite: invite} if invite%>
+<% elsif notification.notified_object_type == 'ClanMember' %>
+  <% member = ClanMember.with_deleted.find(notification.notified_object_id) %>
+  <%= render partial: "messages/notifications/clan_member", locals: {notification: notification, member: member} %>
+<% elsif notification.notified_object_type == 'ClanApplication'%>
+  <% clan_application = ClanApplication.with_deleted.find(notification.notified_object_id) %>
+  <%= render partial: "messages/notifications/clan_application", locals: {notification: notification, clan_application: clan_application} %>
+<% end %>

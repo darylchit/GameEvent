@@ -1,0 +1,5 @@
+<% if @contact_request.persisted? %>
+	$('#global_model').html("<%= j render(:partial => 'message_sent_popup')%>");
+	$("#contact_us_response").modal();
+	$('.modal-backdrop').hide();
+<% end %>

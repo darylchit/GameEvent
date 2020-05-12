@@ -1,0 +1,27 @@
+<%= form_for [:admin, faq_header] do |f| %>
+	<div class="form-group">
+		<label>Name</label>
+		<%= f.text_field :name,  class: 'form-control'%>
+		<% if f.object.errors.try(:messages)[:name].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:name].try(:first) %>
+		<% end %>
+	</div>
+  <div class="form-group">
+		<label>Dispaly rank</label>
+		<%= f.text_field :rank,  class: 'form-control'%>
+		<% if f.object.errors.try(:messages)[:rank].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:rank].try(:first) %>
+		<% end %>
+	</div>
+	<div class="form-group">
+		<%= f.label :active %>
+		<%= f.select :active, options_for_select([['Active', true],['Inactive', false]], faq_header.active), {} , {class: 'form-control'}%>
+		<% if f.object.errors.try(:messages)[:active].try(:first).present? %>
+			<%= f.object.errors.try(:messages)[:active].try(:first) %>
+		<% end %>
+	</div>
+  <hr>
+  <div class="clearfix form-group">
+    <%= f.submit class: "btn btn-primary btn-lg btn-x pull-right-md" %>
+  </div>
+<% end %>

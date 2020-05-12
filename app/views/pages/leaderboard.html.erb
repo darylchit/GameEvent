@@ -1,0 +1,35 @@
+<div class="background-block content-area">
+	<div class="container">
+		<div class="well">
+			<h2 class="mt0">Leader Board</h2>
+
+			<section class="content-block">
+				<h3 class="mt0">Experience</h3>
+				<div>
+					<%= render 'shared/user_card_list', :users => @top_experience.first(10), :show_ratings => [:psa_rating] %>
+				</div>
+			</section>
+
+			<section class="content-block">
+				<h3 class="mt0">Personality</h3>
+					<div>
+						<%= render 'shared/user_card_list', :users => @top_personality.first(10), :show_ratings => [:personality_rating] %>
+					</div>
+			</section>
+
+			<section class="content-block">
+			<h3 class="mt0">Skill</h3>
+				<div>
+					<%= render 'shared/user_card_list', :users => @top_skill.first(10), :show_ratings => [:skill_rating] %>
+				</div>
+			</section>
+
+			<section class="content-block">
+			<h3 class="mt0">Approval</h3>
+				<div>
+					<%= render 'shared/user_card_list', :users => @top_approval.first(10), :show_ratings => [:approval_rating] %>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>
